@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI Agents Can Already Autonomously Perform Experimental HEP — HSF DAAA</title>
-<meta name="description" content="Interactive talk on arXiv:2603.20179 (JFC) with a live-replayed 54-hour autonomous ALEPH analysis · HSF DAAA · 27 July 2026">
+<meta name="description" content="Interactive talk on arXiv:2603.20179 (JFC) with a live-replayed 42.9-hour autonomous ALEPH analysis · HSF DAAA · 27 July 2026">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/asciinema-player.css">
@@ -381,7 +381,7 @@ body.editing .scene [contenteditable="true"] { user-select: text; -webkit-user-s
 /* ================================================================================================
    AI Agents Can Already Autonomously Perform Experimental HEP — HSF DAAA · 27 July 2026.
    Scene engine + chrome ported from the hcc-kappac talk (itself modelled on danielmurnane.com);
-   new here: a persistent asciinema dock replaying a real 54-hour autonomous JFC run (rbrun3.cast,
+   new here: a persistent asciinema dock replaying a real 42.9-hour autonomous JFC run (rbrun3.cast,
    cut to talk length by prep_cast.py) beside the slides. arXiv:2603.20179.
    ================================================================================================ */
 const $ = (s, el) => (el || document).querySelector(s);
@@ -538,7 +538,6 @@ const SCENES = [
 { id: 'framework', act: 2, label: 'JFC · the framework', steps: 2, budget: 70, theme: 'dark', term: 'dock', thumb: 'assets/fig_pipeline.png', html: () => `
   <h2 class="kicker"><em>Just Furnish Context</em> — the whole trick is in the name</h2>
   <div class="cols">
-    <div class="col" style="flex:1.5; align-self:stretch"><div class="fig zoomable" style="height:100%"><img src="assets/fig_pipeline.png" alt="JFC framework diagram"></div></div>
     <div class="col grow">
       <ul class="talk">
         <li>An <strong>orchestrator</strong> plans; disposable subagents execute<small>fresh context per task — no context rot over 50+ hours</small></li>
@@ -546,6 +545,7 @@ const SCENES = [
         <li data-step="2">No template, no skeleton — the agent <span class="hl">designs the strategy itself</span>, consulting the literature<small>unlike scaffolded pipelines where the agent fills in pre-defined steps</small></li>
       </ul>
     </div>
+    <div class="col" style="flex:1.05; align-self:stretch"><div class="fig zoomable" style="height:100%"><img src="assets/fig_pipeline.png" alt="JFC framework diagram"></div></div>
   </div>`
 },
 { id: 'context', act: 2, label: 'What you furnish', steps: 2, budget: 55, thumb: 'assets/ovthumb_context.jpg', theme: 'dark', term: 'dock', html: () => `
@@ -645,6 +645,13 @@ const SCENES = [
 { id: 'stack', act: 2, label: 'Stack & literature', steps: 2, budget: 45, thumb: 'assets/ovthumb_stack.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">Opinionated tools · <em>grounded</em> knowledge</h2>
   <div class="cols" style="align-items:stretch">
+    <div class="col grow" style="align-self:center">
+      <ul class="talk">
+        <li><strong>SciTreeRAG</strong> over the LEP corpus — retrieval that follows paper <em>structure</em><small>ALEPH: 1,503 catalogued works, 575 converted · DELPHI: 4,305 / 1,868 (Nougat OCR + Pandoc)</small></li>
+        <li>Plus arXiv MCP + INSPIRE/HEPData for modern methods &amp; published inputs</li>
+        <li data-step="2">Selections, systematics lists, statistical frameworks come <span class="hl">from the literature</span>, not from vibes<small>the difference between "recalling" an analysis and reconstructing one</small></li>
+      </ul>
+    </div>
     <div class="col" style="flex:1.15; align-self:center">
       <table class="stack">
         <thead><tr><th>task</th><th>required</th><th>forbidden</th></tr></thead>
@@ -657,13 +664,6 @@ const SCENES = [
           <tr><td>env / docs</td><td class="req">pixi · LaTeX + tectonic</td><td class="forb">pip install by hand</td></tr>
         </tbody>
       </table>
-    </div>
-    <div class="col grow" style="align-self:center">
-      <ul class="talk">
-        <li><strong>SciTreeRAG</strong> over the LEP corpus — retrieval that follows paper <em>structure</em><small>ALEPH: 1,503 catalogued works, 575 converted · DELPHI: 4,305 / 1,868 (Nougat OCR + Pandoc)</small></li>
-        <li>Plus arXiv MCP + INSPIRE/HEPData for modern methods &amp; published inputs</li>
-        <li data-step="2">Selections, systematics lists, statistical frameworks come <span class="hl">from the literature</span>, not from vibes<small>the difference between "recalling" an analysis and reconstructing one</small></li>
-      </ul>
     </div>
   </div>`
 },
@@ -738,7 +738,6 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
 { id: 'lund', act: 3, label: 'Headline · Lund jet plane', steps: 2, budget: 60, theme: 'dark', term: 'dock', thumb: 'assets/fig_lund.png', html: () => `
   <h2 class="kicker">…and the plot from the title slide</h2>
   <div class="cols" style="align-items:stretch">
-    <div class="col" style="flex:1.15"><div class="fig zoomable" style="height:100%"><img src="assets/fig_lund.png" alt="ALEPH primary Lund jet plane density"></div></div>
     <div class="col grow" style="align-self:center">
       <ul class="talk">
         <li>Primary <strong>Lund jet plane density</strong>, unfolded to charged-particle level, on archived ALEPH LEP1 data<small>⟨N⟩ = 4.751 ± 0.224 primary emissions — systematics-limited</small></li>
@@ -746,33 +745,34 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
         <li data-step="2">No prior counterpart to check against — so it is a <strong>candidate measurement</strong>, offered for community scrutiny<small>which is exactly the point: validation is where humans stay essential</small></li>
       </ul>
     </div>
+    <div class="col" style="flex:1.15"><div class="fig zoomable" style="height:100%"><img src="assets/fig_lund.png" alt="ALEPH primary Lund jet plane density"></div></div>
   </div>`
 },
 { id: 'models', act: 3, label: 'Across models', steps: 2, budget: 40, theme: 'dark', term: 'dock', thumb: 'assets/fig_models.png', html: () => `
   <h2 class="kicker">Same prompt, same framework, <em>different brains</em></h2>
   <div class="cols">
-    <div class="col" style="flex:1.3; align-self:center"><div class="fig zoomable auto"><img src="assets/fig_models.png" alt="model comparison for H to tautau"></div></div>
     <div class="col grow">
       <ul class="talk">
         <li>Identical H→ττ prompt driven by <strong>Claude Opus 4.8</strong>, a <strong>Codex agent (GPT-5.5)</strong>, and <strong>Claude Fable 5</strong><small>compatible but distinct results; Fable 5 prefers a slight deficit</small></li>
         <li data-step="2">One run per model — an <span class="hl">indicative hint</span>, not a benchmark<small>token budgets forbid the ensembles a real comparison needs… yet. Hold that thought too.</small></li>
       </ul>
     </div>
+    <div class="col" style="flex:1.3; align-self:center"><div class="fig zoomable auto"><img src="assets/fig_models.png" alt="model comparison for H to tautau"></div></div>
   </div>`
 },
 { id: 'cost', act: 3, label: 'Throughput & cost', steps: 2, budget: 45, theme: 'dark', term: 'dock', thumb: 'assets/fig_timings.png', html: () => `
   <h2 class="kicker">What it costs — a <em>subscription</em>, not a cluster</h2>
   <div class="cols">
-    <div class="col" style="flex:1.5; align-self:stretch; display:flex; flex-direction:column; justify-content:center; min-height:0">
-      <div class="fig zoomable auto"><img src="assets/fig_timings.png" alt="per-analysis wall-clock decomposition"></div>
-      <div class="figcap">dark: autonomous pre-gate work · mid: usage-limit idle · pale: post-gate human review</div>
-    </div>
     <div class="col grow">
       <ul class="talk">
         <li><strong>~$200 / month</strong> (Claude Max) ran the whole program<small>≈10 h wall-clock per analysis; review usually passes in 1–2 iterations</small></li>
         <li>Idle usage-limit waits dominate wall time — visible live in the dock's run clock</li>
         <li data-step="2">Iterations concentrate at <strong>strategy</strong> and <strong>inference setup</strong> — where the physics is<small>mechanical phases just… execute</small></li>
       </ul>
+    </div>
+    <div class="col" style="flex:1.5; align-self:stretch; display:flex; flex-direction:column; justify-content:center; min-height:0">
+      <div class="fig zoomable auto"><img src="assets/fig_timings.png" alt="per-analysis wall-clock decomposition"></div>
+      <div class="figcap">dark: autonomous pre-gate work · mid: usage-limit idle · pale: post-gate human review</div>
     </div>
   </div>`
 },
@@ -809,7 +809,6 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
 { id: 'meaning', act: 4, label: 'What it means', steps: 3, budget: 55, theme: 'dark', term: 'dock', thumb: 'assets/dario_world.png', html: () => `
   <h2 class="kicker">If implementation is cheap, <em>what are we for?</em></h2>
   <div class="cols">
-    <div class="col" style="flex:1.25; align-self:center"><div class="fig zoomable auto"><img src="assets/dario_world.png" alt="1 year vs 3 hours"></div></div>
     <div class="col grow">
       <ul class="talk">
         <li>The physicist shifts from <strong>implementer</strong> to <strong>architect &amp; critic</strong><small>the bottleneck moves from coding capacity to ideas and review bandwidth — an intellectual constraint, finally</small></li>
@@ -817,6 +816,7 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
         <li data-step="3"><strong>Train students for it</strong>: read &amp; critique code they didn't write, know the failure modes, spec precisely<small>coding proficiency stays essential — you must be able to check what you sign</small></li>
       </ul>
     </div>
+    <div class="col" style="flex:1.25; align-self:center"><div class="fig zoomable auto"><img src="assets/dario_world.png" alt="1 year vs 3 hours"></div></div>
   </div>`
 },
 { id: 'finale', act: 4, label: 'While we talked', steps: 3, budget: 75, theme: 'dark', term: 'wide', html: () => `
