@@ -192,25 +192,6 @@ table.stack td.forb { font-family: var(--mono); color: #c1272d; text-decoration:
   box-shadow: var(--shadow); padding: 2.2vmin 2.6vmin; font-family: var(--mono); font-size: clamp(13px,1.95vmin,24px);
   line-height: 1.6; white-space: pre-wrap; }
 .promptcard .ps { color: var(--green); font-weight: 700; }
-/* html-native diagrams — theme-aware rebuilds of the paper figures */
-.diag { background: var(--card); border: 1px solid var(--ink12); border-radius: 12px; box-shadow: var(--shadow);
-  padding: 1.6vmin 1.8vmin; display: flex; flex-direction: column; gap: .5vmin; min-width: 0; }
-.diag .dbox { border: 1px solid var(--ink12); border-radius: 8px; padding: .55vmin 1vmin; background: var(--chip);
-  font-size: clamp(10px,1.5vmin,18px); line-height: 1.32; text-align: center; min-width: 0; }
-.diag .dbox small { display: block; color: var(--ink60); font-size: .82em; margin-top: .15vmin; }
-.diag .dbox.hero { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 9%, var(--card)); }
-.diag .dbox.hero b { color: var(--accent); }
-.diag .dbox.gate { border: 1.5px solid var(--live); background: color-mix(in srgb, var(--live) 8%, var(--card)); }
-.diag .dbox.gate b { color: var(--live); }
-.diag .dbox.out { border-color: var(--green); background: color-mix(in srgb, var(--green) 8%, var(--card)); }
-.diag .darr { text-align: center; color: var(--ink40); font-family: var(--mono); font-size: clamp(8.5px,1.25vmin,14px); line-height: 1.3; }
-.diag .dcols { display: flex; gap: 1.4vmin; align-items: stretch; min-width: 0; }
-.diag .dcol { flex: 1; display: flex; flex-direction: column; gap: .5vmin; min-width: 0; }
-.diag .dhead { font-family: var(--mono); font-size: clamp(9px,1.3vmin,15px); border-radius: 999px; padding: .3vmin 1vmin;
-  text-align: center; margin-bottom: .3vmin; align-self: center; }
-.diag .dcol.slow .dhead { color: var(--cms); border: 1px solid color-mix(in srgb, var(--cms) 45%, transparent); }
-.diag .dcol.fast .dhead { color: var(--green); border: 1px solid color-mix(in srgb, var(--green) 45%, transparent); }
-.diag .g { color: var(--live); font-weight: 650; }
 
 /* ============================================= terminal dock ============================================= */
 #term {
@@ -530,41 +511,8 @@ const SCENES = [
       </ul>
     </div>
     <div class="col" style="flex:1.35; align-self:center">
-      <div class="diag">
-        <div class="dcols">
-          <div class="dcol slow" style="justify-content:space-between">
-            <div class="dhead">current world · 1 year</div>
-            <div class="dbox">conceive an analysis</div>
-            <div class="darr">▼</div>
-            <div class="dbox">analysis framework<small>legacy code</small></div>
-            <div class="darr">▼</div>
-            <div class="dbox">office feedback</div>
-            <div class="darr">▼</div>
-            <div class="dbox">update framework</div>
-            <div class="darr">▼</div>
-            <div class="dbox">subgroup feedback</div>
-            <div class="darr">▼</div>
-            <div class="dbox">update framework</div>
-            <div class="darr">▼</div>
-            <div class="dbox">convener feedback</div>
-            <div class="darr">▼</div>
-            <div class="dbox">result</div>
-          </div>
-          <div class="dcol fast" style="justify-content:space-between">
-            <div class="dhead">AI-assisted workflow · 10 hours</div>
-            <div class="dbox">old papers · data</div>
-            <div class="darr">▼</div>
-            <div class="dbox hero"><b>Claude</b><small>+ review context</small></div>
-            <div class="darr">▼</div>
-            <div class="dbox">feedback ⇄ result<small>agent iteration loop</small></div>
-            <div class="darr">▼</div>
-            <div class="dbox">review process</div>
-          </div>
-        </div>
-        <div class="darr">▼</div>
-        <div class="dbox out"><b>Publication!</b></div>
-      </div>
-      <div class="figcap">after fig. 1 of the paper — the loop in the middle is what compresses</div>
+      <div class="fig zoomable auto"><img src="assets/dario_world.png" alt="one year around the analysis loop vs three hours"></div>
+      <div class="figcap">a year around the loop — or an afternoon · artist's impression, liberties taken</div>
     </div>
   </div>`
 },
@@ -597,25 +545,7 @@ const SCENES = [
         <li data-step="2">No template, no skeleton — the agent <span class="hl">designs the strategy itself</span>, consulting the literature<small>unlike scaffolded pipelines where the agent fills in pre-defined steps</small></li>
       </ul>
     </div>
-    <div class="col" style="flex:1.15; align-self:stretch">
-      <div class="diag" style="height:100%; justify-content:center">
-        <div class="dbox">physics objective<small class="mono">"Measure the Z lineshape"</small></div>
-        <div class="darr">▼</div>
-        <div class="dbox hero"><b>orchestrator agent</b><small>delegates — never executes</small></div>
-        <div class="darr">▼ sequential phases — each an executor subagent, gated by an output + review<br>SciTreeRAG literature retrieval feeds phases 1–3</div>
-        <div class="dbox">1 · Strategy<small>technique selection · systematic plan → review</small></div>
-        <div class="darr">▼</div>
-        <div class="dbox">2 · Exploration<small>data quality · variable ranking → self-review</small></div>
-        <div class="darr">▼</div>
-        <div class="dbox">3 · Selection<small>event selection · corrections → review · ships reproducible analysis code</small></div>
-        <div class="darr">▼ phase 4 — inference · draft AN at each step</div>
-        <div class="dbox">4a expected → 4b 10% validation → <span class="g">human gate</span> → 4c full unblinding</div>
-        <div class="darr">▼</div>
-        <div class="dbox">5 · Documentation<small>final figures · AN finalization → review</small></div>
-        <div class="darr">▼</div>
-        <div class="dbox out"><b>Final analysis note</b><small>workflow auditable + reproducible</small></div>
-      </div>
-    </div>
+    <div class="col" style="flex:1.05; align-self:stretch"><div class="fig zoomable" style="height:100%"><img src="assets/fig_pipeline.png" alt="JFC framework diagram"></div></div>
   </div>`
 },
 { id: 'context', act: 2, label: 'What you furnish', steps: 2, budget: 55, thumb: 'assets/ovthumb_context.jpg', theme: 'dark', term: 'dock', html: () => `
