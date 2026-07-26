@@ -65,6 +65,31 @@ HOLD_MIN, HOLD_MAX = 2.0, 5.0
 KEY_BEATS = [4320.0, 142860.0, 154380.0]
 KEY_HOLD, KEY_NEAR = 7.0, 300.0
 
+# The run's true opening — the prompt being typed — happened inside the leading
+# 280-col tmux window, which the cut drops for dock-geometry stability. So the
+# cut opens with a synthesized preamble: the prompt below, EXTRACTED VERBATIM
+# from that dropped window (largest input-box redraw, t≈13 s), shown as a still
+# for PRE_HOLD s at T+00:00:00 before the real replay takes over.
+PRE_HOLD = 3.0
+PROMPT = """Scaffold The following analysis based on the spec in this folder and then assume the orchestrator agent role:
+
+Measure the partial width ratios R_b and R_c, and the b-quark forward-backward asymmetry A_FB^b, in hadronic Z decays using archived ALEPH data at sqrt(s) = 91.2 GeV.
+
+Tag b and c events using lifetime methods (signed impact parameter significance). Use a double-tag method for R_b. For A_FB^b, determine the b-quark charge using jet charge in tagged hemispheres and measure the cos(theta_thrust) asymmetry to extract sin^2(theta_eff).
+
+If you lack MC truth info, you could derive approximate truth from studying the decay chain. Maybe you can find neutrino truth flavour."""
+
+def preamble(width):
+    import textwrap
+    inner = min(width - 4, 96)
+    body = []
+    for i, para in enumerate(PROMPT.split('\n\n')):
+        for j, l in enumerate(textwrap.wrap(' '.join(para.split()), inner)):
+            body.append(('\x1b[32m❯\x1b[0m ' if i == 0 and j == 0 else '  ') + l)
+        body.append('')
+    head = '\x1b[2m── T+00:00:00 · the prompt, verbatim ──\x1b[0m'
+    return '\x1b[2J\x1b[H\r\n' + head + '\r\n\r\n' + '\r\n'.join(body) + '\x1b[7m \x1b[0m'
+
 OUT = os.path.join(HERE, 'assets', 'workflow.cast')
 META = os.path.join(HERE, 'assets', 'cast_meta.js')
 CACHE = os.path.join(HERE, 'cast_analysis.json')
@@ -355,12 +380,16 @@ if dims:
     header['width'], header['height'] = dims
     print(f"header geometry: {dims[0]}x{dims[1]} (post-window)")
 
-anchors, rest_marks = [[0.0, 0.0]], []
+anchors, rest_marks = [[0.0, 0.0], [PRE_HOLD, 0.0]], []   # clock holds T+0 over the preamble
 written = 0
 rest_at.__defaults__[0][0] = 0               # reset the monotonic cursor
 with open(OUT, 'w') as out:
     out.write(json.dumps(header) + '\n')
-    prev_t, cur, next_anchor = 0.0, 0.0, ANCHOR_EVERY
+    pre_w = (dims or (header.get('width', 83), 0))[0]
+    out.write(json.dumps([0.05, 'o', preamble(pre_w)], ensure_ascii=False) + '\n')
+    out.write(json.dumps([PRE_HOLD, 'o', '\x1b[2J\x1b[H'], ensure_ascii=False) + '\n')
+    written += 2
+    prev_t, cur, next_anchor = 0.0, PRE_HOLD, PRE_HOLD + ANCHOR_EVERY
     cur_rest = -1
     buf_t, buf_data = None, []
 

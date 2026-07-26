@@ -79,6 +79,11 @@ python3 prep_cast.py <src> <target_s> <end_orig_s>
   the tmux status ticks ~0.3 s so normal flow is untouched); events are
   bucket-merged (30 ms) to keep the player light. Payload is untouched — every
   byte the agents printed is replayed.
+- **The cut opens on the prompt**: the true opening (the prompt being typed)
+  happened inside the dropped leading 280-col window, so `prep_cast.py`
+  synthesizes a 3 s preamble at T+00:00:00 — the prompt text, extracted
+  verbatim from that window (`PROMPT`/`PRE_HOLD`) — before the replay starts.
+  The armed dock (▶ overlay) shows it as its poster frame.
 - **The cut ends at 154,600 s (42.94 h) by default**: rbrun3.cast keeps recording
   past the analysis into an unrelated interactive session; the results screen
   (Final results table, N = 2,889,543, 53-page note, 5-bot review passed) lands at
