@@ -453,8 +453,10 @@ const CAST = {
   src: 'assets/workflow.cast',   // talk cut of ../rbrun3.cast — regenerate with prep_cast.py
   speed: 1,                      // playback speed on top of the prep_cast retiming
   // prep_cast drops the transient 280-col tmux windows from the cut, so the
-  // dock geometry is stable from the first frame — no startAt tricks needed
-  poster: 'npt:0:05',
+  // dock geometry is stable from the first frame — no startAt tricks needed.
+  // Poster ≈ playback t=0: the armed frame must be where play actually starts
+  // (at ×240, even npt:0:05 would already be ~45 min into the run).
+  poster: 'npt:0:00.1',
 };
 const Term = (() => {
   let player = null, started = false, ended = false;
