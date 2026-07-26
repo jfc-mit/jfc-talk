@@ -162,6 +162,24 @@ strong { font-weight: 650; }
 .verdicts { display: flex; gap: 1.6vmin; margin-top: 1.4vmin; font-family: var(--mono); font-size: clamp(12px,1.8vmin,20px); }
 .verdicts span { border-radius: 8px; padding: .5vmin 1.6vmin; border: 1.5px solid; }
 .v-pass { color: #2e8b57; border-color: #2e8b57; } .v-iter { color: #e4a23c; border-color: #e4a23c; } .v-esc { color: #d43a2f; border-color: #d43a2f; }
+/* review-loop flow: artifact -> fan of reviewers -> arbiter -> verdict, ITERATE looping back */
+.revflow { position: relative; flex: 1; display: flex; flex-direction: column; justify-content: center;
+  gap: .9vmin; min-height: 0; padding-left: 6.5vmin; }
+.rf-fan { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.1vmin; }
+.rf-fan .kcard { padding: .9vmin 1.1vmin; }
+.rf-fan .kcard .nm { font-size: clamp(10px,1.4vmin,17px); }
+.rf-fan .kcard .ds { font-size: clamp(9px,1.2vmin,14px); margin-top: .25vmin; line-height: 1.35; }
+.rf-join { text-align: center; font-family: var(--mono); color: var(--ink40); font-size: clamp(9px,1.3vmin,15px); }
+.rf-join b { color: var(--ink60); }
+.rf-arb { align-self: center; width: 64%; text-align: center; }
+.rf-verdicts { display: flex; gap: 1.4vmin; justify-content: center; align-items: stretch; }
+.rf-verdicts .v { border: 1.5px solid; border-radius: 9px; padding: .6vmin 1.6vmin; font-family: var(--mono);
+  font-size: clamp(11px,1.6vmin,18px); text-align: center; }
+.rf-verdicts .v small { display: block; font-family: var(--sans); color: var(--ink60); font-size: .74em; margin-top: .25vmin; }
+.rf-loop { position: absolute; left: .4vmin; top: 16%; bottom: 13%; width: 4.6vmin; overflow: visible; }
+.rf-looplab { position: absolute; left: 3.4vmin; top: 50%; transform: translate(-50%,-50%) rotate(180deg);
+  writing-mode: vertical-rl; font-family: var(--mono); font-size: clamp(9px,1.25vmin,14px); color: #e4a23c;
+  background: var(--bg); padding: .8vmin .1vmin; white-space: nowrap; }
 /* stack table */
 table.stack { border-collapse: collapse; width: 100%; font-size: clamp(11px, 1.6vmin, 19px); background: var(--card); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
 table.stack th, table.stack td { padding: .8vmin 1.3vmin; text-align: left; border-bottom: 1px solid var(--ink12); }
@@ -229,7 +247,19 @@ body.term-wide #term { left: 50%; right: auto; width: min(84%, 145vh); transform
 /* chrome lives in the reserved bands — no relocation needed when the dock is up */
 .term-shell { background: #101216; border: 1px solid rgba(255,255,255,.09); border-radius: 12px; overflow: hidden;
   box-shadow: 0 3px 10px rgba(0,0,0,.45), 0 18px 50px rgba(0,0,0,.5);
-  flex: 1; min-height: 0; display: flex; flex-direction: column; }
+  flex: 1; min-height: 0; display: flex; flex-direction: column; position: relative; }
+/* ignition overlay: the run does not start until the speaker fires it (click or T) */
+#term-play { position: absolute; inset: 0; z-index: 6; display: none; flex-direction: column; align-items: center;
+  justify-content: center; gap: 1.6vmin; background: rgba(5,6,9,.42); border: 0; cursor: pointer; font: inherit; }
+#term-play.on { display: flex; }
+#term-play .pbtn { width: 8.5vmin; height: 8.5vmin; border-radius: 50%; background: rgba(16,18,22,.88);
+  border: 2px solid #e4a23c; color: #e4a23c; display: flex; align-items: center; justify-content: center;
+  animation: playpulse 2.2s ease-out infinite; }
+#term-play .pbtn svg { width: 44%; height: 44%; margin-left: 9%; display: block; }
+#term-play .plabel { font-family: var(--mono); font-size: clamp(10px,1.35vmin,15px); color: rgba(236,232,224,.85);
+  background: rgba(16,18,22,.75); border: 1px solid rgba(255,255,255,.14); border-radius: 999px; padding: .5vmin 1.6vmin; }
+#term-play:hover .pbtn { transform: scale(1.06); }
+@keyframes playpulse { 0% { box-shadow: 0 0 0 0 rgba(228,162,60,.45); } 75% { box-shadow: 0 0 0 2vmin rgba(228,162,60,0); } 100% { box-shadow: 0 0 0 0 rgba(228,162,60,0); } }
 #term-mount { flex: 1; min-height: 0; overflow: hidden; }
 .term-bar { display: flex; align-items: center; gap: 1vmin; padding: .8vmin 1.4vmin; background: #1a1d23;
   font-family: var(--mono); font-size: clamp(9px,1.25vmin,14px); color: rgba(255,255,255,.55); }
@@ -242,6 +272,8 @@ body.term-wide #term { left: 50%; right: auto; width: min(84%, 145vh); transform
 #term-progress i { display: block; height: 100%; width: 0%; background: #e4a23c; transition: width 900ms linear; }
 #term-progress .tick { position: absolute; top: -1px; width: 2px; height: 5px; background: rgba(228,162,60,.45); }
 #term-mount .ap-player { border-radius: 0; }
+/* our #term-play overlay replaces the player's built-in start button */
+#term-mount .ap-overlay-start { display: none !important; }
 /* telemetry strip — one quiet line */
 .term-tele { flex: 0 0 auto; background: var(--card); border: 1px solid var(--ink12); border-radius: 10px;
   box-shadow: var(--shadow); padding: .7vmin 1.4vmin; display: flex; align-items: baseline; gap: 1.6vmin;
@@ -370,7 +402,7 @@ body.editing .scene [contenteditable="true"] { user-select: text; -webkit-user-s
     <div><kbd>→</kbd><kbd>Space</kbd><kbd>PgDn</kbd> next step &nbsp; <kbd>←</kbd><kbd>PgUp</kbd> back</div>
     <div><kbd>Home</kbd><kbd>End</kbd> first / last scene &nbsp; <kbd>O</kbd> overview &nbsp; <kbd>Esc</kbd> close</div>
     <div><kbd>H</kbd> presenter HUD &nbsp; <kbd>D</kbd> light/dark &nbsp; <kbd>F</kbd> fullscreen &nbsp; <kbd>R</kbd> restart</div>
-    <div><kbd>T</kbd> pause / resume the run &nbsp; <kbd>,</kbd><kbd>.</kbd> seek run ∓30 s &nbsp; <kbd>G</kbd> grow / dock / summon terminal (works in Q&A, any scene)</div>
+    <div><kbd>T</kbd> start (first press) / pause / resume the run &nbsp; <kbd>,</kbd><kbd>.</kbd> seek run ∓30 s &nbsp; <kbd>G</kbd> grow / dock / summon terminal (works in Q&A, any scene)</div>
     <div><kbd>S</kbd> hide / unhide this scene for the current audience cut — hidden scenes are flowed over &amp; leave the count; overview (<kbd>O</kbd>) has per-scene toggles &amp; <span class="mono">?profile=</span> presets</div>
     <div><kbd>click</kbd> advance &nbsp; <kbd>click a figure</kbd> zoom</div>
     <div data-edit-help><kbd>E</kbd> layout edit — drag / resize panels, scroll to scale text, double-click to rewrite; <kbd>C</kbd> copy overrides, <kbd>X</kbd> reset scene</div>
@@ -390,6 +422,10 @@ body.editing .scene [contenteditable="true"] { user-select: text; -webkit-user-s
       </div>
       <div id="term-progress"><i></i></div>
       <div id="term-mount"></div>
+      <button id="term-play" title="start the run (or press T)">
+        <span class="pbtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5 20 12 7 19.5z" fill="currentColor"/></svg></span>
+        <span class="plabel">start the 42.9 h run · replayed ×240</span>
+      </button>
     </div>
     <div class="term-tele">
       <span class="clock" id="tele-clock">T+00:00:00</span>
@@ -443,7 +479,9 @@ const Term = (() => {
     });
     // settle the initial fit once the (51 MB) cast has parsed and the poster rendered
     [1200, 2800, 5000].forEach(ms => setTimeout(() => dispatchEvent(new Event('resize')), ms));
-    player.addEventListener('play', () => { playing = true; setStatus('● live replay', false);
+    player.addEventListener('play', () => { playing = true; started = true;
+      $('#term-play').classList.remove('on');
+      setStatus('● live replay', false);
       setTimeout(() => dispatchEvent(new Event('resize')), 150); });
     player.addEventListener('pause', () => { playing = false; if (!ended) setStatus('⏸ paused', false); });
     player.addEventListener('ended', () => { ended = true; playing = false; setStatus('✓ run complete', true); });
@@ -476,7 +514,8 @@ const Term = (() => {
   function enter(mode) {   // mode: 'dock' | 'wide' | null — called on every scene render
     document.body.classList.toggle('term-dock', mode === 'dock');
     document.body.classList.toggle('term-wide', mode === 'wide');
-    if (mode) { init(); if (!started) { started = true; setTimeout(() => { try { player.play(); } catch { /* not yet loaded */ } }, 900); } }
+    /* the run is ARMED, not auto-started: the ▶ overlay (or T) ignites it — a beat the speaker owns */
+    if (mode) { init(); if (!started) $('#term-play').classList.add('on'); }
     // the player only re-fits on window resize; nudge it after the dock transition settles
     setTimeout(() => dispatchEvent(new Event('resize')), 780);
   }
@@ -484,9 +523,12 @@ const Term = (() => {
   function toggle() { if (!player) return;
     try { playing ? player.pause() : player.play(); } catch { /* ignore */ } }
   function seekBy(d) { if (!player) return; try { player.seek(Math.max(0, Math.min(meta.new_dur - .5, t() + d))); } catch {} }
-  function seekEnd() { if (!player) return; const tgt = Math.max(0, meta.new_dur - 1.5);
+  function seekEnd() { if (!player) return;
+    started = true; $('#term-play').classList.remove('on');
+    const tgt = Math.max(0, meta.new_dur - 1.5);
     const go = () => { try { player.seek(tgt); } catch { /* still loading */ } };
     go(); setTimeout(() => { if (t() < tgt - 5) go(); }, 1600); }
+  $('#term-play').onclick = e => { e.stopPropagation(); try { player && player.play(); } catch { /* not loaded yet */ } };
   return { init, enter, toggle, seekBy, seekEnd, get player() { return player; } };
 })();
 /* create the player immediately (dock stays hidden): the 51 MB cast fetches and
@@ -635,16 +677,30 @@ const SCENES = [
 },
 { id: 'review', act: 2, label: 'Multi-agent review', steps: 3, budget: 60, notes: 'binding; validator red flags auto-Cat-A; arbiter cannot downgrade', thumb: 'assets/ovthumb_review.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">Review is <em>binding</em>, not advisory</h2>
-  <div class="cardgrid" style="grid-template-columns:repeat(3,1fr); flex:1; align-content:center">
-    <div class="kcard"><div class="nm">physics-reviewer</div><div class="ds"><b>Denied the spec on purpose</b> — judges like an external ARC referee, physics only.</div></div>
-    <div class="kcard"><div class="nm">critical-reviewer</div><div class="ds">Reads everything; 8-step protocol, conventions row-by-row, 14-point figure checklist, regression hunt.</div></div>
-    <div class="kcard"><div class="nm">constructive-reviewer</div><div class="ds">Alternatives &amp; improvements, effort-tagged; also says what's genuinely good.</div></div>
-    <div class="kcard"><div class="nm">plot-validator</div><div class="ds"><b>Programmatic</b>: 35 checks — efficiencies ∈ [0,1], √N scaling, cutflow monotonic… red flags are auto-Category-A.</div></div>
-    <div class="kcard"><div class="nm">rendering + bibtex</div><div class="ds">Compiled-PDF inspection; every citation resolved against INSPIRE.</div></div>
-    <div class="kcard" data-step="2" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">arbiter</div><div class="ds">Synthesizes all findings into one verdict — and may not downgrade the validator's red flags.</div></div>
-  </div>
-  <div class="verdicts" data-step="2"><span class="v-pass">PASS</span><span class="v-iter">ITERATE — closed-loop fix of every Cat-A</span><span class="v-esc">ESCALATE — a human must think</span></div>
-  <p class="lead" data-step="3" style="margin-top:1.2vmin; font-style:italic">Mirrors a collaboration's review tiers — so the human reviewer later spends judgment, not mechanics.</p>`
+  <div class="revflow">
+    <svg class="rf-loop" data-step="2" viewBox="0 0 60 100" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M 58 96 C 6 96, 6 4, 52 4" fill="none" stroke="#e4a23c" stroke-width="2.4" stroke-dasharray="7 6" vector-effect="non-scaling-stroke"/>
+      <path d="M 52 4 L 43 0 M 52 4 L 43 8" fill="none" stroke="#e4a23c" stroke-width="2.4" vector-effect="non-scaling-stroke"/>
+    </svg>
+    <span class="rf-looplab" data-step="2">ITERATE ↺ fixer closes every Cat-A → fresh review</span>
+    <div class="rf-join">the phase artifact — <span class="mono">STRATEGY.md → … → ANALYSIS_NOTE.pdf</span> — fans out to <b>independent contexts</b> ▼</div>
+    <div class="rf-fan">
+      <div class="kcard"><div class="nm">physics</div><div class="ds"><b>Denied the spec on purpose</b> — judges like an external ARC referee.</div></div>
+      <div class="kcard"><div class="nm">critical</div><div class="ds">Reads everything; 8-step protocol, 14-point figure checklist.</div></div>
+      <div class="kcard"><div class="nm">constructive</div><div class="ds">Alternatives &amp; improvements, effort-tagged.</div></div>
+      <div class="kcard"><div class="nm">plot-validator</div><div class="ds"><b>Programmatic</b>: 35 checks — red flags are auto-Category-A.</div></div>
+      <div class="kcard"><div class="nm">render + bibtex</div><div class="ds">Compiled-PDF inspection; citations vs INSPIRE.</div></div>
+    </div>
+    <div class="rf-join" data-step="2">all findings converge ▼</div>
+    <div class="kcard rf-arb" data-step="2" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">arbiter</div><div class="ds">Synthesizes every finding into one verdict — and may not downgrade the plot-validator's red flags.</div></div>
+    <div class="rf-join" data-step="2">▼</div>
+    <div class="rf-verdicts" data-step="2">
+      <span class="v v-pass">PASS<small>advance to the next phase ▸</small></span>
+      <span class="v v-iter">ITERATE<small>↺ closed-loop fix, then re-review</small></span>
+      <span class="v v-esc">ESCALATE<small>a human must think</small></span>
+    </div>
+    <p class="lead" data-step="3" style="text-align:center; font-style:italic; margin-top:.3vmin">Mirrors a collaboration's review tiers — the human reviewer later spends judgment, not mechanics.</p>
+  </div>`
 },
 { id: 'gate', act: 2, label: 'The unblinding gate', steps: 2, budget: 45, notes: 'Asimov→10% fixed seed→halt; APPROVE / CHANGES / HALT', thumb: 'assets/ovthumb_gate.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">Blinding is <em>enforced</em> — and unblinding stays human</h2>
