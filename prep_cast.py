@@ -70,7 +70,11 @@ KEY_HOLD, KEY_NEAR = 7.0, 300.0
 # cut opens with a synthesized preamble: the prompt below, EXTRACTED VERBATIM
 # from that dropped window (largest input-box redraw, t≈13 s), shown as a still
 # for PRE_HOLD s at T+00:00:00 before the real replay takes over.
-PRE_HOLD = 3.0
+PRE_HOLD = 8.0
+# Slow start: right after the prompt clears, motion replays EASE x slower than
+# the global scale, easing linearly back to full speed over RAMP s of playback —
+# the session visibly begins before the time-lapse takes over.
+EASE, RAMP = 5.0, 22.0
 PROMPT = """Scaffold The following analysis based on the spec in this folder and then assume the orchestrator agent role:
 
 Measure the partial width ratios R_b and R_c, and the b-quark forward-backward asymmetry A_FB^b, in hadronic Z decays using archived ALEPH data at sqrt(s) = 91.2 GeV.
@@ -412,7 +416,10 @@ with open(OUT, 'w') as out:
                 rest_marks.append([round(cur, 2), rests[r][2]])
             cur += g * (rests[r][2] / in_rest[r])
         else:
-            cur += g * scale_m
+            inc = g * scale_m
+            if cur < PRE_HOLD + RAMP:   # slow-start envelope on motion only
+                inc *= 1 + (EASE - 1) * max(0.0, 1 - (cur - PRE_HOLD) / RAMP)
+            cur += inc
         cur_rest = r
         prev_t = t
         if cur >= next_anchor:

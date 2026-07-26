@@ -14,7 +14,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='88'%3E%E2%9A%9B%EF%B8%8F%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="assets/asciinema-player.css">
 <script src="assets/asciinema-player.min.js"></script>
-<script src="assets/cast_meta.js?v=653"></script>
+<script src="assets/cast_meta.js?v=670"></script>
 <style>
 /* ============================================= fonts (vendored — offline-safe) ============================================= */
 @font-face { font-family: "EB Garamond"; font-style: italic; font-weight: 400; font-display: swap;
@@ -424,7 +424,7 @@ body.editing .scene [contenteditable="true"] { user-select: text; -webkit-user-s
       <div id="term-mount"></div>
       <button id="term-play" title="start the run (or press T)">
         <span class="pbtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5 20 12 7 19.5z" fill="currentColor"/></svg></span>
-        <span class="plabel">start the 42.9 h run · replayed ×240</span>
+        <span class="plabel">start the 42.9 h run · replayed ×230</span>
       </button>
     </div>
     <div class="term-tele">
@@ -450,7 +450,7 @@ const arxiv = r => `<a href="https://arxiv.org/abs/${r}" target="_blank" rel="no
 
 /* ============================================= the run (asciinema dock) ============================================= */
 const CAST = {
-  src: 'assets/workflow.cast?v=653',   // talk cut of ../rbrun3.cast — regenerate with prep_cast.py
+  src: 'assets/workflow.cast?v=670',   // talk cut of ../rbrun3.cast — regenerate with prep_cast.py
                                        // (bump both ?v= tags on re-cut: they defeat stale browser/CDN caches)
   speed: 1,                      // playback speed on top of the prep_cast retiming
   // prep_cast drops the transient 280-col tmux windows from the cut, so the
@@ -461,7 +461,7 @@ const CAST = {
 };
 const Term = (() => {
   let player = null, started = false, ended = false;
-  const meta = window.CAST_META || { orig_dur: 154599, new_dur: 650, anchors: [[0, 0]] };
+  const meta = window.CAST_META || { orig_dur: 154599, new_dur: 670, anchors: [[0, 0]] };
   const fmt = s => { s = Math.max(0, Math.round(s));
     return `T+${String(Math.floor(s / 3600)).padStart(2, '0')}:${String(Math.floor(s / 60) % 60).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`; };
   const origAt = t => {   // map playback time -> original run time via prep_cast anchors
@@ -496,7 +496,7 @@ const Term = (() => {
     if (!player) return;
     const tt = t();
     $('#tele-clock').textContent = fmt(origAt(tt));
-    $('#term-progress i').style.width = (100 * tt / (meta.new_dur || 650)) + '%';
+    $('#term-progress i').style.width = (100 * tt / (meta.new_dur || 670)) + '%';
     if (!started && !playing) {   // before ignition: report the 48 MB cast's load state
       let d = null; try { d = player.getDuration(); } catch { /* ignore */ }
       setStatus(typeof d === 'number' && d > 0 ? '○ ready' : '⋯ loading run', false);
@@ -593,12 +593,12 @@ const SCENES = [
       So rather than only telling you — let me <span class="hl">show</span> you.<span class="cursor">▌</span></div>
   </div>`
 },
-{ id: 'launch', act: 1, label: 'Ignition', steps: 2, budget: 60, notes: 'prompt + 1 approval = all human input; ×240 replay', thumb: 'assets/ovthumb_launch.jpg', theme: 'dark', term: 'dock', html: () => `
+{ id: 'launch', act: 1, label: 'Ignition', steps: 2, budget: 60, notes: 'prompt + 1 approval = all human input; ×230 replay', thumb: 'assets/ovthumb_launch.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">One prompt. <em>43 hours.</em> No hands.</h2>
   <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2.2vmin; min-height:0">
     <div class="promptcard"><span class="ps">prompt&gt;</span> Measure R<sub>b</sub>, R<sub>c</sub>, and A<sub>FB</sub><sup>b</sup> using signed impact-parameter b-tagging and jet charge. <span style="color:var(--ink40)">(abridged — the verbatim prompt opens the recording →)</span></div>
     <ul class="talk">
-      <li>On the right: a <strong>real, contiguous recording</strong> of that run — 42.9 h of wall clock, idle collapsed, replayed ≈×240<small>it will keep running beside the slides, and it will finish before I do</small></li>
+      <li>On the right: a <strong>real, contiguous recording</strong> of that run — 42.9 h of wall clock, idle collapsed, replayed ≈×230<small>it will keep running beside the slides, and it will finish before I do</small></li>
       <li data-step="2"><span class="hl">Total human input: this prompt, plus one approval click</span> at the unblinding gate<small>everything else — strategy, code, review, iteration, the note — is the agents talking to each other</small></li>
     </ul>
   </div>`

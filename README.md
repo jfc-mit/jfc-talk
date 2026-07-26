@@ -10,7 +10,7 @@ step, no framework.
 **The design beat:** after a 3-scene paper-styled intro, the deck goes dark and a
 terminal docks into the right third of the stage, live-replaying `../rbrun3.cast` —
 a real, contiguous **42.9-hour** autonomous JFC run (ALEPH R_b/R_c/A_FB^b on
-Claude Opus 4.8) compressed to ~11 minutes (×240). It plays beside the slides for the rest
+Claude Opus 4.8) compressed to ~11 minutes (×230). It plays beside the slides for the rest
 of the talk and its final frame ("✅ Analysis complete — all 7 phases done") is the
 finale, where the terminal expands to full stage. A telemetry strip under the
 terminal shows the *original* run clock (T+HH:MM:SS), the compression factor, and
@@ -81,8 +81,10 @@ python3 prep_cast.py <src> <target_s> <end_orig_s>
   byte the agents printed is replayed.
 - **The cut opens on the prompt**: the true opening (the prompt being typed)
   happened inside the dropped leading 280-col window, so `prep_cast.py`
-  synthesizes a 3 s preamble at T+00:00:00 — the prompt text, extracted
-  verbatim from that window (`PROMPT`/`PRE_HOLD`) — before the replay starts.
+  synthesizes an 8 s preamble at T+00:00:00 — the prompt text, extracted
+  verbatim from that window (`PROMPT`/`PRE_HOLD`) — before the replay starts, and the first ~20 s of
+  motion replay eased ~5× slower (`EASE`/`RAMP`) so the session visibly begins
+  before the time-lapse takes over.
   The armed dock (▶ overlay) shows it as its poster frame.
 - **The cut ends at 154,600 s (42.94 h) by default**: rbrun3.cast keeps recording
   past the analysis into an unrelated interactive session; the results screen
