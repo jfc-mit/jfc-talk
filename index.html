@@ -96,6 +96,9 @@ h2.kicker em, h1 em { font-style: italic; color: var(--accent); }
 ul.talk { list-style: none; font-size: clamp(14px, 2vmin, 24px); line-height: 1.5; }
 ul.talk > li { margin: 0 0 1.6vmin 0; padding-left: 2.4vmin; position: relative; }
 ul.talk > li::before { content: "•"; position: absolute; left: .4vmin; color: var(--accent); }
+ul.talk > li, .lead { text-wrap: pretty; }
+ul.talk > li.hdr { padding-left: 0; font-weight: 650; }
+ul.talk > li.hdr::before { content: none; }
 ul.talk li small { color: var(--ink60); display: block; font-size: .82em; margin-top: .3vmin; }
 strong { font-weight: 650; }
 .hl { color: var(--accent); font-weight: 600; }
@@ -582,9 +585,9 @@ const SCENES = [
   <div class="cols">
     <div class="col" style="flex:1">
       <ul class="talk">
-        <li>Pick a channel → read the literature → design &amp; validate a selection → systematics → <strong>unblind &amp; infer</strong><small>the same arc, every analysis, every collaboration</small></li>
-        <li>Thousands of lines of code, structurally similar to dozens of prior analyses<small>little physics reasoning; poor central documentation; slow, error-prone, tedious</small></li>
-        <li><span class="hl">Most of this can be delegated to agents</span> — code, docs, debugging, self-critique<small>the physicist's scarce resource should be judgment, not boilerplate</small></li>
+        <li>Channel → literature → selection → systematics → <strong>unblind &amp; infer</strong><small>the same arc, every analysis, every collaboration</small></li>
+        <li>Thousands of lines of code, echoing dozens of prior analyses<small>little physics insight — slow, tedious, error-prone</small></li>
+        <li><span class="hl">Most of it can be delegated to agents</span><small>code, docs, debugging, self-critique — judgment stays the scarce resource</small></li>
       </ul>
     </div>
     <div class="col" style="flex:1.35; align-self:center">
@@ -596,8 +599,7 @@ const SCENES = [
 { id: 'claim', act: 1, label: 'The claim', steps: 2, budget: 30, notes: 'not speculative — show it', thumb: 'assets/ovthumb_claim.jpg', theme: 'dark', html: () => `
   <div class="statement">
     <h1>This is <em>not</em> a speculative claim.</h1>
-    <div class="lead">Given a dataset, an execution framework, and the prior literature, Claude Code completes the chain:
-      event selection → backgrounds → systematics → statistical inference → <b>a written analysis note</b>.</div>
+    <div class="lead">Given a dataset, a framework and the prior literature, Claude Code completes the chain:<br>selection → backgrounds → systematics → inference → <b>a written analysis note</b>.</div>
     <div class="lead" data-step="2" style="font-family:var(--serif); font-style:italic; font-size:clamp(19px,2.9vmin,36px); color:var(--ink)">
       So rather than only telling you — let me <span class="hl">show</span> you.<span class="cursor">▌</span></div>
   </div>`
@@ -613,8 +615,8 @@ Tag b and c events using lifetime methods (signed impact parameter significance)
 
 If you lack MC truth info, you could derive approximate truth from studying the decay chain. Maybe you can find neutrino truth flavour. <span style="color:var(--ink40)">(verbatim — typos and all)</span></div>
     <ul class="talk">
-      <li>On the right: a <strong>real, contiguous recording</strong> of that run — 42.9 h of wall clock, idle collapsed, replayed ≈×230<small>it will keep running beside the slides, and it will finish before I do</small></li>
-      <li data-step="2"><span class="hl">Total human input: this prompt, plus one approval click</span> at the unblinding gate<small>everything else — strategy, code, review, iteration, the note — is the agents talking to each other</small></li>
+      <li>On the right: a <strong>real, contiguous recording</strong> of that run<small>42.9 h of wall clock, idle collapsed, replayed ≈×230 — it finishes before I do</small></li>
+      <li data-step="2"><span class="hl">Total human input: this prompt + one approval click</span><small>strategy, code, review, the note — all of it is agents talking to agents</small></li>
     </ul>
   </div>`,
   onenter(step) { if (step >= 2) Term.ignite(); }   // moving past the ignition beat auto-starts the run
@@ -625,8 +627,8 @@ If you lack MC truth info, you could derive approximate truth from studying the 
     <div class="col grow">
       <ul class="talk">
         <li>An <strong>orchestrator</strong> plans; disposable subagents execute<small>fresh context per task — no context rot over 50+ hours</small></li>
-        <li>Phases advance only through <strong>written artifacts + independent review</strong><small>context passes between phases only via artifacts and an append-only log</small></li>
-        <li>No template, no skeleton — the agent <span class="hl">designs the strategy itself</span>, consulting the literature<small>unlike scaffolded pipelines where the agent fills in pre-defined steps</small></li>
+        <li>Phases advance only through <strong>artifacts + review</strong><small>phase-to-phase context flows via artifacts and an append-only log</small></li>
+        <li>No template — the agent <span class="hl">designs the strategy itself</span><small>from the literature, not a scaffold of pre-defined steps</small></li>
       </ul>
     </div>
     <div class="col" style="flex:1.05; align-self:stretch"><div class="fig zoomable" style="height:100%"><img src="assets/fig_pipeline.png" alt="JFC framework diagram"></div></div>
@@ -649,7 +651,7 @@ If you lack MC truth info, you could derive approximate truth from studying the 
         <li>no physics through the side door</li>
         <li>append-only experiment log, for humans to audit</li></ul></div>
     </div>
-    <p class="lead" style="font-style:italic">Together: a graduate curriculum in ~30 files, ~1,000 lines of markdown — the standards against which every agent decision is made <b>and reviewed</b>. No secret sauce.</p>
+    <p class="lead" style="font-style:italic">A graduate curriculum in ~30 files, ~1,000 lines of markdown — the standard every agent decision is <b>reviewed against</b>. No secret sauce.</p>
   </div>`
 },
 { id: 'repo', act: 2, label: 'Views into the spec', steps: 1, budget: 50, notes: 'tuning-to-match = fabrication, #1 failure mode; constants cited', theme: 'dark', term: 'dock', html: () => `
@@ -737,10 +739,10 @@ If you lack MC truth info, you could derive approximate truth from studying the 
   <div class="cols">
     <div class="col grow">
       <ul class="talk">
-        <li><strong>Asimov only</strong> through Phase 4a — signal region never touched<small>"never access SR data until explicitly told" is a standing constraint on every agent</small></li>
-        <li><strong>10% partial unblinding</strong>, fixed seed — pathology check without revealing the result</li>
-        <li>Then the pipeline <span class="hl">halts itself</span>: structured summary, 7-item checklist, review verdicts<small>the one place a human must act: APPROVE · REQUEST_CHANGES · HALT</small></li>
-        <li>Execution and review can be automated — <strong>the judgment to unblind should not be</strong></li>
+        <li><strong>Asimov only</strong> through Phase 4a<small>“never access SR data until explicitly told” — a standing constraint</small></li>
+        <li><strong>10% partial unblinding</strong>, fixed seed<small>pathology check without revealing the result</small></li>
+        <li>Then the pipeline <span class="hl">halts itself</span><small>structured summary, 7-item checklist, review verdicts → your call</small></li>
+        <li><strong>The judgment to unblind stays human</strong><small>execution and review can be automated — this should not be</small></li>
       </ul>
     </div>
     <div class="col" style="flex:.85; align-self:center">
@@ -756,9 +758,9 @@ If you lack MC truth info, you could derive approximate truth from studying the 
   <div class="cols" style="align-items:stretch">
     <div class="col grow" style="align-self:center">
       <ul class="talk">
-        <li><strong>SciTreeRAG</strong> over the LEP corpus — retrieval that follows paper <em>structure</em><small>ALEPH: 1,503 catalogued works, 575 converted · DELPHI: 4,305 / 1,868 (Nougat OCR + Pandoc)</small></li>
-        <li>Plus arXiv MCP + INSPIRE/HEPData for modern methods &amp; published inputs</li>
-        <li>Selections, systematics lists, statistical frameworks come <span class="hl">from the literature</span>, not from vibes<small>the difference between "recalling" an analysis and reconstructing one</small></li>
+        <li><strong>SciTreeRAG</strong> — retrieval that follows paper <em>structure</em><small>LEP corpus: ALEPH 1,503 / 575 converted · DELPHI 4,305 / 1,868</small></li>
+        <li>arXiv + INSPIRE/HEPData for methods &amp; published inputs</li>
+        <li>Selections &amp; systematics come <span class="hl">from the literature</span>, not vibes<small>the difference between recalling an analysis and reconstructing one</small></li>
       </ul>
     </div>
     <div class="col" style="flex:1.15; align-self:center">
@@ -786,13 +788,13 @@ If you lack MC truth info, you could derive approximate truth from studying the 
     <div class="an-card"><span class="exp">ALEPH</span><div class="im"><img src="assets/thumb_eec.png" alt=""></div><div class="nm">Energy-energy correlators</div><div class="pr">E2C, E3C, ratio, AEEC</div></div>
     <div class="an-card"><span class="exp">ALEPH</span><div class="im"><img src="assets/thumb_alphas.png" alt=""></div><div class="nm">Event shapes → α_s(M_Z)</div><div class="pr">six shapes, NNLO+NLL fits</div></div>
   </div>
-  <p class="lead" style="margin-top:1.2vmin">Deliverable each time: a <b>50–100-page analysis note</b>, all code, all figures — public on <span class="mono">github.com/jfc-mit</span>. Presented as capability evidence, <i>not</i> as vetted measurements.</p>`
+  <p class="lead" style="margin-top:1.2vmin">Each run ships a <b>50–100-page note</b> + all code &amp; figures, public on <span class="mono">github.com/jfc-mit</span> — capability evidence, <i>not</i> vetted measurements.</p>`
 },
 { id: 'deliverable', act: 3, label: 'The deliverable', steps: 1, budget: 35, notes: '50–100 pp note; demo 14 pp; this run wrote 53 pp', theme: 'dark', term: 'dock', thumb: 'assets/an_mosaic.png', html: () => `
   <h2 class="kicker">The deliverable is a <em>document</em>, not a notebook</h2>
   <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:1.4vmin; min-height:0">
     <div class="fig zoomable auto" style="max-height:62%; overflow:hidden"><img src="assets/an_mosaic.png" alt="agent-written analysis note, page by page"></div>
-    <div class="figcap" style="text-align:left; margin-top:0">agent-written analysis note, every page — sections, figures, tables, references, typeset to PDF by the <span style="color:var(--accent)">typesetter</span> agent (shown: the 14-pp H→4l demo note; the R<sub>b</sub> run beside you wrote 53 pp)</div>
+    <div class="figcap" style="text-align:left; margin-top:0">every page of an agent-written note, typeset by the <span style="color:var(--accent)">typesetter</span> agent (shown: 14-pp H→4l demo — the run beside you wrote 53 pp)</div>
     <ul class="talk" style="margin-top:.6vmin">
       <li>Every figure referenced in text · every number from <span class="mono">results/*.json</span> · every citation resolved against INSPIRE<small>and the note passes the same review panel as the physics before it ships</small></li>
     </ul>
@@ -842,16 +844,16 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
       <div class="callout" data-step="2" style="left:4%; bottom:13%; max-width:56%"><b>σ_μ 1.20 → 0.65</b> just by scaling inputs to CMS scale — within ×1.6 of the published 0.41; the gap is design, not the agent's inputs.</div>
     </div>
   </div>
-  <p class="lead" data-step="2" style="margin-top:1vmin">μ̂ = <b>1.20 ± 1.13</b> vs published <b>1.01 ± 0.41</b> (μτ_h) — and the statistical model <span class="hl">rebuilds point-by-point in an independent Combine implementation</span>. A reproduction, not a competition: single channel, partial 2012 sample.</p>`
+  <p class="lead" data-step="2" style="margin-top:1vmin">μ̂ = <b>1.20 ± 1.13</b> vs published <b>1.01 ± 0.41</b> (μτ_h) — and the stat model <span class="hl">rebuilds in an independent Combine implementation</span>. A reproduction, not a competition.</p>`
 },
 { id: 'lund', act: 3, label: 'Headline · Lund jet plane', steps: 1, budget: 50, notes: 'N 4.751±0.224; first in e+e−; candidate measurement', theme: 'dark', term: 'dock', thumb: 'assets/fig_lund.png', html: () => `
   <h2 class="kicker">…and the plot from the title slide</h2>
   <div class="cols" style="align-items:stretch">
     <div class="col grow" style="align-self:center">
       <ul class="talk">
-        <li>Primary <strong>Lund jet plane density</strong>, unfolded to charged-particle level, on archived ALEPH LEP1 data<small>⟨N⟩ = 4.751 ± 0.224 primary emissions — systematics-limited</small></li>
-        <li><span class="hl">Never measured in e⁺e⁻ before.</span> From a one-line prompt<small>to our knowledge: the first genuinely new HEP measurement produced autonomously by an AI agent</small></li>
-        <li>No prior counterpart to check against — so it is a <strong>candidate measurement</strong>, offered for community scrutiny<small>which is exactly the point: validation is where humans stay essential</small></li>
+        <li><strong>Primary Lund plane density</strong> on archived ALEPH data<small>charged-particle level · ⟨N⟩ = 4.751 ± 0.224 · systematics-limited</small></li>
+        <li><span class="hl">Never measured in e⁺e⁻ before</span><small>to our knowledge, the first new HEP measurement made autonomously by an agent</small></li>
+        <li>Nothing to check it against — a <strong>candidate measurement</strong><small>offered for scrutiny: validation is where humans stay essential</small></li>
       </ul>
     </div>
     <div class="col" style="flex:1.15"><div class="fig zoomable" style="height:100%"><img src="assets/fig_lund.png" alt="ALEPH primary Lund jet plane density"></div></div>
@@ -862,7 +864,7 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
   <div class="cols">
     <div class="col grow">
       <ul class="talk">
-        <li>Identical H→ττ prompt driven by <strong>Claude Opus 4.8</strong>, a <strong>Codex agent (GPT-5.5)</strong>, and <strong>Claude Fable 5</strong><small>compatible but distinct results; Fable 5 prefers a slight deficit</small></li>
+        <li>Same H→ττ prompt: <strong>Opus 4.8</strong> · <strong>Codex (GPT-5.5)</strong> · <strong>Fable 5</strong><small>compatible but distinct results; Fable 5 prefers a slight deficit</small></li>
         <li>One run per model — an <span class="hl">indicative hint</span>, not a benchmark<small>token budgets forbid the ensembles a real comparison needs… yet. Hold that thought too.</small></li>
       </ul>
     </div>
@@ -875,7 +877,7 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
     <div class="col grow">
       <ul class="talk">
         <li><strong>~$200 / month</strong> (Claude Max) ran the whole program<small>≈10 h wall-clock per analysis; review usually passes in 1–2 iterations</small></li>
-        <li>Idle usage-limit waits dominate wall time — visible live in the dock's run clock</li>
+        <li>Idle usage-limit waits dominate wall time<small>watch it live: the dock's run clock leaps across them</small></li>
         <li>Iterations concentrate at <strong>strategy</strong> and <strong>inference setup</strong> — where the physics is<small>mechanical phases just… execute</small></li>
       </ul>
     </div>
@@ -887,30 +889,40 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
 },
 { id: 'honest', act: 3, label: 'Where it breaks', steps: 2, budget: 50, notes: 'correct diagnosis, deferred treatment', thumb: 'assets/ovthumb_honest.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">Where it breaks — <em>honestly</em></h2>
-  <div class="cardgrid" style="grid-template-columns:1fr 1fr 1fr; flex:1; align-content:center">
-    <div class="kcard"><div class="nm">physics</div><div class="ds">Subtle selection biases · conservative cuts that cost real sensitivity · niche methods never tried · novelty beyond the literature is not reliable.</div></div>
-    <div class="kcard"><div class="nm">execution</div><div class="ds">Instructions decay in long contexts (yes, hard-coded font sizes) · stochastic run-to-run strategies · stale API knowledge · patches over proper dependencies.</div></div>
-    <div class="kcard"><div class="nm">style</div><div class="ds">Figure conventions must be spelled out with brutal specificity — and some agent figures are still fully nonsensical.</div></div>
-  </div>
-  <p class="lead" data-step="2" style="font-style:italic; font-size:clamp(16px,2.3vmin,28px); margin-top:1vmin">The signature failure mode: <b>correct diagnosis, deferred treatment.</b> It writes an excellent limitations section about the fix it didn't implement — which is precisely what review cycles are for.</p>`
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2.4vmin; min-height:0">
+    <div class="cardgrid" style="grid-template-columns:1fr 1fr 1fr">
+      <div class="kcard"><div class="nm">physics</div><ul class="mini">
+        <li>subtle selection biases</li>
+        <li>conservative cuts that cost real sensitivity</li>
+        <li>novelty beyond the literature is not reliable</li></ul></div>
+      <div class="kcard"><div class="nm">execution</div><ul class="mini">
+        <li>instructions decay in long contexts<br>(yes, hard-coded font sizes)</li>
+        <li>stochastic run-to-run strategies</li>
+        <li>stale APIs · patches over dependencies</li></ul></div>
+      <div class="kcard"><div class="nm">style</div><ul class="mini">
+        <li>figure conventions need brutal specificity</li>
+        <li>some agent figures are still fully nonsensical</li></ul></div>
+    </div>
+    <p class="lead" data-step="2" style="font-style:italic; font-size:clamp(16px,2.3vmin,28px)">The signature failure mode: <b>correct diagnosis, deferred treatment</b> — an excellent limitations section about the fix it didn't implement. Which is what review cycles are for.</p>
+  </div>`
 },
 { id: 'forward', act: 4, label: 'The way forward', steps: 1, budget: 50, notes: 'benchmark vs known physics; N-run variance; WG best practices', thumb: 'assets/ovthumb_forward.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">The way forward — <em>measure</em> the agents, then trust them</h2>
   <div class="cols">
     <div class="col grow">
       <ul class="talk">
-        <li><strong>Benchmark against known physics</strong> — end-to-end analyses on real data with ground truth<small>Collider-Bench &amp; CelloAI score controlled sub-tasks; the full chain — selection → inference — is still unscored</small></li>
-        <li>Characterize <strong>stochastic variability</strong>: same prompt, N runs, spread of strategies &amp; results<small>plus A/B the spec itself, and sweep the review-panel operating point (quality vs cost)</small></li>
-        <li>Backend-agnostic by construction — Claude Code today; Codex, Jules, open-weight agents tomorrow</li>
+        <li><strong>Benchmark against known physics</strong>, end to end<small>Collider-Bench &amp; CelloAI score sub-tasks; the full chain is unscored</small></li>
+        <li>Characterize <strong>stochastic variability</strong>: same prompt, N runs<small>spread of strategies · A/B the spec · sweep the review operating point</small></li>
+        <li>Backend-agnostic by construction<small>Claude Code today; Codex, Jules, open-weight agents tomorrow</small></li>
       </ul>
     </div>
     <div class="col grow">
       <ul class="talk">
-        <li><strong>Best practices this WG could write down:</strong></li>
-        <li>Pin the spec &amp; conventions in version control — <span class="mono">prompt ≡ methodology</span></li>
+        <li class="hdr">Best practices this WG could write down:</li>
+        <li>Spec &amp; conventions in version control — <span class="mono">prompt ≡ methodology</span></li>
         <li>Artifact-gated phases + append-only logs — every decision auditable</li>
         <li>Automated review that <strong>binds</strong>, humans at unblinding gates</li>
-        <li>Disclose AI involvement; independent re-implementation for headline results</li>
+        <li>Disclose AI involvement · re-implement headline results independently</li>
       </ul>
     </div>
   </div>`
@@ -920,9 +932,9 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
   <div class="cols">
     <div class="col grow">
       <ul class="talk">
-        <li>The physicist shifts from <strong>implementer</strong> to <strong>architect &amp; critic</strong><small>the bottleneck moves from coding capacity to ideas and review bandwidth — an intellectual constraint, finally</small></li>
-        <li><strong>Legacy data reopens</strong>: LEP, Tevatron, B-factories — FORTRAN + PAW expertise no longer gates reanalysis<small>plus systematic reproducibility sweeps of published results, at scale</small></li>
-        <li><strong>Train students for it</strong>: read &amp; critique code they didn't write, know the failure modes, spec precisely<small>coding proficiency stays essential — you must be able to check what you sign</small></li>
+        <li>The physicist: <strong>implementer</strong> → <strong>architect &amp; critic</strong><small>the bottleneck becomes ideas and review bandwidth — an intellectual constraint, finally</small></li>
+        <li><strong>Legacy data reopens</strong>: LEP, Tevatron, B-factories<small>FORTRAN-era expertise no longer gates reanalysis · reproducibility sweeps at scale</small></li>
+        <li><strong>Train students for it</strong>: critique code they didn't write<small>know the failure modes, spec precisely — you must check what you sign</small></li>
       </ul>
     </div>
     <div class="col" style="flex:1.25; align-self:center">
@@ -935,7 +947,7 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
   <div style="position:absolute; left:5%; right:5%; bottom:1%; display:flex; align-items:flex-end; gap:3%">
     <div style="flex:1.4">
       <h2 class="kicker" style="margin:0 0 .6vmin">While we talked, <em>it worked.</em></h2>
-      <p class="lead" data-step="2">43 hours: strategy → selection → review → unblinding → documentation. <b>All 7 phases done</b> — R<sub>b</sub>, R<sub>c</sub>, A<sub>FB</sub><sup>b</sup> → sin²θ<sub>eff</sub> on 2.9M events, a 53-page note, 5-bot review passed. One prompt, one approval.</p>
+      <p class="lead" data-step="2">43 hours, <b>all 7 phases done</b>: R<sub>b</sub>, R<sub>c</sub>, A<sub>FB</sub><sup>b</sup> → sin²θ<sub>eff</sub> on 2.9M events — a 53-page note, 5-bot review passed. One prompt, one approval.</p>
     </div>
     <div style="flex:1" data-step="3">
       <p class="lead" style="font-family:var(--serif); font-style:italic; color:var(--ink)">The question is not whether agents join the HEP toolkit — it's how quickly we adapt how we work.</p>
