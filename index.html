@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="paper">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Agents Can Already Autonomously Perform Experimental HEP — HSF DAAA</title>
+<meta name="description" content="Interactive talk on arXiv:2603.20179 (JFC) with a live-replayed 54-hour autonomous ALEPH analysis · HSF DAAA · 27 July 2026">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/asciinema-player.css">
+<script src="assets/asciinema-player.min.js"></script>
+<script src="assets/cast_meta.js"></script>
+<style>
+/* ============================================= tokens ============================================= */
+:root {
+  --serif: "EB Garamond", Georgia, "Times New Roman", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --aleph: #1f5fb4; --cms: #c1272d; --green: #1a7a1a; --purple: #6a1b9a; --live: #e2493b;
+}
+:root[data-theme="paper"] {
+  --bg: #f6f1e7; --bg2: #efe8d9; --ink: #1c1712; --ink60: rgba(28,23,18,.60); --ink40: rgba(28,23,18,.40);
+  --ink12: rgba(28,23,18,.12); --card: #fffdf8; --accent: #8a1f1f; --chip: rgba(28,23,18,.06);
+  --shadow: 0 2px 6px rgba(60,45,30,.10), 0 12px 34px rgba(60,45,30,.13);
+}
+:root[data-theme="dark"] {
+  --bg: #07080a; --bg2: #0c0e12; --ink: #ece8e0; --ink60: rgba(236,232,224,.62); --ink40: rgba(236,232,224,.42);
+  --ink12: rgba(236,232,224,.14); --card: #14161a; --accent: #e4a23c; --chip: rgba(236,232,224,.07);
+  --shadow: 0 2px 8px rgba(0,0,0,.5), 0 14px 40px rgba(0,0,0,.55);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  background: radial-gradient(120% 100% at 50% 0%, var(--bg2), var(--bg) 60%);
+  color: var(--ink); font-family: var(--sans);
+  transition: background 900ms ease, color 500ms ease;
+  overflow: hidden; cursor: pointer; user-select: none;
+}
+a { color: inherit; cursor: pointer; }
+
+/* ============================================= stage ============================================= */
+#stage-wrap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+/* fill the viewport (no 16:9 clamp — ultrawide displays get their full width), but
+   RESERVE the top and bottom chrome bands: the crumb/counter line above and the
+   progress/steps/buttons line below live outside the stage, so neither the scenes
+   nor the dock can ever collide with them. Dock width is clamped by viewport
+   height so the 84-col terminal always fits. */
+:root { --chromeband: 48px; }
+#stage { position: relative; width: 96vw; height: calc(100vh - 2 * var(--chromeband));
+  --dockw: min(31.5%, 50vh); }
+#scenehost { position: absolute; inset: 0; }
+.scene { position: absolute; inset: 0; padding: 4.2% 5%; display: none; flex-direction: column; }
+.scene.on { display: flex; animation: scenein 650ms cubic-bezier(.22,.8,.3,1); }
+@keyframes scenein { from { opacity: 0; transform: translateY(14px) scale(.992); } to { opacity: 1; transform: none; } }
+/* split mode: the terminal dock owns the right edge of the stage */
+.scene.split { padding-right: calc(var(--dockw) + 3.3%); }
+[data-step] { opacity: 0; transform: translateY(12px); transition: opacity 550ms ease, transform 550ms cubic-bezier(.22,.8,.3,1); pointer-events: none; }
+[data-step].shown { opacity: 1; transform: none; pointer-events: auto; }
+[data-step].shown.pulse-in { animation: pulsein 900ms ease; }
+@keyframes pulsein { 0% { filter: drop-shadow(0 0 0 rgba(226,73,59,0)); } 45% { filter: drop-shadow(0 0 18px rgba(226,73,59,.55)); } 100% { filter: drop-shadow(0 0 0 rgba(226,73,59,0)); } }
+.cursor { display: inline-block; margin-left: .25em; color: var(--accent); animation: curblink 1.05s steps(1) infinite; }
+@keyframes curblink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+:where(button, a, [tabindex="0"]):focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ============================================= typography ============================================= */
+h1 { font-family: var(--serif); font-weight: 500; font-size: clamp(30px, 5vmin, 68px); line-height: 1.08; letter-spacing: -.01em; }
+h2.kicker { font-family: var(--serif); font-weight: 500; font-size: clamp(21px, 3.2vmin, 42px); line-height: 1.1; margin-bottom: 1.5vmin; letter-spacing: -.005em; }
+h2.kicker em, h1 em { font-style: italic; color: var(--accent); }
+.rule { width: 6.5vmin; height: 2px; background: var(--accent); margin: 1.2vmin 0 2.2vmin; opacity: .85; }
+.lead { font-size: clamp(14px, 1.9vmin, 23px); color: var(--ink60); line-height: 1.5; }
+ul.talk { list-style: none; font-size: clamp(14px, 2vmin, 24px); line-height: 1.5; }
+ul.talk > li { margin: 0 0 1.6vmin 0; padding-left: 2.4vmin; position: relative; }
+ul.talk > li::before { content: "•"; position: absolute; left: .4vmin; color: var(--accent); }
+ul.talk li small { color: var(--ink60); display: block; font-size: .82em; margin-top: .3vmin; }
+strong { font-weight: 650; }
+.hl { color: var(--accent); font-weight: 600; }
+.mono { font-family: var(--mono); }
+
+/* ============================================= layout helpers ============================================= */
+.cols { display: flex; gap: 3%; flex: 1; min-height: 0; align-items: center; }
+.col { min-width: 0; }
+.grow { flex: 1; }
+.fig { background: #fff; border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; position: relative; }
+.fig img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.fig.zoomable { cursor: zoom-in; }
+/* wide image in a tall column: let the image's own aspect set the card height
+   (a stretched .fig letterboxes white above/below the plot) */
+.fig.auto { height: auto; flex: 0 0 auto; }
+.fig.auto img { height: auto; }
+.figcap { font-size: clamp(10px, 1.4vmin, 16px); color: var(--ink40); margin-top: .8vmin; text-align: center; font-family: var(--mono); }
+.polaroid { background: #fff; padding: 1.4vmin 1.4vmin 4vmin; border-radius: 4px; box-shadow: var(--shadow); transform: rotate(-1.6deg); }
+.polaroid img { width: 100%; display: block; }
+.polaroid .tag { font-family: var(--serif); font-style: italic; text-align: center; color: #333; font-size: clamp(13px,1.9vmin,21px); margin-top: 1.1vmin; }
+.callout {
+  position: absolute; z-index: 6; max-width: 30%;
+  background: var(--card); color: var(--ink); border: 1px solid var(--ink12); border-left: 3px solid var(--accent);
+  border-radius: 8px; padding: 1vmin 1.3vmin; font-size: clamp(11px, 1.5vmin, 17px); line-height: 1.35; box-shadow: var(--shadow);
+}
+.callout b { color: var(--accent); }
+.statement { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 2.8vmin; }
+.statement h1 { font-size: clamp(38px, 6.6vmin, 92px); max-width: 82%; }
+.statement .lead { font-size: clamp(17px, 2.5vmin, 30px); max-width: 70%; color: var(--ink); opacity: .82; }
+
+/* cards (agents, analyses, framework pieces) */
+.cardgrid { display: grid; gap: 1.9vmin; min-height: 0; }
+.kcard { background: var(--card); border: 1px solid var(--ink12); border-left: 3px solid var(--accent);
+  border-radius: 10px; padding: 1.7vmin 2vmin; box-shadow: var(--shadow); min-width: 0; }
+.kcard .nm { font-family: var(--mono); font-weight: 700; color: var(--accent); font-size: clamp(13px,1.9vmin,23px); }
+.kcard .ds { font-size: clamp(12px,1.65vmin,19px); color: var(--ink60); line-height: 1.42; margin-top: .5vmin; }
+.kcard.dim { border-left-color: var(--ink40); opacity: .85; }
+/* analyses menu */
+.an-card { position: relative; background: var(--card); border: 1px solid var(--ink12); border-radius: 12px;
+  overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column; min-height: 0; }
+.an-card .im { background: #fff; flex: 1; min-height: 0; }
+.an-card .im img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.an-card .nm { font-weight: 700; font-size: clamp(12px,1.75vmin,20px); padding: .8vmin 1.2vmin 0; }
+.an-card .pr { font-family: var(--mono); font-size: clamp(9px,1.25vmin,14px); color: var(--ink60); padding: .2vmin 1.2vmin .9vmin; line-height: 1.35; }
+.an-card .exp { position: absolute; top: .8vmin; right: 1vmin; font-family: var(--mono); font-size: clamp(9px,1.3vmin,14px);
+  background: var(--chip); border: 1px solid var(--ink12); border-radius: 999px; padding: .2vmin 1vmin; color: var(--ink60); }
+.an-card.live { outline: 2px solid var(--live); }
+.livedot { display: inline-block; width: .9em; height: .9em; border-radius: 50%; background: var(--live); margin-right: .5em; animation: blink 1.4s infinite; vertical-align: -8%; }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
+.livetag { position: absolute; left: 1vmin; top: .8vmin; font-family: var(--mono); font-size: clamp(9px,1.35vmin,15px);
+  background: var(--live); color: #fff; border-radius: 999px; padding: .25vmin 1.1vmin; }
+/* phase stepper */
+.phases { display: flex; flex-direction: column; gap: .85vmin; flex: 1; min-height: 0; justify-content: center; }
+.ph { display: flex; align-items: center; gap: 1.4vmin; background: var(--card); border: 1px solid var(--ink12);
+  border-radius: 9px; padding: .7vmin 1.4vmin; box-shadow: var(--shadow); font-size: clamp(11px,1.65vmin,19px); }
+.ph .n { font-family: var(--mono); font-weight: 700; color: var(--accent); flex: 0 0 8.5em; }
+.ph .what { flex: 1; color: var(--ink60); min-width: 0; overflow: hidden; line-height: 1.25;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.ph .art { font-family: var(--mono); font-size: .82em; background: var(--chip); border: 1px solid var(--ink12); border-radius: 6px; padding: .15vmin .8vmin; }
+.ph .rev { font-family: var(--mono); font-size: .78em; color: var(--ink40); flex: 0 0 auto; }
+.ph.gate { border: 2px solid var(--live); background: color-mix(in srgb, var(--live) 8%, var(--card)); }
+.ph.gate .n { color: var(--live); }
+/* verdict chips */
+.verdicts { display: flex; gap: 1.6vmin; margin-top: 1.4vmin; font-family: var(--mono); font-size: clamp(12px,1.8vmin,20px); }
+.verdicts span { border-radius: 8px; padding: .5vmin 1.6vmin; border: 1.5px solid; }
+.v-pass { color: #2e8b57; border-color: #2e8b57; } .v-iter { color: #e4a23c; border-color: #e4a23c; } .v-esc { color: #d43a2f; border-color: #d43a2f; }
+/* stack table */
+table.stack { border-collapse: collapse; width: 100%; font-size: clamp(11px, 1.6vmin, 19px); background: var(--card); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
+table.stack th, table.stack td { padding: .8vmin 1.3vmin; text-align: left; border-bottom: 1px solid var(--ink12); }
+table.stack thead th { background: var(--chip); font-weight: 650; }
+table.stack td.req { font-family: var(--mono); font-weight: 600; }
+table.stack td.forb { font-family: var(--mono); color: #c1272d; text-decoration: line-through; text-decoration-thickness: 1px; opacity: .8; }
+/* title */
+.title-wrap { flex: 1; display: flex; align-items: center; gap: 4%; }
+.title-left { flex: 1.25; }
+.title-left .who { margin-top: 2.8vmin; font-size: clamp(14px,1.9vmin,23px); color: var(--ink60); line-height: 1.55; }
+.title-left .who b { color: var(--ink); font-weight: 600; }
+.title-art { flex: .8; position: relative; }
+.authors { display: flex; gap: 1.6vmin; margin-top: 3vmin; align-items: center; flex-wrap: wrap; }
+.authors img { width: 5.6vmin; height: 5.6vmin; border-radius: 50%; object-fit: cover; box-shadow: var(--shadow); border: 2px solid var(--card); }
+.authors .mono-av { width: 5.6vmin; height: 5.6vmin; border-radius: 50%; background: var(--chip); border: 2px solid var(--card);
+  box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-size: 2vmin; color: var(--ink60); flex: 0 0 auto; }
+.authors .nm { font-size: clamp(11px,1.5vmin,17px); color: var(--ink60); }
+.logos { display: flex; align-items: center; gap: 3.4vmin; opacity: .85; margin-top: 3.2vmin; }
+.logos img { height: 4.4vmin; width: auto; display: block; }
+.logos img.cern { height: 5.8vmin; }
+.theme-swap img.on-dark { display: none; }
+:root[data-theme="dark"] .theme-swap img.on-dark { display: block; }
+:root[data-theme="dark"] .theme-swap img.on-light { display: none; }
+.arxiv-chip { display: inline-block; font-family: var(--mono); font-size: clamp(12px,1.7vmin,19px); background: var(--chip);
+  border: 1px solid var(--ink12); border-radius: 999px; padding: .5vmin 1.6vmin; margin-top: 2.2vmin; }
+/* code / run-log excerpt blocks */
+.codeblock { background: var(--card); border: 1px solid var(--ink12); border-radius: 10px; box-shadow: var(--shadow);
+  overflow: hidden; min-width: 0; }
+.codeblock .src { font-family: var(--mono); font-size: clamp(9px,1.3vmin,15px); color: var(--ink40);
+  background: var(--chip); padding: .6vmin 1.4vmin; border-bottom: 1px solid var(--ink12); }
+.codeblock .src b { color: var(--accent); font-weight: 600; }
+.codeblock pre { font-family: var(--mono); font-size: clamp(10px,1.45vmin,17px); line-height: 1.5; color: var(--ink);
+  padding: 1.2vmin 1.6vmin; white-space: pre-wrap; }
+.codeblock pre .c { color: var(--ink40); } .codeblock pre .hl2 { color: var(--accent); font-weight: 600; }
+.filetree { font-family: var(--mono); font-size: clamp(11px,1.6vmin,19px); line-height: 1.75; color: var(--ink60);
+  background: var(--card); border: 1px solid var(--ink12); border-radius: 10px; box-shadow: var(--shadow);
+  padding: 1.8vmin 2.2vmin; white-space: pre; }
+.filetree b { color: var(--ink); font-weight: 600; } .filetree .a { color: var(--accent); }
+.runquote { background: var(--card); border: 1px solid var(--ink12); border-left: 3px solid var(--accent);
+  border-radius: 10px; box-shadow: var(--shadow); min-width: 0; }
+.runquote .when { font-family: var(--mono); font-size: clamp(9px,1.3vmin,15px); color: var(--accent);
+  padding: .8vmin 1.5vmin .2vmin; font-weight: 600; }
+.runquote .when small { color: var(--ink40); font-weight: 400; }
+.runquote pre { font-family: var(--mono); font-size: clamp(10px,1.42vmin,16.5px); line-height: 1.52; color: var(--ink60);
+  padding: .5vmin 1.5vmin 1.2vmin; white-space: pre-wrap; }
+.runquote pre b { color: var(--ink); font-weight: 600; }
+/* prompt card */
+.promptcard { background: var(--card); border: 1px solid var(--ink12); border-left: 4px solid var(--accent); border-radius: 12px;
+  box-shadow: var(--shadow); padding: 2.2vmin 2.6vmin; font-family: var(--mono); font-size: clamp(13px,1.95vmin,24px);
+  line-height: 1.6; white-space: pre-wrap; }
+.promptcard .ps { color: var(--green); font-weight: 700; }
+
+/* ============================================= terminal dock ============================================= */
+#term {
+  position: absolute; right: 0; top: 0; bottom: 0; width: var(--dockw); z-index: 20; cursor: default;
+  display: flex; flex-direction: column; gap: 1.2vmin;
+  opacity: 0; transform: translateX(112%); pointer-events: none;
+  transition: opacity 600ms ease, transform 700ms cubic-bezier(.22,.8,.3,1), width 700ms cubic-bezier(.22,.8,.3,1),
+              left 700ms cubic-bezier(.22,.8,.3,1), right 700ms cubic-bezier(.22,.8,.3,1), top 700ms ease, bottom 700ms ease;
+}
+body.term-dock #term, body.term-wide #term { opacity: 1; transform: none; pointer-events: auto; }
+/* wide mode: clamp by height too, so the 280-col end frame never overflows the stage */
+body.term-wide #term { left: 50%; right: auto; width: min(84%, 145vh); transform: translateX(-50%); top: 0; bottom: 21%; }
+/* chrome lives in the reserved bands — no relocation needed when the dock is up */
+.term-shell { background: #101216; border: 1px solid rgba(255,255,255,.09); border-radius: 12px; overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0,0,0,.45), 0 18px 50px rgba(0,0,0,.5);
+  flex: 1; min-height: 0; display: flex; flex-direction: column; }
+#term-mount { flex: 1; min-height: 0; overflow: hidden; }
+.term-bar { display: flex; align-items: center; gap: 1vmin; padding: .8vmin 1.4vmin; background: #1a1d23;
+  font-family: var(--mono); font-size: clamp(9px,1.25vmin,14px); color: rgba(255,255,255,.55); }
+.term-bar .dots { display: flex; gap: .55vmin; }
+.term-bar .dots i { width: 1.1vmin; height: 1.1vmin; border-radius: 50%; }
+.term-bar .dots i:nth-child(1) { background: #ff5f57; } .term-bar .dots i:nth-child(2) { background: #febc2e; } .term-bar .dots i:nth-child(3) { background: #28c840; }
+.term-bar .ttl { flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.term-bar .st { color: var(--live); } .term-bar .st.ok { color: #28c840; }
+#term-progress { position: relative; height: 3px; background: rgba(255,255,255,.08); }
+#term-progress i { display: block; height: 100%; width: 0%; background: #e4a23c; transition: width 900ms linear; }
+#term-progress .tick { position: absolute; top: -1px; width: 2px; height: 5px; background: rgba(228,162,60,.45); }
+#term-mount .ap-player { border-radius: 0; }
+/* telemetry strip — one quiet line */
+.term-tele { flex: 0 0 auto; background: var(--card); border: 1px solid var(--ink12); border-radius: 10px;
+  box-shadow: var(--shadow); padding: .7vmin 1.4vmin; display: flex; align-items: baseline; gap: 1.6vmin;
+  overflow: hidden; white-space: nowrap; font-family: var(--mono); }
+.term-tele .clock { font-size: clamp(13px,1.9vmin,24px); color: var(--ink); font-variant-numeric: tabular-nums; }
+.term-tele .row { font-size: clamp(8px,1.2vmin,14px); color: var(--ink40); overflow: hidden; text-overflow: ellipsis; }
+.term-tele .row b { color: var(--ink60); font-weight: 600; }
+
+/* ============================================= chrome ============================================= */
+#chrome-top { position: fixed; top: 0; left: 0; right: 0; padding: 14px 20px; display: flex; justify-content: space-between;
+  align-items: baseline; z-index: 40; pointer-events: none; font-family: var(--mono); font-size: 12px; color: var(--ink40); letter-spacing: .06em; }
+#crumb .act { color: var(--accent); }
+#counter { font-variant-numeric: tabular-nums; }
+#progress { position: fixed; bottom: 0; left: 0; height: 3px; background: var(--accent); width: 0%; z-index: 41; transition: width 400ms ease; }
+#steps-ind { position: fixed; bottom: 12px; left: 20px; display: flex; gap: 5px; z-index: 40; }
+#steps-ind span { width: 26px; height: 3px; border-radius: 2px; background: var(--ink12); transition: background 300ms; }
+#steps-ind span.on { background: var(--accent); }
+#chrome-br { position: fixed; bottom: 9px; right: 16px; z-index: 40; display: flex; gap: 14px; align-items: center;
+  font-family: var(--mono); font-size: 11.5px; color: var(--ink40); }
+#chrome-br .btn { pointer-events: auto; cursor: pointer; border: 1px solid transparent; background: none; color: var(--ink40);
+  font: inherit; font-size: 14px; padding: 6px 10px; border-radius: 8px; }
+#chrome-br .btn:hover { color: var(--ink); background: var(--chip); border-color: var(--ink12); }
+#themebtn { min-width: 74px; text-align: center; }
+body.editing .scene .draggable { outline: 2px dashed var(--accent); outline-offset: 3px; cursor: move !important; }
+body.editing .scene .draggable.moved { outline-style: solid; }
+body.editing .scene .flowdrag { position: relative; }
+body.editing .scene .draggable::after { content: ""; position: absolute; right: 0; bottom: 0; width: 16px; height: 16px;
+  background: linear-gradient(135deg, transparent 55%, var(--accent) 55%); opacity: .85; cursor: nwse-resize; z-index: 7; }
+body.editing .scene .txted:hover { outline: 1px dotted var(--accent); outline-offset: 2px; }
+body.editing .scene [contenteditable="true"] { user-select: text; -webkit-user-select: text; cursor: text !important;
+  outline: 2px solid var(--accent); outline-offset: 2px; background: color-mix(in srgb, var(--accent) 6%, transparent); }
+#editbar { position: fixed; top: 40px; left: 50%; transform: translateX(-50%); z-index: 95; display: none;
+  background: var(--card); border: 1.5px solid var(--accent); border-radius: 12px; padding: 10px 16px;
+  font-family: var(--mono); font-size: 12.5px; color: var(--ink); box-shadow: var(--shadow); cursor: default; max-width: 80vw; }
+#editbar.on { display: block; }
+#editbar b { color: var(--accent); }
+#editbar textarea { display: block; width: 560px; max-width: 74vw; height: 110px; margin-top: 8px;
+  font: 11px var(--mono); color: var(--ink); background: var(--chip); border: 1px solid var(--ink12); border-radius: 6px; padding: 6px; }
+#hint { position: fixed; bottom: 34px; left: 50%; transform: translateX(-50%); z-index: 45; font-family: var(--mono);
+  font-size: 12px; color: var(--ink60); background: var(--card); border: 1px solid var(--ink12); border-radius: 999px;
+  padding: 7px 18px; box-shadow: var(--shadow); transition: opacity 600ms; white-space: nowrap; }
+
+/* ============================================= HUD ============================================= */
+#hud { position: fixed; top: 44px; right: 16px; z-index: 60; width: 250px; display: none;
+  background: var(--card); border: 1px solid var(--ink12); border-radius: 12px; padding: 13px 15px;
+  font-family: var(--mono); font-size: 12px; color: var(--ink60); box-shadow: var(--shadow); }
+#hud.on { display: block; }
+#hud .row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+#hud .live { color: #d43a2f; } #hud .idle { color: var(--ink40); }
+#hud .big { font-size: 19px; color: var(--ink); font-variant-numeric: tabular-nums; }
+#hud .lbl { color: var(--ink); }
+#hud .segs { display: flex; gap: 3px; margin: 7px 0; }
+#hud .segs i { height: 3px; flex: 1; border-radius: 2px; background: var(--ink12); }
+#hud .segs i.on { background: var(--accent); }
+#hud .over { color: #d43a2f; } #hud .under { color: #2e8b57; }
+
+/* ============================================= overview / help / lightbox ============================================= */
+#overview { position: fixed; inset: 0; z-index: 70; display: none; overflow-y: auto; background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(9px); padding: 6vh 7vw; cursor: default; }
+#overview.on { display: block; }
+#overview h3 { font-family: var(--serif); font-size: 28px; font-weight: 500; margin-bottom: 22px; }
+#ov-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+.ov-card { position: relative; background: var(--card); border: 1px solid var(--ink12); border-radius: 10px; padding: 12px 14px; cursor: pointer;
+  transition: transform 150ms, box-shadow 150ms, opacity 200ms; }
+.ov-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.ov-card.here { outline: 2px solid var(--accent); }
+.ov-card.off { opacity: .38; border-style: dashed; }
+.ov-card .eye { position: absolute; top: 8px; right: 8px; z-index: 2; font: 10.5px var(--mono); color: var(--ink60);
+  background: var(--chip); border: 1px solid var(--ink12); border-radius: 999px; padding: 2px 9px; cursor: pointer; }
+.ov-card .eye:hover { color: var(--ink); border-color: var(--accent); }
+#ov-note { font-family: var(--mono); font-size: 11.5px; color: var(--ink40); margin: -14px 0 18px; }
+#toast { position: fixed; top: 44px; left: 50%; transform: translateX(-50%); z-index: 96; display: none;
+  background: var(--card); border: 1.5px solid var(--accent); border-radius: 999px; padding: 8px 20px;
+  font: 12.5px var(--mono); color: var(--ink); box-shadow: var(--shadow); white-space: nowrap; }
+.ov-card .n { font-family: var(--mono); font-size: 10px; color: var(--ink40); letter-spacing: .08em; }
+.ov-card .t { font-family: var(--serif); font-size: 16.5px; margin-top: 3px; line-height: 1.2; }
+.ov-card .thumb { margin-top: 8px; height: 74px; border-radius: 6px; background: var(--chip) center/cover no-repeat; }
+#help { position: fixed; inset: 0; z-index: 80; display: none; align-items: center; justify-content: center;
+  background: color-mix(in srgb, var(--bg) 75%, transparent); backdrop-filter: blur(8px); cursor: default; }
+#help.on { display: flex; }
+#help .card { background: var(--card); border: 1px solid var(--ink12); border-radius: 14px; padding: 30px 38px; box-shadow: var(--shadow); font-size: 14px; line-height: 2.05; }
+#help kbd { font-family: var(--mono); background: var(--chip); border: 1px solid var(--ink12); border-radius: 5px; padding: 1px 7px; font-size: 12px; margin-right: 9px; }
+#lightbox { position: fixed; inset: 0; z-index: 90; display: none; align-items: center; justify-content: center;
+  background: rgba(4,4,6,.88); cursor: zoom-out; }
+#lightbox.on { display: flex; }
+#lightbox img { max-width: 94vw; max-height: 94vh; border-radius: 8px; }
+@media (max-aspect-ratio: 1/1) {
+  #stage { width: 98vw; aspect-ratio: auto; height: 94vh; }
+  .cols { flex-direction: column; overflow-y: auto; }
+}
+</style>
+</head>
+<body>
+
+<div id="chrome-top">
+  <span id="crumb"><span class="act"></span> <span class="lab"></span></span>
+  <span id="counter"></span>
+</div>
+<div id="progress"></div>
+<div id="steps-ind"></div>
+<div id="chrome-br">
+  <button class="btn" id="themebtn" title="toggle light/dark">◐</button>
+  <button class="btn" id="helpbtn" title="keys">?</button>
+</div>
+<div id="hint">click / <b>→</b> advance · <b>←</b> back · <b>O</b> overview · <b>T</b> pause run · <b>?</b> help</div>
+<div id="editbar"><b>layout edit</b> — drag to move · ◢ corner to resize · scroll over text to scale · double-click text to rewrite · <b>C</b> copy overrides · <b>X</b> reset scene · <b>E</b> exit</div>
+
+<div id="hud">
+  <div class="row"><span id="hud-live" class="idle">○ IDLE</span><span id="hud-clock" class="big">00:00</span></div>
+  <div class="row"><span>scene</span><span id="hud-scene" class="lbl"></span></div>
+  <div class="segs" id="hud-segs"></div>
+  <div class="row"><span>budget to here</span><span id="hud-budget"></span></div>
+  <div class="row"><span>Δ</span><span id="hud-delta"></span></div>
+  <div class="row" style="margin-top:4px;color:var(--ink40)">R restart · H hide</div>
+</div>
+
+<div id="overview"><h3>Contents</h3>
+  <div id="ov-note"></div>
+  <div id="ov-grid"></div>
+</div>
+<div id="toast"></div>
+
+<div id="help">
+  <div class="card">
+    <div><kbd>→</kbd><kbd>Space</kbd><kbd>PgDn</kbd> next step &nbsp; <kbd>←</kbd><kbd>PgUp</kbd> back</div>
+    <div><kbd>Home</kbd><kbd>End</kbd> first / last scene &nbsp; <kbd>O</kbd> overview &nbsp; <kbd>Esc</kbd> close</div>
+    <div><kbd>H</kbd> presenter HUD &nbsp; <kbd>D</kbd> light/dark &nbsp; <kbd>F</kbd> fullscreen &nbsp; <kbd>R</kbd> restart</div>
+    <div><kbd>T</kbd> pause / resume the run &nbsp; <kbd>,</kbd><kbd>.</kbd> seek run ∓30 s &nbsp; <kbd>G</kbd> grow / dock / summon terminal (works in Q&A, any scene)</div>
+    <div><kbd>S</kbd> hide / unhide this scene for the current audience cut — hidden scenes are flowed over &amp; leave the count; overview (<kbd>O</kbd>) has per-scene toggles &amp; <span class="mono">?profile=</span> presets</div>
+    <div><kbd>click</kbd> advance &nbsp; <kbd>click a figure</kbd> zoom</div>
+    <div data-edit-help><kbd>E</kbd> layout edit — drag / resize panels, scroll to scale text, double-click to rewrite; <kbd>C</kbd> copy overrides, <kbd>X</kbd> reset scene</div>
+  </div>
+</div>
+
+<div id="lightbox"><img alt=""></div>
+
+<div id="stage-wrap"><div id="stage">
+  <div id="scenehost"></div>
+  <div id="term">
+    <div class="term-shell">
+      <div class="term-bar">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span class="ttl">jfc · aleph R<sub>b</sub>/R<sub>c</sub>/A<sub>FB</sub><sup>b</sup> — one contiguous autonomous run · claude opus 4.8</span>
+        <span class="st" id="term-status">⋯ loading run</span>
+      </div>
+      <div id="term-progress"><i></i></div>
+      <div id="term-mount"></div>
+    </div>
+    <div class="term-tele">
+      <span class="clock" id="tele-clock">T+00:00:00</span>
+      <span class="row" id="tele-comp"></span>
+      <span class="row">humans: <b>2</b></span>
+    </div>
+  </div>
+</div></div>
+
+<script>
+'use strict';
+/* ================================================================================================
+   AI Agents Can Already Autonomously Perform Experimental HEP — HSF DAAA · 27 July 2026.
+   Scene engine + chrome ported from the hcc-kappac talk (itself modelled on danielmurnane.com);
+   new here: a persistent asciinema dock replaying a real 54-hour autonomous JFC run (rbrun3.cast,
+   cut to talk length by prep_cast.py) beside the slides. arXiv:2603.20179.
+   ================================================================================================ */
+const $ = (s, el) => (el || document).querySelector(s);
+const $$ = (s, el) => Array.from((el || document).querySelectorAll(s));
+const AX = { 1: 'Act I · The claim', 2: 'Act II · Just furnish context', 3: 'Act III · The receipts', 4: 'Act IV · The way forward', 5: 'Backup' };
+const arxiv = r => `<a href="https://arxiv.org/abs/${r}" target="_blank" rel="noopener">arXiv:${r}</a>`;
+
+/* ============================================= the run (asciinema dock) ============================================= */
+const CAST = {
+  src: 'assets/workflow.cast',   // talk cut of ../rbrun3.cast — regenerate with prep_cast.py
+  speed: 1,                      // playback speed on top of the prep_cast retiming
+  // prep_cast drops the transient 280-col tmux windows from the cut, so the
+  // dock geometry is stable from the first frame — no startAt tricks needed
+  poster: 'npt:0:05',
+};
+const Term = (() => {
+  let player = null, started = false, ended = false;
+  const meta = window.CAST_META || { orig_dur: 193764, new_dur: 800, anchors: [[0, 0]] };
+  const fmt = s => { s = Math.max(0, Math.round(s));
+    return `T+${String(Math.floor(s / 3600)).padStart(2, '0')}:${String(Math.floor(s / 60) % 60).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`; };
+  const origAt = t => {   // map playback time -> original run time via prep_cast anchors
+    const a = meta.anchors; let lo = 0, hi = a.length - 1;
+    while (lo < hi) { const m = (lo + hi + 1) >> 1; if (a[m][0] <= t) lo = m; else hi = m - 1; }
+    const [t0, o0] = a[lo], [t1, o1] = a[Math.min(lo + 1, a.length - 1)];
+    return t1 > t0 ? o0 + (o1 - o0) * (t - t0) / (t1 - t0) : o0;
+  };
+  $('#tele-comp').innerHTML = `of <b>${(meta.orig_dur / 3600).toFixed(1)} h</b> · ×${Math.round(meta.orig_dur / meta.new_dur)}`;
+  /* rest points (screen-still story beats, from prep_cast --analyze) as ticks on the progress rail */
+  (meta.rests || []).forEach(([tt]) => { const k = document.createElement('span'); k.className = 'tick';
+    k.style.left = (100 * tt / meta.new_dur) + '%'; $('#term-progress').appendChild(k); });
+  function init() {
+    if (player || !window.AsciinemaPlayer) return;
+    player = AsciinemaPlayer.create(CAST.src, $('#term-mount'), {
+      autoPlay: false, preload: true, controls: false,   // geometry comes from the cast header
+      fit: 'width', speed: CAST.speed, poster: CAST.poster, theme: 'asciinema',
+    });
+    // settle the initial fit once the (51 MB) cast has parsed and the poster rendered
+    [1200, 2800, 5000].forEach(ms => setTimeout(() => dispatchEvent(new Event('resize')), ms));
+    player.addEventListener('play', () => { playing = true; setStatus('● live replay', false);
+      setTimeout(() => dispatchEvent(new Event('resize')), 150); });
+    player.addEventListener('pause', () => { playing = false; if (!ended) setStatus('⏸ paused', false); });
+    player.addEventListener('ended', () => { ended = true; playing = false; setStatus('✓ run complete', true); });
+  }
+  function setStatus(txt, ok) { const el = $('#term-status'); el.textContent = txt; el.classList.toggle('ok', !!ok);
+    const trc = $('#trc'); if (trc) trc.textContent = txt; }   // title-slide foreshadow chip mirrors the dock status
+  const t = () => { try { const v = player && player.getCurrentTime(); return typeof v === 'number' ? v : 0; } catch { return 0; } };
+  setInterval(() => {
+    if (!player) return;
+    const tt = t();
+    $('#tele-clock').textContent = fmt(origAt(tt));
+    $('#term-progress i').style.width = (100 * tt / (meta.new_dur || 800)) + '%';
+    if (!started && !playing) {   // before ignition: report the 48 MB cast's load state
+      let d = null; try { d = player.getDuration(); } catch { /* ignore */ }
+      setStatus(typeof d === 'number' && d > 0 ? '○ ready' : '⋯ loading run', false);
+    }
+    // fit watchdog: rapid scene flips can interrupt the dock/wide width transition
+    // and the player's ResizeObserver settles on a stale font fit. If the rendered
+    // terminal no longer matches its container, jiggle the container so the
+    // observer must re-fire at the true size.
+    const mount = $('#term-mount'), termEl = $('.ap-terminal', mount);
+    if (termEl && mount.clientWidth &&
+        Math.abs(termEl.offsetWidth - mount.clientWidth) / mount.clientWidth > 0.06) {
+      mount.style.paddingRight = '1px';
+      void mount.offsetWidth;               // force reflow at the nudged size
+      mount.style.paddingRight = '';
+      dispatchEvent(new Event('resize'));
+    }
+  }, 900);
+  function enter(mode) {   // mode: 'dock' | 'wide' | null — called on every scene render
+    document.body.classList.toggle('term-dock', mode === 'dock');
+    document.body.classList.toggle('term-wide', mode === 'wide');
+    if (mode) { init(); if (!started) { started = true; setTimeout(() => { try { player.play(); } catch { /* not yet loaded */ } }, 900); } }
+    // the player only re-fits on window resize; nudge it after the dock transition settles
+    setTimeout(() => dispatchEvent(new Event('resize')), 780);
+  }
+  let playing = false;
+  function toggle() { if (!player) return;
+    try { playing ? player.pause() : player.play(); } catch { /* ignore */ } }
+  function seekBy(d) { if (!player) return; try { player.seek(Math.max(0, Math.min(meta.new_dur - .5, t() + d))); } catch {} }
+  function seekEnd() { if (!player) return; const tgt = Math.max(0, meta.new_dur - 1.5);
+    const go = () => { try { player.seek(tgt); } catch { /* still loading */ } };
+    go(); setTimeout(() => { if (t() < tgt - 5) go(); }, 1600); }
+  return { init, enter, toggle, seekBy, seekEnd, get player() { return player; } };
+})();
+/* create the player immediately (dock stays hidden): the 51 MB cast fetches and
+   parses during Act I, so ignition is instant and the title chip reports ○ ready
+   (script runs at end of body — the DOM is already there) */
+setTimeout(Term.init, 600);
+
+/* ============================================= scenes ============================================= */
+/* html is a function so scenes can lazy-build; steps = number of build states (>=1);
+   theme: paper | dark ; term: false | 'dock' | 'wide' ; budget: seconds */
+const SCENES = [
+{ id: 'title', act: 1, label: 'Title', steps: 1, budget: 45, theme: 'paper', thumb: 'assets/fig_lund.png', html: () => `
+  <div class="title-wrap">
+    <div class="title-left">
+      <h1>AI Agents Can Already <em>Autonomously</em> Perform Experimental High Energy Physics</h1>
+      <div class="rule"></div>
+      <span class="arxiv-chip">${arxiv('2603.20179')} · jfc-mit.github.io</span>
+      <div class="authors">
+        <img src="assets/author_eric.jpg" alt="Eric Moreno"><img src="assets/author_sam.jpg" alt="Sam Bright-Thonney"><img src="assets/author_andrzej.jpg" alt="Andrzej Novak"><img src="assets/author_dolores.jpg" alt="Dolores Garcia"><img src="assets/author_yiyang.jpg" alt="Yiyang Zhao"><img src="assets/author_philip.jpg" alt="Phil Harris">
+        <span class="nm">E. Moreno* · S. Bright-Thonney* · <b style="color:var(--ink)">A. Novak*</b> · D. Garcia · Y. Zhao · P. Harris<br><small>* equal contribution · MIT / IAIFI / CERN</small></span>
+      </div>
+      <div class="who" style="margin-top:2.6vmin"><b>Andrzej Novak</b> · MIT — HSF DAAA · <em>Agentic AI in HEP data analysis</em> · 27 July 2026</div>
+      <div class="mono" style="margin-top:2.2vmin; font-size:clamp(10px,1.4vmin,16px); color:var(--ink40)">background process · rbrun3.cast — a 42.9 h autonomous ALEPH analysis · <span id="trc">⋯ loading</span></div>
+      <div class="logos theme-swap">
+        <img class="on-light" src="assets/logo_mit_light.svg" alt="MIT"><img class="on-dark" src="assets/logo_mit_dark.svg" alt="MIT">
+        <img class="cern on-light" src="assets/logo_cern_light.svg" alt="CERN"><img class="cern on-dark" src="assets/logo_cern_dark.svg" alt="CERN">
+      </div>
+    </div>
+    <div class="title-art">
+      <div class="polaroid" style="transform:rotate(1.7deg)">
+        <img src="assets/fig_lund.png" alt="ALEPH primary Lund jet plane density — unfolded, charged-particle level">
+        <div class="tag">nobody had measured this before. hold that thought.</div>
+      </div>
+    </div>
+  </div>`
+},
+{ id: 'anatomy', act: 1, label: 'The anatomy of an analysis', steps: 3, budget: 80, theme: 'paper', thumb: 'assets/fig_vision.png', html: () => `
+  <h2 class="kicker">A typical HEP analysis — <em>years</em> of a life, mostly algorithmic</h2>
+  <div class="cols">
+    <div class="col" style="flex:1">
+      <ul class="talk">
+        <li>Pick a channel → read the literature → design &amp; validate a selection → systematics → <strong>unblind &amp; infer</strong><small>the same arc, every analysis, every collaboration</small></li>
+        <li data-step="2">Thousands of lines of code, structurally similar to dozens of prior analyses<small>little physics reasoning; poor central documentation; slow, error-prone, tedious</small></li>
+        <li data-step="3"><span class="hl">Most of this can be delegated to agents</span> — code, docs, debugging, self-critique<small>the physicist's scarce resource should be judgment, not boilerplate</small></li>
+      </ul>
+    </div>
+    <div class="col" style="flex:1.35; align-self:stretch; display:flex; flex-direction:column; min-height:0">
+      <div class="fig zoomable" style="flex:1; min-height:0"><img src="assets/fig_vision.png" alt="conventional vs agentic analysis pipeline"></div>
+      <div class="figcap">the review pyramid survives — the implementation loop is what compresses</div>
+    </div>
+  </div>`
+},
+{ id: 'claim', act: 1, label: 'The claim', steps: 2, budget: 40, thumb: 'assets/ovthumb_claim.jpg', theme: 'dark', html: () => `
+  <div class="statement">
+    <h1>This is <em>not</em> a speculative claim.</h1>
+    <div class="lead">Given a dataset, an execution framework, and the prior literature, Claude Code completes the chain:
+      event selection → backgrounds → systematics → statistical inference → <b>a written analysis note</b>.</div>
+    <div class="lead" data-step="2" style="font-family:var(--serif); font-style:italic; font-size:clamp(19px,2.9vmin,36px); color:var(--ink)">
+      So rather than only telling you — let me <span class="hl">show</span> you.<span class="cursor">▌</span></div>
+  </div>`
+},
+{ id: 'launch', act: 1, label: 'Ignition', steps: 2, budget: 75, thumb: 'assets/ovthumb_launch.jpg', theme: 'dark', term: 'dock', html: () => `
+  <h2 class="kicker">One prompt. <em>43 hours.</em> No hands.</h2>
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2.2vmin; min-height:0">
+    <div class="promptcard"><span class="ps">prompt&gt;</span> Measure R<sub>b</sub>, R<sub>c</sub>, and A<sub>FB</sub><sup>b</sup> using signed impact-parameter b-tagging and jet charge. <span style="color:var(--ink40)">(abridged — data location omitted)</span></div>
+    <ul class="talk">
+      <li>On the right: a <strong>real, contiguous recording</strong> of that run — 42.9 h of wall clock, idle collapsed, replayed ≈×190<small>it will keep running beside the slides, and it will finish before I do</small></li>
+      <li data-step="2"><span class="hl">Total human input: this prompt, plus one approval click</span> at the unblinding gate<small>everything else — strategy, code, review, iteration, the note — is the agents talking to each other</small></li>
+    </ul>
+  </div>`
+},
+{ id: 'framework', act: 2, label: 'JFC · the framework', steps: 2, budget: 70, theme: 'dark', term: 'dock', thumb: 'assets/fig_pipeline.png', html: () => `
+  <h2 class="kicker"><em>Just Furnish Context</em> — the whole trick is in the name</h2>
+  <div class="cols">
+    <div class="col" style="flex:1.5; align-self:stretch"><div class="fig zoomable" style="height:100%"><img src="assets/fig_pipeline.png" alt="JFC framework diagram"></div></div>
+    <div class="col grow">
+      <ul class="talk">
+        <li>An <strong>orchestrator</strong> plans; disposable subagents execute<small>fresh context per task — no context rot over 50+ hours</small></li>
+        <li>Phases advance only through <strong>written artifacts + independent review</strong><small>context passes between phases only via artifacts and an append-only log</small></li>
+        <li data-step="2">No template, no skeleton — the agent <span class="hl">designs the strategy itself</span>, consulting the literature<small>unlike scaffolded pipelines where the agent fills in pre-defined steps</small></li>
+      </ul>
+    </div>
+  </div>`
+},
+{ id: 'context', act: 2, label: 'What you furnish', steps: 2, budget: 55, thumb: 'assets/ovthumb_context.jpg', theme: 'dark', term: 'dock', html: () => `
+  <h2 class="kicker">What you furnish = what a group gives a <em>new student</em></h2>
+  <div class="cardgrid" style="grid-template-columns:1fr 1fr 1fr; flex:1; align-content:center">
+    <div class="kcard"><div class="nm">methodology/</div><div class="ds">How an analysis proceeds, planning → inference — the institutional knowledge that is never written down, written down. Plus tiers of review, encoded as agents.</div></div>
+    <div class="kcard"><div class="nm">conventions/</div><div class="ds">Domain specifics no general model can guess: tool choices, visualization standards, recent techniques, field lore.</div></div>
+    <div class="kcard"><div class="nm">agents/</div><div class="ds">A behavioral contract: what each subagent receives and returns (no physics through the side door), plus an append-only experiment log for humans to audit.</div></div>
+  </div>
+  <p class="lead" data-step="2" style="font-style:italic; margin-top:1.6vmin">Together: a graduate curriculum in ~30 files, ~1,000 lines of markdown — the standards against which every agent decision is made <b>and reviewed</b>. No secret sauce.</p>`
+},
+{ id: 'repo', act: 2, label: 'Views into the spec', steps: 2, budget: 55, theme: 'dark', term: 'dock', html: () => `
+  <h2 class="kicker">The spec is <em>public</em> — and it reads like a supervisor</h2>
+  <div class="cols" style="align-items:center; gap:2.5%">
+    <div class="col" style="flex:.72">
+      <div class="filetree">
+<b>jfc/src/</b>
+├─ <b>methodology/</b>   <span class="a">7 files</span> — the rulebook
+│    01-core · 02-phases · 03-review
+│    04-output · 05-practices
+├─ <b>agents/</b>        <span class="a">7 profiles</span>
+│    executor · fixer · investigator
+│    critical / plot / bibtex reviewers
+├─ <b>conventions/</b>   <span class="a">9 files</span>
+│    extraction · unfolding · lint_plots
+└─ <b>templates/</b>     <span class="a">5</span> phase entry points
+
+~1,000 lines · <span class="a">github.com/jfc-mit</span></div>
+    </div>
+    <div class="col grow" style="display:flex; flex-direction:column; gap:1.6vmin; min-width:0">
+      <div class="codeblock">
+        <div class="src"><b>methodology/02-phases.md</b> — Philosophy (non-negotiable)</div>
+        <pre>- <b>Never adjust parameters to match.</b> Every parameter is
+  justified BEFORE seeing its effect. Tuning a cut until
+  data/MC agrees, dropping a systematic for being "too
+  large", smoothing a band… <span class="hl2">is fabrication — the #1
+  failure mode.</span>
+- Assume you are wrong when you disagree with a
+  published value, until proven otherwise.</pre>
+      </div>
+      <div class="codeblock" data-step="2">
+        <div class="src"><b>agents/executor.md</b> — the contract every executor runs under</div>
+        <pre>NON-NEGOTIABLE (any violation is Category A):
+- <b>Numeric constants never from memory</b> — every mass/BR/σ/L
+  cites a source (RAG paper+table / web / paper).
+- <b>No circularity:</b> trace each fit input; if any was derived
+  from the observable the fit measures, the result is
+  tautological.</pre>
+      </div>
+    </div>
+  </div>`
+},
+{ id: 'phases', act: 2, label: 'Artifact-gated phases', steps: 3, budget: 70, thumb: 'assets/ovthumb_phases.jpg', theme: 'dark', term: 'dock', html: () => `
+  <h2 class="kicker">Seven phases, each <em>gated</em> by an artifact + review</h2>
+  <div class="phases">
+    <div class="ph"><span class="n">1 · Strategy</span><span class="what">literature survey → selection, blinding variable, systematics program</span><span class="art">STRATEGY.md</span><span class="rev">4-bot review</span></div>
+    <div class="ph"><span class="n">2 · Exploration</span><span class="what">data reconnaissance, sample inventory, variable ranking</span><span class="art">EXPLORATION.md</span><span class="rev">self + plot-validator</span></div>
+    <div class="ph"><span class="n">3 · Processing</span><span class="what">selection, control regions, background estimation, closure</span><span class="art">SELECTION.md</span><span class="rev">1-bot + plot-validator</span></div>
+    <div class="ph" data-step="2"><span class="n">4a · Expected</span><span class="what">systematics, stat model, Asimov fits, injection tests → first note</span><span class="art">ANALYSIS_NOTE</span><span class="rev">full panel + arbiter</span></div>
+    <div class="ph gate" data-step="2"><span class="n">4b · 10% data</span><span class="what">partial unblinding (fixed seed) → checklist → <b>pipeline halts for a human</b></span><span class="art">⏸ HUMAN GATE</span><span class="rev">full panel → you</span></div>
+    <div class="ph" data-step="3"><span class="n">4c · Unblind</span><span class="what">full data, consistency vs 10% &amp; Asimov — after approval only</span><span class="art">INFERENCE_OBSERVED</span><span class="rev">1-bot + plot-validator</span></div>
+    <div class="ph" data-step="3"><span class="n">5 · Documentation</span><span class="what">publication figures, final analysis note, typeset PDF</span><span class="art">50–100 pp PDF</span><span class="rev">full panel + arbiter</span></div>
+  </div>`
+},
+{ id: 'review', act: 2, label: 'Multi-agent review', steps: 3, budget: 70, thumb: 'assets/ovthumb_review.jpg', theme: 'dark', term: 'dock', html: () => `
+  <h2 class="kicker">Review is <em>binding</em>, not advisory</h2>
+  <div class="cardgrid" style="grid-template-columns:repeat(3,1fr); flex:1; align-content:center">
+    <div class="kcard"><div class="nm">physics-reviewer</div><div class="ds"><b>Denied the spec on purpose</b> — judges like an external ARC referee, physics only.</div></div>
+    <div class="kcard"><div class="nm">critical-reviewer</div><div class="ds">Reads everything; 8-step protocol, conventions row-by-row, 14-point figure checklist, regression hunt.</div></div>
+    <div class="kcard"><div class="nm">constructive-reviewer</div><div class="ds">Alternatives &amp; improvements, effort-tagged; also says what's genuinely good.</div></div>
+    <div class="kcard"><div class="nm">plot-validator</div><div class="ds"><b>Programmatic</b>: 35 checks — efficiencies ∈ [0,1], √N scaling, cutflow monotonic… red flags are auto-Category-A.</div></div>
+    <div class="kcard"><div class="nm">rendering + bibtex</div><div class="ds">Compiled-PDF inspection; every citation resolved against INSPIRE.</div></div>
+    <div class="kcard" data-step="2" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">arbiter</div><div class="ds">Synthesizes all findings into one verdict — and may not downgrade the validator's red flags.</div></div>
+  </div>
+  <div class="verdicts" data-step="2"><span class="v-pass">PASS</span><span class="v-iter">ITERATE — closed-loop fix of every Cat-A</span><span class="v-esc">ESCALATE — a human must think</span></div>
+  <p class="lead" data-step="3" style="margin-top:1.2vmin; font-style:italic">Mirrors a collaboration's review tiers — so the human reviewer later spends judgment, not mechanics.</p>`
+},
+{ id: 'gate', act: 2, label: 'The unblinding gate', steps: 2, budget: 55, thumb: 'assets/ovthumb_gate.jpg', theme: 'dark', term: 'dock', html: () => `
+  <h2 class="kicker">Blinding is <em>enforced</em> — and unblinding stays human</h2>
+  <div class="cols">
+    <div class="col grow">
+      <ul class="talk">
+        <li><strong>Asimov only</strong> through Phase 4a — signal region never touched<small>"never access SR data until explicitly told" is a standing constraint on every agent</small></li>
+        <li><strong>10% partial unblinding</strong>, fixed seed — pathology check without revealing the result</li>
+        <li>Then the pipeline <span class="hl">halts itself</span>: structured summary, 7-item checklist, review verdicts<small>the one place a human must act: APPROVE · REQUEST_CHANGES · HALT</small></li>
+        <li data-step="2">Execution and review can be automated — <strong>the judgment to unblind should not be</strong></li>
+      </ul>
+    </div>
+    <div class="col" style="flex:.85; align-self:center">
+      <div class="kcard" style="border-left-color:var(--live); padding:2vmin 2.4vmin">
+        <div class="nm" style="color:var(--live)">⏸ UNBLINDING REQUEST</div>
+        <div class="ds mono" style="margin-top:1vmin; line-height:1.7">background model validated ✓<br>systematics stable ✓<br>injection tests recover μ ✓<br>10% data: no pathologies ✓<br>arbiter: PASS ✓<br><br><b style="color:var(--ink)">[APPROVE] [REQUEST_CHANGES] [HALT]</b></div>
+      </div>
+    </div>
+  </div>`
+},
+{ id: 'stack', act: 2, label: 'Stack & literature', steps: 2, budget: 45, thumb: 'assets/ovthumb_stack.jpg', theme: 'dark', term: 'dock', html: () => `
+  <h2 class="kicker">Opinionated tools · <em>grounded</em> knowledge</h2>
+  <div class="cols" style="align-items:stretch">
+    <div class="col" style="flex:1.15; align-self:center">
+      <table class="stack">
+        <thead><tr><th>task</th><th>required</th><th>forbidden</th></tr></thead>
+        <tbody>
+          <tr><td>ROOT I/O</td><td class="req">uproot</td><td class="forb">PyROOT</td></tr>
+          <tr><td>arrays</td><td class="req">awkward · numpy</td><td class="forb">pandas (events)</td></tr>
+          <tr><td>histograms</td><td class="req">hist</td><td class="forb">TH1</td></tr>
+          <tr><td>plots</td><td class="req">matplotlib + mplhep</td><td class="forb">TCanvas</td></tr>
+          <tr><td>inference</td><td class="req">pyhf · zfit</td><td class="forb">RooFit</td></tr>
+          <tr><td>env / docs</td><td class="req">pixi · LaTeX + tectonic</td><td class="forb">pip install by hand</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col grow" style="align-self:center">
+      <ul class="talk">
+        <li><strong>SciTreeRAG</strong> over the LEP corpus — retrieval that follows paper <em>structure</em><small>ALEPH: 1,503 catalogued works, 575 converted · DELPHI: 4,305 / 1,868 (Nougat OCR + Pandoc)</small></li>
+        <li>Plus arXiv MCP + INSPIRE/HEPData for modern methods &amp; published inputs</li>
+        <li data-step="2">Selections, systematics lists, statistical frameworks come <span class="hl">from the literature</span>, not from vibes<small>the difference between "recalling" an analysis and reconstructing one</small></li>
+      </ul>
+    </div>
+  </div>`
+},
+{ id: 'menu', act: 3, label: 'Six analyses', steps: 2, budget: 65, theme: 'dark', term: 'dock', thumb: 'assets/thumb_lund.png', html: () => `
+  <h2 class="kicker">One prompt each — <em>six</em> autonomous analyses</h2>
+  <div class="cardgrid" style="grid-template-columns:repeat(3,1fr); grid-auto-rows:1fr; flex:1">
+    <div class="an-card"><span class="exp" style="color:var(--cms)">CMS</span><div class="im"><img src="assets/thumb_htt.png" alt=""></div><div class="nm">H→τ⁺τ⁻ signal strength</div><div class="pr">μτ_h at √s = 8 TeV, Run-1 Open Data</div></div>
+    <div class="an-card"><span class="exp">ALEPH</span><div class="im"><img src="assets/thumb_zlineshape.png" alt=""></div><div class="nm">Z lineshape</div><div class="pr">M_Z, Γ_Z, σ⁰_had — and N_ν from Γ_inv</div></div>
+    <div class="an-card live"><span class="livetag"><span class="livedot"></span>running beside you</span><span class="exp">ALEPH</span><div class="im"><img src="assets/thumb_hf.png" alt=""></div><div class="nm">R_b, R_c, A_FB^b</div><div class="pr">signed-IP b-tag + hemisphere jet charge</div></div>
+    <div class="an-card"><span class="exp">ALEPH</span><div class="im"><img src="assets/thumb_lund.png" alt=""></div><div class="nm">Lund jet plane</div><div class="pr">primary density in hadronic Z decays — first in e⁺e⁻</div></div>
+    <div class="an-card"><span class="exp">ALEPH</span><div class="im"><img src="assets/thumb_eec.png" alt=""></div><div class="nm">Energy-energy correlators</div><div class="pr">E2C, E3C, ratio, AEEC</div></div>
+    <div class="an-card"><span class="exp">ALEPH</span><div class="im"><img src="assets/thumb_alphas.png" alt=""></div><div class="nm">Event shapes → α_s(M_Z)</div><div class="pr">six shapes, NNLO+NLL fits</div></div>
+  </div>
+  <p class="lead" data-step="2" style="margin-top:1.2vmin">Deliverable each time: a <b>50–100-page analysis note</b>, all code, all figures — public on <span class="mono">github.com/jfc-mit</span>. Presented as capability evidence, <i>not</i> as vetted measurements.</p>`
+},
+{ id: 'deliverable', act: 3, label: 'The deliverable', steps: 2, budget: 45, theme: 'dark', term: 'dock', thumb: 'assets/an_mosaic.png', html: () => `
+  <h2 class="kicker">The deliverable is a <em>document</em>, not a notebook</h2>
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:1.4vmin; min-height:0">
+    <div class="fig zoomable auto" style="max-height:62%; overflow:hidden"><img src="assets/an_mosaic.png" alt="agent-written analysis note, page by page"></div>
+    <div class="figcap" style="text-align:left; margin-top:0">agent-written analysis note, every page — sections, figures, tables, references, typeset to PDF by the <span style="color:var(--accent)">typesetter</span> agent (shown: the 14-pp H→4l demo note; the R<sub>b</sub> run beside you wrote 53 pp)</div>
+    <ul class="talk" data-step="2" style="margin-top:.6vmin">
+      <li>Every figure referenced in text · every number from <span class="mono">results/*.json</span> · every citation resolved against INSPIRE<small>and the note passes the same review panel as the physics before it ships</small></li>
+    </ul>
+  </div>`
+},
+{ id: 'moments', act: 3, label: 'The run, in its own words', steps: 3, budget: 75, theme: 'dark', term: 'dock', html: () => `
+  <h2 class="kicker">Three moments from the run, <em>verbatim</em></h2>
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:1.7vmin; min-height:0">
+    <div class="runquote">
+      <div class="when">T+01:12 · Phase 1 — the decision it flagged for a human <small>(we never had to answer)</small></div>
+      <pre><b>Truth-flavour decision [D2]</b> — the one to weigh in on (confidence MEDIUM,
+HUMAN-FLAGGED). Primary: neutrino/strange approximate label on the archived
+full-sim MC, confusion-matrix-calibrated against a standalone PYTHIA 8 Monash
+truth sample… <b>ε_b self-calibrated by double tag</b> bounds the R_b downside.</pre>
+    </div>
+    <div class="runquote" data-step="2">
+      <div class="when">T+39:41 · Phase 5 review — reviewers reviewing the reviewers</div>
+      <pre>The 5-bot arbiter returned 0 Category A, 9 B. <b>Adversarial verification then
+refuted 5 of the 9 as reviewer over-reach</b> — most notably a demand to embed
+overlays that would have regressed the note with stale Asimov centrals. That
+step repeatedly separated real defects from confident-but-wrong findings.</pre>
+    </div>
+    <div class="runquote" data-step="3">
+      <div class="when">T+42:53 · the close — the agent grading its own homework</div>
+      <pre><b>Honest bottom line:</b> this archived-ntuple analysis reproduces the LEP
+heavy-flavour numbers but cannot challenge them. R_b is limited by the
+charm-tag calibration systematic — D* and soft-lepton controls we genuinely
+attempted and documented infeasible — and A_FB rests on an unverifiable SM
+anchor. <b>Both are stated plainly throughout.</b></pre>
+    </div>
+  </div>`
+},
+{ id: 'scoreboard', act: 3, label: 'Against the published values', steps: 3, budget: 70, theme: 'dark', term: 'dock', thumb: 'assets/fig_summary.png', html: () => `
+  <h2 class="kicker">Scored against the <em>published</em> numbers</h2>
+  <div class="cols"><div class="col grow" style="align-self:stretch; position:relative">
+    <div class="fig zoomable" style="height:100%"><img src="assets/fig_summary.png" alt="agent vs published pulls"></div>
+    <div class="callout" data-step="2" style="right:1.5%; top:19%; max-width:24%"><b>8 of 9 scalars within 2σ</b><br>of the measuring experiment's own published value.</div>
+    <div class="callout" data-step="2" style="right:1.5%; top:45%; max-width:24%"><b>The −3.4σ outlier (Γ_Z)</b><br>traced by the agent itself: residual energy-dependent selection efficiency at the off-peak scan points.</div>
+    <div class="callout" data-step="3" style="right:1.5%; top:74%; max-width:24%"><b>Read pulls honestly</b><br>wide agent uncertainties make small pulls cheap — H→ττ carries ~3× the published σ.</div>
+  </div></div>`
+},
+{ id: 'htautau', act: 3, label: 'Headline · CMS H→ττ', steps: 3, budget: 75, theme: 'dark', term: 'dock', thumb: 'assets/fig_money.png', html: () => `
+  <h2 class="kicker">The <em>known-answer</em> test — CMS H→τ⁺τ⁻</h2>
+  <div class="cols" style="align-items:stretch">
+    <div class="col grow"><div class="fig zoomable" style="height:100%"><img src="assets/fig_money.png" alt="S/S+B weighted post-fit DNN distribution"></div></div>
+    <div class="col grow" style="position:relative"><div class="fig zoomable" style="height:100%"><img src="assets/fig_waterfall.png" alt="sigma_mu decomposition"></div>
+      <div class="callout" data-step="3" style="left:4%; bottom:13%; max-width:56%"><b>σ_μ 1.20 → 0.65</b> just by scaling inputs to CMS scale — within ×1.6 of the published 0.41; the gap is design, not the agent's inputs.</div>
+    </div>
+  </div>
+  <p class="lead" data-step="2" style="margin-top:1vmin">μ̂ = <b>1.20 ± 1.13</b> vs published <b>1.01 ± 0.41</b> (μτ_h) — and the statistical model <span class="hl">rebuilds point-by-point in an independent Combine implementation</span>. A reproduction, not a competition: single channel, partial 2012 sample.</p>`
+},
+{ id: 'lund', act: 3, label: 'Headline · Lund jet plane', steps: 2, budget: 60, theme: 'dark', term: 'dock', thumb: 'assets/fig_lund.png', html: () => `
+  <h2 class="kicker">…and the plot from the title slide</h2>
+  <div class="cols" style="align-items:stretch">
+    <div class="col" style="flex:1.15"><div class="fig zoomable" style="height:100%"><img src="assets/fig_lund.png" alt="ALEPH primary Lund jet plane density"></div></div>
+    <div class="col grow" style="align-self:center">
+      <ul class="talk">
+        <li>Primary <strong>Lund jet plane density</strong>, unfolded to charged-particle level, on archived ALEPH LEP1 data<small>⟨N⟩ = 4.751 ± 0.224 primary emissions — systematics-limited</small></li>
+        <li><span class="hl">Never measured in e⁺e⁻ before.</span> From a one-line prompt<small>to our knowledge: the first genuinely new HEP measurement produced autonomously by an AI agent</small></li>
+        <li data-step="2">No prior counterpart to check against — so it is a <strong>candidate measurement</strong>, offered for community scrutiny<small>which is exactly the point: validation is where humans stay essential</small></li>
+      </ul>
+    </div>
+  </div>`
+},
+{ id: 'models', act: 3, label: 'Across models', steps: 2, budget: 40, theme: 'dark', term: 'dock', thumb: 'assets/fig_models.png', html: () => `
+  <h2 class="kicker">Same prompt, same framework, <em>different brains</em></h2>
+  <div class="cols">
+    <div class="col" style="flex:1.3; align-self:center"><div class="fig zoomable auto"><img src="assets/fig_models.png" alt="model comparison for H to tautau"></div></div>
+    <div class="col grow">
+      <ul class="talk">
+        <li>Identical H→ττ prompt driven by <strong>Claude Opus 4.8</strong>, a <strong>Codex agent (GPT-5.5)</strong>, and <strong>Claude Fable 5</strong><small>compatible but distinct results; Fable 5 prefers a slight deficit</small></li>
+        <li data-step="2">One run per model — an <span class="hl">indicative hint</span>, not a benchmark<small>token budgets forbid the ensembles a real comparison needs… yet. Hold that thought too.</small></li>
+      </ul>
+    </div>
+  </div>`
+},
+{ id: 'cost', act: 3, label: 'Throughput & cost', steps: 2, budget: 45, theme: 'dark', term: 'dock', thumb: 'assets/fig_timings.png', html: () => `
+  <h2 class="kicker">What it costs — a <em>subscription</em>, not a cluster</h2>
+  <div class="cols">
+    <div class="col" style="flex:1.5; align-self:stretch; display:flex; flex-direction:column; justify-content:center; min-height:0">
+      <div class="fig zoomable auto"><img src="assets/fig_timings.png" alt="per-analysis wall-clock decomposition"></div>
+      <div class="figcap">dark: autonomous pre-gate work · mid: usage-limit idle · pale: post-gate human review</div>
+    </div>
+    <div class="col grow">
+      <ul class="talk">
+        <li><strong>~$200 / month</strong> (Claude Max) ran the whole program<small>≈10 h wall-clock per analysis; review usually passes in 1–2 iterations</small></li>
+        <li>Idle usage-limit waits dominate wall time — visible live in the dock's run clock</li>
+        <li data-step="2">Iterations concentrate at <strong>strategy</strong> and <strong>inference setup</strong> — where the physics is<small>mechanical phases just… execute</small></li>
+      </ul>
+    </div>
+  </div>`
+},
+{ id: 'honest', act: 3, label: 'Where it breaks', steps: 3, budget: 60, thumb: 'assets/ovthumb_honest.jpg', theme: 'dark', term: 'dock', html: () => `
+  <h2 class="kicker">Where it breaks — <em>honestly</em></h2>
+  <div class="cardgrid" style="grid-template-columns:1fr 1fr 1fr; flex:1; align-content:center">
+    <div class="kcard"><div class="nm">physics</div><div class="ds">Subtle selection biases · conservative cuts that cost real sensitivity · niche methods never tried · novelty beyond the literature is not reliable.</div></div>
+    <div class="kcard" data-step="2"><div class="nm">execution</div><div class="ds">Instructions decay in long contexts (yes, hard-coded font sizes) · stochastic run-to-run strategies · stale API knowledge · patches over proper dependencies.</div></div>
+    <div class="kcard" data-step="2"><div class="nm">style</div><div class="ds">Figure conventions must be spelled out with brutal specificity — and some agent figures are still fully nonsensical.</div></div>
+  </div>
+  <p class="lead" data-step="3" style="font-style:italic; font-size:clamp(16px,2.3vmin,28px); margin-top:1vmin">The signature failure mode: <b>correct diagnosis, deferred treatment.</b> It writes an excellent limitations section about the fix it didn't implement — which is precisely what review cycles are for.</p>`
+},
+{ id: 'forward', act: 4, label: 'The way forward', steps: 2, budget: 55, thumb: 'assets/ovthumb_forward.jpg', theme: 'dark', term: 'dock', html: () => `
+  <h2 class="kicker">The way forward — <em>measure</em> the agents, then trust them</h2>
+  <div class="cols">
+    <div class="col grow">
+      <ul class="talk">
+        <li><strong>Benchmark against known physics</strong> — end-to-end analyses on real data with ground truth<small>Collider-Bench &amp; CelloAI score controlled sub-tasks; the full chain — selection → inference — is still unscored</small></li>
+        <li>Characterize <strong>stochastic variability</strong>: same prompt, N runs, spread of strategies &amp; results<small>plus A/B the spec itself, and sweep the review-panel operating point (quality vs cost)</small></li>
+        <li>Backend-agnostic by construction — Claude Code today; Codex, Jules, open-weight agents tomorrow</li>
+      </ul>
+    </div>
+    <div class="col grow">
+      <ul class="talk" data-step="2">
+        <li><strong>Best practices this WG could write down:</strong></li>
+        <li>Pin the spec &amp; conventions in version control — <span class="mono">prompt ≡ methodology</span></li>
+        <li>Artifact-gated phases + append-only logs — every decision auditable</li>
+        <li>Automated review that <strong>binds</strong>, humans at unblinding gates</li>
+        <li>Disclose AI involvement; independent re-implementation for headline results</li>
+      </ul>
+    </div>
+  </div>`
+},
+{ id: 'meaning', act: 4, label: 'What it means', steps: 3, budget: 55, theme: 'dark', term: 'dock', thumb: 'assets/dario_world.png', html: () => `
+  <h2 class="kicker">If implementation is cheap, <em>what are we for?</em></h2>
+  <div class="cols">
+    <div class="col" style="flex:1.25; align-self:center"><div class="fig zoomable auto"><img src="assets/dario_world.png" alt="1 year vs 3 hours"></div></div>
+    <div class="col grow">
+      <ul class="talk">
+        <li>The physicist shifts from <strong>implementer</strong> to <strong>architect &amp; critic</strong><small>the bottleneck moves from coding capacity to ideas and review bandwidth — an intellectual constraint, finally</small></li>
+        <li data-step="2"><strong>Legacy data reopens</strong>: LEP, Tevatron, B-factories — FORTRAN + PAW expertise no longer gates reanalysis<small>plus systematic reproducibility sweeps of published results, at scale</small></li>
+        <li data-step="3"><strong>Train students for it</strong>: read &amp; critique code they didn't write, know the failure modes, spec precisely<small>coding proficiency stays essential — you must be able to check what you sign</small></li>
+      </ul>
+    </div>
+  </div>`
+},
+{ id: 'finale', act: 4, label: 'While we talked', steps: 3, budget: 75, theme: 'dark', term: 'wide', html: () => `
+  <div style="position:absolute; left:5%; right:5%; bottom:1%; display:flex; align-items:flex-end; gap:3%">
+    <div style="flex:1.4">
+      <h2 class="kicker" style="margin:0 0 .6vmin">While we talked, <em>it worked.</em></h2>
+      <p class="lead" data-step="2">43 hours: strategy → selection → review → unblinding → documentation. <b>All 7 phases done</b> — R<sub>b</sub>, R<sub>c</sub>, A<sub>FB</sub><sup>b</sup> → sin²θ<sub>eff</sub> on 2.9M events, a 53-page note, 5-bot review passed. One prompt, one approval.</p>
+    </div>
+    <div style="flex:1" data-step="3">
+      <p class="lead" style="font-family:var(--serif); font-style:italic; color:var(--ink)">The question is not whether agents join the HEP toolkit — it's how quickly we adapt how we work.</p>
+      <p class="lead mono" style="margin-top:.8vmin; font-size:clamp(11px,1.5vmin,17px)">${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> · <a href="https://github.com/jfc-mit" target="_blank" rel="noopener">github.com/jfc-mit</a> — <b>thank you</b></p>
+    </div>
+  </div>`,
+  onenter(step) { if (step >= 2) Term.seekEnd(); }
+},
+{ id: 'backup', act: 5, label: 'Backup', steps: 1, budget: 0, theme: 'dark', html: () => `
+  <div class="statement"><h1><em>Backup</em></h1></div>`
+},
+{ id: 'b-review-war', act: 5, label: 'Backup · review war stories', steps: 1, budget: 0, thumb: 'assets/ovthumb_b-review-war.jpg', theme: 'dark', html: () => `
+  <h2 class="kicker">Backup — what review actually caught</h2>
+  <div class="cols"><div class="col grow" style="align-self:center">
+    <ul class="talk">
+      <li><strong>H→ττ:</strong> first unblinded fit gave μ̂ = 0.34 ± 1.20 — the tt̄ background carried an arbitrary ±35% prior<small>the agent had measured tt̄ in a b-tag control region but hadn't wired it into the fit; fixing it moved the result to 1.20 ± 1.13</small></li>
+      <li><strong>H→ττ:</strong> an in-house GOF test was mis-implemented — every fit looked p ≈ 0.99<small>replaced with the standard saturated-model test; scrutinize the tools that judge the fit, not just the fit</small></li>
+      <li><strong>Lund plane:</strong> the first note claimed generator exclusion "at high significance"<small>review traced it to over-simplified correlated systematics and forced a rewrite to a conservative comparison</small></li>
+      <li><strong>Lund plane:</strong> the dominant ~3% unfolding systematic cannot be cross-checked with a second generator — only one ALEPH sample has full detector sim<small>estimated indirectly; flagged plainly in the note</small></li>
+    </ul>
+  </div></div>`
+},
+{ id: 'b-vision', act: 5, label: 'Backup · pipeline mirror', steps: 1, budget: 0, theme: 'dark', thumb: 'assets/fig_vision.png', html: () => `
+  <h2 class="kicker">Backup — the conventional ↔ agentic mirror</h2>
+  <div class="cols"><div class="col grow" style="align-self:stretch"><div class="fig zoomable" style="height:100%"><img src="assets/fig_vision.png" alt="pipeline mirror diagram"></div></div></div>`
+},
+];
+
+/* ============================================= layout editor ============================================= */
+/* Press E: annotation panels become draggable; overrides persist per-browser (C dumps JSON, X resets).
+   Authoring-only: file:// / localhost / ?edit. Ported from the hcc-kappac talk. */
+const Layout = (() => {
+  const KEY = 'jfc-layout1';
+  const TXT = 'h1, h2, p, li, td, th, .lead, .callout, .figcap, .sub, .who, .tag, .kcard .nm, .kcard .ds, .an-card .nm, .an-card .pr, .promptcard';
+  const BARMSG = '<b>layout edit</b> — drag to move · ◢ corner to resize · scroll over text to scale · double-click text to rewrite · <b>C</b> copy overrides · <b>X</b> reset scene · <b>E</b> exit';
+  const EDITABLE = location.protocol === 'file:' || ['localhost', '127.0.0.1'].includes(location.hostname)
+    || new URLSearchParams(location.search).has('edit');
+  let edit = false, store = {}, curScene = null;
+  try { store = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { /* ignore */ }
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch { /* ignore */ } };
+  const ov = () => store[curScene] = store[curScene] || {};
+  const host = () => $('#scenehost');
+  const candidates = () => $$('.callout, .fig, .polaroid, .figcap, .kcard, .an-card, .promptcard, .ph, h1, h2, .lead, ul.talk, table.stack, .verdicts', host());
+  const txtEls = () => $$(TXT, host());
+  const tag = el => { el.classList.add('draggable');
+    if (getComputedStyle(el).position === 'static') el.classList.add('flowdrag'); };
+  function scaleFont(el, mult) {
+    if (el.dataset.fs0 === undefined) el.dataset.fs0 = el.style.fontSize;
+    el.style.fontSize = el.dataset.fs0;
+    el.style.fontSize = (parseFloat(getComputedStyle(el).fontSize) * mult).toFixed(1) + 'px';
+  }
+  function apply(sceneId) {
+    curScene = sceneId;
+    const o = store[sceneId] || {};
+    candidates().forEach((el, i) => {
+      if (edit) tag(el);
+      const p = o.pos && o.pos[i];
+      if (p) { if (p.rel) el.style.position = 'relative';
+        el.style.left = p.left; el.style.top = p.top;
+        if (!p.rel) { el.style.right = 'auto'; el.style.bottom = 'auto'; } }
+      const z = o.size && o.size[i];
+      if (z) { el.style.width = z.w; el.style.maxWidth = 'none';
+        if (z.flex) el.style.flex = 'none'; if (z.h) el.style.height = z.h; }
+      if ((p || z) && edit) el.classList.add('moved');
+    });
+    if (o.font) txtEls().forEach((el, i) => { if (o.font[i]) scaleFont(el, o.font[i]); });
+    if (edit) txtEls().forEach(el => el.classList.add('txted'));
+  }
+  function applyText(sceneId) {
+    curScene = sceneId;
+    const t = (store[sceneId] || {}).text;
+    if (t) txtEls().forEach((el, i) => { if (t[i] != null) el.innerHTML = t[i]; });
+  }
+  function toggle() {
+    if (!EDITABLE) return;
+    edit = !edit;
+    document.body.classList.toggle('editing', edit);
+    $('#editbar').classList.toggle('on', edit);
+    $('#editbar').innerHTML = BARMSG;
+    candidates().forEach(el => { if (edit) tag(el); else el.classList.remove('draggable', 'flowdrag'); });
+    txtEls().forEach(el => el.classList.toggle('txted', edit));
+    if (edit) apply(curScene);
+  }
+  function dump() {
+    const json = JSON.stringify(store, null, 1);
+    try { navigator.clipboard.writeText(json); } catch { /* file:// */ }
+    $('#editbar').innerHTML = '<b>layout edit</b> — overrides below (pos/size/font/text per scene; also sent to clipboard & console). ' +
+      '<b>X</b> reset scene · <b>E</b> exit<textarea readonly onclick="this.select()">' +
+      json.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</textarea>';
+    console.log('talk-layout overrides:', json);
+  }
+  function resetScene() { delete store[curScene]; save(); Deck.rerender(); }
+  let drag = null;
+  addEventListener('pointerdown', e => {
+    if (!edit) return;
+    if (e.target.closest('[contenteditable="true"]')) return;
+    const el = e.target.closest('.draggable'); if (!el || !host().contains(el)) return;
+    e.preventDefault(); e.stopPropagation();
+    const r = el.getBoundingClientRect();
+    const mode = (r.right - e.clientX < 20 && r.bottom - e.clientY < 20) ? 'size' : 'move';
+    const abs = getComputedStyle(el).position === 'absolute';
+    if (!abs && mode === 'move') el.style.position = 'relative';
+    const cs = getComputedStyle(el);
+    drag = { el, idx: candidates().indexOf(el), mode, abs, dx: e.clientX, dy: e.clientY,
+      startLeft: abs ? el.offsetLeft : (parseFloat(cs.left) || 0),
+      startTop: abs ? el.offsetTop : (parseFloat(cs.top) || 0),
+      startW: el.offsetWidth, startH: el.offsetHeight,
+      flex: !abs && (getComputedStyle(el.parentElement).display || '').includes('flex'),
+      base: (abs ? el.offsetParent : el.parentElement).getBoundingClientRect(), moved: false };
+  }, true);
+  addEventListener('pointermove', e => {
+    if (!drag) return;
+    e.preventDefault(); drag.moved = true;
+    if (drag.mode === 'move') {
+      const L = (drag.startLeft + e.clientX - drag.dx) / drag.base.width * 100;
+      const T = (drag.startTop + e.clientY - drag.dy) / drag.base.height * 100;
+      drag.el.style.left = L.toFixed(1) + '%'; drag.el.style.top = T.toFixed(1) + '%';
+      drag.el.style.right = 'auto'; drag.el.style.bottom = 'auto';
+    } else {
+      const W = (drag.startW + e.clientX - drag.dx) / drag.base.width * 100;
+      drag.el.style.width = Math.max(3, W).toFixed(1) + '%'; drag.el.style.maxWidth = 'none';
+      if (drag.flex) drag.el.style.flex = 'none';
+      if (drag.abs && drag.el.matches('.fig') && getComputedStyle(drag.el).aspectRatio === 'auto') {
+        const H = (drag.startH + e.clientY - drag.dy) / drag.base.height * 100;
+        drag.el.style.height = Math.max(3, H).toFixed(1) + '%';
+      }
+    }
+  }, true);
+  addEventListener('pointerup', e => {
+    if (!drag) return;
+    e.preventDefault(); e.stopPropagation();
+    const { el, idx, mode, abs } = drag;
+    if (drag.moved && idx >= 0) {
+      const o = ov();
+      if (mode === 'move') { const p = (o.pos = o.pos || {})[idx] = { left: el.style.left, top: el.style.top };
+        if (!abs) p.rel = 1; }
+      else { const z = (o.size = o.size || {})[idx] = { w: el.style.width };
+        if (el.style.height) z.h = el.style.height; if (el.style.flex) z.flex = 1; }
+      el.classList.add('moved'); save();
+    }
+    setTimeout(() => { drag = null; }, 0);
+  }, true);
+  addEventListener('wheel', e => {
+    if (!edit) return;
+    const el = e.target.closest(TXT); if (!el || !host().contains(el)) return;
+    e.preventDefault(); e.stopPropagation();
+    const idx = txtEls().indexOf(el); if (idx < 0) return;
+    const f = ov().font = ov().font || {};
+    const mult = Math.min(3, Math.max(.4, (f[idx] || 1) * (e.deltaY < 0 ? 1.05 : 1 / 1.05)));
+    f[idx] = +mult.toFixed(3);
+    scaleFont(el, mult); save();
+  }, { passive: false, capture: true });
+  addEventListener('dblclick', e => {
+    if (!edit) return;
+    const el = e.target.closest(TXT); if (!el || !host().contains(el) || el.isContentEditable) return;
+    e.preventDefault(); e.stopPropagation();
+    el.contentEditable = 'true'; el.focus();
+    const keys = ev => { ev.stopPropagation(); if (ev.key === 'Escape') el.blur(); };
+    const done = () => {
+      el.contentEditable = 'false';
+      el.removeEventListener('blur', done); el.removeEventListener('keydown', keys);
+      const idx = txtEls().indexOf(el); if (idx < 0) return;
+      const clean = el.cloneNode(true);
+      $$('.shown, .pulse-in', clean).forEach(n => { n.classList.remove('shown', 'pulse-in');
+        if (!n.className) n.removeAttribute('class'); });
+      (ov().text = ov().text || {})[idx] = clean.innerHTML;
+      save();
+    };
+    el.addEventListener('blur', done); el.addEventListener('keydown', keys);
+  }, true);
+  addEventListener('click', e => { if (edit && host().contains(e.target)) e.stopPropagation(); }, true);
+  if (!EDITABLE) { const h = document.querySelector('[data-edit-help]'); if (h) h.style.display = 'none'; }
+  return { apply, applyText, toggle, dump, resetScene, get editing() { return edit; } };
+})();
+
+/* ============================================= hidden scenes (per-audience cuts) ============================================= */
+/* Any scene can be hidden for a given audience: it stays in the file (and deep-linkable),
+   but →/← flow over it and it drops out of the counter, progress bar and HUD budgets.
+   Toggle: S on the scene, or the corner button on its overview card. Persists per-browser.
+   ?skip=id1,id2 or ?profile=<name> (from SKIP_PROFILES below) load & persist a cut. */
+const SKIP_PROFILES = {
+  full: [],                                                       // everything
+  tight15: ['context', 'repo', 'stack', 'models', 'cost'],        // trims Act II/III detail to ~13 min
+  results: ['context', 'repo', 'phases', 'review', 'gate', 'stack'],  // skip framework internals — results-first crowd
+};
+const Skips = (() => {
+  const KEY = 'jfc-skips';
+  let set = new Set();
+  try { set = new Set(JSON.parse(localStorage.getItem(KEY) || '[]')); } catch { /* ignore */ }
+  const qs = new URLSearchParams(location.search);
+  const prof = qs.get('profile');
+  if (prof && SKIP_PROFILES[prof]) set = new Set(SKIP_PROFILES[prof]);
+  else if (qs.has('skip')) set = new Set(qs.get('skip').split(',').filter(Boolean));
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify([...set])); } catch { /* ignore */ } };
+  if (prof || qs.has('skip')) save();
+  return { has: id => set.has(id),
+    toggle(id) { set.has(id) ? set.delete(id) : set.add(id); save(); },
+    get size() { return set.size; }, list: () => [...set] };
+})();
+
+/* ============================================= engine ============================================= */
+const Deck = (() => {
+  let si = 0, step = 1, started = null, hudOn = false;
+  const stage = $('#scenehost');
+  const isBackup = sc => sc.act === 5;
+  /* scenes that count toward the counter / progress / budgets: not backup, not hidden */
+  const countable = () => SCENES.filter(s => !isBackup(s) && !Skips.has(s.id));
+  const totalSteps = () => countable().reduce((a, s) => a + s.steps, 0);
+  const stepsBefore = i => countable().filter(s => SCENES.indexOf(s) < i).reduce((a, s) => a + s.steps, 0);
+
+  function render() {
+    const sc = SCENES[si];
+    applyTheme();
+    stage.innerHTML = `<div class="scene on${sc.term === 'dock' ? ' split' : ''}">${sc.html()}</div>`;
+    Layout.applyText(sc.id);
+    applyStep();
+    Term.enter(sc.term || null);
+    if (sc.onenter) sc.onenter.call(sc, step);
+    $('#crumb .act').textContent = AX[sc.act];
+    $('#crumb .lab').textContent = ' · ' + sc.label + (Skips.has(sc.id) ? '  · hidden in this cut' : '');
+    chrome(sc);
+    const ind = $('#steps-ind'); ind.innerHTML = '';
+    if (sc.steps > 1) for (let i = 1; i <= sc.steps; i++) { const s = document.createElement('span');
+      if (i <= step) s.className = 'on'; ind.appendChild(s); }
+    location.replace('#' + sc.id + (step > 1 ? '/' + step : ''));
+    Layout.apply(sc.id);
+    bindZoom(); hud();
+  }
+  function chrome(sc) {
+    const vis = countable(), vi = vis.indexOf(sc);
+    const extra = Skips.size ? ` · ${Skips.size} hidden` : '';
+    $('#counter').textContent = (isBackup(sc) ? 'backup' : vi >= 0 ? `${vi + 1} / ${vis.length}` : `off-cut · ${vis.length} live`) + extra;
+    if (vi >= 0) $('#progress').style.width = (100 * (stepsBefore(si) + step) / totalSteps()) + '%';
+  }
+  function applyStep() {
+    $$('[data-step]', stage).forEach(e => {
+      const on = +e.dataset.step <= step;
+      const was = e.classList.contains('shown');
+      e.classList.toggle('shown', on);
+      if (on && !was) e.classList.add('pulse-in');
+    });
+  }
+  function go(i, st) {
+    si = Math.max(0, Math.min(SCENES.length - 1, i));
+    step = Math.max(1, Math.min(SCENES[si].steps, st || 1));
+    render();
+  }
+  /* skip-aware neighbours: hidden scenes are flowed over (still reachable via hash/overview) */
+  const nextIdx = i => { for (let j = i + 1; j < SCENES.length; j++) if (!Skips.has(SCENES[j].id)) return j; return -1; };
+  const prevIdx = i => { for (let j = i - 1; j >= 0; j--) if (!Skips.has(SCENES[j].id)) return j; return -1; };
+  function next() {
+    tick(true);
+    const sc = SCENES[si];
+    if (step < sc.steps) { step++; applyStep(); if (sc.onenter) sc.onenter.call(sc, step);
+      chrome(sc);
+      $$('#steps-ind span').forEach((s, i) => s.classList.toggle('on', i < step));
+      location.replace('#' + sc.id + '/' + step); hud(); }
+    else { const j = nextIdx(si); if (j >= 0) go(j, 1); }
+  }
+  function prev() {
+    const sc = SCENES[si];
+    if (step > 1) { step--; applyStep(); if (sc.onenter) sc.onenter.call(sc, step);
+      $$('#steps-ind span').forEach((s, i) => s.classList.toggle('on', i < step)); hud(); }
+    else { const j = prevIdx(si); if (j >= 0) go(j, SCENES[j].steps); }
+  }
+  function tick(start) { if (start && started === null) { started = Date.now(); } }
+  function hud() {
+    if (!hudOn) return;
+    const sc = SCENES[si];
+    $('#hud-scene').textContent = sc.label.slice(0, 24);
+    const segs = $('#hud-segs'); segs.innerHTML = '';
+    for (let i = 1; i <= sc.steps; i++) { const s = document.createElement('i'); if (i <= step) s.className = 'on'; segs.appendChild(s); }
+    const bud = countable().filter(s => SCENES.indexOf(s) <= si).reduce((a, s) => a + s.budget, 0);
+    $('#hud-budget').textContent = mmss(bud);
+    const el2 = started ? (Date.now() - started) / 1000 : 0;
+    const dl = el2 - countable().filter(s => SCENES.indexOf(s) < si).reduce((a, s) => a + s.budget, 0);
+    const d2 = $('#hud-delta'); d2.textContent = (dl >= 0 ? '+' : '−') + mmss(Math.abs(dl));
+    d2.className = dl > 30 ? 'over' : 'under';
+  }
+  const mmss = t => `${String(Math.floor(t / 60)).padStart(2, '0')}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+  setInterval(() => {
+    if (!hudOn) return;
+    $('#hud-clock').textContent = mmss(started ? (Date.now() - started) / 1000 : 0);
+    $('#hud-live').textContent = started ? '● LIVE' : '○ IDLE';
+    $('#hud-live').className = started ? 'live' : 'idle';
+    hud();
+  }, 1000);
+
+  function buildOverview() {
+    $('#ov-note').textContent = (Skips.size ? `${Skips.size} scene${Skips.size > 1 ? 's' : ''} hidden in this cut — ` : '') +
+      'toggle a scene with its corner button (or S while presenting) · load a preset with ?profile=' + Object.keys(SKIP_PROFILES).join(' | ');
+    const grid = $('#ov-grid'); grid.innerHTML = '';
+    SCENES.forEach((sc, i) => {
+      const off = Skips.has(sc.id);
+      const c = document.createElement('div'); c.className = 'ov-card' + (i === si ? ' here' : '') + (off ? ' off' : '');
+      c.innerHTML = `<button class="eye">${off ? 'show' : 'hide'}</button>` +
+        `<div class="n">${AX[sc.act]}</div><div class="t">${sc.label}</div>` +
+        (sc.thumb ? `<div class="thumb" style="background-image:url('${sc.thumb}')"></div>` : '');
+      c.onclick = e => { e.stopPropagation(); $('#overview').classList.remove('on'); go(i, 1); };
+      $('.eye', c).onclick = e => { e.stopPropagation(); Skips.toggle(sc.id); buildOverview(); chrome(SCENES[si]); hud(); };
+      grid.appendChild(c);
+    });
+  }
+  /* transient toast (skip toggles etc.) */
+  let toastT = null;
+  function toast(msg) { const el = $('#toast'); el.textContent = msg; el.style.display = 'block';
+    clearTimeout(toastT); toastT = setTimeout(() => { el.style.display = 'none'; }, 1900); }
+  function bindZoom() {
+    $$('.fig.zoomable', stage).forEach(f => f.onclick = e => {
+      e.stopPropagation();
+      const img = $$('img', f).find(i => i.getClientRects().length) || $('img', f);
+      $('#lightbox img').src = img.src;
+      $('#lightbox').classList.add('on');
+    });
+  }
+  const overlaysOff = () => { let any = false;
+    for (const id of ['#lightbox', '#overview', '#help']) if ($(id).classList.contains('on')) { $(id).classList.remove('on'); any = true; }
+    return any; };
+  document.body.addEventListener('click', e => {
+    if (e.target.closest('#chrome-br, #hud, a, #term')) return;
+    if ($('#lightbox').classList.contains('on')) { $('#lightbox').classList.remove('on'); return; }
+    if ($('#overview').classList.contains('on') || $('#help').classList.contains('on')) { overlaysOff(); return; }
+    next();
+  });
+  addEventListener('keydown', e => {
+    if (e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) return;
+    if (e.key === 'Escape') { if (!overlaysOff()) { buildOverview(); $('#overview').classList.add('on'); } return; }
+    if (['ArrowRight', 'ArrowDown', 'PageDown', 'Enter', ' '].includes(e.key)) { e.preventDefault(); overlaysOff(); next(); }
+    else if (['ArrowLeft', 'ArrowUp', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); overlaysOff(); prev(); }
+    else if (e.key === 'Home') go(0, 1);
+    else if (e.key === 'End') go(SCENES.length - 1, 1);
+    else if (e.key === 'o' || e.key === 'O') { const ov = $('#overview');
+      if (ov.classList.contains('on')) ov.classList.remove('on'); else { buildOverview(); ov.classList.add('on'); } }
+    else if (e.key === 'h' || e.key === 'H') { hudOn = !hudOn; $('#hud').classList.toggle('on', hudOn); hud(); }
+    else if (e.key === 'r' || e.key === 'R') { started = null; go(0, 1); }
+    else if (e.key === 'e' || e.key === 'E') Layout.toggle();
+    else if (Layout.editing && (e.key === 'c' || e.key === 'C')) Layout.dump();
+    else if (Layout.editing && (e.key === 'x' || e.key === 'X')) Layout.resetScene();
+    else if (e.key === 'd' || e.key === 'D') themeFlip();
+    else if (e.key === 'f' || e.key === 'F') { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }
+    else if (e.key === 't' || e.key === 'T') Term.toggle();
+    else if (e.key === ',') Term.seekBy(-30);
+    else if (e.key === '.') Term.seekBy(30);
+    else if (e.key === 'g' || e.key === 'G') {   // grow/dock — or summon the terminal on any scene (Q&A!)
+      const sc = SCENES[si];
+      const wide = document.body.classList.contains('term-wide');
+      if (sc.term) { Term.enter(wide ? 'dock' : 'wide');
+        $('.scene', stage).classList.toggle('split', wide ? sc.term === 'dock' : false); }
+      else Term.enter(wide ? null : 'wide');
+    }
+    else if (e.key === 's' || e.key === 'S') {   // hide/unhide the current scene for this audience cut
+      const sc = SCENES[si];
+      Skips.toggle(sc.id);
+      const off = Skips.has(sc.id);
+      $('#crumb .lab').textContent = ' · ' + sc.label + (off ? '  · hidden in this cut' : '');
+      chrome(sc); hud();
+      toast(off ? `“${sc.label}” hidden — flow skips it now · S to undo` : `“${sc.label}” back in the flow`);
+    }
+    else if (e.key === '?') $('#help').classList.toggle('on');
+  });
+  /* persistent 3-state theme override: auto (scene-driven, default) -> light -> dark */
+  let themeOverride = 'auto';
+  try { themeOverride = localStorage.getItem('jfc-theme') || 'auto'; } catch { /* ignore */ }
+  function applyTheme() {
+    const sc = SCENES[si];
+    const t = themeOverride === 'light' ? 'paper' : themeOverride === 'dark' ? 'dark' : sc.theme;
+    document.documentElement.dataset.theme = t;
+    const b = $('#themebtn');
+    b.textContent = themeOverride === 'auto' ? '◐ auto' : themeOverride === 'dark' ? '● dark' : '○ light';
+    b.title = `theme: ${themeOverride} — click (or D) to cycle auto → light → dark`;
+  }
+  function themeFlip() {
+    themeOverride = themeOverride === 'auto' ? 'light' : themeOverride === 'light' ? 'dark' : 'auto';
+    try { localStorage.setItem('jfc-theme', themeOverride); } catch { /* ignore */ }
+    applyTheme();
+  }
+  $('#themebtn').onclick = e => { e.stopPropagation(); themeFlip(); };
+  $('#helpbtn').onclick = e => { e.stopPropagation(); $('#help').classList.add('on'); };
+
+  function fromHash() {
+    const h = location.hash.slice(1);
+    if (!h) return go(0, 1);
+    const [id, st] = h.split('/');
+    const i = SCENES.findIndex(s => s.id === id);
+    go(i >= 0 ? i : 0, +st || 1);
+  }
+  addEventListener('hashchange', () => { const h = location.hash.slice(1); const [id, st] = h.split('/');
+    if (SCENES[si].id !== id || step !== (+st || 1)) fromHash(); });
+  fromHash();
+  setTimeout(() => $('#hint').style.opacity = 0, 6000);
+  setTimeout(() => $('#hint').remove(), 7000);
+  return { go, rerender: render };
+})();
+
+</script>
+</body>
+</html>
