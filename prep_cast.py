@@ -56,7 +56,14 @@ REST_GAP = 60     # s of original time with no substantive change => rest point
                   #  beats the in-recording pyte analysis found at its 1.2 s
                   #  full-diff threshold — streaming keeps 1-2-row changes alive)
 MIN_ROWS = 3      # rows that must change for an event to count as substantive
-HOLD_MIN, HOLD_MAX = 1.5, 3.0
+HOLD_MIN, HOLD_MAX = 2.0, 5.0
+# Story beats the narration leans on (original run seconds): the D2 truth-flavour
+# decision (T+01:12), the phase-5 arbiter/adversarial-verification exchange
+# (T+39:41) and the honest bottom line (T+42:53). The rest interval containing
+# (or nearest within KEY_NEAR s of) each beat is held KEY_HOLD s so the audience
+# can actually read the screen the speaker is quoting.
+KEY_BEATS = [4320.0, 142860.0, 154380.0]
+KEY_HOLD, KEY_NEAR = 7.0, 300.0
 
 OUT = os.path.join(HERE, 'assets', 'workflow.cast')
 META = os.path.join(HERE, 'assets', 'cast_meta.js')
@@ -290,10 +297,20 @@ if os.path.exists(CACHE):
     chg = [c for c in json.load(open(CACHE))['changes'] if c <= END]
     for a, b in zip(chg, chg[1:] + [END]):
         if b - a >= REST_GAP:
-            hold = min(HOLD_MAX, max(HOLD_MIN, 0.8 + (b - a) / 1800))
+            hold = min(HOLD_MAX, max(HOLD_MIN, 0.8 + (b - a) / 1200))
             rests.append((a, b, hold))
+    for kb in KEY_BEATS:                     # boost the narrated story beats
+        best, dist = -1, KEY_NEAR
+        for i, (a, b, _) in enumerate(rests):
+            d = 0.0 if a <= kb <= b else min(abs(kb - a), abs(kb - b))
+            if d < dist:
+                best, dist = i, d
+        if best >= 0:
+            a, b, h = rests[best]
+            rests[best] = (a, b, max(h, KEY_HOLD))
     print(f"{len(rests)} rest points (screen still >= {REST_GAP}s), "
-          f"total hold {sum(r[2] for r in rests):.0f}s")
+          f"total hold {sum(r[2] for r in rests):.0f}s "
+          f"({sum(1 for r in rests if r[2] >= KEY_HOLD)} key beats boosted)")
 else:
     print("no cast_analysis.json — uniform density pacing (run --analyze for rest-point pacing)")
 

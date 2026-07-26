@@ -5,12 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI Agents Can Already Autonomously Perform Experimental HEP — HSF DAAA</title>
 <meta name="description" content="Interactive talk on arXiv:2603.20179 (JFC) with a live-replayed 42.9-hour autonomous ALEPH analysis · HSF DAAA · 27 July 2026">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AI Agents Can Already Autonomously Perform Experimental HEP">
+<meta property="og:description" content="Interactive talk on arXiv:2603.20179 (JFC) — with a live-replayed 42.9-hour autonomous ALEPH analysis · HSF DAAA · 27 July 2026">
+<meta property="og:url" content="https://jfc-mit.github.io/jfc-talk/">
+<meta property="og:image" content="https://jfc-mit.github.io/jfc-talk/assets/fig_lund.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='88'%3E%E2%9A%9B%EF%B8%8F%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="assets/asciinema-player.css">
 <script src="assets/asciinema-player.min.js"></script>
 <script src="assets/cast_meta.js"></script>
 <style>
+/* ============================================= fonts (vendored — offline-safe) ============================================= */
+@font-face { font-family: "EB Garamond"; font-style: italic; font-weight: 400; font-display: swap;
+  src: url("assets/fonts/ebgaramond-400i-latin-ext.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "EB Garamond"; font-style: italic; font-weight: 400; font-display: swap;
+  src: url("assets/fonts/ebgaramond-400i-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "EB Garamond"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("assets/fonts/ebgaramond-400-latin-ext.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "EB Garamond"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("assets/fonts/ebgaramond-400-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "EB Garamond"; font-style: normal; font-weight: 500; font-display: swap;
+  src: url("assets/fonts/ebgaramond-500-latin-ext.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "EB Garamond"; font-style: normal; font-weight: 500; font-display: swap;
+  src: url("assets/fonts/ebgaramond-500-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "EB Garamond"; font-style: normal; font-weight: 600; font-display: swap;
+  src: url("assets/fonts/ebgaramond-600-latin-ext.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "EB Garamond"; font-style: normal; font-weight: 600; font-display: swap;
+  src: url("assets/fonts/ebgaramond-600-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 /* ============================================= tokens ============================================= */
 :root {
   --serif: "EB Garamond", Georgia, "Times New Roman", serif;
@@ -333,6 +355,7 @@ body.editing .scene [contenteditable="true"] { user-select: text; -webkit-user-s
   <div class="segs" id="hud-segs"></div>
   <div class="row"><span>budget to here</span><span id="hud-budget"></span></div>
   <div class="row"><span>Δ</span><span id="hud-delta"></span></div>
+  <div id="hud-notes" style="margin:7px 0 4px; color:var(--ink60); line-height:1.45; border-top:1px solid var(--ink12); padding-top:7px"></div>
   <div class="row" style="margin-top:4px;color:var(--ink40)">R restart · H hide</div>
 </div>
 
@@ -399,7 +422,7 @@ const CAST = {
 };
 const Term = (() => {
   let player = null, started = false, ended = false;
-  const meta = window.CAST_META || { orig_dur: 193764, new_dur: 800, anchors: [[0, 0]] };
+  const meta = window.CAST_META || { orig_dur: 154599, new_dur: 650, anchors: [[0, 0]] };
   const fmt = s => { s = Math.max(0, Math.round(s));
     return `T+${String(Math.floor(s / 3600)).padStart(2, '0')}:${String(Math.floor(s / 60) % 60).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`; };
   const origAt = t => {   // map playback time -> original run time via prep_cast anchors
@@ -432,7 +455,7 @@ const Term = (() => {
     if (!player) return;
     const tt = t();
     $('#tele-clock').textContent = fmt(origAt(tt));
-    $('#term-progress i').style.width = (100 * tt / (meta.new_dur || 800)) + '%';
+    $('#term-progress i').style.width = (100 * tt / (meta.new_dur || 650)) + '%';
     if (!started && !playing) {   // before ignition: report the 48 MB cast's load state
       let d = null; try { d = player.getDuration(); } catch { /* ignore */ }
       setStatus(typeof d === 'number' && d > 0 ? '○ ready' : '⋯ loading run', false);
@@ -475,7 +498,7 @@ setTimeout(Term.init, 600);
 /* html is a function so scenes can lazy-build; steps = number of build states (>=1);
    theme: paper | dark ; term: false | 'dock' | 'wide' ; budget: seconds */
 const SCENES = [
-{ id: 'title', act: 1, label: 'Title', steps: 1, budget: 45, theme: 'paper', thumb: 'assets/fig_lund.png', html: () => `
+{ id: 'title', act: 1, label: 'Title', steps: 1, budget: 35, notes: 'cast loads behind title — chip goes ready; 42.9 h run', theme: 'paper', thumb: 'assets/fig_lund.png', html: () => `
   <div class="title-wrap">
     <div class="title-left">
       <h1>AI Agents Can Already <em>Autonomously</em> Perform Experimental High Energy Physics</h1>
@@ -500,7 +523,7 @@ const SCENES = [
     </div>
   </div>`
 },
-{ id: 'anatomy', act: 1, label: 'The anatomy of an analysis', steps: 3, budget: 80, theme: 'paper', thumb: 'assets/dario_world.png', html: () => `
+{ id: 'anatomy', act: 1, label: 'The anatomy of an analysis', steps: 3, budget: 60, notes: 'arc: channel→lit→selection→syst→unblind; delegate the middle', theme: 'paper', thumb: 'assets/dario_world.png', html: () => `
   <h2 class="kicker">A typical HEP analysis — <em>years</em> of a life, mostly algorithmic</h2>
   <div class="cols">
     <div class="col" style="flex:1">
@@ -516,7 +539,7 @@ const SCENES = [
     </div>
   </div>`
 },
-{ id: 'claim', act: 1, label: 'The claim', steps: 2, budget: 40, thumb: 'assets/ovthumb_claim.jpg', theme: 'dark', html: () => `
+{ id: 'claim', act: 1, label: 'The claim', steps: 2, budget: 30, notes: 'not speculative — show it', thumb: 'assets/ovthumb_claim.jpg', theme: 'dark', html: () => `
   <div class="statement">
     <h1>This is <em>not</em> a speculative claim.</h1>
     <div class="lead">Given a dataset, an execution framework, and the prior literature, Claude Code completes the chain:
@@ -525,17 +548,17 @@ const SCENES = [
       So rather than only telling you — let me <span class="hl">show</span> you.<span class="cursor">▌</span></div>
   </div>`
 },
-{ id: 'launch', act: 1, label: 'Ignition', steps: 2, budget: 75, thumb: 'assets/ovthumb_launch.jpg', theme: 'dark', term: 'dock', html: () => `
+{ id: 'launch', act: 1, label: 'Ignition', steps: 2, budget: 60, notes: 'prompt + 1 approval = all human input; ×240 replay', thumb: 'assets/ovthumb_launch.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">One prompt. <em>43 hours.</em> No hands.</h2>
   <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2.2vmin; min-height:0">
     <div class="promptcard"><span class="ps">prompt&gt;</span> Measure R<sub>b</sub>, R<sub>c</sub>, and A<sub>FB</sub><sup>b</sup> using signed impact-parameter b-tagging and jet charge. <span style="color:var(--ink40)">(abridged — data location omitted)</span></div>
     <ul class="talk">
-      <li>On the right: a <strong>real, contiguous recording</strong> of that run — 42.9 h of wall clock, idle collapsed, replayed ≈×190<small>it will keep running beside the slides, and it will finish before I do</small></li>
+      <li>On the right: a <strong>real, contiguous recording</strong> of that run — 42.9 h of wall clock, idle collapsed, replayed ≈×240<small>it will keep running beside the slides, and it will finish before I do</small></li>
       <li data-step="2"><span class="hl">Total human input: this prompt, plus one approval click</span> at the unblinding gate<small>everything else — strategy, code, review, iteration, the note — is the agents talking to each other</small></li>
     </ul>
   </div>`
 },
-{ id: 'framework', act: 2, label: 'JFC · the framework', steps: 2, budget: 70, theme: 'dark', term: 'dock', thumb: 'assets/fig_pipeline.png', html: () => `
+{ id: 'framework', act: 2, label: 'JFC · the framework', steps: 2, budget: 60, notes: 'orchestrator delegates; artifact+review gates; agent designs strategy', theme: 'dark', term: 'dock', thumb: 'assets/fig_pipeline.png', html: () => `
   <h2 class="kicker"><em>Just Furnish Context</em> — the whole trick is in the name</h2>
   <div class="cols">
     <div class="col grow">
@@ -548,7 +571,7 @@ const SCENES = [
     <div class="col" style="flex:1.05; align-self:stretch"><div class="fig zoomable" style="height:100%"><img src="assets/fig_pipeline.png" alt="JFC framework diagram"></div></div>
   </div>`
 },
-{ id: 'context', act: 2, label: 'What you furnish', steps: 2, budget: 55, thumb: 'assets/ovthumb_context.jpg', theme: 'dark', term: 'dock', html: () => `
+{ id: 'context', act: 2, label: 'What you furnish', steps: 2, budget: 50, notes: '~30 files, ~1000 lines md = new-student onboarding', thumb: 'assets/ovthumb_context.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">What you furnish = what a group gives a <em>new student</em></h2>
   <div class="cardgrid" style="grid-template-columns:1fr 1fr 1fr; flex:1; align-content:center">
     <div class="kcard"><div class="nm">methodology/</div><div class="ds">How an analysis proceeds, planning → inference — the institutional knowledge that is never written down, written down. Plus tiers of review, encoded as agents.</div></div>
@@ -557,7 +580,7 @@ const SCENES = [
   </div>
   <p class="lead" data-step="2" style="font-style:italic; margin-top:1.6vmin">Together: a graduate curriculum in ~30 files, ~1,000 lines of markdown — the standards against which every agent decision is made <b>and reviewed</b>. No secret sauce.</p>`
 },
-{ id: 'repo', act: 2, label: 'Views into the spec', steps: 2, budget: 55, theme: 'dark', term: 'dock', html: () => `
+{ id: 'repo', act: 2, label: 'Views into the spec', steps: 2, budget: 50, notes: 'tuning-to-match = fabrication, #1 failure mode; constants cited', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">The spec is <em>public</em> — and it reads like a supervisor</h2>
   <div class="cols" style="align-items:center; gap:2.5%">
     <div class="col" style="flex:.72">
@@ -598,7 +621,7 @@ const SCENES = [
     </div>
   </div>`
 },
-{ id: 'phases', act: 2, label: 'Artifact-gated phases', steps: 3, budget: 70, thumb: 'assets/ovthumb_phases.jpg', theme: 'dark', term: 'dock', html: () => `
+{ id: 'phases', act: 2, label: 'Artifact-gated phases', steps: 3, budget: 60, notes: '7 phases; 4b halts for a human', thumb: 'assets/ovthumb_phases.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">Seven phases, each <em>gated</em> by an artifact + review</h2>
   <div class="phases">
     <div class="ph"><span class="n">1 · Strategy</span><span class="what">literature survey → selection, blinding variable, systematics program</span><span class="art">STRATEGY.md</span><span class="rev">4-bot review</span></div>
@@ -610,7 +633,7 @@ const SCENES = [
     <div class="ph" data-step="3"><span class="n">5 · Documentation</span><span class="what">publication figures, final analysis note, typeset PDF</span><span class="art">50–100 pp PDF</span><span class="rev">full panel + arbiter</span></div>
   </div>`
 },
-{ id: 'review', act: 2, label: 'Multi-agent review', steps: 3, budget: 70, thumb: 'assets/ovthumb_review.jpg', theme: 'dark', term: 'dock', html: () => `
+{ id: 'review', act: 2, label: 'Multi-agent review', steps: 3, budget: 60, notes: 'binding; validator red flags auto-Cat-A; arbiter cannot downgrade', thumb: 'assets/ovthumb_review.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">Review is <em>binding</em>, not advisory</h2>
   <div class="cardgrid" style="grid-template-columns:repeat(3,1fr); flex:1; align-content:center">
     <div class="kcard"><div class="nm">physics-reviewer</div><div class="ds"><b>Denied the spec on purpose</b> — judges like an external ARC referee, physics only.</div></div>
@@ -623,7 +646,7 @@ const SCENES = [
   <div class="verdicts" data-step="2"><span class="v-pass">PASS</span><span class="v-iter">ITERATE — closed-loop fix of every Cat-A</span><span class="v-esc">ESCALATE — a human must think</span></div>
   <p class="lead" data-step="3" style="margin-top:1.2vmin; font-style:italic">Mirrors a collaboration's review tiers — so the human reviewer later spends judgment, not mechanics.</p>`
 },
-{ id: 'gate', act: 2, label: 'The unblinding gate', steps: 2, budget: 55, thumb: 'assets/ovthumb_gate.jpg', theme: 'dark', term: 'dock', html: () => `
+{ id: 'gate', act: 2, label: 'The unblinding gate', steps: 2, budget: 45, notes: 'Asimov→10% fixed seed→halt; APPROVE / CHANGES / HALT', thumb: 'assets/ovthumb_gate.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">Blinding is <em>enforced</em> — and unblinding stays human</h2>
   <div class="cols">
     <div class="col grow">
@@ -642,7 +665,7 @@ const SCENES = [
     </div>
   </div>`
 },
-{ id: 'stack', act: 2, label: 'Stack & literature', steps: 2, budget: 45, thumb: 'assets/ovthumb_stack.jpg', theme: 'dark', term: 'dock', html: () => `
+{ id: 'stack', act: 2, label: 'Stack & literature', steps: 2, budget: 40, notes: 'SciTreeRAG: ALEPH 1503/575, DELPHI 4305/1868', thumb: 'assets/ovthumb_stack.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">Opinionated tools · <em>grounded</em> knowledge</h2>
   <div class="cols" style="align-items:stretch">
     <div class="col grow" style="align-self:center">
@@ -667,7 +690,7 @@ const SCENES = [
     </div>
   </div>`
 },
-{ id: 'menu', act: 3, label: 'Six analyses', steps: 2, budget: 65, theme: 'dark', term: 'dock', thumb: 'assets/thumb_lund.png', html: () => `
+{ id: 'menu', act: 3, label: 'Six analyses', steps: 2, budget: 55, notes: '6 analyses, 1 prompt each; capability evidence, not vetted', theme: 'dark', term: 'dock', thumb: 'assets/thumb_lund.png', html: () => `
   <h2 class="kicker">One prompt each — <em>six</em> autonomous analyses</h2>
   <div class="cardgrid" style="grid-template-columns:repeat(3,1fr); grid-auto-rows:1fr; flex:1">
     <div class="an-card"><span class="exp" style="color:var(--cms)">CMS</span><div class="im"><img src="assets/thumb_htt.png" alt=""></div><div class="nm">H→τ⁺τ⁻ signal strength</div><div class="pr">μτ_h at √s = 8 TeV, Run-1 Open Data</div></div>
@@ -679,7 +702,7 @@ const SCENES = [
   </div>
   <p class="lead" data-step="2" style="margin-top:1.2vmin">Deliverable each time: a <b>50–100-page analysis note</b>, all code, all figures — public on <span class="mono">github.com/jfc-mit</span>. Presented as capability evidence, <i>not</i> as vetted measurements.</p>`
 },
-{ id: 'deliverable', act: 3, label: 'The deliverable', steps: 2, budget: 45, theme: 'dark', term: 'dock', thumb: 'assets/an_mosaic.png', html: () => `
+{ id: 'deliverable', act: 3, label: 'The deliverable', steps: 2, budget: 35, notes: '50–100 pp note; demo 14 pp; this run wrote 53 pp', theme: 'dark', term: 'dock', thumb: 'assets/an_mosaic.png', html: () => `
   <h2 class="kicker">The deliverable is a <em>document</em>, not a notebook</h2>
   <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:1.4vmin; min-height:0">
     <div class="fig zoomable auto" style="max-height:62%; overflow:hidden"><img src="assets/an_mosaic.png" alt="agent-written analysis note, page by page"></div>
@@ -689,7 +712,7 @@ const SCENES = [
     </ul>
   </div>`
 },
-{ id: 'moments', act: 3, label: 'The run, in its own words', steps: 3, budget: 75, theme: 'dark', term: 'dock', html: () => `
+{ id: 'moments', act: 3, label: 'The run, in its own words', steps: 3, budget: 65, notes: 'T+1:12 D2 flag; T+39:41 refuted 5/9 review items; T+42:53 honest close', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">Three moments from the run, <em>verbatim</em></h2>
   <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:1.7vmin; min-height:0">
     <div class="runquote">
@@ -716,7 +739,7 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
     </div>
   </div>`
 },
-{ id: 'scoreboard', act: 3, label: 'Against the published values', steps: 3, budget: 70, theme: 'dark', term: 'dock', thumb: 'assets/fig_summary.png', html: () => `
+{ id: 'scoreboard', act: 3, label: 'Against the published values', steps: 3, budget: 60, notes: '8/9 in 2σ; Γ_Z −3.4σ off-peak eff; wide σ = cheap pulls', theme: 'dark', term: 'dock', thumb: 'assets/fig_summary.png', html: () => `
   <h2 class="kicker">Scored against the <em>published</em> numbers</h2>
   <div class="cols"><div class="col grow" style="align-self:stretch; position:relative">
     <div class="fig zoomable" style="height:100%"><img src="assets/fig_summary.png" alt="agent vs published pulls"></div>
@@ -725,7 +748,7 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
     <div class="callout" data-step="3" style="right:1.5%; top:74%; max-width:24%"><b>Read pulls honestly</b><br>wide agent uncertainties make small pulls cheap — H→ττ carries ~3× the published σ.</div>
   </div></div>`
 },
-{ id: 'htautau', act: 3, label: 'Headline · CMS H→ττ', steps: 3, budget: 75, theme: 'dark', term: 'dock', thumb: 'assets/fig_money.png', html: () => `
+{ id: 'htautau', act: 3, label: 'Headline · CMS H→ττ', steps: 3, budget: 65, notes: 'μ 1.20±1.13 vs 1.01±0.41; waterfall 1.20→0.65 vs 0.41; Combine rebuild', theme: 'dark', term: 'dock', thumb: 'assets/fig_money.png', html: () => `
   <h2 class="kicker">The <em>known-answer</em> test — CMS H→τ⁺τ⁻</h2>
   <div class="cols" style="align-items:stretch">
     <div class="col grow"><div class="fig zoomable" style="height:100%"><img src="assets/fig_money.png" alt="S/S+B weighted post-fit DNN distribution"></div></div>
@@ -735,7 +758,7 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
   </div>
   <p class="lead" data-step="2" style="margin-top:1vmin">μ̂ = <b>1.20 ± 1.13</b> vs published <b>1.01 ± 0.41</b> (μτ_h) — and the statistical model <span class="hl">rebuilds point-by-point in an independent Combine implementation</span>. A reproduction, not a competition: single channel, partial 2012 sample.</p>`
 },
-{ id: 'lund', act: 3, label: 'Headline · Lund jet plane', steps: 2, budget: 60, theme: 'dark', term: 'dock', thumb: 'assets/fig_lund.png', html: () => `
+{ id: 'lund', act: 3, label: 'Headline · Lund jet plane', steps: 2, budget: 50, notes: 'N 4.751±0.224; first in e+e−; candidate measurement', theme: 'dark', term: 'dock', thumb: 'assets/fig_lund.png', html: () => `
   <h2 class="kicker">…and the plot from the title slide</h2>
   <div class="cols" style="align-items:stretch">
     <div class="col grow" style="align-self:center">
@@ -748,7 +771,7 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
     <div class="col" style="flex:1.15"><div class="fig zoomable" style="height:100%"><img src="assets/fig_lund.png" alt="ALEPH primary Lund jet plane density"></div></div>
   </div>`
 },
-{ id: 'models', act: 3, label: 'Across models', steps: 2, budget: 40, theme: 'dark', term: 'dock', thumb: 'assets/fig_models.png', html: () => `
+{ id: 'models', act: 3, label: 'Across models', steps: 2, budget: 35, notes: 'Opus 4.8 vs GPT-5.5 vs Fable 5; one run each — hint not benchmark', theme: 'dark', term: 'dock', thumb: 'assets/fig_models.png', html: () => `
   <h2 class="kicker">Same prompt, same framework, <em>different brains</em></h2>
   <div class="cols">
     <div class="col grow">
@@ -760,7 +783,7 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
     <div class="col" style="flex:1.3; align-self:center"><div class="fig zoomable auto"><img src="assets/fig_models.png" alt="model comparison for H to tautau"></div></div>
   </div>`
 },
-{ id: 'cost', act: 3, label: 'Throughput & cost', steps: 2, budget: 45, theme: 'dark', term: 'dock', thumb: 'assets/fig_timings.png', html: () => `
+{ id: 'cost', act: 3, label: 'Throughput & cost', steps: 2, budget: 40, notes: '$200/mo; ~10 h per analysis; idle waits dominate', theme: 'dark', term: 'dock', thumb: 'assets/fig_timings.png', html: () => `
   <h2 class="kicker">What it costs — a <em>subscription</em>, not a cluster</h2>
   <div class="cols">
     <div class="col grow">
@@ -776,7 +799,7 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
     </div>
   </div>`
 },
-{ id: 'honest', act: 3, label: 'Where it breaks', steps: 3, budget: 60, thumb: 'assets/ovthumb_honest.jpg', theme: 'dark', term: 'dock', html: () => `
+{ id: 'honest', act: 3, label: 'Where it breaks', steps: 3, budget: 50, notes: 'correct diagnosis, deferred treatment', thumb: 'assets/ovthumb_honest.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">Where it breaks — <em>honestly</em></h2>
   <div class="cardgrid" style="grid-template-columns:1fr 1fr 1fr; flex:1; align-content:center">
     <div class="kcard"><div class="nm">physics</div><div class="ds">Subtle selection biases · conservative cuts that cost real sensitivity · niche methods never tried · novelty beyond the literature is not reliable.</div></div>
@@ -785,7 +808,7 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
   </div>
   <p class="lead" data-step="3" style="font-style:italic; font-size:clamp(16px,2.3vmin,28px); margin-top:1vmin">The signature failure mode: <b>correct diagnosis, deferred treatment.</b> It writes an excellent limitations section about the fix it didn't implement — which is precisely what review cycles are for.</p>`
 },
-{ id: 'forward', act: 4, label: 'The way forward', steps: 2, budget: 55, thumb: 'assets/ovthumb_forward.jpg', theme: 'dark', term: 'dock', html: () => `
+{ id: 'forward', act: 4, label: 'The way forward', steps: 2, budget: 50, notes: 'benchmark vs known physics; N-run variance; WG best practices', thumb: 'assets/ovthumb_forward.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">The way forward — <em>measure</em> the agents, then trust them</h2>
   <div class="cols">
     <div class="col grow">
@@ -806,7 +829,7 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
     </div>
   </div>`
 },
-{ id: 'meaning', act: 4, label: 'What it means', steps: 3, budget: 55, theme: 'dark', term: 'dock', thumb: 'assets/fig_vision.png', html: () => `
+{ id: 'meaning', act: 4, label: 'What it means', steps: 3, budget: 45, notes: 'implementer → architect+critic; legacy data reopens', theme: 'dark', term: 'dock', thumb: 'assets/fig_vision.png', html: () => `
   <h2 class="kicker">If implementation is cheap, <em>what are we for?</em></h2>
   <div class="cols">
     <div class="col grow">
@@ -822,7 +845,7 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
     </div>
   </div>`
 },
-{ id: 'finale', act: 4, label: 'While we talked', steps: 3, budget: 75, theme: 'dark', term: 'wide', html: () => `
+{ id: 'finale', act: 4, label: 'While we talked', steps: 3, budget: 60, notes: '2.9M events, 53 pp, 5-bot review passed; links', theme: 'dark', term: 'wide', html: () => `
   <div style="position:absolute; left:5%; right:5%; bottom:1%; display:flex; align-items:flex-end; gap:3%">
     <div style="flex:1.4">
       <h2 class="kicker" style="margin:0 0 .6vmin">While we talked, <em>it worked.</em></h2>
@@ -830,7 +853,7 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
     </div>
     <div style="flex:1" data-step="3">
       <p class="lead" style="font-family:var(--serif); font-style:italic; color:var(--ink)">The question is not whether agents join the HEP toolkit — it's how quickly we adapt how we work.</p>
-      <p class="lead mono" style="margin-top:.8vmin; font-size:clamp(11px,1.5vmin,17px)">${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> · <a href="https://github.com/jfc-mit" target="_blank" rel="noopener">github.com/jfc-mit</a> — <b>thank you</b></p>
+      <p class="lead mono" style="margin-top:.8vmin; font-size:clamp(11px,1.5vmin,17px)">${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> · <a href="https://github.com/jfc-mit" target="_blank" rel="noopener">github.com/jfc-mit</a> · this deck: <a href="https://jfc-mit.github.io/jfc-talk/" target="_blank" rel="noopener">jfc-mit.github.io/jfc-talk</a> — <b>thank you</b></p>
     </div>
   </div>`,
   onenter(step) { if (step >= 2) Term.seekEnd(); }
@@ -848,6 +871,36 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
       <li><strong>Lund plane:</strong> the dominant ~3% unfolding systematic cannot be cross-checked with a second generator — only one ALEPH sample has full detector sim<small>estimated indirectly; flagged plainly in the note</small></li>
     </ul>
   </div></div>`
+},
+{ id: 'b-fabrication', act: 5, label: 'Backup · anti-fabrication', steps: 1, budget: 0, theme: 'dark', html: () => `
+  <h2 class="kicker">Backup — the review cycle is a <em>circuit</em>, not a comment</h2>
+  <div class="cols" style="align-items:center">
+    <div class="col" style="flex:1.1; display:flex; flex-direction:column; gap:1.6vmin; min-width:0">
+      <div class="codeblock">
+        <div class="src"><b>methodology/02-phases.md</b> — the standing rule</div>
+        <pre>- <b>Never adjust parameters to match.</b> Every parameter is
+  justified BEFORE seeing its effect. <span class="hl2">Tuning a cut until
+  data/MC agrees is fabrication — the #1 failure mode.</span>
+- Assume you are wrong when you disagree with a
+  published value, until proven otherwise.</pre>
+      </div>
+      <div class="codeblock">
+        <div class="src"><b>agents/executor.md</b> — provenance, not memory</div>
+        <pre>- <b>Numeric constants never from memory</b> — every mass/BR/σ/L
+  cites a source (RAG paper+table / web / paper).
+- Every number in the note reads from <b>results/*.json</b>;
+  every citation resolves against INSPIRE.</pre>
+      </div>
+    </div>
+    <div class="col grow">
+      <ul class="talk">
+        <li><strong>Programmatic tripwires</strong> — the plot-validator runs 35 mechanical checks<small>efficiencies ∈ [0,1], √N scaling, cutflow monotonic… red flags are auto-Category-A, and the arbiter may not downgrade them</small></li>
+        <li><strong>Blinding is enforced, not requested</strong><small>SR data untouched through Phase 4a; 10% partial unblinding on a fixed seed; full data only after the human gate</small></li>
+        <li><strong>Verdicts bind</strong> — ITERATE means a closed-loop fix of every Category A, then fresh re-review<small>and adversarial verification prunes reviewer over-reach too: at T+39:41 it refuted 5 of 9 findings</small></li>
+        <li><strong>Everything is auditable</strong> — append-only experiment log, artifacts in git<small>a tuned cut would be visible in the diff history; that is the deterrent</small></li>
+      </ul>
+    </div>
+  </div>`
 },
 { id: 'b-vision', act: 5, label: 'Backup · pipeline mirror', steps: 1, budget: 0, theme: 'dark', thumb: 'assets/fig_vision.png', html: () => `
   <h2 class="kicker">Backup — the conventional ↔ agentic mirror</h2>
@@ -1008,8 +1061,8 @@ const Layout = (() => {
    Toggle: S on the scene, or the corner button on its overview card. Persists per-browser.
    ?skip=id1,id2 or ?profile=<name> (from SKIP_PROFILES below) load & persist a cut. */
 const SKIP_PROFILES = {
-  full: [],                                                       // everything
-  tight15: ['context', 'repo', 'stack', 'models', 'cost'],        // trims Act II/III detail to ~13 min
+  full: [],                                                        // everything — 19:20 of budget
+  talk15: ['repo', 'gate', 'stack', 'models', 'meaning'],          // the 15-minute core — 15:45 of budget
   results: ['context', 'repo', 'phases', 'review', 'gate', 'stack'],  // skip framework internals — results-first crowd
 };
 const Skips = (() => {
@@ -1097,6 +1150,7 @@ const Deck = (() => {
     if (!hudOn) return;
     const sc = SCENES[si];
     $('#hud-scene').textContent = sc.label.slice(0, 24);
+    $('#hud-notes').textContent = sc.notes || '';
     const segs = $('#hud-segs'); segs.innerHTML = '';
     for (let i = 1; i <= sc.steps; i++) { const s = document.createElement('i'); if (i <= step) s.className = 'on'; segs.appendChild(s); }
     const bud = countable().filter(s => SCENES.indexOf(s) <= si).reduce((a, s) => a + s.budget, 0);
