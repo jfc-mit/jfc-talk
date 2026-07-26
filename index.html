@@ -132,6 +132,10 @@ strong { font-weight: 650; }
   border-radius: 10px; padding: 1.7vmin 2vmin; box-shadow: var(--shadow); min-width: 0; }
 .kcard .nm { font-family: var(--mono); font-weight: 700; color: var(--accent); font-size: clamp(13px,1.9vmin,23px); }
 .kcard .ds { font-size: clamp(12px,1.65vmin,19px); color: var(--ink60); line-height: 1.42; margin-top: .5vmin; }
+.kcard ul.mini { list-style: none; margin-top: .7vmin; }
+.kcard ul.mini li { position: relative; padding-left: 1.6vmin; margin: .5vmin 0; font-size: clamp(12px,1.6vmin,19px);
+  color: var(--ink60); line-height: 1.4; }
+.kcard ul.mini li::before { content: "•"; position: absolute; left: 0; color: var(--accent); }
 .kcard.dim { border-left-color: var(--ink40); opacity: .85; }
 /* analyses menu */
 .an-card { position: relative; background: var(--card); border: 1px solid var(--ink12); border-radius: 12px;
@@ -151,7 +155,7 @@ strong { font-weight: 650; }
 .phases { display: flex; flex-direction: column; gap: .85vmin; flex: 1; min-height: 0; justify-content: center; }
 .ph { display: flex; align-items: center; gap: 1.4vmin; background: var(--card); border: 1px solid var(--ink12);
   border-radius: 9px; padding: .7vmin 1.4vmin; box-shadow: var(--shadow); font-size: clamp(11px,1.65vmin,19px); }
-.ph .n { font-family: var(--mono); font-weight: 700; color: var(--accent); flex: 0 0 8.5em; }
+.ph .n { font-family: var(--mono); font-weight: 700; color: var(--accent); flex: 0 0 10.5em; white-space: nowrap; }
 .ph .what { flex: 1; color: var(--ink60); min-width: 0; overflow: hidden; line-height: 1.25;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .ph .art { font-family: var(--mono); font-size: .82em; background: var(--chip); border: 1px solid var(--ink12); border-radius: 6px; padding: .15vmin .8vmin; }
@@ -554,13 +558,12 @@ const SCENES = [
     <div class="title-left">
       <h1>AI Agents Can Already <em>Autonomously</em> Perform Experimental High Energy Physics</h1>
       <div class="rule"></div>
-      <span class="arxiv-chip">${arxiv('2603.20179')} · jfc-mit.github.io</span>
+      <span class="arxiv-chip">${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a></span>
       <div class="authors">
         <img src="assets/author_eric.jpg" alt="Eric Moreno"><img src="assets/author_sam.jpg" alt="Sam Bright-Thonney"><img src="assets/author_andrzej.jpg" alt="Andrzej Novak"><img src="assets/author_dolores.jpg" alt="Dolores Garcia"><img src="assets/author_yiyang.jpg" alt="Yiyang Zhao"><img src="assets/author_philip.jpg" alt="Phil Harris">
-        <span class="nm">E. Moreno* · S. Bright-Thonney* · <b style="color:var(--ink)">A. Novak*</b> · D. Garcia · Y. Zhao · P. Harris<br><small>* equal contribution · MIT / IAIFI / CERN</small></span>
+        <span class="nm">Eric Moreno* · Sam Bright-Thonney* · <b style="color:var(--ink)">Andrzej Novak*</b> · Dolores Garcia · Yiyang Zhao · Philip Harris<br><small>* equal contribution · MIT / IAIFI / CERN</small></span>
       </div>
       <div class="who" style="margin-top:2.6vmin"><b>Andrzej Novak</b> · MIT — HSF DAAA · <em>Agentic AI in HEP data analysis</em> · 27 July 2026</div>
-      <div class="mono" style="margin-top:2.2vmin; font-size:clamp(10px,1.4vmin,16px); color:var(--ink40)">background process · rbrun3.cast — a 42.9 h autonomous ALEPH analysis · <span id="trc">⋯ loading</span></div>
       <div class="logos theme-swap">
         <img class="on-light" src="assets/logo_mit_light.svg" alt="MIT"><img class="on-dark" src="assets/logo_mit_dark.svg" alt="MIT">
         <img class="cern on-light" src="assets/logo_cern_light.svg" alt="CERN"><img class="cern on-dark" src="assets/logo_cern_dark.svg" alt="CERN">
@@ -574,14 +577,14 @@ const SCENES = [
     </div>
   </div>`
 },
-{ id: 'anatomy', act: 1, label: 'The anatomy of an analysis', steps: 3, budget: 60, notes: 'arc: channel→lit→selection→syst→unblind; delegate the middle', theme: 'paper', thumb: 'assets/dario_world.png', html: () => `
+{ id: 'anatomy', act: 1, label: 'The anatomy of an analysis', steps: 1, budget: 60, notes: 'arc: channel→lit→selection→syst→unblind; delegate the middle', theme: 'paper', thumb: 'assets/dario_world.png', html: () => `
   <h2 class="kicker">A typical HEP analysis — <em>years</em> of a life, mostly algorithmic</h2>
   <div class="cols">
     <div class="col" style="flex:1">
       <ul class="talk">
         <li>Pick a channel → read the literature → design &amp; validate a selection → systematics → <strong>unblind &amp; infer</strong><small>the same arc, every analysis, every collaboration</small></li>
-        <li data-step="2">Thousands of lines of code, structurally similar to dozens of prior analyses<small>little physics reasoning; poor central documentation; slow, error-prone, tedious</small></li>
-        <li data-step="3"><span class="hl">Most of this can be delegated to agents</span> — code, docs, debugging, self-critique<small>the physicist's scarce resource should be judgment, not boilerplate</small></li>
+        <li>Thousands of lines of code, structurally similar to dozens of prior analyses<small>little physics reasoning; poor central documentation; slow, error-prone, tedious</small></li>
+        <li><span class="hl">Most of this can be delegated to agents</span> — code, docs, debugging, self-critique<small>the physicist's scarce resource should be judgment, not boilerplate</small></li>
       </ul>
     </div>
     <div class="col" style="flex:1.35; align-self:center">
@@ -602,7 +605,13 @@ const SCENES = [
 { id: 'launch', act: 1, label: 'Ignition', steps: 2, budget: 60, notes: 'prompt + 1 approval = all human input; ×230 replay', thumb: 'assets/ovthumb_launch.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">One prompt. <em>43 hours.</em> No hands.</h2>
   <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2.2vmin; min-height:0">
-    <div class="promptcard"><span class="ps">prompt&gt;</span> Measure R<sub>b</sub>, R<sub>c</sub>, and A<sub>FB</sub><sup>b</sup> using signed impact-parameter b-tagging and jet charge. <span style="color:var(--ink40)">(abridged — the verbatim prompt opens the recording →)</span></div>
+    <div class="promptcard" style="font-size:clamp(11px,1.5vmin,18px)"><span class="ps">prompt&gt;</span> Scaffold The following analysis based on the spec in this folder and then assume the orchestrator agent role:
+
+Measure the partial width ratios R_b and R_c, and the b-quark forward-backward asymmetry A_FB^b, in hadronic Z decays using archived ALEPH data at sqrt(s) = 91.2 GeV.
+
+Tag b and c events using lifetime methods (signed impact parameter significance). Use a double-tag method for R_b. For A_FB^b, determine the b-quark charge using jet charge in tagged hemispheres and measure the cos(theta_thrust) asymmetry to extract sin^2(theta_eff).
+
+If you lack MC truth info, you could derive approximate truth from studying the decay chain. Maybe you can find neutrino truth flavour. <span style="color:var(--ink40)">(verbatim — typos and all)</span></div>
     <ul class="talk">
       <li>On the right: a <strong>real, contiguous recording</strong> of that run — 42.9 h of wall clock, idle collapsed, replayed ≈×230<small>it will keep running beside the slides, and it will finish before I do</small></li>
       <li data-step="2"><span class="hl">Total human input: this prompt, plus one approval click</span> at the unblinding gate<small>everything else — strategy, code, review, iteration, the note — is the agents talking to each other</small></li>
@@ -610,29 +619,40 @@ const SCENES = [
   </div>`,
   onenter(step) { if (step >= 2) Term.ignite(); }   // moving past the ignition beat auto-starts the run
 },
-{ id: 'framework', act: 2, label: 'JFC · the framework', steps: 2, budget: 60, notes: 'orchestrator delegates; artifact+review gates; agent designs strategy', theme: 'dark', term: 'dock', thumb: 'assets/fig_pipeline.png', html: () => `
+{ id: 'framework', act: 2, label: 'JFC · the framework', steps: 1, budget: 60, notes: 'orchestrator delegates; artifact+review gates; agent designs strategy', theme: 'dark', term: 'dock', thumb: 'assets/fig_pipeline.png', html: () => `
   <h2 class="kicker"><em>Just Furnish Context</em> — the whole trick is in the name</h2>
   <div class="cols">
     <div class="col grow">
       <ul class="talk">
         <li>An <strong>orchestrator</strong> plans; disposable subagents execute<small>fresh context per task — no context rot over 50+ hours</small></li>
         <li>Phases advance only through <strong>written artifacts + independent review</strong><small>context passes between phases only via artifacts and an append-only log</small></li>
-        <li data-step="2">No template, no skeleton — the agent <span class="hl">designs the strategy itself</span>, consulting the literature<small>unlike scaffolded pipelines where the agent fills in pre-defined steps</small></li>
+        <li>No template, no skeleton — the agent <span class="hl">designs the strategy itself</span>, consulting the literature<small>unlike scaffolded pipelines where the agent fills in pre-defined steps</small></li>
       </ul>
     </div>
     <div class="col" style="flex:1.05; align-self:stretch"><div class="fig zoomable" style="height:100%"><img src="assets/fig_pipeline.png" alt="JFC framework diagram"></div></div>
   </div>`
 },
-{ id: 'context', act: 2, label: 'What you furnish', steps: 2, budget: 50, notes: '~30 files, ~1000 lines md = new-student onboarding', thumb: 'assets/ovthumb_context.jpg', theme: 'dark', term: 'dock', html: () => `
+{ id: 'context', act: 2, label: 'What you furnish', steps: 1, budget: 50, notes: '~30 files, ~1000 lines md = new-student onboarding', thumb: 'assets/ovthumb_context.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">What you furnish = what a group gives a <em>new student</em></h2>
-  <div class="cardgrid" style="grid-template-columns:1fr 1fr 1fr; flex:1; align-content:center">
-    <div class="kcard"><div class="nm">methodology/</div><div class="ds">How an analysis proceeds, planning → inference — the institutional knowledge that is never written down, written down. Plus tiers of review, encoded as agents.</div></div>
-    <div class="kcard"><div class="nm">conventions/</div><div class="ds">Domain specifics no general model can guess: tool choices, visualization standards, recent techniques, field lore.</div></div>
-    <div class="kcard"><div class="nm">agents/</div><div class="ds">A behavioral contract: what each subagent receives and returns (no physics through the side door), plus an append-only experiment log for humans to audit.</div></div>
-  </div>
-  <p class="lead" data-step="2" style="font-style:italic; margin-top:1.6vmin">Together: a graduate curriculum in ~30 files, ~1,000 lines of markdown — the standards against which every agent decision is made <b>and reviewed</b>. No secret sauce.</p>`
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2.4vmin; min-height:0">
+    <div class="cardgrid" style="grid-template-columns:1fr 1fr 1fr">
+      <div class="kcard"><div class="nm">methodology/</div><ul class="mini">
+        <li>how an analysis proceeds, planning → inference</li>
+        <li>the institutional knowledge that is never written down — written down</li>
+        <li>tiers of review, encoded as agents</li></ul></div>
+      <div class="kcard"><div class="nm">conventions/</div><ul class="mini">
+        <li>domain specifics no general model can guess</li>
+        <li>tool choices · visualization standards</li>
+        <li>recent techniques &amp; field lore</li></ul></div>
+      <div class="kcard"><div class="nm">agents/</div><ul class="mini">
+        <li>a behavioral contract: what each subagent receives &amp; returns</li>
+        <li>no physics through the side door</li>
+        <li>append-only experiment log, for humans to audit</li></ul></div>
+    </div>
+    <p class="lead" style="font-style:italic">Together: a graduate curriculum in ~30 files, ~1,000 lines of markdown — the standards against which every agent decision is made <b>and reviewed</b>. No secret sauce.</p>
+  </div>`
 },
-{ id: 'repo', act: 2, label: 'Views into the spec', steps: 2, budget: 50, notes: 'tuning-to-match = fabrication, #1 failure mode; constants cited', theme: 'dark', term: 'dock', html: () => `
+{ id: 'repo', act: 2, label: 'Views into the spec', steps: 1, budget: 50, notes: 'tuning-to-match = fabrication, #1 failure mode; constants cited', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">The spec is <em>public</em> — and it reads like a supervisor</h2>
   <div class="cols" style="align-items:center; gap:2.5%">
     <div class="col" style="flex:.72">
@@ -661,7 +681,7 @@ const SCENES = [
 - Assume you are wrong when you disagree with a
   published value, until proven otherwise.</pre>
       </div>
-      <div class="codeblock" data-step="2">
+      <div class="codeblock">
         <div class="src"><b>agents/executor.md</b> — the contract every executor runs under</div>
         <pre>NON-NEGOTIABLE (any violation is Category A):
 - <b>Numeric constants never from memory</b> — every mass/BR/σ/L
@@ -673,19 +693,19 @@ const SCENES = [
     </div>
   </div>`
 },
-{ id: 'phases', act: 2, label: 'Artifact-gated phases', steps: 3, budget: 60, notes: '7 phases; 4b halts for a human', thumb: 'assets/ovthumb_phases.jpg', theme: 'dark', term: 'dock', html: () => `
+{ id: 'phases', act: 2, label: 'Artifact-gated phases', steps: 1, budget: 60, notes: '7 phases; 4b halts for a human', thumb: 'assets/ovthumb_phases.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">Seven phases, each <em>gated</em> by an artifact + review</h2>
   <div class="phases">
     <div class="ph"><span class="n">1 · Strategy</span><span class="what">literature survey → selection, blinding variable, systematics program</span><span class="art">STRATEGY.md</span><span class="rev">4-bot review</span></div>
     <div class="ph"><span class="n">2 · Exploration</span><span class="what">data reconnaissance, sample inventory, variable ranking</span><span class="art">EXPLORATION.md</span><span class="rev">self + plot-validator</span></div>
     <div class="ph"><span class="n">3 · Processing</span><span class="what">selection, control regions, background estimation, closure</span><span class="art">SELECTION.md</span><span class="rev">1-bot + plot-validator</span></div>
-    <div class="ph" data-step="2"><span class="n">4a · Expected</span><span class="what">systematics, stat model, Asimov fits, injection tests → first note</span><span class="art">ANALYSIS_NOTE</span><span class="rev">full panel + arbiter</span></div>
-    <div class="ph gate" data-step="2"><span class="n">4b · 10% data</span><span class="what">partial unblinding (fixed seed) → checklist → <b>pipeline halts for a human</b></span><span class="art">⏸ HUMAN GATE</span><span class="rev">full panel → you</span></div>
-    <div class="ph" data-step="3"><span class="n">4c · Unblind</span><span class="what">full data, consistency vs 10% &amp; Asimov — after approval only</span><span class="art">INFERENCE_OBSERVED</span><span class="rev">1-bot + plot-validator</span></div>
-    <div class="ph" data-step="3"><span class="n">5 · Documentation</span><span class="what">publication figures, final analysis note, typeset PDF</span><span class="art">50–100 pp PDF</span><span class="rev">full panel + arbiter</span></div>
+    <div class="ph"><span class="n">4a · Expected</span><span class="what">systematics, stat model, Asimov fits, injection tests → first note</span><span class="art">ANALYSIS_NOTE</span><span class="rev">full panel + arbiter</span></div>
+    <div class="ph gate"><span class="n">4b · 10% data</span><span class="what">partial unblinding (fixed seed) → checklist → <b>pipeline halts for a human</b></span><span class="art">⏸ HUMAN GATE</span><span class="rev">full panel → you</span></div>
+    <div class="ph"><span class="n">4c · Unblind</span><span class="what">full data, consistency vs 10% &amp; Asimov — after approval only</span><span class="art">INFERENCE_OBSERVED</span><span class="rev">1-bot + plot-validator</span></div>
+    <div class="ph"><span class="n">5 · Documentation</span><span class="what">publication figures, final analysis note, typeset PDF</span><span class="art">50–100 pp PDF</span><span class="rev">full panel + arbiter</span></div>
   </div>`
 },
-{ id: 'review', act: 2, label: 'Multi-agent review', steps: 3, budget: 60, notes: 'binding; validator red flags auto-Cat-A; arbiter cannot downgrade', thumb: 'assets/ovthumb_review.jpg', theme: 'dark', term: 'dock', html: () => `
+{ id: 'review', act: 2, label: 'Multi-agent review', steps: 2, budget: 60, notes: 'binding; validator red flags auto-Cat-A; arbiter cannot downgrade', thumb: 'assets/ovthumb_review.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">Review is <em>binding</em>, not advisory</h2>
   <div class="revflow">
     <svg class="rf-loop" data-step="2" viewBox="0 0 60 100" preserveAspectRatio="none" aria-hidden="true">
@@ -709,10 +729,10 @@ const SCENES = [
       <span class="v v-iter">ITERATE<small>↺ closed-loop fix, then re-review</small></span>
       <span class="v v-esc">ESCALATE<small>a human must think</small></span>
     </div>
-    <p class="lead" data-step="3" style="text-align:center; font-style:italic; margin-top:.3vmin">Mirrors a collaboration's review tiers — the human reviewer later spends judgment, not mechanics.</p>
+    <p class="lead" data-step="2" style="text-align:center; font-style:italic; margin-top:.3vmin">Mirrors a collaboration's review tiers — the human reviewer later spends judgment, not mechanics.</p>
   </div>`
 },
-{ id: 'gate', act: 2, label: 'The unblinding gate', steps: 2, budget: 45, notes: 'Asimov→10% fixed seed→halt; APPROVE / CHANGES / HALT', thumb: 'assets/ovthumb_gate.jpg', theme: 'dark', term: 'dock', html: () => `
+{ id: 'gate', act: 2, label: 'The unblinding gate', steps: 1, budget: 45, notes: 'Asimov→10% fixed seed→halt; APPROVE / CHANGES / HALT', thumb: 'assets/ovthumb_gate.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">Blinding is <em>enforced</em> — and unblinding stays human</h2>
   <div class="cols">
     <div class="col grow">
@@ -720,7 +740,7 @@ const SCENES = [
         <li><strong>Asimov only</strong> through Phase 4a — signal region never touched<small>"never access SR data until explicitly told" is a standing constraint on every agent</small></li>
         <li><strong>10% partial unblinding</strong>, fixed seed — pathology check without revealing the result</li>
         <li>Then the pipeline <span class="hl">halts itself</span>: structured summary, 7-item checklist, review verdicts<small>the one place a human must act: APPROVE · REQUEST_CHANGES · HALT</small></li>
-        <li data-step="2">Execution and review can be automated — <strong>the judgment to unblind should not be</strong></li>
+        <li>Execution and review can be automated — <strong>the judgment to unblind should not be</strong></li>
       </ul>
     </div>
     <div class="col" style="flex:.85; align-self:center">
@@ -731,14 +751,14 @@ const SCENES = [
     </div>
   </div>`
 },
-{ id: 'stack', act: 2, label: 'Stack & literature', steps: 2, budget: 40, notes: 'SciTreeRAG: ALEPH 1503/575, DELPHI 4305/1868', thumb: 'assets/ovthumb_stack.jpg', theme: 'dark', term: 'dock', html: () => `
+{ id: 'stack', act: 2, label: 'Stack & literature', steps: 1, budget: 40, notes: 'SciTreeRAG: ALEPH 1503/575, DELPHI 4305/1868', thumb: 'assets/ovthumb_stack.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">Opinionated tools · <em>grounded</em> knowledge</h2>
   <div class="cols" style="align-items:stretch">
     <div class="col grow" style="align-self:center">
       <ul class="talk">
         <li><strong>SciTreeRAG</strong> over the LEP corpus — retrieval that follows paper <em>structure</em><small>ALEPH: 1,503 catalogued works, 575 converted · DELPHI: 4,305 / 1,868 (Nougat OCR + Pandoc)</small></li>
         <li>Plus arXiv MCP + INSPIRE/HEPData for modern methods &amp; published inputs</li>
-        <li data-step="2">Selections, systematics lists, statistical frameworks come <span class="hl">from the literature</span>, not from vibes<small>the difference between "recalling" an analysis and reconstructing one</small></li>
+        <li>Selections, systematics lists, statistical frameworks come <span class="hl">from the literature</span>, not from vibes<small>the difference between "recalling" an analysis and reconstructing one</small></li>
       </ul>
     </div>
     <div class="col" style="flex:1.15; align-self:center">
@@ -756,7 +776,7 @@ const SCENES = [
     </div>
   </div>`
 },
-{ id: 'menu', act: 3, label: 'Six analyses', steps: 2, budget: 55, notes: '6 analyses, 1 prompt each; capability evidence, not vetted', theme: 'dark', term: 'dock', thumb: 'assets/thumb_lund.png', html: () => `
+{ id: 'menu', act: 3, label: 'Six analyses', steps: 1, budget: 55, notes: '6 analyses, 1 prompt each; capability evidence, not vetted', theme: 'dark', term: 'dock', thumb: 'assets/thumb_lund.png', html: () => `
   <h2 class="kicker">One prompt each — <em>six</em> autonomous analyses</h2>
   <div class="cardgrid" style="grid-template-columns:repeat(3,1fr); grid-auto-rows:1fr; flex:1">
     <div class="an-card"><span class="exp" style="color:var(--cms)">CMS</span><div class="im"><img src="assets/thumb_htt.png" alt=""></div><div class="nm">H→τ⁺τ⁻ signal strength</div><div class="pr">μτ_h at √s = 8 TeV, Run-1 Open Data</div></div>
@@ -766,14 +786,14 @@ const SCENES = [
     <div class="an-card"><span class="exp">ALEPH</span><div class="im"><img src="assets/thumb_eec.png" alt=""></div><div class="nm">Energy-energy correlators</div><div class="pr">E2C, E3C, ratio, AEEC</div></div>
     <div class="an-card"><span class="exp">ALEPH</span><div class="im"><img src="assets/thumb_alphas.png" alt=""></div><div class="nm">Event shapes → α_s(M_Z)</div><div class="pr">six shapes, NNLO+NLL fits</div></div>
   </div>
-  <p class="lead" data-step="2" style="margin-top:1.2vmin">Deliverable each time: a <b>50–100-page analysis note</b>, all code, all figures — public on <span class="mono">github.com/jfc-mit</span>. Presented as capability evidence, <i>not</i> as vetted measurements.</p>`
+  <p class="lead" style="margin-top:1.2vmin">Deliverable each time: a <b>50–100-page analysis note</b>, all code, all figures — public on <span class="mono">github.com/jfc-mit</span>. Presented as capability evidence, <i>not</i> as vetted measurements.</p>`
 },
-{ id: 'deliverable', act: 3, label: 'The deliverable', steps: 2, budget: 35, notes: '50–100 pp note; demo 14 pp; this run wrote 53 pp', theme: 'dark', term: 'dock', thumb: 'assets/an_mosaic.png', html: () => `
+{ id: 'deliverable', act: 3, label: 'The deliverable', steps: 1, budget: 35, notes: '50–100 pp note; demo 14 pp; this run wrote 53 pp', theme: 'dark', term: 'dock', thumb: 'assets/an_mosaic.png', html: () => `
   <h2 class="kicker">The deliverable is a <em>document</em>, not a notebook</h2>
   <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:1.4vmin; min-height:0">
     <div class="fig zoomable auto" style="max-height:62%; overflow:hidden"><img src="assets/an_mosaic.png" alt="agent-written analysis note, page by page"></div>
     <div class="figcap" style="text-align:left; margin-top:0">agent-written analysis note, every page — sections, figures, tables, references, typeset to PDF by the <span style="color:var(--accent)">typesetter</span> agent (shown: the 14-pp H→4l demo note; the R<sub>b</sub> run beside you wrote 53 pp)</div>
-    <ul class="talk" data-step="2" style="margin-top:.6vmin">
+    <ul class="talk" style="margin-top:.6vmin">
       <li>Every figure referenced in text · every number from <span class="mono">results/*.json</span> · every citation resolved against INSPIRE<small>and the note passes the same review panel as the physics before it ships</small></li>
     </ul>
   </div>`
@@ -805,58 +825,58 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
     </div>
   </div>`
 },
-{ id: 'scoreboard', act: 3, label: 'Against the published values', steps: 3, budget: 60, notes: '8/9 in 2σ; Γ_Z −3.4σ off-peak eff; wide σ = cheap pulls', theme: 'dark', term: 'dock', thumb: 'assets/fig_summary.png', html: () => `
+{ id: 'scoreboard', act: 3, label: 'Against the published values', steps: 2, budget: 60, notes: '8/9 in 2σ; Γ_Z −3.4σ off-peak eff; wide σ = cheap pulls', theme: 'dark', term: 'dock', thumb: 'assets/fig_summary.png', html: () => `
   <h2 class="kicker">Scored against the <em>published</em> numbers</h2>
   <div class="cols"><div class="col grow" style="align-self:stretch; position:relative">
     <div class="fig zoomable" style="height:100%"><img src="assets/fig_summary.png" alt="agent vs published pulls"></div>
     <div class="callout" data-step="2" style="right:1.5%; top:19%; max-width:24%"><b>8 of 9 scalars within 2σ</b><br>of the measuring experiment's own published value.</div>
     <div class="callout" data-step="2" style="right:1.5%; top:45%; max-width:24%"><b>The −3.4σ outlier (Γ_Z)</b><br>traced by the agent itself: residual energy-dependent selection efficiency at the off-peak scan points.</div>
-    <div class="callout" data-step="3" style="right:1.5%; top:74%; max-width:24%"><b>Read pulls honestly</b><br>wide agent uncertainties make small pulls cheap — H→ττ carries ~3× the published σ.</div>
+    <div class="callout" data-step="2" style="right:1.5%; top:74%; max-width:24%"><b>Read pulls honestly</b><br>wide agent uncertainties make small pulls cheap — H→ττ carries ~3× the published σ.</div>
   </div></div>`
 },
-{ id: 'htautau', act: 3, label: 'Headline · CMS H→ττ', steps: 3, budget: 65, notes: 'μ 1.20±1.13 vs 1.01±0.41; waterfall 1.20→0.65 vs 0.41; Combine rebuild', theme: 'dark', term: 'dock', thumb: 'assets/fig_money.png', html: () => `
+{ id: 'htautau', act: 3, label: 'Headline · CMS H→ττ', steps: 2, budget: 65, notes: 'μ 1.20±1.13 vs 1.01±0.41; waterfall 1.20→0.65 vs 0.41; Combine rebuild', theme: 'dark', term: 'dock', thumb: 'assets/fig_money.png', html: () => `
   <h2 class="kicker">The <em>known-answer</em> test — CMS H→τ⁺τ⁻</h2>
   <div class="cols" style="align-items:stretch">
     <div class="col grow"><div class="fig zoomable" style="height:100%"><img src="assets/fig_money.png" alt="S/S+B weighted post-fit DNN distribution"></div></div>
     <div class="col grow" style="position:relative"><div class="fig zoomable" style="height:100%"><img src="assets/fig_waterfall.png" alt="sigma_mu decomposition"></div>
-      <div class="callout" data-step="3" style="left:4%; bottom:13%; max-width:56%"><b>σ_μ 1.20 → 0.65</b> just by scaling inputs to CMS scale — within ×1.6 of the published 0.41; the gap is design, not the agent's inputs.</div>
+      <div class="callout" data-step="2" style="left:4%; bottom:13%; max-width:56%"><b>σ_μ 1.20 → 0.65</b> just by scaling inputs to CMS scale — within ×1.6 of the published 0.41; the gap is design, not the agent's inputs.</div>
     </div>
   </div>
   <p class="lead" data-step="2" style="margin-top:1vmin">μ̂ = <b>1.20 ± 1.13</b> vs published <b>1.01 ± 0.41</b> (μτ_h) — and the statistical model <span class="hl">rebuilds point-by-point in an independent Combine implementation</span>. A reproduction, not a competition: single channel, partial 2012 sample.</p>`
 },
-{ id: 'lund', act: 3, label: 'Headline · Lund jet plane', steps: 2, budget: 50, notes: 'N 4.751±0.224; first in e+e−; candidate measurement', theme: 'dark', term: 'dock', thumb: 'assets/fig_lund.png', html: () => `
+{ id: 'lund', act: 3, label: 'Headline · Lund jet plane', steps: 1, budget: 50, notes: 'N 4.751±0.224; first in e+e−; candidate measurement', theme: 'dark', term: 'dock', thumb: 'assets/fig_lund.png', html: () => `
   <h2 class="kicker">…and the plot from the title slide</h2>
   <div class="cols" style="align-items:stretch">
     <div class="col grow" style="align-self:center">
       <ul class="talk">
         <li>Primary <strong>Lund jet plane density</strong>, unfolded to charged-particle level, on archived ALEPH LEP1 data<small>⟨N⟩ = 4.751 ± 0.224 primary emissions — systematics-limited</small></li>
         <li><span class="hl">Never measured in e⁺e⁻ before.</span> From a one-line prompt<small>to our knowledge: the first genuinely new HEP measurement produced autonomously by an AI agent</small></li>
-        <li data-step="2">No prior counterpart to check against — so it is a <strong>candidate measurement</strong>, offered for community scrutiny<small>which is exactly the point: validation is where humans stay essential</small></li>
+        <li>No prior counterpart to check against — so it is a <strong>candidate measurement</strong>, offered for community scrutiny<small>which is exactly the point: validation is where humans stay essential</small></li>
       </ul>
     </div>
     <div class="col" style="flex:1.15"><div class="fig zoomable" style="height:100%"><img src="assets/fig_lund.png" alt="ALEPH primary Lund jet plane density"></div></div>
   </div>`
 },
-{ id: 'models', act: 3, label: 'Across models', steps: 2, budget: 35, notes: 'Opus 4.8 vs GPT-5.5 vs Fable 5; one run each — hint not benchmark', theme: 'dark', term: 'dock', thumb: 'assets/fig_models.png', html: () => `
+{ id: 'models', act: 3, label: 'Across models', steps: 1, budget: 35, notes: 'Opus 4.8 vs GPT-5.5 vs Fable 5; one run each — hint not benchmark', theme: 'dark', term: 'dock', thumb: 'assets/fig_models.png', html: () => `
   <h2 class="kicker">Same prompt, same framework, <em>different brains</em></h2>
   <div class="cols">
     <div class="col grow">
       <ul class="talk">
         <li>Identical H→ττ prompt driven by <strong>Claude Opus 4.8</strong>, a <strong>Codex agent (GPT-5.5)</strong>, and <strong>Claude Fable 5</strong><small>compatible but distinct results; Fable 5 prefers a slight deficit</small></li>
-        <li data-step="2">One run per model — an <span class="hl">indicative hint</span>, not a benchmark<small>token budgets forbid the ensembles a real comparison needs… yet. Hold that thought too.</small></li>
+        <li>One run per model — an <span class="hl">indicative hint</span>, not a benchmark<small>token budgets forbid the ensembles a real comparison needs… yet. Hold that thought too.</small></li>
       </ul>
     </div>
     <div class="col" style="flex:1.3; align-self:center"><div class="fig zoomable auto"><img src="assets/fig_models.png" alt="model comparison for H to tautau"></div></div>
   </div>`
 },
-{ id: 'cost', act: 3, label: 'Throughput & cost', steps: 2, budget: 40, notes: '$200/mo; ~10 h per analysis; idle waits dominate', theme: 'dark', term: 'dock', thumb: 'assets/fig_timings.png', html: () => `
+{ id: 'cost', act: 3, label: 'Throughput & cost', steps: 1, budget: 40, notes: '$200/mo; ~10 h per analysis; idle waits dominate', theme: 'dark', term: 'dock', thumb: 'assets/fig_timings.png', html: () => `
   <h2 class="kicker">What it costs — a <em>subscription</em>, not a cluster</h2>
   <div class="cols">
     <div class="col grow">
       <ul class="talk">
         <li><strong>~$200 / month</strong> (Claude Max) ran the whole program<small>≈10 h wall-clock per analysis; review usually passes in 1–2 iterations</small></li>
         <li>Idle usage-limit waits dominate wall time — visible live in the dock's run clock</li>
-        <li data-step="2">Iterations concentrate at <strong>strategy</strong> and <strong>inference setup</strong> — where the physics is<small>mechanical phases just… execute</small></li>
+        <li>Iterations concentrate at <strong>strategy</strong> and <strong>inference setup</strong> — where the physics is<small>mechanical phases just… execute</small></li>
       </ul>
     </div>
     <div class="col" style="flex:1.5; align-self:stretch; display:flex; flex-direction:column; justify-content:center; min-height:0">
@@ -865,16 +885,16 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
     </div>
   </div>`
 },
-{ id: 'honest', act: 3, label: 'Where it breaks', steps: 3, budget: 50, notes: 'correct diagnosis, deferred treatment', thumb: 'assets/ovthumb_honest.jpg', theme: 'dark', term: 'dock', html: () => `
+{ id: 'honest', act: 3, label: 'Where it breaks', steps: 2, budget: 50, notes: 'correct diagnosis, deferred treatment', thumb: 'assets/ovthumb_honest.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">Where it breaks — <em>honestly</em></h2>
   <div class="cardgrid" style="grid-template-columns:1fr 1fr 1fr; flex:1; align-content:center">
     <div class="kcard"><div class="nm">physics</div><div class="ds">Subtle selection biases · conservative cuts that cost real sensitivity · niche methods never tried · novelty beyond the literature is not reliable.</div></div>
-    <div class="kcard" data-step="2"><div class="nm">execution</div><div class="ds">Instructions decay in long contexts (yes, hard-coded font sizes) · stochastic run-to-run strategies · stale API knowledge · patches over proper dependencies.</div></div>
-    <div class="kcard" data-step="2"><div class="nm">style</div><div class="ds">Figure conventions must be spelled out with brutal specificity — and some agent figures are still fully nonsensical.</div></div>
+    <div class="kcard"><div class="nm">execution</div><div class="ds">Instructions decay in long contexts (yes, hard-coded font sizes) · stochastic run-to-run strategies · stale API knowledge · patches over proper dependencies.</div></div>
+    <div class="kcard"><div class="nm">style</div><div class="ds">Figure conventions must be spelled out with brutal specificity — and some agent figures are still fully nonsensical.</div></div>
   </div>
-  <p class="lead" data-step="3" style="font-style:italic; font-size:clamp(16px,2.3vmin,28px); margin-top:1vmin">The signature failure mode: <b>correct diagnosis, deferred treatment.</b> It writes an excellent limitations section about the fix it didn't implement — which is precisely what review cycles are for.</p>`
+  <p class="lead" data-step="2" style="font-style:italic; font-size:clamp(16px,2.3vmin,28px); margin-top:1vmin">The signature failure mode: <b>correct diagnosis, deferred treatment.</b> It writes an excellent limitations section about the fix it didn't implement — which is precisely what review cycles are for.</p>`
 },
-{ id: 'forward', act: 4, label: 'The way forward', steps: 2, budget: 50, notes: 'benchmark vs known physics; N-run variance; WG best practices', thumb: 'assets/ovthumb_forward.jpg', theme: 'dark', term: 'dock', html: () => `
+{ id: 'forward', act: 4, label: 'The way forward', steps: 1, budget: 50, notes: 'benchmark vs known physics; N-run variance; WG best practices', thumb: 'assets/ovthumb_forward.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">The way forward — <em>measure</em> the agents, then trust them</h2>
   <div class="cols">
     <div class="col grow">
@@ -885,7 +905,7 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
       </ul>
     </div>
     <div class="col grow">
-      <ul class="talk" data-step="2">
+      <ul class="talk">
         <li><strong>Best practices this WG could write down:</strong></li>
         <li>Pin the spec &amp; conventions in version control — <span class="mono">prompt ≡ methodology</span></li>
         <li>Artifact-gated phases + append-only logs — every decision auditable</li>
@@ -895,14 +915,14 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
     </div>
   </div>`
 },
-{ id: 'meaning', act: 4, label: 'What it means', steps: 3, budget: 45, notes: 'implementer → architect+critic; legacy data reopens', theme: 'dark', term: 'dock', thumb: 'assets/fig_vision.png', html: () => `
+{ id: 'meaning', act: 4, label: 'What it means', steps: 1, budget: 45, notes: 'implementer → architect+critic; legacy data reopens', theme: 'dark', term: 'dock', thumb: 'assets/fig_vision.png', html: () => `
   <h2 class="kicker">If implementation is cheap, <em>what are we for?</em></h2>
   <div class="cols">
     <div class="col grow">
       <ul class="talk">
         <li>The physicist shifts from <strong>implementer</strong> to <strong>architect &amp; critic</strong><small>the bottleneck moves from coding capacity to ideas and review bandwidth — an intellectual constraint, finally</small></li>
-        <li data-step="2"><strong>Legacy data reopens</strong>: LEP, Tevatron, B-factories — FORTRAN + PAW expertise no longer gates reanalysis<small>plus systematic reproducibility sweeps of published results, at scale</small></li>
-        <li data-step="3"><strong>Train students for it</strong>: read &amp; critique code they didn't write, know the failure modes, spec precisely<small>coding proficiency stays essential — you must be able to check what you sign</small></li>
+        <li><strong>Legacy data reopens</strong>: LEP, Tevatron, B-factories — FORTRAN + PAW expertise no longer gates reanalysis<small>plus systematic reproducibility sweeps of published results, at scale</small></li>
+        <li><strong>Train students for it</strong>: read &amp; critique code they didn't write, know the failure modes, spec precisely<small>coding proficiency stays essential — you must be able to check what you sign</small></li>
       </ul>
     </div>
     <div class="col" style="flex:1.25; align-self:center">
