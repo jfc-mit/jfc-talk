@@ -91,6 +91,10 @@ python3 prep_cast.py <src> <target_s> <end_orig_s>
 - `cast_meta.js` carries anchors mapping playback time → original run time for the
   telemetry clock; regenerating the cast regenerates the clock automatically.
 
+After regenerating, bump the two `?v=` cache-bust tags in `index.html`
+(`cast_meta.js?v=…`, `workflow.cast?v=…`) — browsers otherwise happily replay a
+stale cached cut against fresh HTML.
+
 To swap in a different recording, re-run `prep_cast.py` on it, then update the
 prompt/analysis labels in the terminal dock (`#term` markup) and the `launch` /
 `finale` scene numbers in `index.html` (grep for "43 hours").
