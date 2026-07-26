@@ -192,6 +192,24 @@ table.stack td.forb { font-family: var(--mono); color: #c1272d; text-decoration:
   box-shadow: var(--shadow); padding: 2.2vmin 2.6vmin; font-family: var(--mono); font-size: clamp(13px,1.95vmin,24px);
   line-height: 1.6; white-space: pre-wrap; }
 .promptcard .ps { color: var(--green); font-weight: 700; }
+/* html-native diagrams — theme-aware rebuilds of the paper figures */
+.diag { background: var(--card); border: 1px solid var(--ink12); border-radius: 12px; box-shadow: var(--shadow);
+  padding: 1.6vmin 1.8vmin; display: flex; flex-direction: column; gap: .5vmin; min-width: 0; }
+.diag .dbox { border: 1px solid var(--ink12); border-radius: 8px; padding: .55vmin 1vmin; background: var(--chip);
+  font-size: clamp(10px,1.5vmin,18px); line-height: 1.32; text-align: center; min-width: 0; }
+.diag .dbox small { display: block; color: var(--ink60); font-size: .82em; margin-top: .15vmin; }
+.diag .dbox.hero { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 9%, var(--card)); }
+.diag .dbox.hero b { color: var(--accent); }
+.diag .dbox.gate { border: 1.5px solid var(--live); background: color-mix(in srgb, var(--live) 8%, var(--card)); }
+.diag .dbox.gate b { color: var(--live); }
+.diag .dbox.out { border-color: var(--green); background: color-mix(in srgb, var(--green) 8%, var(--card)); }
+.diag .darr { text-align: center; color: var(--ink40); font-family: var(--mono); font-size: clamp(8.5px,1.25vmin,14px); line-height: 1.3; }
+.diag .dcols { display: flex; gap: 1.4vmin; align-items: stretch; min-width: 0; }
+.diag .dcol { flex: 1; display: flex; flex-direction: column; gap: .5vmin; min-width: 0; }
+.diag .dhead { font-family: var(--mono); font-size: clamp(9px,1.3vmin,15px); border-radius: 999px; padding: .3vmin 1vmin;
+  text-align: center; margin-bottom: .3vmin; align-self: center; }
+.diag .dcol.slow .dhead { color: var(--cms); border: 1px solid color-mix(in srgb, var(--cms) 45%, transparent); }
+.diag .dcol.fast .dhead { color: var(--green); border: 1px solid color-mix(in srgb, var(--green) 45%, transparent); }
 
 /* ============================================= terminal dock ============================================= */
 #term {
@@ -500,7 +518,7 @@ const SCENES = [
     </div>
   </div>`
 },
-{ id: 'anatomy', act: 1, label: 'The anatomy of an analysis', steps: 3, budget: 80, theme: 'paper', thumb: 'assets/fig_vision.png', html: () => `
+{ id: 'anatomy', act: 1, label: 'The anatomy of an analysis', steps: 3, budget: 80, theme: 'paper', thumb: 'assets/dario_world.png', html: () => `
   <h2 class="kicker">A typical HEP analysis — <em>years</em> of a life, mostly algorithmic</h2>
   <div class="cols">
     <div class="col" style="flex:1">
@@ -510,9 +528,34 @@ const SCENES = [
         <li data-step="3"><span class="hl">Most of this can be delegated to agents</span> — code, docs, debugging, self-critique<small>the physicist's scarce resource should be judgment, not boilerplate</small></li>
       </ul>
     </div>
-    <div class="col" style="flex:1.35; align-self:stretch; display:flex; flex-direction:column; min-height:0">
-      <div class="fig zoomable" style="flex:1; min-height:0"><img src="assets/fig_vision.png" alt="conventional vs agentic analysis pipeline"></div>
-      <div class="figcap">the review pyramid survives — the implementation loop is what compresses</div>
+    <div class="col" style="flex:1.35; align-self:center">
+      <div class="diag">
+        <div class="dcols">
+          <div class="dcol slow">
+            <div class="dhead">current world · ≈ 1 year</div>
+            <div class="dbox">conceive an analysis</div>
+            <div class="darr">▼</div>
+            <div class="dbox">inherit the legacy framework<small>10⁴ lines, sparsely documented</small></div>
+            <div class="darr">▼</div>
+            <div class="dbox">implement · debug · iterate<small>the algorithmic middle</small></div>
+            <div class="darr">▼ ×N</div>
+            <div class="dbox">feedback loop<small>office → subgroup → convener</small></div>
+          </div>
+          <div class="dcol fast">
+            <div class="dhead">agent-assisted · ≈ a day</div>
+            <div class="dbox">conceive — and furnish context</div>
+            <div class="darr">▼</div>
+            <div class="dbox">agents implement<small>code · docs · debugging · self-critique</small></div>
+            <div class="darr">▼</div>
+            <div class="dbox">bot review panels iterate<small>binding, closed-loop</small></div>
+            <div class="darr">▼</div>
+            <div class="dbox">human judges<small>strategy &amp; unblinding — the scarce resource</small></div>
+          </div>
+        </div>
+        <div class="darr">▼</div>
+        <div class="dbox out"><b>Publication</b> 🏆<small>same physics, same review pyramid</small></div>
+      </div>
+      <div class="figcap">the middle of the loop is what compresses — conception and judgment stay human</div>
     </div>
   </div>`
 },
@@ -545,7 +588,23 @@ const SCENES = [
         <li data-step="2">No template, no skeleton — the agent <span class="hl">designs the strategy itself</span>, consulting the literature<small>unlike scaffolded pipelines where the agent fills in pre-defined steps</small></li>
       </ul>
     </div>
-    <div class="col" style="flex:1.05; align-self:stretch"><div class="fig zoomable" style="height:100%"><img src="assets/fig_pipeline.png" alt="JFC framework diagram"></div></div>
+    <div class="col" style="flex:1.15; align-self:stretch">
+      <div class="diag" style="height:100%; justify-content:center">
+        <div class="dbox">one line of physics<small class="mono">"Measure R<sub>b</sub>, R<sub>c</sub> and A<sub>FB</sub><sup>b</sup> …"</small></div>
+        <div class="darr">▼</div>
+        <div class="dbox hero"><b>orchestrator</b> — plans &amp; delegates<small>never executes; holds the only long-lived context</small></div>
+        <div class="darr">▼ spawns — fresh context each</div>
+        <div class="dbox">disposable subagents<small>executor · investigator · fixer — grounded via SciTreeRAG · arXiv · HEPData</small></div>
+        <div class="darr">▼ every phase ends in</div>
+        <div class="dbox">a written artifact<small class="mono">STRATEGY.md → … → ANALYSIS_NOTE.pdf</small></div>
+        <div class="darr">▼</div>
+        <div class="dbox">independent review panel<small>physics · critical · constructive · plot-validator → arbiter: PASS · ITERATE ↺ · ESCALATE</small></div>
+        <div class="darr">▼ PASS → next phase · once, before unblinding:</div>
+        <div class="dbox gate"><b>⏸ human gate</b><small>the one required click</small></div>
+        <div class="darr">▼</div>
+        <div class="dbox out"><b>50–100 pp analysis note</b><small>+ all code, figures, append-only log</small></div>
+      </div>
+    </div>
   </div>`
 },
 { id: 'context', act: 2, label: 'What you furnish', steps: 2, budget: 55, thumb: 'assets/ovthumb_context.jpg', theme: 'dark', term: 'dock', html: () => `
@@ -806,7 +865,7 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
     </div>
   </div>`
 },
-{ id: 'meaning', act: 4, label: 'What it means', steps: 3, budget: 55, theme: 'dark', term: 'dock', thumb: 'assets/dario_world.png', html: () => `
+{ id: 'meaning', act: 4, label: 'What it means', steps: 3, budget: 55, theme: 'dark', term: 'dock', thumb: 'assets/fig_vision.png', html: () => `
   <h2 class="kicker">If implementation is cheap, <em>what are we for?</em></h2>
   <div class="cols">
     <div class="col grow">
@@ -816,7 +875,10 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
         <li data-step="3"><strong>Train students for it</strong>: read &amp; critique code they didn't write, know the failure modes, spec precisely<small>coding proficiency stays essential — you must be able to check what you sign</small></li>
       </ul>
     </div>
-    <div class="col" style="flex:1.25; align-self:center"><div class="fig zoomable auto"><img src="assets/dario_world.png" alt="1 year vs 3 hours"></div></div>
+    <div class="col" style="flex:1.25; align-self:center">
+      <div class="fig zoomable auto"><img src="assets/fig_vision.png" alt="conventional vs agentic analysis pipeline"></div>
+      <div class="figcap">the review pyramid survives — the implementation loop is what compresses</div>
+    </div>
   </div>`
 },
 { id: 'finale', act: 4, label: 'While we talked', steps: 3, budget: 75, theme: 'dark', term: 'wide', html: () => `
