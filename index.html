@@ -532,7 +532,13 @@ const Term = (() => {
     const go = () => { try { player.seek(tgt); } catch { /* still loading */ } };
     go(); setTimeout(() => { if (t() < tgt - 5) go(); }, 1600); }
   $('#term-play').onclick = e => { e.stopPropagation(); try { player && player.play(); } catch { /* not loaded yet */ } };
-  return { init, enter, toggle, seekBy, seekEnd, get player() { return player; } };
+  let ignT = null;
+  function ignite() {   // start the run iff still armed — retries while the 48 MB cast parses
+    if (started) return;
+    try { player && player.play(); } catch { /* not ready */ }
+    clearTimeout(ignT); ignT = setTimeout(() => { if (!started) ignite(); }, 900);
+  }
+  return { init, enter, toggle, seekBy, seekEnd, ignite, get player() { return player; } };
 })();
 /* create the player immediately (dock stays hidden): the 51 MB cast fetches and
    parses during Act I, so ignition is instant and the title chip reports ○ ready
@@ -601,7 +607,8 @@ const SCENES = [
       <li>On the right: a <strong>real, contiguous recording</strong> of that run — 42.9 h of wall clock, idle collapsed, replayed ≈×230<small>it will keep running beside the slides, and it will finish before I do</small></li>
       <li data-step="2"><span class="hl">Total human input: this prompt, plus one approval click</span> at the unblinding gate<small>everything else — strategy, code, review, iteration, the note — is the agents talking to each other</small></li>
     </ul>
-  </div>`
+  </div>`,
+  onenter(step) { if (step >= 2) Term.ignite(); }   // moving past the ignition beat auto-starts the run
 },
 { id: 'framework', act: 2, label: 'JFC · the framework', steps: 2, budget: 60, notes: 'orchestrator delegates; artifact+review gates; agent designs strategy', theme: 'dark', term: 'dock', thumb: 'assets/fig_pipeline.png', html: () => `
   <h2 class="kicker"><em>Just Furnish Context</em> — the whole trick is in the name</h2>

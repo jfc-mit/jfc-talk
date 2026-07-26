@@ -28,7 +28,7 @@ python -m http.server 8123   # from jfc-talk/  ->  http://localhost:8123/
 |---|---|
 | click / → / Space / PgDn | next step · ← / PgUp back · Home/End first/last |
 | O / Esc | overview grid · **H** presenter HUD (timer + per-scene budgets) |
-| **T** | pause / resume the terminal replay |
+| **T** | start (first press) / pause / resume the terminal replay — the ▶ overlay does the same, and advancing past `#launch/2` auto-starts a still-armed run |
 | **, / .** | seek the replay ∓30 s |
 | **G** | grow the terminal to full stage / dock it back — on scenes without the dock (incl. Act I and backups) it **summons** the terminal full-stage, handy in Q&A |
 | **S** | hide / unhide the current scene for this audience cut (see below) |
