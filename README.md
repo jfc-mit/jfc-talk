@@ -10,7 +10,7 @@ step, no framework.
 **The design beat:** after a 3-scene paper-styled intro, the deck goes dark and a
 terminal docks into the right third of the stage, live-replaying `../rbrun3.cast` —
 a real, contiguous **42.9-hour** autonomous JFC run (ALEPH R_b/R_c/A_FB^b on
-Claude Opus 4.8) compressed to ~11 minutes (×230). It plays beside the slides for the rest
+Claude Opus 4.8) compressed to ~11 minutes (×235). It plays beside the slides for the rest
 of the talk and its final frame ("✅ Analysis complete — all 7 phases done") is the
 finale, where the terminal expands to full stage. A telemetry strip under the
 terminal shows the *original* run clock (T+HH:MM:SS), the compression factor, and
@@ -71,8 +71,9 @@ python3 prep_cast.py <src> <target_s> <end_orig_s>
   the screen stayed still ≥60 s of original time (44 such story beats — almost
   always "an agent finished something and paused", matching the independent
   pyte ground-truth analysis) for 2–5 s — the beats the narration quotes
-  (T+1:12, T+39:41, T+42:53, via `KEY_BEATS`) hold 7 s — and compresses the
-  motion in between uniformly to fill the target. The beats are drawn as amber ticks on the
+  (T+1:12, T+39:41, T+42:53, via `KEY_BEATS`) hold 7 s — and paces the motion
+  in between at a CONSTANT OUTPUT RATE (playback time ∝ bytes drawn, ~52 kB/s),
+  so dense repaint bursts spread into readable flow and idle ticks fly by. The beats are drawn as amber ticks on the
   dock's progress rail. A slower exact-pyte mode exists (`--analyze`, via
   `uv run --with pyte`). Without the cache it falls back to uniform pacing.
 - Inter-event gaps are capped at 0.35 s (collapses overnight/rate-limit idles;
@@ -82,9 +83,7 @@ python3 prep_cast.py <src> <target_s> <end_orig_s>
 - **The cut opens on the prompt**: the true opening (the prompt being typed)
   happened inside the dropped leading 280-col window, so `prep_cast.py`
   synthesizes an 8 s preamble at T+00:00:00 — the prompt text, extracted
-  verbatim from that window (`PROMPT`/`PRE_HOLD`) — before the replay starts, and the first ~20 s of
-  motion replay eased ~5× slower (`EASE`/`RAMP`) so the session visibly begins
-  before the time-lapse takes over.
+  verbatim from that window (`PROMPT`/`PRE_HOLD`) — before the replay starts.
   The armed dock (▶ overlay) shows it as its poster frame.
 - **The cut ends at 154,600 s (42.94 h) by default**: rbrun3.cast keeps recording
   past the analysis into an unrelated interactive session; the results screen

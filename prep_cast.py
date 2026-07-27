@@ -71,10 +71,6 @@ KEY_HOLD, KEY_NEAR = 7.0, 300.0
 # from that dropped window (largest input-box redraw, t≈13 s), shown as a still
 # for PRE_HOLD s at T+00:00:00 before the real replay takes over.
 PRE_HOLD = 8.0
-# Slow start: right after the prompt clears, motion replays EASE x slower than
-# the global scale, easing linearly back to full speed over RAMP s of playback —
-# the session visibly begins before the time-lapse takes over.
-EASE, RAMP = 5.0, 22.0
 PROMPT = """Scaffold The following analysis based on the spec in this folder and then assume the orchestrator agent role:
 
 Measure the partial width ratios R_b and R_c, and the b-quark forward-backward asymmetry A_FB^b, in hadronic Z decays using archived ALEPH data at sqrt(s) = 91.2 GeV.
@@ -354,7 +350,7 @@ def rest_at(t, _idx=[0]):
 # ------------------------------------------------------- pass 1: time budgets
 print(f"{len(WINS)} transient wide-terminal windows dropped "
       f"({sum(b-a for a, b in WINS)/60:.1f} min of original time)")
-motion, in_rest = 0.0, [0.0] * len(rests)
+motion, motion_w, in_rest = 0.0, 0.0, [0.0] * len(rests)
 prev_t, orig_end, n = 0.0, 0.0, 0
 for t, typ, data in events(SRC, END):
     if in_win(t):
@@ -366,13 +362,20 @@ for t, typ, data in events(SRC, END):
         in_rest[r] += g
     else:
         motion += g
+        if typ == 'o':
+            motion_w += len(data)
     prev_t = t
     orig_end = t
     n += 1
 holds = sum(r[2] for i, r in enumerate(rests) if in_rest[i] > 0)
-scale_m = (TARGET - holds) / motion
-print(f"events {n} · original {orig_end/3600:.1f} h · motion {motion/3600:.1f} h "
-      f"(x{1/scale_m:.0f}) + {holds:.0f}s of holds")
+# CONSTANT-OUTPUT-RATE pacing: outside the rest holds, playback time advances in
+# proportion to bytes drawn — dense repaint bursts spread out into readable flow,
+# idle spinner ticks fly by. (Uniform time-compression instead makes the replay
+# lurch: dump, stall, dump.)
+scale_b = (TARGET - holds) / motion_w
+print(f"events {n} · original {orig_end/3600:.1f} h · motion {motion/3600:.1f} h · "
+      f"{motion_w/1e6:.1f} MB drawn → {motion_w/(TARGET-holds)/1e3:.0f} kB/s constant "
+      f"+ {holds:.0f}s of holds")
 
 # --------------------------------------------------- pass 2: retime and write
 with open(SRC) as f:
@@ -416,10 +419,7 @@ with open(OUT, 'w') as out:
                 rest_marks.append([round(cur, 2), rests[r][2]])
             cur += g * (rests[r][2] / in_rest[r])
         else:
-            inc = g * scale_m
-            if cur < PRE_HOLD + RAMP:   # slow-start envelope on motion only
-                inc *= 1 + (EASE - 1) * max(0.0, 1 - (cur - PRE_HOLD) / RAMP)
-            cur += inc
+            cur += (len(data) if typ == 'o' else 0) * scale_b
         cur_rest = r
         prev_t = t
         if cur >= next_anchor:
