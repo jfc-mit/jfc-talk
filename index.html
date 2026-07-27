@@ -918,15 +918,15 @@ If you lack MC truth info, you could derive approximate truth from studying the 
     </div>
     <div class="col grow">
       <div class="codeblock">
-        <div class="src"><b>hsf-daaa/best-practices.md</b> — a draft this WG could own</div>
+        <div class="src"><b>practices that held up</b> — how the JFC runs were operated</div>
         <pre>1. Spec &amp; conventions in version control —
    <span class="hl2">prompt ≡ methodology</span>
 2. Artifact-gated phases + append-only logs —
    every decision auditable
 3. Automated review <b>binds</b>; humans hold the
    unblinding gates
-4. Disclose AI involvement; independently
-   re-implement headline results</pre>
+4. AI involvement disclosed; headline
+   results re-implemented independently</pre>
       </div>
     </div>
   </div>`
@@ -1204,7 +1204,7 @@ const Layout = (() => {
    ?skip=id1,id2 or ?profile=<name> (from SKIP_PROFILES below) load & persist a cut. */
 const SKIP_PROFILES = {
   full: [],                                                        // everything — 17:35 of budget
-  talk15: ['repo', 'gate', 'models', 'meaning'],                   // the 15-minute core — 14:40 of budget
+  talk15: ['repo', 'models', 'meaning'],                           // the 15-minute core — 15:25 of budget
   results: ['context', 'repo', 'phases', 'review', 'gate'],        // skip framework internals — results-first crowd
 };
 const Skips = (() => {
