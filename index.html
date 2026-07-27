@@ -252,6 +252,15 @@ body.term-dock #term, body.term-wide #term { opacity: 1; transform: none; pointe
 /* wide mode: clamp by height too, so the 280-col end frame never overflows the stage */
 body.term-wide #term { left: 50%; right: auto; width: min(84%, 145vh); transform: translateX(-50%); top: 0; bottom: 21%; }
 /* chrome lives in the reserved bands — no relocation needed when the dock is up */
+/* the invocation, one line, above the run — the whole setup ceremony there was */
+.term-mini { flex: 0 0 auto; display: flex; align-items: center; gap: 1.2vmin; padding: .8vmin 1.4vmin;
+  background: #101216; border: 1px solid rgba(255,255,255,.09); border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.4); font-family: var(--mono); }
+.term-mini .cmd { font-size: clamp(10px,1.45vmin,17px); color: #ece8e0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.term-mini .wink { font-size: clamp(10px,1.45vmin,17px); color: #e4a23c; flex: 0 0 auto; }
+.term-mini .dots { display: flex; gap: .55vmin; }
+.term-mini .dots i { width: 1.1vmin; height: 1.1vmin; border-radius: 50%; }
+.term-mini .dots i:nth-child(1) { background: #ff5f57; } .term-mini .dots i:nth-child(2) { background: #febc2e; } .term-mini .dots i:nth-child(3) { background: #28c840; }
 .term-shell { background: #101216; border: 1px solid rgba(255,255,255,.09); border-radius: 12px; overflow: hidden;
   box-shadow: 0 3px 10px rgba(0,0,0,.45), 0 18px 50px rgba(0,0,0,.5);
   flex: 1; min-height: 0; display: flex; flex-direction: column; position: relative; }
@@ -421,6 +430,11 @@ body.editing .scene [contenteditable="true"] { user-select: text; -webkit-user-s
 <div id="stage-wrap"><div id="stage">
   <div id="scenehost"></div>
   <div id="term">
+    <div class="term-mini">
+      <span class="dots"><i></i><i></i><i></i></span>
+      <span class="cmd">$ claude --dangerously-skip-permissions</span>
+      <span class="wink">;)</span>
+    </div>
     <div class="term-shell">
       <div class="term-bar">
         <span class="dots"><i></i><i></i><i></i></span>
@@ -485,7 +499,9 @@ const Term = (() => {
     if (player || !window.AsciinemaPlayer) return;
     player = AsciinemaPlayer.create(CAST.src, $('#term-mount'), {
       autoPlay: false, preload: true, controls: false,   // geometry comes from the cast header
-      fit: 'width', speed: CAST.speed, poster: CAST.poster, theme: 'asciinema',
+      // 'both': size the font to whichever dimension binds — 'width' let the
+      // 69-row terminal overflow the dock height and clipped the bottom rows
+      fit: 'both', speed: CAST.speed, poster: CAST.poster, theme: 'asciinema',
     });
     // settle the initial fit once the (51 MB) cast has parsed and the poster rendered
     [1200, 2800, 5000].forEach(ms => setTimeout(() => dispatchEvent(new Event('resize')), ms));
@@ -509,12 +525,14 @@ const Term = (() => {
       setStatus(typeof d === 'number' && d > 0 ? '○ ready' : '⋯ loading run', false);
     }
     // fit watchdog: rapid scene flips can interrupt the dock/wide width transition
-    // and the player's ResizeObserver settles on a stale font fit. If the rendered
-    // terminal no longer matches its container, jiggle the container so the
-    // observer must re-fire at the true size.
+    // and the player's ResizeObserver settles on a stale font fit. Under
+    // fit:'both' one dimension is letterboxed by design, so only re-fit when the
+    // terminal OVERFLOWS either dimension or is stale-small in both.
     const mount = $('#term-mount'), termEl = $('.ap-terminal', mount);
+    const fw = termEl && mount.clientWidth ? termEl.offsetWidth / mount.clientWidth : 1;
+    const fh = termEl && mount.clientHeight ? termEl.offsetHeight / mount.clientHeight : 1;
     if (termEl && mount.clientWidth &&
-        Math.abs(termEl.offsetWidth - mount.clientWidth) / mount.clientWidth > 0.06) {
+        (fw > 1.02 || fh > 1.02 || (fw < 0.9 && fh < 0.9))) {
       mount.style.paddingRight = '1px';
       void mount.offsetWidth;               // force reflow at the nudged size
       mount.style.paddingRight = '';
