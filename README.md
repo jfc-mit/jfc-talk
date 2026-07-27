@@ -50,8 +50,8 @@ the counter, progress bar and HUD time budgets. Backup-act scenes never count.
 - The cut persists per-browser (localStorage), so the machine you rehearse on
   keeps your selection.
 - `?profile=<name>` loads (and persists) a named preset from `SKIP_PROFILES` in
-  `index.html` — ships with `full` (17:35 of budget), `talk15` (the 15-minute
-  core, 15:25: hides repo/models/meaning), `results` (skips framework
+  `index.html` — ships with `full` (16:45 of budget), `talk15` (the 15-minute
+  core, 14:35: hides repo/models/meaning), `results` (skips framework
   internals). Add your own per-venue sets there. The software stack and the
   verbatim run-moments live in the backup act.
 - `?skip=id1,id2` loads an ad-hoc cut; scene ids are the hash names (`#context` → `context`).

@@ -887,24 +887,6 @@ If you lack MC truth info, you could derive approximate truth from studying the 
     </div>
   </div>`
 },
-{ id: 'honest', act: 3, label: 'Where it breaks', steps: 2, budget: 50, notes: 'loop catches: figures, deferred fixes, fabrication; yours: biases, sensitivity, novelty, variance', thumb: 'assets/ovthumb_honest.jpg', theme: 'dark', term: 'dock', html: () => `
-  <h2 class="kicker">Where it breaks — <em>honestly</em></h2>
-  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2.4vmin; min-height:0">
-    <div class="cardgrid" style="grid-template-columns:1fr 1fr">
-      <div class="kcard" style="border-left-color:#2e8b57"><div class="nm" style="color:#2e8b57">the loop catches</div><ul class="mini">
-        <li>nonsensical figures — programmatic validator</li>
-        <li>deferred fixes — binding ITERATE</li>
-        <li>fabrication patterns — provenance + audit log</li>
-        <li>stale APIs, broken builds — they fail loudly</li></ul></div>
-      <div class="kcard" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">still yours to catch</div><ul class="mini">
-        <li>subtle selection biases</li>
-        <li>conservative cuts that cost sensitivity</li>
-        <li>novelty beyond the literature</li>
-        <li>run-to-run variance — one run is one sample</li></ul></div>
-    </div>
-    <p class="lead" data-step="2" style="font-style:italic; font-size:clamp(16px,2.3vmin,28px); text-align:center">The signature failure: <b>correct diagnosis, deferred treatment</b> — an excellent limitations section about the fix it didn't implement.<br>The loop closes that one. The right column is why you still read the note.</p>
-  </div>`
-},
 { id: 'forward', act: 4, label: 'The way forward', steps: 1, budget: 50, notes: 'measure end-to-end + variance; WG best-practices draft', thumb: 'assets/ovthumb_forward.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">The way forward — <em>measure</em> the agents, then trust them</h2>
   <div class="cols">
@@ -1005,6 +987,24 @@ charm-tag calibration systematic — D* and soft-lepton controls we genuinely
 attempted and documented infeasible — and A_FB rests on an unverifiable SM
 anchor. <b>Both are stated plainly throughout.</b></pre>
     </div>
+  </div>`
+},
+{ id: 'honest', act: 5, label: 'Backup · where it breaks', steps: 1, budget: 0, notes: 'loop catches: figures, deferred fixes, fabrication; yours: biases, sensitivity, novelty, variance', thumb: 'assets/ovthumb_honest.jpg', theme: 'dark', term: 'dock', html: () => `
+  <h2 class="kicker">Where it breaks — <em>honestly</em></h2>
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2.4vmin; min-height:0">
+    <div class="cardgrid" style="grid-template-columns:1fr 1fr">
+      <div class="kcard" style="border-left-color:#2e8b57"><div class="nm" style="color:#2e8b57">the loop catches</div><ul class="mini">
+        <li>nonsensical figures — programmatic validator</li>
+        <li>deferred fixes — binding ITERATE</li>
+        <li>fabrication patterns — provenance + audit log</li>
+        <li>stale APIs, broken builds — they fail loudly</li></ul></div>
+      <div class="kcard" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">still yours to catch</div><ul class="mini">
+        <li>subtle selection biases</li>
+        <li>conservative cuts that cost sensitivity</li>
+        <li>novelty beyond the literature</li>
+        <li>run-to-run variance — one run is one sample</li></ul></div>
+    </div>
+    <p class="lead" style="font-style:italic; font-size:clamp(16px,2.3vmin,28px); text-align:center">The signature failure: <b>correct diagnosis, deferred treatment</b> — an excellent limitations section about the fix it didn't implement.<br>The loop closes that one. The right column is why you still read the note.</p>
   </div>`
 },
 { id: 'b-review-war', act: 5, label: 'Backup · review war stories', steps: 1, budget: 0, thumb: 'assets/ovthumb_b-review-war.jpg', theme: 'dark', html: () => `
@@ -1203,8 +1203,8 @@ const Layout = (() => {
    Toggle: S on the scene, or the corner button on its overview card. Persists per-browser.
    ?skip=id1,id2 or ?profile=<name> (from SKIP_PROFILES below) load & persist a cut. */
 const SKIP_PROFILES = {
-  full: [],                                                        // everything — 17:35 of budget
-  talk15: ['repo', 'models', 'meaning'],                           // the 15-minute core — 15:25 of budget
+  full: [],                                                        // everything — 16:45 of budget
+  talk15: ['repo', 'models', 'meaning'],                           // the 15-minute core — 14:35 of budget
   results: ['context', 'repo', 'phases', 'review', 'gate'],        // skip framework internals — results-first crowd
 };
 const Skips = (() => {
