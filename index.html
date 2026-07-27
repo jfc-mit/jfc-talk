@@ -276,7 +276,9 @@ body.term-wide #term { left: 50%; right: auto; width: min(84%, 145vh); transform
   background: rgba(16,18,22,.75); border: 1px solid rgba(255,255,255,.14); border-radius: 999px; padding: .5vmin 1.6vmin; }
 #term-play:hover .pbtn { transform: scale(1.06); }
 @keyframes playpulse { 0% { box-shadow: 0 0 0 0 rgba(228,162,60,.45); } 75% { box-shadow: 0 0 0 2vmin rgba(228,162,60,0); } 100% { box-shadow: 0 0 0 0 rgba(228,162,60,0); } }
-#term-mount { flex: 1; min-height: 0; overflow: hidden; }
+#term-mount { flex: 1; min-height: 0; overflow: hidden;
+  -webkit-mask-image: linear-gradient(#000 calc(100% - 2.6vmin), transparent);
+  mask-image: linear-gradient(#000 calc(100% - 2.6vmin), transparent); }
 .term-bar { display: flex; align-items: center; gap: 1vmin; padding: .8vmin 1.4vmin; background: #1a1d23;
   font-family: var(--mono); font-size: clamp(9px,1.25vmin,14px); color: rgba(255,255,255,.55); }
 .term-bar .dots { display: flex; gap: .55vmin; }
@@ -451,7 +453,7 @@ body.editing .scene [contenteditable="true"] { user-select: text; -webkit-user-s
     <div class="term-tele">
       <span class="clock" id="tele-clock">T+00:00:00</span>
       <span class="row" id="tele-comp"></span>
-      <span class="row">humans: <b>2</b></span>
+      <span class="row" title="the prompt + the unblinding approval">human inputs: <b>2</b></span>
     </div>
   </div>
 </div></div>
@@ -499,9 +501,9 @@ const Term = (() => {
     if (player || !window.AsciinemaPlayer) return;
     player = AsciinemaPlayer.create(CAST.src, $('#term-mount'), {
       autoPlay: false, preload: true, controls: false,   // geometry comes from the cast header
-      // 'both': size the font to whichever dimension binds — 'width' let the
-      // 69-row terminal overflow the dock height and clipped the bottom rows
-      fit: 'both', speed: CAST.speed, poster: CAST.poster, theme: 'asciinema',
+      // width-fit for a full-width readable font; the rows that overflow the
+      // dock height are cropped behind a bottom fade (mask on #term-mount)
+      fit: 'width', speed: CAST.speed, poster: CAST.poster, theme: 'asciinema',
     });
     // settle the initial fit once the (51 MB) cast has parsed and the poster rendered
     [1200, 2800, 5000].forEach(ms => setTimeout(() => dispatchEvent(new Event('resize')), ms));
@@ -525,14 +527,11 @@ const Term = (() => {
       setStatus(typeof d === 'number' && d > 0 ? '○ ready' : '⋯ loading run', false);
     }
     // fit watchdog: rapid scene flips can interrupt the dock/wide width transition
-    // and the player's ResizeObserver settles on a stale font fit. Under
-    // fit:'both' one dimension is letterboxed by design, so only re-fit when the
-    // terminal OVERFLOWS either dimension or is stale-small in both.
+    // and the player's ResizeObserver settles on a stale font fit. Width-only:
+    // height overflow is expected (cropped behind the bottom fade).
     const mount = $('#term-mount'), termEl = $('.ap-terminal', mount);
-    const fw = termEl && mount.clientWidth ? termEl.offsetWidth / mount.clientWidth : 1;
-    const fh = termEl && mount.clientHeight ? termEl.offsetHeight / mount.clientHeight : 1;
     if (termEl && mount.clientWidth &&
-        (fw > 1.02 || fh > 1.02 || (fw < 0.9 && fh < 0.9))) {
+        Math.abs(termEl.offsetWidth - mount.clientWidth) / mount.clientWidth > 0.06) {
       mount.style.paddingRight = '1px';
       void mount.offsetWidth;               // force reflow at the nudged size
       mount.style.paddingRight = '';
@@ -657,42 +656,44 @@ If you lack MC truth info, you could derive approximate truth from studying the 
   <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2.4vmin; min-height:0">
     <div class="cardgrid" style="grid-template-columns:1fr 1fr 1fr">
       <div class="kcard"><div class="nm">methodology/</div><ul class="mini">
-        <li>how an analysis proceeds, planning → inference</li>
-        <li>the institutional knowledge that is never written down — written down</li>
-        <li>tiers of review, encoded as agents</li></ul></div>
+        <li>how an analysis proceeds, end to end</li>
+        <li>the unwritten lore, written down</li>
+        <li>review tiers, encoded as agents</li></ul></div>
       <div class="kcard"><div class="nm">conventions/</div><ul class="mini">
-        <li>domain specifics no general model can guess</li>
-        <li>tool choices · visualization standards</li>
+        <li>domain specifics no model can guess</li>
+        <li>tool choices · plot standards</li>
         <li>recent techniques &amp; field lore</li></ul></div>
       <div class="kcard"><div class="nm">agents/</div><ul class="mini">
-        <li>a behavioral contract: what each subagent receives &amp; returns</li>
+        <li>what each subagent gets &amp; returns</li>
         <li>no physics through the side door</li>
-        <li>append-only experiment log, for humans to audit</li></ul></div>
+        <li>append-only log — humans audit</li></ul></div>
     </div>
-    <p class="lead" style="font-style:italic">A graduate curriculum in ~30 files, ~1,000 lines of markdown — the standard every agent decision is <b>reviewed against</b>. No secret sauce.</p>
+    <p class="lead" style="font-style:italic">A <a href="https://github.com/jfc-mit/jfc" target="_blank" rel="noopener">graduate curriculum in ~30 files</a>, ~1,000 lines of markdown — the standard every agent decision is <b>reviewed against</b>. No secret sauce.</p>
   </div>`
 },
 { id: 'repo', act: 2, label: 'Views into the spec', steps: 1, budget: 50, notes: 'tuning-to-match = fabrication, #1 failure mode; constants cited', theme: 'dark', term: 'dock', html: () => `
-  <h2 class="kicker">The spec is <em>public</em> — and it reads like a supervisor</h2>
+  <h2 class="kicker">The spec is <em><a href="https://github.com/jfc-mit/jfc" target="_blank" rel="noopener">public</a></em> — and it reads like a supervisor</h2>
   <div class="cols" style="align-items:center; gap:2.5%">
     <div class="col" style="flex:.72">
       <div class="filetree">
 <b>jfc/src/</b>
-├─ <b>methodology/</b>   <span class="a">7 files</span> — the rulebook
-│    01-core · 02-phases · 03-review
-│    04-output · 05-practices
-├─ <b>agents/</b>        <span class="a">7 profiles</span>
+├─ <b>methodology/</b>   <span class="a">8 files</span> — the rulebook
+│    01-principles · 02-inputs · 03-phases
+│    03a-orchestration · 04-blinding
+│    05-artifacts · 06-review · 07-tools
+├─ <b>agents/</b>        <span class="a">12 profiles</span>
 │    executor · fixer · investigator
-│    critical / plot / bibtex reviewers
-├─ <b>conventions/</b>   <span class="a">9 files</span>
+│    note_writer · typesetter · arbiter
+│    physics / critical / plot / … reviewers
+├─ <b>conventions/</b>   <span class="a">8 files</span>
 │    extraction · unfolding · lint_plots
-└─ <b>templates/</b>     <span class="a">5</span> phase entry points
+└─ <b>templates/</b>     <span class="a">7</span> phase entry points
 
-~1,000 lines · <span class="a">github.com/jfc-mit</span></div>
+~1,000 lines · <span class="a"><a href="https://github.com/jfc-mit/jfc" target="_blank" rel="noopener">github.com/jfc-mit/jfc</a></span></div>
     </div>
     <div class="col grow" style="display:flex; flex-direction:column; gap:1.6vmin; min-width:0">
       <div class="codeblock">
-        <div class="src"><b>methodology/02-phases.md</b> — Philosophy (non-negotiable)</div>
+        <div class="src"><b><a href="https://github.com/jfc-mit/jfc/blob/main/src/methodology/03-phases.md" target="_blank" rel="noopener">methodology/03-phases.md</a></b> — Philosophy (non-negotiable)</div>
         <pre>- <b>Never adjust parameters to match.</b> Every parameter is
   justified BEFORE seeing its effect. Tuning a cut until
   data/MC agrees, dropping a systematic for being "too
@@ -702,7 +703,7 @@ If you lack MC truth info, you could derive approximate truth from studying the 
   published value, until proven otherwise.</pre>
       </div>
       <div class="codeblock">
-        <div class="src"><b>agents/executor.md</b> — the contract every executor runs under</div>
+        <div class="src"><b><a href="https://github.com/jfc-mit/jfc/blob/main/src/agents/executor.md" target="_blank" rel="noopener">agents/executor.md</a></b> — the contract every executor runs under</div>
         <pre>NON-NEGOTIABLE (any violation is Category A):
 - <b>Numeric constants never from memory</b> — every mass/BR/σ/L
   cites a source (RAG paper+table / web / paper).
@@ -738,7 +739,7 @@ If you lack MC truth info, you could derive approximate truth from studying the 
       <div class="kcard"><div class="nm">physics</div><div class="ds"><b>Denied the spec on purpose</b> — judges like an external ARC referee.</div></div>
       <div class="kcard"><div class="nm">critical</div><div class="ds">Reads everything; 8-step protocol, 14-point figure checklist.</div></div>
       <div class="kcard"><div class="nm">constructive</div><div class="ds">Alternatives &amp; improvements, effort-tagged.</div></div>
-      <div class="kcard"><div class="nm">plot-validator</div><div class="ds"><b>Programmatic</b>: 35 checks — red flags are auto-Category-A.</div></div>
+      <div class="kcard"><div class="nm"><a href="https://github.com/jfc-mit/plot-reviewer" target="_blank" rel="noopener">plot-validator</a></div><div class="ds"><b>Programmatic</b>: 35 checks — red flags are auto-Category-A.</div></div>
       <div class="kcard"><div class="nm">render + bibtex</div><div class="ds">Compiled-PDF inspection; citations vs INSPIRE.</div></div>
     </div>
     <div class="rf-join" data-step="2">all findings converge ▼</div>
@@ -799,20 +800,20 @@ If you lack MC truth info, you could derive approximate truth from studying the 
 { id: 'menu', act: 3, label: 'Six analyses', steps: 1, budget: 55, notes: '6 analyses, 1 prompt each; capability evidence, not vetted', theme: 'dark', term: 'dock', thumb: 'assets/thumb_lund.png', html: () => `
   <h2 class="kicker">One prompt each — <em>six</em> autonomous analyses</h2>
   <div class="cardgrid" style="grid-template-columns:repeat(3,1fr); grid-auto-rows:1fr; flex:1">
-    <div class="an-card"><span class="exp" style="color:var(--cms)">CMS</span><div class="im"><img src="assets/thumb_htt.png" alt=""></div><div class="nm">H→τ⁺τ⁻ signal strength</div><div class="pr">μτ_h at √s = 8 TeV, Run-1 Open Data</div></div>
-    <div class="an-card"><span class="exp">ALEPH</span><div class="im"><img src="assets/thumb_zlineshape.png" alt=""></div><div class="nm">Z lineshape</div><div class="pr">M_Z, Γ_Z, σ⁰_had — and N_ν from Γ_inv</div></div>
-    <div class="an-card live"><span class="livetag"><span class="livedot"></span>running beside you</span><span class="exp">ALEPH</span><div class="im"><img src="assets/thumb_hf.png" alt=""></div><div class="nm">R_b, R_c, A_FB^b</div><div class="pr">signed-IP b-tag + hemisphere jet charge</div></div>
-    <div class="an-card"><span class="exp">ALEPH</span><div class="im"><img src="assets/thumb_lund.png" alt=""></div><div class="nm">Lund jet plane</div><div class="pr">primary density in hadronic Z decays — first in e⁺e⁻</div></div>
-    <div class="an-card"><span class="exp">ALEPH</span><div class="im"><img src="assets/thumb_eec.png" alt=""></div><div class="nm">Energy-energy correlators</div><div class="pr">E2C, E3C, ratio, AEEC</div></div>
-    <div class="an-card"><span class="exp">ALEPH</span><div class="im"><img src="assets/thumb_alphas.png" alt=""></div><div class="nm">Event shapes → α_s(M_Z)</div><div class="pr">six shapes, NNLO+NLL fits</div></div>
+    <div class="an-card"><span class="exp" style="color:var(--cms)">CMS</span><div class="im"><img src="assets/thumb_htt.png" alt=""></div><div class="nm"><a href="https://github.com/jfc-mit/analysis_cms_higgs_tautau" target="_blank" rel="noopener">H→τ⁺τ⁻ signal strength</a></div><div class="pr">μτ_h at √s = 8 TeV, Run-1 Open Data</div></div>
+    <div class="an-card"><span class="exp">ALEPH</span><div class="im"><img src="assets/thumb_zlineshape.png" alt=""></div><div class="nm"><a href="https://github.com/jfc-mit/analysis_aleph_z_lineshape" target="_blank" rel="noopener">Z lineshape</a></div><div class="pr">M_Z, Γ_Z, σ⁰_had — and N_ν from Γ_inv</div></div>
+    <div class="an-card live"><span class="livetag"><span class="livedot"></span>running beside you</span><span class="exp">ALEPH</span><div class="im"><img src="assets/thumb_hf.png" alt=""></div><div class="nm"><a href="https://github.com/jfc-mit/analysis_aleph_z_heavy_flavour" target="_blank" rel="noopener">R_b, R_c, A_FB^b</a></div><div class="pr">signed-IP b-tag + hemisphere jet charge</div></div>
+    <div class="an-card"><span class="exp">ALEPH</span><div class="im"><img src="assets/thumb_lund.png" alt=""></div><div class="nm"><a href="https://github.com/jfc-mit/analysis_aleph_lund_plane" target="_blank" rel="noopener">Lund jet plane</a></div><div class="pr">primary density in Z decays — first in e⁺e⁻</div></div>
+    <div class="an-card"><span class="exp">ALEPH</span><div class="im"><img src="assets/thumb_eec.png" alt=""></div><div class="nm"><a href="https://github.com/jfc-mit/analysis_aleph_eec_correlators" target="_blank" rel="noopener">Energy-energy correlators</a></div><div class="pr">E2C, E3C, ratio, AEEC</div></div>
+    <div class="an-card"><span class="exp">ALEPH</span><div class="im"><img src="assets/thumb_alphas.png" alt=""></div><div class="nm"><a href="https://github.com/jfc-mit/analysis_aleph_eventshapes_alphas" target="_blank" rel="noopener">Event shapes → α_s(M_Z)</a></div><div class="pr">six shapes, NNLO+NLL fits</div></div>
   </div>
-  <p class="lead" style="margin-top:1.2vmin">Each run ships a <b>50–100-page note</b> + all code &amp; figures, public on <span class="mono">github.com/jfc-mit</span> — capability evidence, <i>not</i> vetted measurements.</p>`
+  <p class="lead" style="margin-top:1.2vmin">Each run ships a <b>50–100-page note</b> + all code &amp; figures, public on <span class="mono"><a href="https://github.com/jfc-mit" target="_blank" rel="noopener">github.com/jfc-mit</a></span> — capability evidence, <i>not</i> vetted measurements.</p>`
 },
 { id: 'deliverable', act: 3, label: 'The deliverable', steps: 1, budget: 35, notes: '50–100 pp note; demo 14 pp; this run wrote 53 pp', theme: 'dark', term: 'dock', thumb: 'assets/an_mosaic.png', html: () => `
   <h2 class="kicker">The deliverable is a <em>document</em>, not a notebook</h2>
   <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:1.4vmin; min-height:0">
     <div class="fig zoomable auto" style="max-height:62%; overflow:hidden"><img src="assets/an_mosaic.png" alt="agent-written analysis note, page by page"></div>
-    <div class="figcap" style="text-align:left; margin-top:0">every page of an agent-written note, typeset by the <span style="color:var(--accent)">typesetter</span> agent (shown: 14-pp H→4l demo — the run beside you wrote 53 pp)</div>
+    <div class="figcap" style="text-align:left; margin-top:0">every page of an agent-written note, typeset by the <span style="color:var(--accent)">typesetter</span> agent (shown: 14-pp H→4l demo — the run beside you wrote <a href="https://github.com/jfc-mit/analysis_aleph_z_heavy_flavour" target="_blank" rel="noopener">53 pp</a>)</div>
     <ul class="talk" style="margin-top:.6vmin">
       <li>Every figure referenced in text · every number from <span class="mono">results/*.json</span> · every citation resolved against INSPIRE<small>and the note passes the same review panel as the physics before it ships</small></li>
     </ul>
@@ -911,15 +912,15 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
     <div class="cardgrid" style="grid-template-columns:1fr 1fr 1fr">
       <div class="kcard"><div class="nm">physics</div><ul class="mini">
         <li>subtle selection biases</li>
-        <li>conservative cuts that cost real sensitivity</li>
-        <li>novelty beyond the literature is not reliable</li></ul></div>
+        <li>conservative cuts cost real sensitivity</li>
+        <li>unreliable beyond the literature</li></ul></div>
       <div class="kcard"><div class="nm">execution</div><ul class="mini">
-        <li>instructions decay in long contexts<br>(yes, hard-coded font sizes)</li>
+        <li>instructions decay — hard-coded font sizes</li>
         <li>stochastic run-to-run strategies</li>
         <li>stale APIs · patches over dependencies</li></ul></div>
       <div class="kcard"><div class="nm">style</div><ul class="mini">
-        <li>figure conventions need brutal specificity</li>
-        <li>some agent figures are still fully nonsensical</li></ul></div>
+        <li>conventions need brutal specificity</li>
+        <li>some figures still fully nonsensical</li></ul></div>
     </div>
     <p class="lead" data-step="2" style="font-style:italic; font-size:clamp(16px,2.3vmin,28px)">The signature failure mode: <b>correct diagnosis, deferred treatment</b> — an excellent limitations section about the fix it didn't implement. Which is what review cycles are for.</p>
   </div>`
@@ -993,7 +994,7 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
   <div class="cols" style="align-items:center">
     <div class="col" style="flex:1.1; display:flex; flex-direction:column; gap:1.6vmin; min-width:0">
       <div class="codeblock">
-        <div class="src"><b>methodology/02-phases.md</b> — the standing rule</div>
+        <div class="src"><b><a href="https://github.com/jfc-mit/jfc/blob/main/src/methodology/03-phases.md" target="_blank" rel="noopener">methodology/03-phases.md</a></b> — the standing rule</div>
         <pre>- <b>Never adjust parameters to match.</b> Every parameter is
   justified BEFORE seeing its effect. <span class="hl2">Tuning a cut until
   data/MC agrees is fabrication — the #1 failure mode.</span>
@@ -1001,7 +1002,7 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
   published value, until proven otherwise.</pre>
       </div>
       <div class="codeblock">
-        <div class="src"><b>agents/executor.md</b> — provenance, not memory</div>
+        <div class="src"><b><a href="https://github.com/jfc-mit/jfc/blob/main/src/agents/executor.md" target="_blank" rel="noopener">agents/executor.md</a></b> — provenance, not memory</div>
         <pre>- <b>Numeric constants never from memory</b> — every mass/BR/σ/L
   cites a source (RAG paper+table / web / paper).
 - Every number in the note reads from <b>results/*.json</b>;
