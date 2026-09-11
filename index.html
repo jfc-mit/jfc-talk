@@ -500,6 +500,7 @@ const AX = { 1: 'Act I · The claim', 2: 'Act II · Just furnish context', 3: 'A
 const arxiv = r => `<a href="https://arxiv.org/abs/${r}" target="_blank" rel="noopener">arXiv:${r}</a>`;
 /* GitHub-icon link: the icon is the ONLY click target — plain text never hyperlinks,
    so clicking anywhere else still advances the deck */
+const ghx = (url, label) => gh('', label).replace('https://github.com/jfc-mit/', url);   // same icon, any URL
 const gh = (path, label) => `<a class="gh" href="https://github.com/jfc-mit/${path}" target="_blank" rel="noopener" title="${label || 'view on GitHub'}" aria-label="${label || 'view on GitHub'}"><svg viewBox="0 0 16 16"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>`;
 
 /* ============================================= the run (asciinema dock) ============================================= */
@@ -614,7 +615,7 @@ const SCENES = [
         <img src="assets/author_eric.jpg" alt="Eric Moreno"><img src="assets/author_sam.jpg" alt="Sam Bright-Thonney"><img src="assets/author_andrzej.jpg" alt="Andrzej Novak"><img src="assets/author_dolores.jpg" alt="Dolores Garcia"><img src="assets/author_yiyang.jpg" alt="Yiyang Zhao"><img src="assets/author_philip.jpg" alt="Phil Harris">
         <span class="nm">Eric Moreno* · Sam Bright-Thonney* · <b style="color:var(--ink)">Andrzej Novak*</b> · Dolores Garcia · Yiyang Zhao · Philip Harris<br><small>* equal contribution · MIT / IAIFI / CERN</small></span>
       </div>
-      <div class="who" style="margin-top:2.6vmin"><b>Andrzej Novak</b> · MIT — HSF DAAA · <em>Agentic AI in HEP data analysis</em> · 27 July 2026</div>
+      <div class="who" style="margin-top:2.6vmin"><b>Andrzej Novak</b> · MIT — <em>Agentic AI for BSM Event Generation &amp; Analysis</em> · LPC, Fermilab<br>11 September 2026</div>
       <div class="logos theme-swap">
         <img class="on-light" src="assets/logo_mit_light.svg" alt="MIT"><img class="on-dark" src="assets/logo_mit_dark.svg" alt="MIT">
         <img class="cern on-light" src="assets/logo_cern_light.svg" alt="CERN"><img class="cern on-dark" src="assets/logo_cern_dark.svg" alt="CERN">
@@ -699,7 +700,7 @@ If you lack MC truth info, you could derive approximate truth from studying the 
         <li>no physics through the side door</li>
         <li>append-only log — humans audit</li></ul></div>
     </div>
-    <p class="lead" style="font-style:italic">A graduate curriculum in ~30 files, ~1,000 lines of markdown — the standard every agent decision is <b>reviewed against</b>. No secret sauce. ${gh('jfc', 'the full spec on GitHub')}</p>
+    <p class="lead" style="font-style:italic">A graduate curriculum in ~30 files, ~1,000 lines of markdown — written the way I'd brief a new student — the standard every agent decision is <b>reviewed against</b>. No secret sauce. ${gh('jfc', 'the full spec on GitHub')}</p>
   </div>`
 },
 { id: 'repo', act: 2, label: 'Views into the spec', steps: 1, budget: 50, notes: 'tuning-to-match = fabrication, #1 failure mode; constants cited', theme: 'dark', term: 'dock', html: () => `
@@ -870,6 +871,51 @@ If you lack MC truth info, you could derive approximate truth from studying the 
     <div class="col" style="flex:1.3; align-self:center"><div class="fig zoomable auto"><img src="assets/fig_models.png" alt="model comparison for H to tautau"></div></div>
   </div>`
 },
+{ id: 'ladder', act: 3, label: 'The student ladder', steps: 2, budget: 35, notes: 'HEURISTIC, say so: plain prompt≈undergrad · harness≈1st-yr (Phil on run 1, Feb) · expert harness≈3rd-yr · Opus 4.8≈6th-yr (the dock run) · Fable 5≈junior postdoc · re-optimised harness→senior (projected)', theme: 'dark', term: 'dock', html: () => `
+  <h2 class="kicker">How good is it, <em>really</em>? — a heuristic ladder</h2>
+  <div class="cols" style="align-items:stretch">
+    <div class="col grow" style="display:flex; flex-direction:column; justify-content:center; min-width:0">
+      <svg viewBox="0 0 640 400" style="width:100%; height:auto; max-height:64vh; font-family:var(--sans); overflow:visible" aria-label="heuristic ladder: analysis quality in student-years versus upgrades">
+        <g stroke="var(--ink12)" stroke-width="1" stroke-dasharray="3 5">
+          <line x1="90" y1="30" x2="610" y2="30"/><line x1="90" y1="92" x2="610" y2="92"/><line x1="90" y1="154" x2="610" y2="154"/>
+          <line x1="90" y1="216" x2="610" y2="216"/><line x1="90" y1="278" x2="610" y2="278"/><line x1="90" y1="340" x2="610" y2="340"/>
+        </g>
+        <line x1="90" y1="340" x2="610" y2="340" stroke="var(--ink40)" stroke-width="1.2"/>
+        <line x1="90" y1="340" x2="90" y2="30" stroke="var(--ink40)" stroke-width="1.2"/>
+        <g font-size="12.5" fill="var(--ink60)" text-anchor="end">
+          <text x="82" y="344">undergrad</text><text x="82" y="282">1st-year grad</text><text x="82" y="220">3rd-year grad</text>
+          <text x="82" y="158">6th-year grad</text><text x="82" y="96">junior postdoc</text><text x="82" y="34">senior postdoc</text>
+        </g>
+        <g font-size="12.5" fill="var(--ink60)" text-anchor="middle">
+          <text x="90" y="362">plain prompt</text><text x="194" y="362">harness</text>
+          <text x="298" y="362">expert-crafted</text><text x="298" y="377">harness</text>
+          <text x="402" y="362">Opus 4.8</text><text x="506" y="362">Fable 5</text>
+          <text x="610" y="362">harness</text><text x="610" y="377">re-optimised</text>
+        </g>
+        <text x="350" y="396" font-size="11.5" fill="var(--ink40)" text-anchor="middle" letter-spacing=".08em">UPGRADES →</text>
+        <text x="90" y="14" font-size="11.5" fill="var(--ink40)" text-anchor="start" letter-spacing=".08em">ANALYSIS QUALITY, IN STUDENT-YEARS ↑</text>
+        <polyline points="90,340 194,278" fill="none" stroke="var(--live)" stroke-width="3" stroke-linecap="round"/>
+        <polyline points="194,278 298,216 402,154 506,92" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <g data-step="2"><polyline points="506,92 610,30" fill="none" stroke="var(--pass, #7dbb63)" stroke-width="3" stroke-dasharray="7 6" stroke-linecap="round"/></g>
+        <g fill="var(--bg)" stroke="var(--accent)" stroke-width="2.5">
+          <circle cx="90" cy="340" r="6" stroke="var(--live)"/><circle cx="194" cy="278" r="6" stroke="var(--live)"/>
+          <circle cx="298" cy="216" r="6"/><circle cx="402" cy="154" r="7.5" fill="var(--accent)"/><circle cx="506" cy="92" r="6"/>
+        </g>
+        <g data-step="2"><circle cx="610" cy="30" r="6" fill="var(--bg)" stroke="var(--pass, #7dbb63)" stroke-width="2.5" stroke-dasharray="3 3"/></g>
+        <g font-size="12" fill="var(--live)"><text x="204" y="300">run 1 · Feb 2026</text><text x="204" y="315" font-style="italic">“first-year level”</text></g>
+        <g font-size="12" fill="var(--accent)"><text x="414" y="148">← the run beside you</text></g>
+      </svg>
+      <div class="figcap">qualitative — our own reading of the notes, not a measurement · after E. Moreno, FastML 2026</div>
+    </div>
+    <div class="col" style="flex:.7; align-self:center">
+      <ul class="talk">
+        <li>The first Z-lineshape attempt read like a <strong>first-year student</strong><small>plain prompt, no spec — Phil's verdict, February</small></li>
+        <li data-step="2">The <span class="hl">spec</span> moved it further than the model did<small>expert-crafted harness ≈ senior grad · Opus 4.8 → Fable 5 is the postdoc step</small></li>
+        <li data-step="2">Re-optimise the harness for each model<small>the curve keeps going — the “how to harness” argument, in one picture</small></li>
+      </ul>
+    </div>
+  </div>`
+},
 { id: 'cost', act: 3, label: 'Throughput & cost', steps: 1, budget: 40, notes: '$200/mo; ~10 h per analysis; idle waits dominate', theme: 'dark', term: 'dock', thumb: 'assets/fig_timings.png', html: () => `
   <h2 class="kicker">What the <em>agents</em> cost — a subscription</h2>
   <div class="cols">
@@ -887,15 +933,28 @@ If you lack MC truth info, you could derive approximate truth from studying the 
     </div>
   </div>`
 },
-{ id: 'forward', act: 4, label: 'The way forward', steps: 1, budget: 50, notes: 'measure end-to-end + variance; WG best-practices draft', thumb: 'assets/ovthumb_forward.jpg', theme: 'dark', term: 'dock', html: () => `
+{ id: 'wave', act: 4, label: 'Six months later', steps: 2, budget: 45, notes: '30 INSPIRE citations; ATLAS Z+jets with AI; Genesis 278 awards/$250M, ≥10 agentic HEP/NP, a funded PI cites JFC', theme: 'dark', term: 'dock', html: () => `
+  <h2 class="kicker">Six months later — <em>the field moved</em></h2>
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2.6vmin; min-height:0">
+    <div class="cardgrid" style="grid-template-columns:1fr 1fr 1fr">
+      <div class="kcard"><div class="nm" style="font-family:var(--serif); font-weight:500; font-size:clamp(28px,5vmin,62px); line-height:1">30</div><div class="ds"><b>citations on INSPIRE</b> since 20 March — pheno agents, RAG, benchmarks… and now results from inside running experiments</div></div>
+      <div class="kcard"><div class="nm" style="font-family:var(--serif); font-weight:500; font-size:clamp(28px,5vmin,62px); line-height:1">ATLAS</div><div class="ds"><b>Z+jets differential cross section “with ATLAS and AI”</b> — Greif et al., ${arxiv('2608.28449')} — an agentic measurement on a running experiment's data</div></div>
+      <div class="kcard" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live); font-family:var(--serif); font-weight:500; font-size:clamp(28px,5vmin,62px); line-height:1">$250M</div><div class="ds"><b>DOE Genesis Mission</b> — 278 phase-1 awards (22 July) from &gt;5,000 proposals; ≥10 for agentic AI in experimental HEP/NP — among the citing papers: this workshop's own hosts' <i>Agentic Diagrammatica</i></div></div>
+    </div>
+    <ul class="talk" data-step="2" style="margin:0">
+      <li>The argument is no longer <em>whether</em> — it's <span class="hl">how to harness</span><small>“Reining in an Agentic Harness for HEP” ${arxiv('2609.00107')} · Collider-Bench · RooAgent · AgentRivet · “Are We Ready for AI-Driven Discovery?” ${arxiv('2607.10039')}</small></li>
+    </ul>
+  </div>`
+},
+{ id: 'forward', act: 4, label: 'The way forward', steps: 1, budget: 50, notes: 'sealed-truth H→4l benchmark in review; variance; practices that held up', thumb: 'assets/ovthumb_forward.jpg', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">The way forward — <em>measure</em> the agents, then trust them</h2>
   <div class="cols">
     <div class="col grow">
       <ul class="talk">
         <li class="hdr">Measure:</li>
-        <li><strong>End-to-end benchmarks</strong> vs known physics<small>Collider-Bench &amp; CelloAI score sub-tasks; the full chain is unscored</small></li>
+        <li><strong>End-to-end benchmark</strong> on blinded pseudo-data with a <em>sealed injected truth</em><small>H→ZZ*→4ℓ · procedural + accuracy channels, scored by an evaluator agent — complements Collider-Bench's reproduction scoring by closing the recall loophole · in review</small></li>
         <li><strong>Stochastic variability</strong> — same prompt, N runs<small>spread of strategies · A/B the spec · sweep the review operating point</small></li>
-        <li><strong>Backend-agnostic</strong> by construction<small>Claude Code today; Codex, Jules, open-weight agents tomorrow</small></li>
+        <li><strong>Backend-agnostic</strong> by construction<small>Claude Code today; Codex, Jules, open-weight agents tomorrow — or the same harness on the AmSC i2 / Genesis MAG gateway (G. Fleming, Wed.)</small></li>
       </ul>
     </div>
     <div class="col grow">
@@ -910,6 +969,30 @@ If you lack MC truth info, you could derive approximate truth from studying the 
 4. AI involvement disclosed; headline
    results re-implemented independently</pre>
       </div>
+    </div>
+  </div>`
+},
+{ id: 'demo', act: 4, label: 'Run it yourself', steps: 1, budget: 40, notes: 'jfc_demo: pre-seeded H→4l on CMS Open Data, phases 3–5 live in ~50 min, three planted bugs — all caught', theme: 'dark', term: 'dock', html: () => `
+  <h2 class="kicker">Run it yourself — <em>this afternoon</em></h2>
+  <div class="cols" style="align-items:stretch">
+    <div class="col" style="flex:1.1; display:flex; flex-direction:column; justify-content:center; min-width:0">
+      <div class="codeblock">
+        <div class="src"><b>github.com/andrzejnovak/jfc_demo</b> ${ghx('https://github.com/andrzejnovak/jfc_demo', 'jfc_demo on GitHub')} — H→ZZ*→4ℓ on CMS Open Data</div>
+        <pre>git clone github.com/andrzejnovak/jfc_demo
+cd jfc_demo &amp;&amp; pixi install
+pixi run scaffold analyses/cms_h4l \\
+    --type measurement --demo cms_h4l
+<span class="hl2"># ~870 MB of open data → data_dir, then:</span>
+cat prompt.md | claude</pre>
+      </div>
+    </div>
+    <div class="col grow" style="align-self:center">
+      <ul class="talk">
+        <li>Phases 1–2 pre-baked; <strong>phases 3–5 run live</strong> in ~50 minutes<small>opens straight on the fit, the review, the gate, the note</small></li>
+        <li>Three bugs planted on purpose — <span class="hl">the agents catch all three</span><small>a fit-uncertainty bug (review) · an un-normalised background (regression at the human gate) · a citation slip (bibtex validator)</small></li>
+        <li>Needs a Claude subscription and pixi — <strong>nothing else</strong><small>the full spec ships inside the repo</small></li>
+        <li>A search is the same scaffold — <span class="mono" style="white-space:nowrap">--type search</span><small>B. Dobrescu's “analyzer” wish (Thu.): backgrounds per final state, the search set up for CMS — one prompt away</small></li>
+      </ul>
     </div>
   </div>`
 },
@@ -1206,6 +1289,8 @@ const SKIP_PROFILES = {
   full: [],                                                        // everything — 16:45 of budget
   talk15: ['repo', 'models', 'meaning'],                           // the 15-minute core — 14:35 of budget
   results: ['context', 'repo', 'phases', 'review', 'gate'],        // skip framework internals — results-first crowd
+  fermilab: [],                                                    // 11 Sep 2026 cut: full deck + wave + demo (~18:10)
+  fermilab15: ['repo', 'models', 'meaning'],                       // the same, 15-min core with wave + demo (~16:00)
 };
 const Skips = (() => {
   const KEY = 'jfc-skips';

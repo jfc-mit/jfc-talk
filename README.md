@@ -1,5 +1,13 @@
 # JFC talk — HSF DAAA · Agentic AI in HEP data analysis · 27 July 2026
 
+**Branch `fermilab-2026-09-11`** — the Fermilab cut (11 Sep 2026): title line re-venued; `context` claims the
+spec in first person; Act IV gains `wave` (*Six months later* — 30 INSPIRE citations, ATLAS Z+jets with AI,
+Genesis Mission) before `forward` and `demo` (*Run it yourself* — `andrzejnovak/jfc_demo`) after it; Act III gains `ladder`
+(*How good is it, really?* — the heuristic student-years ladder after E. Moreno's FastML 2026 talk) after `models`; `forward`'s
+first bullet is now the sealed-truth H→4ℓ benchmark (in review). Profiles `fermilab` (full, 18:45) and
+`fermilab15` (hides repo/models/meaning, ~16:35). Facts behind the new numbers:
+`~/work/talks/charming-agents/notes/jfc-paper-numbers.md` and `notes/genesis-jfc-crossref.md`. `main` is the HSF deck as given.
+
 `index.html` is an interactive, browser-based talk on the JFC paper
 (*AI Agents Can Already Autonomously Perform Experimental High Energy Physics*,
 arXiv:2603.20179), in the style of the hcc-kappac Florence talk /
