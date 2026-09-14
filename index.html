@@ -674,7 +674,7 @@ const tutOutline = (hl, kicker, lead = '', sub = '') => `
     ${TUT_ROWS.map(([k, n, what, who, t]) => `<div class="ph${k === hl ? ' gate' : ''}"><span class="n">${n}</span><span class="what">${what}</span><span class="art">${who}</span><span class="rev">${t}</span>${k === hl && sub ? `<div class="sub">${sub}</div>` : ''}</div>`).join('\n    ')}
   </div>${lead ? `\n  <p class="lead" style="margin-top:1.4vmin">${lead}</p>` : ''}`;
 const SCENES = [
-{ id: 't-title', act: 6, label: 'Tutorial title', steps: 1, budget: 30, notes: 'Daniel first; program co-chairs Bose, Elmer, Martinez Outschoorn (Indico); Mon 14 Sep 09:00–12:00, Room 325/326, Pyle Center; lander = the JFC workflow chart', theme: 'paper', thumb: 'assets/fig_pipeline.png', html: () => `
+{ id: 't-title', act: 6, label: 'Tutorial title', steps: 1, budget: 30, notes: 'Daniel first; session chairs Elmer + Dasu (Indico timetable entry for the tutorial); Mon 14 Sep 09:00–12:00, Room 325/326, Pyle Center; lander = the JFC workflow chart', theme: 'paper', thumb: 'assets/fig_pipeline.png', html: () => `
   <div class="title-wrap">
     <div class="title-left">
       <h1>AI agents and Large Language Models<br>for <em>Scientific Discovery</em></h1>
@@ -688,7 +688,7 @@ const SCENES = [
       <div class="who" style="margin-top:2.6vmin">
         <div><b>Daniel Diaz</b> · UC San Diego &nbsp;·&nbsp; <b>Andrzej Novak</b> · MIT</div>
         <div style="color:var(--ink60); white-space:nowrap">CLARIPHY AI Collaboration Meeting · Pyle Center, Madison · 14 September 2026</div>
-        <div style="color:var(--ink60)">program co-chairs Tulika Bose · Peter Elmer · Verena Martinez Outschoorn · local host Sridhara Dasu</div>
+        <div style="color:var(--ink60)">chairs Peter Elmer &amp; Sridhara Dasu</div>
       </div>
       <div class="logos theme-swap">
         <img class="ucsd on-light" src="assets/logo_ucsd_light.svg" alt="UC San Diego"><img class="ucsd on-dark" src="assets/logo_ucsd_dark.svg" alt="UC San Diego">
