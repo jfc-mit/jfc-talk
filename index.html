@@ -665,7 +665,7 @@ const TUT_ROWS = [
   ['l2',      'Lesson 2',  '<b>Chat with LLMs</b> — Python, multimodal, embeddings &amp; RAG over CMS documentation', 'Daniel', '50 min'],
   ['l3',      'Lesson 3',  '<b>Agentic workflows</b> — opencode &amp; IDE integration; a CMS analysis helper on NanoAOD', 'Daniel', '45 min'],
   ['l4',      'Lesson 4',  '<b>Build a simple agent</b> — tool calling &amp; the agent loop, in ~30 lines of Python', 'Daniel', '40 min'],
-  ['l5',      'Lesson 5',  '<b>Check in on the agent</b> — what it produced · what good looks like · how it ran on NRP · the take-home', 'both', '10 min'],
+  ['l5',      'Lesson 5',  '<b>Check in on the agent</b> — what it produced · the answer key · the take-home', 'both', '10 min'],
 ];
 const tutOutline = (hl, kicker, lead = '', sub = '') => `
   <h2 class="kicker">${kicker}</h2>
@@ -711,7 +711,7 @@ const SCENES = [
     <p class="lead" style="margin:0"><b>Leave with:</b> a token that works, an agent that ran, and a clear sense of where it broke.</p>
   </div>`
 },
-{ id: 't-jfc', act: 6, size: 'roomy', label: 'JFC in one slide', steps: 1, budget: 60, notes: 'one-slide JFC: specification not template; seven gated phases + human gate; published ALEPH measurements reproduced end to end (arXiv:2603.20179); today = fast path, then the spec goes back. Details in the talk block after the launch.', theme: 'dark', html: () => `
+{ id: 't-jfc', act: 6, size: 'roomy', label: 'JFC in one slide', steps: 1, budget: 60, notes: 'one-slide JFC: specification not template; seven gated phases + human gate; published ALEPH measurements reproduced end to end (arXiv:2603.20179); today = two paths on the same prompt and data: most take the fast path (papers + data, no spec), 2B is the spec itself; Lesson 5 compares. Details in the talk block after the launch.', theme: 'dark', html: () => `
   <h2 class="kicker"><em>Just Furnish Context</em> — in one slide</h2>
   <div class="cols">
     <div class="col grow">
@@ -719,7 +719,7 @@ const SCENES = [
         <li><strong>A specification, not a template</strong><small>an orchestrator plans; disposable executor and reviewer subagents do the work; the agent designs the strategy from the literature</small></li>
         <li><strong>Seven phases, each gated by an artifact + review</strong><small>strategy → exploration → selection → expected → 10 % validation → <b>human gate</b> → unblind → a 50–100-page note</small></li>
         <li><strong>Published measurements reproduced end to end</strong> on archived ALEPH data<small>each a written analysis note with the fit, the systematics and the comparison to the paper · ${arxiv('2603.20179')}</small></li>
-        <li><span class="hl">Today: the fast path</span> — prompt, papers, data, none of the specification<small>then we put the specification back and compare, at the end</small></li>
+        <li><span class="hl">Today: two paths, same prompt, same data</span> — most of you: the papers and the data, no specification · path 2B: the specification itself<small>we compare what came back in Lesson 5</small></li>
       </ul>
     </div>
     <div class="col" style="flex:1.05; align-self:stretch"><div class="fig zoomable" style="height:100%"><img src="assets/fig_pipeline.png" alt="JFC framework diagram"></div></div>
@@ -815,11 +815,11 @@ curl -fsSL https://pixi.sh/install.sh | PIXI_NO_PATH_UPDATE=1 sh</pre>
   </div>`
 },
 { id: 't-outline-1b', act: 6, size: 'roomy', label: 'Lesson 1b — back', steps: 1, budget: 15, notes: 'Back from Lesson 1: token in hand, downloads done. Next slide: base → pick a path → launch.', theme: 'paper', html: () => tutOutline('l1b', 'Lesson 1b — <em>launch the agent</em>', '<b>Token in hand, downloads done.</b> Three steps, ten minutes — then it runs while we talk.') },
-{ id: 't-launch', act: 6, label: 'Lesson 1b — launch the agent', steps: 1, budget: 150, notes: 'Manual flow, no script: 1 base (PATH, NRP Anthropic endpoint, token, model mapping, untar data) · 2 fork: A rogue = a folder with the prompt and the data, nothing else; B full JFC = clone jfc-mit/jfc, pixi run scaffold, data_dir + allow in .analysis_config, pixi install · 3 join: cat prompt.md | claude --permission-mode auto. Fallback: ANTHROPIC_MODEL=glm-5. Daniel\'s Lesson 1b script does 1 + A for you.', theme: 'dark', html: () => `
+{ id: 't-launch', act: 6, label: 'Lesson 1b — launch the agent', steps: 1, budget: 150, notes: 'Manual flow, no script: 1 base (PATH, NRP Anthropic endpoint, token, model mapping, untar data) · 2 fork: A rogue = a folder with the prompt, the ntuplizer, the two papers the prompt cites (docs/) and the data — nothing else — via the ctx() fetcher defined in base; B full JFC = clone jfc-mit/jfc, pixi run scaffold, data_dir + allow in .analysis_config, pixi install · 3 join: cat prompt.md | claude --permission-mode auto. Fallback: ANTHROPIC_MODEL=glm-5. Daniel\'s Lesson 1b script does 1 + A for you.', theme: 'dark', html: () => `
   <h2 class="kicker">Lesson 1b — <em>launch the agent</em>: base · pick a path · paste the prompt</h2>
   <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:1.5vmin; min-height:0">
     <div class="codeblock" style="margin:0">
-      <div class="src"><b>1 · base</b> — on your laptop, in a <b>tmux</b> window so a closed lid or a dropped terminal does not kill the run · Claude Code talks to NRP through its Anthropic-compatible endpoint</div>
+      <div class="src"><b>1 · base</b> — on your laptop, in a <b>tmux</b> window so a dropped terminal does not kill the run · Claude Code talks to NRP through its Anthropic-compatible endpoint</div>
       <pre>tmux new -s agent                                <span class="hl2"># detach: Ctrl-b d · back: tmux attach -t agent</span>
 export PATH="$HOME/.local/bin:$HOME/.pixi/bin:$PATH"
 export ANTHROPIC_BASE_URL="https://ellm.nrp-nautilus.io/anthropic"
@@ -827,20 +827,21 @@ export ANTHROPIC_AUTH_TOKEN="&lt;your NRP token&gt;"                            
 export ANTHROPIC_MODEL=gpt-oss CLAUDE_CODE_SUBAGENT_MODEL=gpt-oss
 export ANTHROPIC_DEFAULT_OPUS_MODEL=gpt-oss ANTHROPIC_DEFAULT_SONNET_MODEL=gpt-oss ANTHROPIC_DEFAULT_HAIKU_MODEL=gpt-oss   <span class="hl2"># the spec asks for Opus — map it</span>
 cd ~/jfc-exercise &amp;&amp; tar xzf data.tgz                                        <span class="hl2"># → data/</span>
-PROMPT=https://raw.githubusercontent.com/violatingcp/h4l_agent_test/main/prompt.md    <span class="hl2"># Phil's h4l prompt</span></pre>
+H4L=https://raw.githubusercontent.com/violatingcp/h4l_agent_test/main                 <span class="hl2"># Phil's h4l context: the prompt, the ntuplizer, the two papers it cites</span>
+ctx() { for f in prompt.md h4l_ntuplize.py docs/1706.09936v2.pdf docs/1408.5191v3.pdf; do curl -fsSL --create-dirs -o "$f" "$H4L/$f"; done; }</pre>
     </div>
     <div class="cardgrid" style="grid-template-columns:1fr 1fr; gap:1.5vmin">
       <div class="codeblock" style="margin:0; border-left:3px solid var(--live)">
-        <div class="src"><b style="color:var(--live)">2A · rogue</b> — the prompt and the data, nothing else</div>
+        <div class="src"><b style="color:var(--live)">2A · rogue</b> — the prompt, its two papers, the ntuplizer, the data — nothing else</div>
         <pre>mkdir -p rogue &amp;&amp; cd rogue
 ln -s ../data data
-curl -fsSLO "$PROMPT"</pre>
+ctx                                     <span class="hl2"># prompt.md · h4l_ntuplize.py · docs/</span></pre>
       </div>
       <div class="codeblock" style="margin:0; border-left:3px solid var(--accent)">
         <div class="src"><b>2B · full JFC</b> — the specification: phases, reviewers, the gate</div>
         <pre>git clone --depth 1 https://github.com/jfc-mit/jfc.git &amp;&amp; cd jfc
 pixi run scaffold analyses/h4l --type measurement &amp;&amp; cd analyses/h4l
-ln -s ../../../data data &amp;&amp; curl -fsSLO "$PROMPT"
+ln -s ../../../data data &amp;&amp; ctx
 printf 'data_dir=$PWD/data\\nallow=$PWD/../../src\\n' &gt; .analysis_config
 pixi install</pre>
       </div>
