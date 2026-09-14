@@ -496,7 +496,7 @@ body.editing .scene [contenteditable="true"] { user-select: text; -webkit-user-s
    ================================================================================================ */
 const $ = (s, el) => (el || document).querySelector(s);
 const $$ = (s, el) => Array.from((el || document).querySelectorAll(s));
-const AX = { 1: 'Act I · The claim', 2: 'Act II · Just furnish context', 3: 'Act III · The receipts', 4: 'Act IV · The way forward', 5: 'Backup' };
+const AX = { 1: 'Act I · The claim', 2: 'Act II · Just furnish context', 3: 'Act III · The receipts', 4: 'Act IV · The way forward', 5: 'Backup', 6: 'CLARIPHY tutorial' };
 const arxiv = r => `<a href="https://arxiv.org/abs/${r}" target="_blank" rel="noopener">arXiv:${r}</a>`;
 /* GitHub-icon link: the icon is the ONLY click target — plain text never hyperlinks,
    so clicking anywhere else still advances the deck */
@@ -605,6 +605,40 @@ setTimeout(Term.init, 600);
 /* html is a function so scenes can lazy-build; steps = number of build states (>=1);
    theme: paper | dark ; term: false | 'dock' | 'wide' ; budget: seconds */
 const SCENES = [
+{ id: 't-title', act: 6, label: 'Tutorial title', steps: 1, budget: 30, notes: 'both facilitators; chairs Elmer + Dasu; NRP-provided models', theme: 'paper', thumb: 'assets/fig_lund.png', html: () => `
+  <div class="title-wrap">
+    <div class="title-left">
+      <h1>AI agents and Large Language Models for <em>Scientific Discovery</em></h1>
+      <div class="rule"></div>
+      <span class="arxiv-chip"><a href="https://training.nrp-nautilus.io/clariphy/" target="_blank" rel="noopener">training.nrp-nautilus.io/clariphy</a></span>
+      <p class="lead" style="margin-top:2vmin; max-width:44ch">A hands-on afternoon: LLMs on NRP → multimodal &amp; RAG → agentic workflows → build your own agent → an agent runs a full HEP analysis while we talk.</p>
+      <div class="who" style="margin-top:2.4vmin"><b>Andrzej Novak</b> · MIT &nbsp;·&nbsp; <b>Daniel Diaz</b> · UC San Diego<br><span style="color:var(--ink60)">CLARIPHY AI Collaboration Meeting · Pyle Center, Madison · 14 September 2026 · chairs Peter Elmer &amp; Sridhara Dasu</span></div>
+      <div class="logos theme-swap">
+        <img class="on-light" src="assets/logo_mit_light.svg" alt="MIT"><img class="on-dark" src="assets/logo_mit_dark.svg" alt="MIT">
+        <img class="cern on-light" src="assets/logo_cern_light.svg" alt="CERN"><img class="cern on-dark" src="assets/logo_cern_dark.svg" alt="CERN">
+      </div>
+    </div>
+    <div class="title-art">
+      <div class="polaroid" style="transform:rotate(1.7deg)">
+        <img src="assets/fig_lund.png" alt="ALEPH primary Lund jet plane density — measured autonomously by an agent">
+        <div class="tag">an agent measured this. by 3 pm, one will have tried H→4ℓ for you.</div>
+      </div>
+    </div>
+  </div>`
+},
+{ id: 't-outline', act: 6, label: 'The afternoon', steps: 2, budget: 60, notes: 'schedule from the site (cumulative); two runs launched at ~00:15 and judged at 02:35; setup: nrp.ai account + LLM token + CLARIPHY namespace', theme: 'paper', html: () => `
+  <h2 class="kicker">The afternoon — <em>two analyses run while we talk</em></h2>
+  <div class="phases">
+    <div class="ph"><span class="n">00:00</span><span class="what">Welcome · why agents · what <b>Just Furnish Context</b> is and what it has done</span><span class="art">Andrzej</span><span class="rev">15 min</span></div>
+    <div class="ph gate"><span class="n">00:15</span><span class="what"><b>Launch:</b> the same H→4ℓ prompt, twice — <i>rogue</i> (prompt + papers) and <i>JFC</i> (the specification). They run in the background from here.</span><span class="art">▶ both start</span><span class="rev">Andrzej</span></div>
+    <div class="ph"><span class="n">Lesson 1</span><span class="what">Introduction — LLMs on NRP: the managed endpoint, your token, the model catalogue</span><span class="art">Daniel</span><span class="rev">20 min</span></div>
+    <div class="ph"><span class="n">Lesson 2</span><span class="what">Chat with LLMs — Python, multimodal, embeddings &amp; RAG over CMS documentation</span><span class="art">Daniel</span><span class="rev">50 min</span></div>
+    <div class="ph"><span class="n">Lesson 3</span><span class="what">Agentic workflows — opencode &amp; IDE integration; a CMS analysis helper on NanoAOD</span><span class="art">Daniel</span><span class="rev">45 min</span></div>
+    <div class="ph"><span class="n">Lesson 4</span><span class="what">Build a simple agent — tool calling &amp; the agent loop, in ~30 lines of Python</span><span class="art">Daniel</span><span class="rev">40 min</span></div>
+    <div class="ph"><span class="n">02:35</span><span class="what"><b>Lesson 5 — what came out:</b> judging the two runs against a known physics target; Claude Code on NRP; the take-home</span><span class="art">both</span><span class="rev">25 min</span></div>
+  </div>
+  <p class="lead" data-step="2" style="margin-top:1.4vmin"><b>Before Lesson 1:</b> an <span class="mono">nrp.ai</span> account · ask to join the <span class="mono">clariphy</span> namespace · your LLM token from <span class="mono">nrp.ai/llmtoken</span> · the training hub, or your own laptop. Everything today runs on NRP GPUs — no subscriptions, no per-user billing.</p>`
+},
 { id: 'title', act: 1, label: 'Title', steps: 1, budget: 35, notes: 'cast loads behind title — chip goes ready; 42.9 h run', theme: 'paper', thumb: 'assets/fig_lund.png', html: () => `
   <div class="title-wrap">
     <div class="title-left">
@@ -931,6 +965,115 @@ If you lack MC truth info, you could derive approximate truth from studying the 
       <div class="fig zoomable auto"><img src="assets/fig_timings.png" alt="per-analysis wall-clock decomposition"></div>
       <div class="figcap">dark: autonomous pre-gate work · mid: usage-limit idle · pale: post-gate human review</div>
     </div>
+  </div>`
+},
+{ id: 't-launch', act: 6, label: 'Launch — one prompt, twice', steps: 2, budget: 90, notes: 'rogue = prompt + docs + ntuplizer + .claude, no spec; JFC = scaffold jfc_lite + pixi + same prompt; both: cat prompt.md | claude --permission-mode auto; model: NRP gpt-oss via /anthropic (or Opus on a cluster — TBD); come back at 02:35', theme: 'dark', term: 'dock', html: () => `
+  <h2 class="kicker">Now: the same prompt, <em>twice</em></h2>
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:1.8vmin; min-height:0">
+    <div class="promptcard" style="font-size:clamp(10.5px,1.4vmin,16px)"><span class="ps">prompt&gt;</span> You are performing a Higgs boson measurement in the 4 lepton channel using CMS Open Data from 2017 at √s = 13 TeV … produce the 4 lepton mass distribution … perform a fit of the mass and compute the mu value, this should be one fit. This loosely follows JHEP 11 (2017) 047 … this should be a quick analysis … cut the exploration steps short. <span style="color:var(--ink40)">(Phil's h4l prompt · 10 fb⁻¹ · 12 samples with cross sections)</span></div>
+    <div class="cardgrid" style="grid-template-columns:1fr 1fr">
+      <div class="kcard" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">A · rogue — prompt &amp; papers only</div><div class="ds">Staged: <span class="mono">prompt.md · docs/ (1706.09936, 1408.5191) · h4l_ntuplize.py · .claude/ · data/</span><br>No methodology, no roles, no review, no gate — the agent improvises. Minutes to set up.</div><div class="tag mono" style="white-space:nowrap; font-size:.82em">cat prompt.md | claude --permission-mode auto</div></div>
+      <div class="kcard"><div class="nm">B · JFC — the specification</div><div class="ds"><span class="mono">pixi run scaffold analyses/h4l_analysis --type measurement</span> on the <span class="mono">jfc_lite</span> branch → phases, per-phase CLAUDE.md, review roles, <span class="mono">.analysis_config</span> allow-list. Same context staged on top.</div><div class="tag mono" style="white-space:nowrap; font-size:.82em">cat prompt.md | claude --permission-mode auto</div></div>
+    </div>
+    <p class="lead" data-step="2" style="margin:0"><b>Both start now</b> — inference on NRP GPUs (<span class="mono">ellm.nrp-nautilus.io/anthropic</span>, open-weights), the agent process and the data wherever we launched them. We come back at <b>02:35</b>. <span class="hl">Predictions?</span> Which one gets a mass plot first — and which one gets the mass right?</p>
+  </div>`
+},
+{ id: 't-nrp', act: 6, label: 'Claude Code on NRP', steps: 1, budget: 45, notes: 'settings.json env block; gpt-oss default (vLLM worked example); glm-5 / minimax-m2 next; WebSearch denied → docs/ citable; bridge error “Content block is not a text block” → other model or opencode', theme: 'dark', term: 'dock', html: () => `
+  <h2 class="kicker">Claude Code on NRP — <em>no subscription</em></h2>
+  <div class="cols" style="align-items:stretch">
+    <div class="col" style="flex:1.1; display:flex; flex-direction:column; justify-content:center; min-width:0">
+      <div class="codeblock">
+        <div class="src"><b>~/.claude/settings.json</b> — the Anthropic-compatible endpoint, your NRP token</div>
+        <pre>"env": {
+  "ANTHROPIC_BASE_URL":   "https://ellm.nrp-nautilus.io/anthropic",
+  "ANTHROPIC_AUTH_TOKEN": "&lt;your NRP LLM token&gt;",
+  "ANTHROPIC_MODEL":      "gpt-oss",   <span class="hl2">// glm-5 · minimax-m2 next</span>
+  "CLAUDE_CODE_SUBAGENT_MODEL": "gpt-oss",
+  "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "131072",
+  "API_TIMEOUT_MS": "3000000"
+},
+"permissions": { "deny": ["WebSearch"] }</pre>
+      </div>
+    </div>
+    <div class="col grow" style="align-self:center">
+      <ul class="talk">
+        <li><span class="mono">/v1</span> speaks OpenAI — opencode, VS Code, your notebook. <span class="mono">/anthropic</span> speaks Anthropic — <strong>Claude Code</strong><small>same token, same GPUs; the whole framework runs on open weights</small></li>
+        <li><strong>WebSearch is denied on purpose</strong><small>only Claude models can emit it — so <span class="mono">docs/</span> is the citable source for every constant</small></li>
+        <li>If it dies with <em>“Content block is not a text block”</em><small>a bridge bug on tool calls: switch model, or run the rogue path in opencode — it needs no subagents</small></li>
+        <li>This is a <span class="hl">research-grade experiment</span><small>the spec says Opus, non-negotiable; we are substituting. Where it degrades is the result — keep notes</small></li>
+      </ul>
+    </div>
+  </div>`
+},
+{ id: 't-watch', act: 6, label: 'What to look for', steps: 1, budget: 45, notes: 'trajectory signals from the lesson; second-terminal watch command', theme: 'dark', term: 'dock', html: () => `
+  <h2 class="kicker">While it runs — watch the <em>trajectory</em>, not the number</h2>
+  <div class="cols" style="align-items:stretch">
+    <div class="col grow" style="align-self:center">
+      <ul class="talk">
+        <li><strong>Where does it start?</strong><small>a good agent inspects the ntuple branches before writing selection code</small></li>
+        <li><strong>Does it plan or dive in?</strong><small>JFC forces plan mode first; without the spec, weaker models start coding immediately</small></li>
+        <li><strong>Does it check itself?</strong><small>a cutflow, a data/MC comparison, a sanity plot — or the absence of one</small></li>
+        <li><strong>Where does it get stuck?</strong><small>long silences, repeated failed edits, looping on one error — the honest signal about open-weights models on long tasks</small></li>
+      </ul>
+    </div>
+    <div class="col" style="flex:.9; align-self:center; min-width:0">
+      <div class="codeblock">
+        <div class="src"><b>second terminal</b> — the agent writes to disk continuously</div>
+        <pre>cd ~/jfc-exercise/jfc/analyses/h4l_rogue
+find . -maxdepth 2 -newer prompt.md -type f \\
+     -not -path './data/*' -not -path './docs/*' | head -30
+find . -name '*.png' -o -name '*.pdf' | grep -v docs/</pre>
+      </div>
+      <div class="figcap" style="text-align:left">for the JFC run: <span class="mono">phase*/outputs/</span>, <span class="mono">phase*/review/</span> and the append-only experiment log</div>
+    </div>
+  </div>`
+},
+{ id: 't-good', act: 6, label: 'What good looks like', steps: 2, budget: 90, notes: 'target: peak ≈125 on ZZ continuum, μ≈1±0.3, bkg scaled to 10/fb, χ²=0 is an alarm, reproducible. Table: same prompt+data, seven notes — every run finds ≈129 GeV; spec\'d runs flag it, rogue runs don\'t fit the mass (4.8: μ=0.31 vs 125 template)', theme: 'dark', term: 'dock', html: () => `
+  <h2 class="kicker">What <em>good</em> looks like — a known target</h2>
+  <div class="cols" style="align-items:stretch">
+    <div class="col" style="flex:.8; align-self:center">
+      <ul class="talk">
+        <li><strong>A mass plot at all</strong><small>the most common failure is never getting past data loading</small></li>
+        <li><strong>The peak near 125 GeV</strong> on the ZZ continuum<small>elsewhere = a bug worth finding</small></li>
+        <li><strong>Backgrounds scaled to 10 fb⁻¹</strong><small>cross sections are in the prompt</small></li>
+        <li><strong>μ credible</strong>: 1.0 ± 0.3 is a result; μ = 40, or χ² ≡ 0, is not<small>the spec calls χ² = 0 “an alarm, not a result”</small></li>
+        <li><strong>Someone else can rerun it</strong></li>
+      </ul>
+    </div>
+    <div class="col grow" data-step="2" style="align-self:center; min-width:0">
+      <table class="stack" style="font-size:clamp(10px,1.35vmin,15px); width:100%">
+        <thead><tr><th>same prompt, same 10 fb⁻¹</th><th>model</th><th>m<sub>H</sub> [GeV]</th><th>μ</th><th>pp</th></tr></thead>
+        <tbody>
+          <tr><td>rogue</td><td>Sonnet 4.6</td><td>128.9 <small>+1.0/−1.5</small></td><td>1.29 <small>+0.61/−0.51</small></td><td>8</td></tr>
+          <tr><td>rogue</td><td>Opus 4.8</td><td style="color:var(--live)">not fitted — 125 GeV template</td><td>0.31 <small>+0.52/−0.40</small></td><td>5</td></tr>
+          <tr><td>JFC lite</td><td>Opus 4.8</td><td>130.5 ± 1.1 <small>flagged</small></td><td>1.00 ± 0.59</td><td>12</td></tr>
+          <tr><td>JFC lite</td><td>Opus 4.8 low effort</td><td>129.6 ± 1.2 <small>+2.4σ, stated</small></td><td>1.72 ± 0.66</td><td>15</td></tr>
+          <tr><td>JFC</td><td>Codex</td><td>128.6 <small>+0.8/−0.7</small></td><td>1.65 <small>+0.64/−0.52</small></td><td>8</td></tr>
+          <tr><td class="req">CMS · JHEP 11 (2017) 047 · 35.9 fb⁻¹</td><td></td><td class="req">125.26 ± 0.21</td><td class="req">1.05 <small>+0.19/−0.17</small></td><td></td></tr>
+        </tbody>
+      </table>
+      <p class="lead" style="margin-top:1.2vmin; font-size:clamp(12px,1.6vmin,19px)">Every run finds the peak near <b>129 GeV</b> in these ntuples. The spec'd runs <span class="hl">measure it and flag the tension</span> — the reference comparison is mandatory; the rogue runs call it a fluctuation, or never fit the mass and hand you μ = 0.31 against the wrong template. <b>Judge the process, not the number.</b> <span style="color:var(--ink40)">(notes in h4l_agent_test/analysis_notes/)</span></p>
+    </div>
+  </div>`
+},
+{ id: 't-takehome', act: 6, label: 'Take it further', steps: 1, budget: 60, notes: 'full spec take-home; jfc_demo (pre-seeded H→4l, 50 min, three planted bugs); the three transferable ideas', theme: 'dark', term: 'dock', html: () => `
+  <h2 class="kicker">Take it further — <em>put the framework back</em></h2>
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2vmin; min-height:0">
+    <div class="cardgrid" style="grid-template-columns:1fr 1fr 1fr">
+      <div class="kcard"><div class="nm">the full spec ${gh('jfc', 'jfc-mit/jfc')}</div><div class="ds"><span class="mono">pixi run scaffold analyses/h4l --type measurement</span> · stage the same context · <span class="mono">cat prompt.md | claude</span><br>Runs for hours; ships a 50–100-page note and a turnkey repo.</div></div>
+      <div class="kcard"><div class="nm">jfc_demo ${ghx('https://github.com/andrzejnovak/jfc_demo', 'jfc_demo on GitHub')}</div><div class="ds">Pre-seeded H→4ℓ on CMS Open Data: phases 1–2 baked, <b>3–5 live in ~50 min</b>. Three planted bugs — a fit-uncertainty bug, an un-normalised background, a citation slip — <b>the agents catch all three</b>.</div></div>
+      <div class="kcard" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">read three files</div><div class="ds"><span class="mono">methodology/06-review.md</span> · <span class="mono">agents/executor.md</span> · the analysis <span class="mono">CLAUDE.md</span><br><b>Typed findings · bounded iteration · prompts as versioned artifacts</b> — what separates this from the Lesson-4 loop, and transfers to any agentic system you build.</div></div>
+    </div>
+    <p class="lead" style="margin:0">${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> · <a href="https://github.com/violatingcp/h4l_agent_test" target="_blank" rel="noopener">h4l_agent_test</a> · <a href="https://training.nrp-nautilus.io/clariphy/5_analysis.html" target="_blank" rel="noopener">Lesson 5</a></p>
+  </div>`
+},
+{ id: 't-close', act: 6, label: 'Discussion', steps: 2, budget: 45, notes: 'framework is the product; portability; human gates load-bearing; honest reporting → Tuesday parallel', theme: 'dark', term: 'dock', html: () => `
+  <h2 class="kicker">What to take <em>home</em></h2>
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:3vmin; min-height:0">
+    <div class="mstate"><div class="big">The <em>framework</em> is the product</div><div class="sub">JFC ships almost no analysis code — its value is the encoded process: what a phase must produce, who reviews it, what blocks advancement</div></div>
+    <div class="mstate"><div class="big">Human gates are <em>load-bearing</em></div><div class="sub">the agent does not decide when to look at the full dataset; today's Lesson-4 loop had a max_turns — this has an unblinding gate</div></div>
+    <div class="mstate"><div class="big">A stalled run is a <em>result</em></div><div class="sub">open weights standing in for Opus is an experiment; where it broke today is worth more to this room than a clean success</div></div>
+    <p class="lead" data-step="2" style="margin:0"><b>Tuesday 12:30, Room 325/326 — Analysis Agentic Workflows parallel.</b> Bring what broke. <span style="color:var(--ink40)">· ${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> · <a href="https://training.nrp-nautilus.io/clariphy/" target="_blank" rel="noopener">training.nrp-nautilus.io/clariphy</a> — thank you</span></p>
   </div>`
 },
 { id: 'wave', act: 4, label: 'Six months later', steps: 2, budget: 45, notes: '30 INSPIRE citations; ATLAS Z+jets with AI; Genesis 278 awards/$250M, ≥10 agentic HEP/NP, a funded PI cites JFC', theme: 'dark', term: 'dock', html: () => `
@@ -1291,6 +1434,7 @@ const SKIP_PROFILES = {
   results: ['context', 'repo', 'phases', 'review', 'gate'],        // skip framework internals — results-first crowd
   fermilab: [],                                                    // 11 Sep 2026 cut: full deck + wave + demo (~18:10)
   fermilab15: ['repo', 'models', 'meaning'],                       // the same, 15-min core with wave + demo (~16:00)
+  tutorial: ['title', 'repo', 'menu', 'htautau', 'models', 'ladder', 'wave', 'forward', 'demo', 'meaning', 'finale'],   // CLARIPHY 14 Sep: open → intro → launch · closer (~17:30)
 };
 const Skips = (() => {
   const KEY = 'jfc-skips';

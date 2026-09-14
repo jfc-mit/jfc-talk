@@ -1,5 +1,13 @@
 # JFC talk — HSF DAAA · Agentic AI in HEP data analysis · 27 July 2026
 
+**Branch `clariphy-tutorial-2026-09-14`** — the CLARIPHY tutorial cut (Mon 14 Sep 2026, *AI agents and LLMs for Scientific
+Discovery*, with Daniel Diaz; site: training.nrp-nautilus.io/clariphy). `?profile=tutorial` (~18 min of budget, 20 scenes) is
+three parts navigated with the overview (`O`): **open** (`t-title`, `t-outline` — both facilitators, the day's schedule), the
+**JFC intro** (anatomy → claim → launch → framework → context → phases → review → gate → deliverable → scoreboard → lund →
+cost) ending in **`t-launch`** — the same H→4ℓ prompt started twice, *rogue* and *JFC lite*, to run during Daniel's Lessons 1–4 —
+and the **closer** for Lesson 5 (`t-nrp` Claude Code on NRP · `t-watch` · `t-good` with the seven reference notes from
+`violatingcp/h4l_agent_test/analysis_notes` · `t-takehome` · `t-close`). Tutorial scenes are act 6 (`AX[6]`).
+
 **Branch `fermilab-2026-09-11`** — the Fermilab cut (11 Sep 2026): title line re-venued; `context` claims the
 spec in first person; Act IV gains `wave` (*Six months later* — 30 INSPIRE citations, ATLAS Z+jets with AI,
 Genesis Mission) before `forward` and `demo` (*Run it yourself* — `andrzejnovak/jfc_demo`) after it; Act III gains `ladder`
