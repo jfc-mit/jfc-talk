@@ -1290,24 +1290,14 @@ curl -fsSL <span class="hl2">…/</span>check.sh | bash -s 5
     const e = document.querySelector('.scene .envelope'); if (e) e.hidden = step >= 2;
     const t = document.querySelector('.scene .tg-top'); if (t) t.classList.toggle('off', step >= 3); }
 },
-{ id: 't-takehome', act: 6, size: 'roomy', label: 'Take it further', steps: 1, budget: 60, notes: 'full spec take-home; jfc_demo (pre-seeded H→4l, 50 min, three planted bugs); the three transferable ideas', theme: 'dark', html: () => `
-  <h2 class="kicker">Take it further — <em>put the framework back</em></h2>
-  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2vmin; min-height:0">
-    <div class="cardgrid" style="grid-template-columns:1fr 1fr 1fr">
-      <div class="kcard"><div class="nm">the full spec ${gh('jfc', 'jfc-mit/jfc')}</div><div class="ds">Took <b>path 2B</b> this morning? You already have it — leave it running for hours; it ships a 50–100-page note and a turnkey repo.<br>Took 2A? Path 2B from the launch slide, then the same lines on <b>your own</b> data.</div></div>
-      <div class="kcard"><div class="nm">jfc_demo ${ghx('https://github.com/andrzejnovak/jfc_demo', 'jfc_demo on GitHub')}</div><div class="ds">Pre-seeded H→4ℓ on CMS Open Data: phases 1–2 baked, <b>3–5 live in ~50 min</b>. Three planted bugs — a fit-uncertainty bug, an un-normalised background, a citation slip — <b>the agents catch all three</b>.</div></div>
-      <div class="kcard" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">read three files</div><div class="ds"><span class="mono">methodology/06-review.md</span> · <span class="mono">agents/executor.md</span> · the analysis <span class="mono">CLAUDE.md</span><br><b>Typed findings · bounded iteration · prompts as versioned artifacts</b> — what separates this from the Lesson-4 loop, and transfers to any agentic system you build.</div></div>
-    </div>
-    <p class="lead" style="margin:0">${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> · <a href="https://github.com/violatingcp/h4l_agent_test" target="_blank" rel="noopener">h4l_agent_test</a> · <a href="https://training.nrp-nautilus.io/clariphy/5_analysis.html" target="_blank" rel="noopener">Lesson 5</a></p>
-  </div>`
-},
-{ id: 't-close', act: 6, size: 'roomy', label: 'Discussion', steps: 1, budget: 45, notes: 'framework is the product; portability; human gates load-bearing; honest reporting → Tuesday parallel (Indico: Analysis Agentic Workflows, Tue 15 Sep 10:30–12:00 and 13:00–14:00, Room 325/326)', theme: 'dark', html: () => `
+{ id: 't-close', act: 6, size: 'roomy', label: 'Discussion', steps: 1, budget: 45, notes: 'Closer. Three take-homes, then the callback to the promise on t-goal (a token, an agent that ran, where it broke) and the hand-off to tomorrow (Indico: Analysis Agentic Workflows, Tue 15 Sep 10:30–12:00 and 13:00–14:00, Room 325/326). Every block is drag/resize/double-click editable in layout-edit mode (E on localhost or ?edit).', theme: 'dark', html: () => `
   <h2 class="kicker">What to take <em>home</em></h2>
-  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:3vmin; min-height:0">
-    <div class="mstate"><div class="big">The <em>framework</em> is the product</div><div class="sub">JFC ships almost no analysis code — its value is the encoded process: what a phase must produce, who reviews it, what blocks advancement</div></div>
-    <div class="mstate"><div class="big">Human gates are <em>load-bearing</em></div><div class="sub">the agent does not decide when to look at the full dataset; today's Lesson-4 loop had a max_turns — this has an unblinding gate</div></div>
-    <div class="mstate"><div class="big">A stalled run is a <em>result</em></div><div class="sub">open weights standing in for Opus is an experiment; where it broke today is worth more to this room than a clean success</div></div>
-    <p class="lead" style="margin:0"><b>Tomorrow, Tuesday 10:30 and again 13:00, Room 325/326 — the Analysis Agentic Workflows parallel.</b> Bring what broke. <span style="color:var(--ink40)">· ${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> · <a href="https://training.nrp-nautilus.io/clariphy/" target="_blank" rel="noopener">training.nrp-nautilus.io/clariphy</a> — thank you</span></p>
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2.6vmin; min-height:0">
+    <div class="mstate"><div class="big">The <em>framework</em> is the product</div><div class="sub">JFC ships almost no analysis code. Its value is the encoded process — what each phase must produce, who reviews it, what blocks advancement. Fork it for your channel; the physics comes from the literature, not from the template.</div></div>
+    <div class="mstate"><div class="big">Human gates are <em>load-bearing</em></div><div class="sub">the agent never decides when to look at the full dataset. This morning's Lesson-4 loop stopped at a turn limit; JFC stops at an unblinding gate that only a person can open.</div></div>
+    <div class="mstate"><div class="big">A stalled run is a <em>result</em></div><div class="sub">open weights standing in for Opus was the experiment. Where yours broke today — the first step it skipped, the error it looped on — is worth more to this room than a clean success.</div></div>
+    <p class="lead" style="margin:0">You leave with a token that works, an agent that ran, and a note on where it broke — that was the promise at nine o'clock. <b>Tomorrow, Tuesday 10:30 and again 13:00, Room 325/326 — the Analysis Agentic Workflows parallel. Bring what broke.</b></p>
+    <p class="lead" style="margin:0; color:var(--ink40)">${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> · <a href="https://jfc-mit.github.io/jfc-tutorial-nrp-clariphy/" target="_blank" rel="noopener">these slides</a> · <a href="https://training.nrp-nautilus.io/clariphy/" target="_blank" rel="noopener">training.nrp-nautilus.io/clariphy</a> — thank you, Daniel, and thank you all.</p>
   </div>`
 },
 { id: 'wave', act: 4, label: 'Six months later', steps: 2, budget: 45, notes: '30 citations; funnel 5000→278→~40→≥10→1 (Phil, EIC award)', theme: 'dark', term: 'dock', html: () => `
@@ -1521,7 +1511,7 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
    Authoring-only: file:// / localhost / ?edit. Ported from the hcc-kappac talk. */
 const Layout = (() => {
   const KEY = 'jfc-layout1';
-  const TXT = 'h1, h2, p, li, td, th, .lead, .callout, .figcap, .sub, .who, .tag, .kcard .nm, .kcard .ds, .an-card .nm, .an-card .pr, .promptcard';
+  const TXT = 'h1, h2, p, li, td, th, .lead, .callout, .figcap, .sub, .who, .tag, .kcard .nm, .kcard .ds, .an-card .nm, .an-card .pr, .promptcard, .mstate .big';
   const BARMSG = '<b>layout edit</b> — drag to move · ◢ corner to resize · scroll over text to scale · double-click text to rewrite · <b>C</b> copy overrides · <b>X</b> reset scene · <b>E</b> exit';
   const EDITABLE = location.protocol === 'file:' || ['localhost', '127.0.0.1'].includes(location.hostname)
     || new URLSearchParams(location.search).has('edit');
@@ -1530,7 +1520,7 @@ const Layout = (() => {
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch { /* ignore */ } };
   const ov = () => store[curScene] = store[curScene] || {};
   const host = () => $('#scenehost');
-  const candidates = () => $$('.callout, .fig, .polaroid, .figcap, .kcard, .an-card, .promptcard, .ph, h1, h2, .lead, ul.talk, table.stack, .verdicts', host());
+  const candidates = () => $$('.callout, .fig, .polaroid, .figcap, .kcard, .an-card, .promptcard, .ph, .mstate, h1, h2, .lead, ul.talk, table.stack, .verdicts', host());
   const txtEls = () => $$(TXT, host());
   const tag = el => { el.classList.add('draggable');
     if (getComputedStyle(el).position === 'static') el.classList.add('flowdrag'); };
@@ -1674,7 +1664,7 @@ const SKIP_PROFILES = {
   results: ['context', 'repo', 'phases', 'review', 'gate'],        // skip framework internals — results-first crowd
   fermilab: [],                                                    // 11 Sep 2026 cut: full deck + wave + demo (~18:10)
   fermilab15: ['repo', 'models', 'meaning'],                       // the same, 15-min core with wave + demo (~16:00)
-  tutorial: ['title', 'repo', 'gate', 't-nrp', 't-takehome', 'menu', 'htautau', 'models', 'ladder', 'wave', 'forward', 'demo', 'meaning', 'finale'],   // CLARIPHY 14 Sep: title → goal → JFC → resources → outline → setup ·· launch → talk ·· Lesson 5 closers
+  tutorial: ['title', 'repo', 'gate', 't-nrp', 'menu', 'htautau', 'models', 'ladder', 'wave', 'forward', 'demo', 'meaning', 'finale'],   // CLARIPHY 14 Sep: title → goal → JFC → resources → outline → setup ·· launch → talk ·· Lesson 5 closers
 };
 const PROFILE_THEME = { tutorial: 'light' };   // CLARIPHY 14 Sep: the whole cut on the paper theme
 const Skips = (() => {
