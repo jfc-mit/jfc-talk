@@ -649,6 +649,23 @@ setTimeout(Term.init, 600);
 /* ============================================= scenes ============================================= */
 /* html is a function so scenes can lazy-build; steps = number of build states (>=1);
    theme: paper | dark ; term: false | 'dock' | 'wide' ; budget: seconds */
+/* CLARIPHY tutorial outline — one row list, reused with a different highlighted row */
+const TUT_ROWS = [
+  ['welcome', 'Welcome',   '<b>Welcome</b> — what today is for · JFC in one slide · resources', 'Andrzej', '5 min'],
+  ['setup',   'Setup',     '<b>Start the downloads</b> — the data, Claude Code and pixi · no token needed yet', '▶ everyone', '5 min'],
+  ['l1',      'Lesson 1',  '<b>Introduction — LLMs on NRP</b> — your account · the <span class="mono">clariphy</span> namespace · <b>your token</b>', 'Daniel', '20 min'],
+  ['l1b',     'Lesson 1b', '<b>Launch the agent</b> — base setup with your token · pick <i>rogue</i> or <i>full JFC</i> · <span class="mono">cat prompt.md | claude</span>', '▶ everyone', '10 min'],
+  ['jfc',     'JFC',       '<b>Just Furnish Context</b> — the framework, what it delivered, what it cost — <b>while your agent works</b>', 'Andrzej', '12 min'],
+  ['l2',      'Lesson 2',  '<b>Chat with LLMs</b> — Python, multimodal, embeddings &amp; RAG over CMS documentation', 'Daniel', '50 min'],
+  ['l3',      'Lesson 3',  '<b>Agentic workflows</b> — opencode &amp; IDE integration; a CMS analysis helper on NanoAOD', 'Daniel', '45 min'],
+  ['l4',      'Lesson 4',  '<b>Build a simple agent</b> — tool calling &amp; the agent loop, in ~30 lines of Python', 'Daniel', '40 min'],
+  ['l5',      'Lesson 5',  '<b>Check in on the agent</b> — what it produced · what good looks like · how it ran on NRP · the take-home', 'both', '10 min'],
+];
+const tutOutline = (hl, kicker, lead = '') => `
+  <h2 class="kicker">${kicker}</h2>
+  <div class="phases">
+    ${TUT_ROWS.map(([k, n, what, who, t]) => `<div class="ph${k === hl ? ' gate' : ''}"><span class="n">${n}</span><span class="what">${what}</span><span class="art">${who}</span><span class="rev">${t}</span></div>`).join('\n    ')}
+  </div>${lead ? `\n  <p class="lead" style="margin-top:1.4vmin">${lead}</p>` : ''}`;
 const SCENES = [
 { id: 't-title', act: 6, label: 'Tutorial title', steps: 1, budget: 30, notes: 'Daniel first; chairs Elmer + Dasu; 11:00–14:00 Madison; lander = the JFC workflow chart', theme: 'paper', thumb: 'assets/fig_pipeline.png', html: () => `
   <div class="title-wrap">
@@ -737,21 +754,7 @@ const SCENES = [
     <p class="lead" style="margin:0"><b>Students:</b> Claude seats come through your PI, ChatGPT seats through a faculty member or postdoc — <span class="hl">ask this week</span>. <b>Postdocs:</b> apply to ChatGPT yourselves. NRP needs no PI.</p>
   </div>`
 },
-{ id: 't-outline', act: 6, size: 'roomy', label: 'The morning', steps: 2, budget: 60, notes: 'no timestamps (user). Site durations (L1 20 · L1b 15 → 10 since downloads are pre-started · L2 50 · L3 45 · L4 40 · L5 10) plus our welcome (8) and JFC block (12, deck budget 9.4). Honest end 12:15 — 15 min over; trim lives in the lessons or in mine.', theme: 'paper', html: () => `
-  <h2 class="kicker">The morning — <em>an analysis runs while we talk</em></h2>
-  <div class="phases">
-    <div class="ph"><span class="n">Welcome</span><span class="what"><b>Welcome</b> — what today is for · JFC in one slide · resources</span><span class="art">Andrzej</span><span class="rev">5 min</span></div>
-    <div class="ph"><span class="n">Setup</span><span class="what"><b>Start the downloads</b> — the data, Claude Code and pixi · no token needed yet</span><span class="art">▶ everyone</span><span class="rev">5 min</span></div>
-    <div class="ph"><span class="n">Lesson 1</span><span class="what"><b>Introduction — LLMs on NRP</b> — your account · the <span class="mono">clariphy</span> namespace · <b>your token</b></span><span class="art">Daniel</span><span class="rev">20 min</span></div>
-    <div class="ph gate"><span class="n">Lesson 1b</span><span class="what"><b>Launch the agent</b> — base setup with your token · pick <i>rogue</i> or <i>full JFC</i> · <span class="mono">cat prompt.md | claude</span></span><span class="art">▶ everyone</span><span class="rev">10 min</span></div>
-    <div class="ph"><span class="n">JFC</span><span class="what"><b>Just Furnish Context</b> — the framework, what it delivered, what it cost — <b>while your agent works</b></span><span class="art">Andrzej</span><span class="rev">12 min</span></div>
-    <div class="ph"><span class="n">Lesson 2</span><span class="what"><b>Chat with LLMs</b> — Python, multimodal, embeddings &amp; RAG over CMS documentation</span><span class="art">Daniel</span><span class="rev">50 min</span></div>
-    <div class="ph"><span class="n">Lesson 3</span><span class="what"><b>Agentic workflows</b> — opencode &amp; IDE integration; a CMS analysis helper on NanoAOD</span><span class="art">Daniel</span><span class="rev">45 min</span></div>
-    <div class="ph"><span class="n">Lesson 4</span><span class="what"><b>Build a simple agent</b> — tool calling &amp; the agent loop, in ~30 lines of Python</span><span class="art">Daniel</span><span class="rev">40 min</span></div>
-    <div class="ph"><span class="n">Lesson 5</span><span class="what"><b>Check in on the agent</b> — what it produced · what good looks like · how it ran on NRP · the take-home</span><span class="art">both</span><span class="rev">10 min</span></div>
-  </div>
-  <p class="lead" data-step="2" style="margin-top:1.4vmin"><b>Downloads first</b>, token in Lesson 1, launch in Lesson 1b, results in Lesson 5. Everything runs on NRP GPUs: no subscriptions, no per-user billing.</p>`
-},
+{ id: 't-outline', act: 6, size: 'roomy', label: 'The morning', steps: 1, budget: 45, notes: 'Site durations (L1 20 · L1b 10 · L2 50 · L3 45 · L4 40 · L5 10) plus welcome 5 and JFC 12 — ~15 min over; trim lives in the lessons or in mine. Highlight: Setup — the next slide.', theme: 'paper', html: () => tutOutline('setup', 'The morning — <em>an analysis runs while we talk</em>') },
 { id: 't-setup', act: 6, size: 'roomy', label: 'Setup — start the downloads', steps: 1, budget: 90, notes: 'No token needed for any of this. Data 857 MiB from NRP S3 (or Phil\'s Dropbox) — start it first, 30 laptops on conference Wi-Fi. Repos are small: the script clones them. jfc_setup.sh reuses what is already in ~/jfc-exercise (data.tgz by size, claude/pixi if on PATH).', theme: 'paper', html: () => `
   <h2 class="kicker">Setup — <em>start the downloads now</em>, no token needed</h2>
   <div class="cols" style="align-items:stretch">
@@ -780,19 +783,7 @@ curl -fsSL https://pixi.sh/install.sh | PIXI_NO_PATH_UPDATE=1 sh</pre>
     </div>
   </div>`
 },
-{ id: 't-setup2', act: 6, size: 'roomy', label: 'Lesson 1 — over to Daniel', steps: 1, budget: 30, notes: 'Hand-off: Lesson 1 on the site (20 min, Daniel) — NRP account, clariphy namespace (ask Daniel), token at nrp.ai/llmtoken, verify, training hub. Downloads keep running. Back for Lesson 1b, the launch.', theme: 'paper', html: () => `
-  <h2 class="kicker">Lesson 1 — <em>over to Daniel</em></h2>
-  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:3vmin; min-height:0">
-    <div><span class="arxiv-chip" style="font-size:clamp(15px,2.3vmin,28px)"><a href="https://training.nrp-nautilus.io/clariphy/1_intro.html" target="_blank" rel="noopener">training.nrp-nautilus.io/clariphy → Introduction — LLMs on NRP</a></span></div>
-    <div class="phases" style="flex:0 0 auto">
-      <div class="ph"><span class="n">1</span><span class="what"><b>Your NRP account</b> — <span class="mono">nrp.ai</span>, institutional login</span><span class="art">nrp.ai</span></div>
-      <div class="ph"><span class="n">2</span><span class="what"><b>The <span class="mono">clariphy</span> namespace</b> — ask Daniel; an account alone does not unlock the LLM service</span><span class="art">Daniel</span></div>
-      <div class="ph gate"><span class="n">3</span><span class="what"><b>Your LLM token</b> — <span class="mono">nrp.ai/llmtoken</span> → <i>Get LLM token</i> · treat it like a password</span><span class="art">30 s</span></div>
-      <div class="ph"><span class="n">4</span><span class="what"><b>The training hub</b> — <span class="mono">jh-training.nrp-nautilus.io</span>, the notebooks for Lessons 2–4</span><span class="art">JupyterHub</span></div>
-    </div>
-    <p class="lead" style="margin:0"><b>Downloads still running?</b> Leave them. Back here in 20 minutes with your token — Lesson 1b, the launch.</p>
-  </div>`
-},
+{ id: 't-setup2', act: 6, size: 'roomy', label: 'Lesson 1 — over to Daniel', steps: 1, budget: 20, notes: 'Hand-off: Lesson 1 on the site (20 min, Daniel) — NRP account, clariphy namespace (ask Daniel), token at nrp.ai/llmtoken, verify, training hub. Downloads keep running.', theme: 'paper', html: () => tutOutline('l1', 'Lesson 1 — <em>over to Daniel</em>', '<b>Downloads still running?</b> Leave them. Back here in 20 minutes with your token — <a href="https://training.nrp-nautilus.io/clariphy/1_intro.html" target="_blank" rel="noopener">training.nrp-nautilus.io/clariphy → Introduction — LLMs on NRP</a>') },
 { id: 'title', act: 1, label: 'Title', steps: 1, budget: 35, notes: 'cast loads behind title — chip goes ready; 42.9 h run', theme: 'paper', thumb: 'assets/fig_lund.png', html: () => `
   <div class="title-wrap">
     <div class="title-left">
@@ -817,15 +808,18 @@ curl -fsSL https://pixi.sh/install.sh | PIXI_NO_PATH_UPDATE=1 sh</pre>
     </div>
   </div>`
 },
-{ id: 't-launch', act: 6, label: 'Lesson 1b — launch the agent', steps: 2, budget: 150, notes: 'Manual flow, no script: 1 base (PATH, NRP Anthropic endpoint, token, model mapping, untar data) · 2 fork: A rogue = a folder with the prompt and the data, nothing else; B full JFC = clone jfc-mit/jfc, pixi run scaffold, data_dir + allow in .analysis_config, pixi install · 3 join: cat prompt.md | claude --permission-mode auto. Fallback: ANTHROPIC_MODEL=glm-5. Daniel\'s Lesson 1b script does 1 + A for you.', theme: 'dark', html: () => `
+{ id: 't-outline-1b', act: 6, size: 'roomy', label: 'Lesson 1b — back', steps: 1, budget: 15, notes: 'Back from Lesson 1: token in hand, downloads done. Next slide: base → pick a path → launch.', theme: 'paper', html: () => tutOutline('l1b', 'Lesson 1b — <em>launch the agent</em>', '<b>Token in hand, downloads done.</b> Three steps, ten minutes — then it runs while we talk.') },
+{ id: 't-launch', act: 6, label: 'Lesson 1b — launch the agent', steps: 1, budget: 150, notes: 'Manual flow, no script: 1 base (PATH, NRP Anthropic endpoint, token, model mapping, untar data) · 2 fork: A rogue = a folder with the prompt and the data, nothing else; B full JFC = clone jfc-mit/jfc, pixi run scaffold, data_dir + allow in .analysis_config, pixi install · 3 join: cat prompt.md | claude --permission-mode auto. Fallback: ANTHROPIC_MODEL=glm-5. Daniel\'s Lesson 1b script does 1 + A for you.', theme: 'dark', html: () => `
   <h2 class="kicker">Lesson 1b — <em>launch the agent</em>: base · pick a path · paste the prompt</h2>
   <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:1.5vmin; min-height:0">
     <div class="codeblock" style="margin:0">
-      <div class="src"><b>1 · base</b> — once per terminal, on your laptop · Claude Code talks to NRP through its Anthropic-compatible endpoint</div>
-      <pre>export PATH="$HOME/.local/bin:$HOME/.pixi/bin:$PATH"
+      <div class="src"><b>1 · base</b> — on your laptop, in a <b>tmux</b> window so a closed lid or a dropped terminal does not kill the run · Claude Code talks to NRP through its Anthropic-compatible endpoint</div>
+      <pre>tmux new -s agent                                <span class="hl2"># detach: Ctrl-b d · back: tmux attach -t agent</span>
+export PATH="$HOME/.local/bin:$HOME/.pixi/bin:$PATH"
 export ANTHROPIC_BASE_URL="https://ellm.nrp-nautilus.io/anthropic"
 export ANTHROPIC_AUTH_TOKEN="&lt;your NRP token&gt;"                                <span class="hl2"># nrp.ai/llmtoken</span>
-export ANTHROPIC_MODEL=gpt-oss ANTHROPIC_DEFAULT_OPUS_MODEL=gpt-oss CLAUDE_CODE_SUBAGENT_MODEL=gpt-oss
+export ANTHROPIC_MODEL=gpt-oss CLAUDE_CODE_SUBAGENT_MODEL=gpt-oss
+export ANTHROPIC_DEFAULT_OPUS_MODEL=gpt-oss ANTHROPIC_DEFAULT_SONNET_MODEL=gpt-oss ANTHROPIC_DEFAULT_HAIKU_MODEL=gpt-oss   <span class="hl2"># the spec asks for Opus — map it</span>
 cd ~/jfc-exercise &amp;&amp; tar xzf data.tgz                                        <span class="hl2"># → data/</span>
 PROMPT=https://raw.githubusercontent.com/violatingcp/h4l_agent_test/main/prompt.md    <span class="hl2"># Phil's h4l prompt</span></pre>
     </div>
@@ -845,11 +839,11 @@ printf 'data_dir=$PWD/data\\nallow=$PWD/../../src\\n' &gt; .analysis_config
 pixi install</pre>
       </div>
     </div>
-    <div class="codeblock" data-step="2" style="margin:0; border-left:3px solid var(--green)">
+    <div class="codeblock" style="margin:0; border-left:3px solid var(--green)">
       <div class="src"><b>3 · launch</b> — both paths, the same line · then leave it running, lid open, plugged in</div>
       <pre>cat prompt.md | claude --permission-mode auto</pre>
     </div>
-    <p class="lead" data-step="2" style="margin:0; font-size:clamp(12px,1.6vmin,19px)">Dies with <em>“Content block is not a text block”</em>? <span class="mono" style="white-space:nowrap">export ANTHROPIC_MODEL=glm-5</span> and launch again. The Lesson 1b page has a script that does 1 + 2A for you. <b>We compare in Lesson 5.</b> <span class="hl">Predictions?</span></p>
+    <p class="lead" style="margin:0; font-size:clamp(12px,1.6vmin,19px)">Dies with <em>“Content block is not a text block”</em>? <span class="mono" style="white-space:nowrap">export ANTHROPIC_MODEL=glm-5</span> and launch again. The Lesson 1b page has a script that does 1 + 2A for you. <b>We compare in Lesson 5.</b> <span class="hl">Predictions?</span></p>
   </div>`
 },
 { id: 't-back', act: 6, size: 'roomy', label: 'Back to the tutorial', steps: 1, budget: 20, notes: 'Break slide after the launch: agents are running; the next ~12 min are the JFC talk (anatomy → claim → replay → framework … cost), then over to Daniel for Lessons 2–4.', theme: 'dark', html: () => `
@@ -1084,7 +1078,7 @@ closures: 0.01 called "good", −287σ a "known limitation".</span></pre>
   <p class="lead" data-step="2" style="margin-top:1vmin">μ̂ = <b>1.20 ± 1.13</b> vs published <b>1.01 ± 0.41</b> (μτ_h) — and the stat model <span class="hl">rebuilds in an independent Combine implementation</span>.</p>`
 },
 { id: 'lund', act: 3, label: 'Headline · Lund jet plane', steps: 1, budget: 50, notes: 'N 4.751±0.224; first in e+e−; candidate measurement', theme: 'dark', term: 'dock', thumb: 'assets/fig_lund.png', html: () => `
-  <h2 class="kicker">…and the plot from the title slide</h2>
+  <h2 class="kicker">The headline — <em>a Lund plane nobody had measured</em></h2>
   <div class="cols" style="align-items:stretch">
     <div class="col grow" style="align-self:center">
       <ul class="talk">
