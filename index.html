@@ -1634,6 +1634,7 @@ const SKIP_PROFILES = {
   fermilab15: ['repo', 'models', 'meaning'],                       // the same, 15-min core with wave + demo (~16:00)
   tutorial: ['title', 'repo', 'menu', 'htautau', 'models', 'ladder', 'wave', 'forward', 'demo', 'meaning', 'finale'],   // CLARIPHY 14 Sep: title → goal → JFC → resources → outline → setup ·· launch → talk ·· Lesson 5 closers
 };
+const PROFILE_THEME = { tutorial: 'light' };   // CLARIPHY 14 Sep: the whole cut on the paper theme
 const Skips = (() => {
   const KEY = 'jfc-skips';
   let set = new Set();
@@ -1813,6 +1814,11 @@ const Deck = (() => {
   /* persistent 3-state theme override: auto (scene-driven, default) -> light -> dark */
   let themeOverride = 'auto';
   try { themeOverride = localStorage.getItem('jfc-theme') || 'auto'; } catch { /* ignore */ }
+  { /* ?theme=light|dark|auto wins; else a profile may carry a default (tutorial: light everywhere) */
+    const qs = new URLSearchParams(location.search);
+    const forced = qs.get('theme') || (qs.get('profile') && PROFILE_THEME[qs.get('profile')]);
+    if (forced && ['auto', 'light', 'dark'].includes(forced)) {
+      themeOverride = forced; try { localStorage.setItem('jfc-theme', themeOverride); } catch { /* ignore */ } } }
   function applyTheme() {
     const sc = SCENES[si];
     const t = themeOverride === 'light' ? 'paper' : themeOverride === 'dark' ? 'dark' : sc.theme;
