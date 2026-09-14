@@ -743,7 +743,7 @@ const SCENES = [
     <div class="ph"><span class="n">Welcome</span><span class="what"><b>Welcome</b> — what today is for · JFC in one slide · resources</span><span class="art">Andrzej</span><span class="rev">5 min</span></div>
     <div class="ph"><span class="n">Setup</span><span class="what"><b>Start the downloads</b> — the data, Claude Code and pixi · no token needed yet</span><span class="art">▶ everyone</span><span class="rev">5 min</span></div>
     <div class="ph"><span class="n">Lesson 1</span><span class="what"><b>Introduction — LLMs on NRP</b> — your account · the <span class="mono">clariphy</span> namespace · <b>your token</b></span><span class="art">Daniel</span><span class="rev">20 min</span></div>
-    <div class="ph gate"><span class="n">Lesson 1b</span><span class="what"><b>Launch the agent</b> — <span class="mono">jfc_setup.sh</span> with your token, then <span class="mono">cat prompt.md | claude</span> at <i>All set</i></span><span class="art">▶ everyone</span><span class="rev">10 min</span></div>
+    <div class="ph gate"><span class="n">Lesson 1b</span><span class="what"><b>Launch the agent</b> — base setup with your token · pick <i>rogue</i> or <i>full JFC</i> · <span class="mono">cat prompt.md | claude</span></span><span class="art">▶ everyone</span><span class="rev">10 min</span></div>
     <div class="ph"><span class="n">JFC</span><span class="what"><b>Just Furnish Context</b> — the framework, what it delivered, what it cost — <b>while your agent works</b></span><span class="art">Andrzej</span><span class="rev">12 min</span></div>
     <div class="ph"><span class="n">Lesson 2</span><span class="what"><b>Chat with LLMs</b> — Python, multimodal, embeddings &amp; RAG over CMS documentation</span><span class="art">Daniel</span><span class="rev">50 min</span></div>
     <div class="ph"><span class="n">Lesson 3</span><span class="what"><b>Agentic workflows</b> — opencode &amp; IDE integration; a CMS analysis helper on NanoAOD</span><span class="art">Daniel</span><span class="rev">45 min</span></div>
@@ -774,9 +774,9 @@ curl -fsSL https://pixi.sh/install.sh | PIXI_NO_PATH_UPDATE=1 sh</pre>
       <div class="cardgrid" style="grid-template-columns:1fr">
         <div class="kcard" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">the lesson page — everything below, step by step</div><div class="ds"><a href="https://training.nrp-nautilus.io/clariphy/1b_jfc_launch.html" target="_blank" rel="noopener">training.nrp-nautilus.io/clariphy → Launch the Agent</a><br>JupyterHub backup notebook if your laptop won't play</div></div>
         <div class="kcard"><div class="nm">the data — two copies of the same 857 MiB</div><div class="ds"><a href="https://s3-west.nrp-nautilus.io/transfer-bucket/h4l-data.tgz" target="_blank" rel="noopener">s3-west.nrp-nautilus.io/transfer-bucket/h4l-data.tgz</a> · <a href="https://www.dropbox.com/scl/fi/tj2j72ub3smel2wg8arei/data.tgz?rlkey=rx0ol2uvz36dhegqcgyi4cvzc&amp;dl=1" target="_blank" rel="noopener">Phil's Dropbox copy</a><br>12 CMS Open Data 2017 samples, 10 fb⁻¹ · <span class="mono">tar xzf</span> gives <span class="mono">data/</span></div></div>
-        <div class="kcard dim"><div class="nm">the code — fetched for you, nothing to run</div><div class="ds">${gh('jfc', 'jfc-mit/jfc')} <span class="mono">jfc-mit/jfc</span> — the framework<br>${ghx('https://github.com/violatingcp/h4l_agent_test', 'violatingcp/h4l_agent_test')} <span class="mono">violatingcp/h4l_agent_test</span> — the prompt, the two papers, the ntuplizer<br>a few MB each; <span class="mono">jfc_setup.sh</span> clones them for you</div></div>
+        <div class="kcard dim"><div class="nm">the code — small, fetched at launch time</div><div class="ds">${gh('jfc', 'jfc-mit/jfc')} <span class="mono">jfc-mit/jfc</span> — the framework<br>${ghx('https://github.com/violatingcp/h4l_agent_test', 'violatingcp/h4l_agent_test')} <span class="mono">violatingcp/h4l_agent_test</span> — the prompt, the two papers, the ntuplizer<br>nothing to run now</div></div>
       </div>
-      <p class="lead" style="margin:1.6vmin 0 0"><b>Your NRP token comes next</b>, in Lesson 1 with Daniel. Then <span class="mono" style="white-space:nowrap">bash jfc_setup.sh</span> finishes in a minute, reusing all of this.</p>
+      <p class="lead" style="margin:1.6vmin 0 0"><b>Your NRP token comes next</b>, in Lesson 1 with Daniel. Then five lines of setup, pick a path, paste the prompt.</p>
     </div>
   </div>`
 },
@@ -817,31 +817,46 @@ curl -fsSL https://pixi.sh/install.sh | PIXI_NO_PATH_UPDATE=1 sh</pre>
     </div>
   </div>`
 },
-{ id: 't-launch', act: 6, label: 'Lesson 1b — launch the agent', steps: 2, budget: 120, notes: 'Lesson 1b as on the site: Step 1 setup script on your own laptop (installs claude + pixi, points Claude Code at NRP under CLAUDE_CONFIG_DIR, ~860 MiB data, ends All set); Step 2 launch when All set. Everyone runs the fast path (rogue); I also launch the spec\'d run. Fix: NRP_MODEL=glm-5 bash jfc_setup.sh; backup: JupyterHub notebook. Compare at 02:50.', theme: 'dark', html: () => `
-  <h2 class="kicker">Lesson 1b — <em>launch the agent</em>, on your laptop, now</h2>
-  <div class="cols" style="align-items:stretch">
-    <div class="col" style="flex:1.15; display:flex; flex-direction:column; justify-content:center; min-width:0">
-      <div class="codeblock">
-        <div class="src"><b>Step 1</b> — macOS · Linux · WSL — <a href="https://training.nrp-nautilus.io/clariphy/1b_jfc_launch.html" target="_blank" rel="noopener">the commands are on the Lesson 1b page</a></div>
-        <pre>curl -fsSLO <span class="hl2">…/nrp-training/materials/clariphy/workspace/</span>jfc_setup.sh
-bash jfc_setup.sh      <span class="hl2"># asks for your token · reuses your downloads · ends "All set"</span></pre>
-      </div>
-      <div class="codeblock" style="margin-top:1.4vmin">
-        <div class="src"><b>Step 2</b> — when it prints <b>All set</b>, in a fresh terminal</div>
-        <pre>source ~/jfc-exercise/nrp-env.sh
-cd "$ROGUE"
-cat prompt.md | claude --permission-mode auto</pre>
-      </div>
-      <div class="figcap" style="text-align:left; margin-top:.8vmin">Then <b>leave it running</b>: terminal open, lid open, plugged in — <span class="mono">caffeinate -i</span> on macOS. Nothing touches your own <span class="mono">~/.claude</span>; undo everything with <span class="mono">rm -rf ~/jfc-exercise</span>.</div>
+{ id: 't-launch', act: 6, label: 'Lesson 1b — launch the agent', steps: 2, budget: 150, notes: 'Manual flow, no script: 1 base (PATH, NRP Anthropic endpoint, token, model mapping, untar data) · 2 fork: A rogue = a folder with the prompt and the data, nothing else; B full JFC = clone jfc-mit/jfc, pixi run scaffold, data_dir + allow in .analysis_config, pixi install · 3 join: cat prompt.md | claude --permission-mode auto. Fallback: ANTHROPIC_MODEL=glm-5. Daniel\'s Lesson 1b script does 1 + A for you.', theme: 'dark', html: () => `
+  <h2 class="kicker">Lesson 1b — <em>launch the agent</em>: base · pick a path · paste the prompt</h2>
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:1.5vmin; min-height:0">
+    <div class="codeblock" style="margin:0">
+      <div class="src"><b>1 · base</b> — once per terminal, on your laptop · Claude Code talks to NRP through its Anthropic-compatible endpoint</div>
+      <pre>export PATH="$HOME/.local/bin:$HOME/.pixi/bin:$PATH"
+export ANTHROPIC_BASE_URL="https://ellm.nrp-nautilus.io/anthropic"
+export ANTHROPIC_AUTH_TOKEN="&lt;your NRP token&gt;"                                <span class="hl2"># nrp.ai/llmtoken</span>
+export ANTHROPIC_MODEL=gpt-oss ANTHROPIC_DEFAULT_OPUS_MODEL=gpt-oss CLAUDE_CODE_SUBAGENT_MODEL=gpt-oss
+cd ~/jfc-exercise &amp;&amp; tar xzf data.tgz                                        <span class="hl2"># → data/</span>
+PROMPT=https://raw.githubusercontent.com/violatingcp/h4l_agent_test/main/prompt.md    <span class="hl2"># Phil's h4l prompt</span></pre>
     </div>
-    <div class="col grow" style="align-self:center; min-width:0">
-      <div class="promptcard" style="font-size:clamp(10px,1.3vmin,15px)"><span class="ps">prompt&gt;</span> You are performing a Higgs boson measurement in the 4 lepton channel using CMS Open Data from 2017 at √s = 13 TeV … produce the 4 lepton mass distribution … perform a fit of the mass and compute the mu value … this should be a quick analysis. <span style="color:var(--ink40)">(Phil's h4l prompt · 10 fb⁻¹ · 12 samples)</span></div>
-      <div class="cardgrid" style="grid-template-columns:1fr 1fr; margin-top:1.4vmin">
-        <div class="kcard" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">A · fast path — everyone</div><div class="ds">The prompt, the two papers, the ntuplizer, the data. <b>No specification</b>: no phases, no reviewers, no gate — the agent improvises. Claude Code on NRP open weights.</div></div>
-        <div class="kcard"><div class="nm">B · the specification — my run</div><div class="ds">Same prompt, same data, on the full <span class="mono">jfc-mit/jfc</span> scaffold: phases, per-phase briefs, review roles, the unblinding gate. <b>Same command.</b></div></div>
+    <div class="cardgrid" style="grid-template-columns:1fr 1fr; gap:1.5vmin">
+      <div class="codeblock" style="margin:0; border-left:3px solid var(--live)">
+        <div class="src"><b style="color:var(--live)">2A · rogue</b> — the prompt and the data, nothing else</div>
+        <pre>mkdir -p rogue &amp;&amp; cd rogue
+ln -s ../data data
+curl -fsSLO "$PROMPT"</pre>
       </div>
-      <p class="lead" data-step="2" style="margin:1.4vmin 0 0; font-size:clamp(12px,1.55vmin,18px)">Dies with <em>“Content block is not a text block”</em>? <span class="mono" style="white-space:nowrap">NRP_MODEL=glm-5 bash jfc_setup.sh</span>, then Step 2 again. Still stuck: the JupyterHub backup notebook, or an instructor. <b>We compare in Lesson 5, at the end.</b> <span class="hl">Predictions?</span></p>
+      <div class="codeblock" style="margin:0; border-left:3px solid var(--accent)">
+        <div class="src"><b>2B · full JFC</b> — the specification: phases, reviewers, the gate</div>
+        <pre>git clone --depth 1 https://github.com/jfc-mit/jfc.git &amp;&amp; cd jfc
+pixi run scaffold analyses/h4l --type measurement &amp;&amp; cd analyses/h4l
+ln -s ../../../data data &amp;&amp; curl -fsSLO "$PROMPT"
+printf 'data_dir=$PWD/data\\nallow=$PWD/../../src\\n' &gt; .analysis_config
+pixi install</pre>
+      </div>
     </div>
+    <div class="codeblock" data-step="2" style="margin:0; border-left:3px solid var(--green)">
+      <div class="src"><b>3 · launch</b> — both paths, the same line · then leave it running, lid open, plugged in</div>
+      <pre>cat prompt.md | claude --permission-mode auto</pre>
+    </div>
+    <p class="lead" data-step="2" style="margin:0; font-size:clamp(12px,1.6vmin,19px)">Dies with <em>“Content block is not a text block”</em>? <span class="mono" style="white-space:nowrap">export ANTHROPIC_MODEL=glm-5</span> and launch again. The Lesson 1b page has a script that does 1 + 2A for you. <b>We compare in Lesson 5.</b> <span class="hl">Predictions?</span></p>
+  </div>`
+},
+{ id: 't-back', act: 6, size: 'roomy', label: 'Back to the tutorial', steps: 1, budget: 20, notes: 'Break slide after the launch: agents are running; the next ~12 min are the JFC talk (anatomy → claim → replay → framework … cost), then over to Daniel for Lessons 2–4.', theme: 'dark', html: () => `
+  <div class="statement">
+    <h1>Your agent is <em>running</em>.</h1>
+    <div class="lead">Leave the terminal open. For the next twelve minutes — what the framework is, what it delivered, what it cost.<br>Then Daniel takes over for Lessons 2–4, and we check in on the agents in Lesson 5.</div>
+    <div class="lead" style="font-family:var(--serif); font-style:italic; font-size:clamp(19px,2.9vmin,36px); color:var(--ink)">Back to the tutorial — <span class="hl">Just Furnish Context</span>.<span class="cursor">▌</span></div>
   </div>`
 },
 { id: 'anatomy', act: 1, label: 'The anatomy of an analysis', steps: 1, budget: 60, notes: 'arc: channel→lit→selection→syst→unblind; delegate the middle', theme: 'paper', thumb: 'assets/dario_world.png', html: () => `
