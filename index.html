@@ -723,10 +723,10 @@ const SCENES = [
 { id: 't-goal', act: 6, size: 'roomy', label: 'What today is for', steps: 1, budget: 45, notes: 'site: "introduces AI for scientific research — LLMs, multimodal, RAG, agents — using NRP resources; culminates in JFC, end-to-end HEP analysis". Three beats: an agent runs a real analysis for you; you build the pieces; all on NRP.', theme: 'paper', html: () => `
   <h2 class="kicker">What today is <em>for</em></h2>
   <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2.6vmin; min-height:0">
-    <div class="mstate"><div class="big">An agent runs a <em>real</em> HEP analysis — for you</div><div class="sub">H→4ℓ on CMS Open Data, launched from your own laptop in Lesson 1b, judged against a known answer at the end — the session “culminates in JFC”</div></div>
-    <div class="mstate"><div class="big">You build the pieces <em>yourself</em></div><div class="sub">LLMs on NRP → multimodal &amp; RAG → agentic workflows in opencode → a 30-line agent loop — Lessons 1–4 with Daniel</div></div>
-    <div class="mstate"><div class="big">Everything on <em>NRP</em> — no subscription</div><div class="sub">open-weight models on NRP GPUs, one token; the mechanical middle is delegated, the judgment stays with you</div></div>
-    <p class="lead" style="margin:0"><b>Leave with:</b> a token that works, an agent that ran, and a clear sense of where it broke.</p>
+    <div class="mstate"><div class="big">An agent runs a <em>real</em> HEP analysis — for you</div><div class="sub">H→4ℓ on CMS Open Data, launched from your own laptop. Try JFC on whatever model you like — or go rogue!</div></div>
+    <div class="mstate"><div class="big">You build the pieces <em>yourself</em></div><div class="sub">LLMs on NRP → multimodal &amp; RAG → agentic workflows in opencode → a 30-line agent loop</div></div>
+    <div class="mstate"><div class="big">Everything on <em>NRP</em> — no subscription</div><div class="sub">open-weight models on NRP GPUs, one token; the mechanical middle is delegated.</div></div>
+    <p class="lead" style="margin:0"><b>Leave with:</b> a token that works, an agent that ran, and a clear sense of what's possible today!</p>
   </div>`
 },
 { id: 't-jfc', act: 6, size: 'roomy', label: 'JFC in one slide', steps: 1, budget: 60, notes: 'one-slide JFC: specification not template; seven gated phases + human gate; published ALEPH measurements reproduced end to end (arXiv:2603.20179); today = two paths on the same prompt and data: most take the fast path (papers + data, no spec), 2B is the spec itself; Lesson 5 compares. Details in the talk block after the launch.', theme: 'dark', html: () => `
@@ -734,10 +734,10 @@ const SCENES = [
   <div class="cols">
     <div class="col grow">
       <ul class="talk">
-        <li><strong>A specification, not a template</strong><small>an orchestrator plans; disposable executor and reviewer subagents do the work; the agent designs the strategy from the literature</small></li>
-        <li><strong>Seven phases, each gated by an artifact + review</strong><small>strategy → exploration → selection → expected → 10 % validation → <b>human gate</b> → unblind → a 50–100-page note</small></li>
-        <li><strong>Published measurements reproduced end to end</strong> on archived ALEPH data<small>each a written analysis note with the fit, the systematics and the comparison to the paper · ${arxiv('2603.20179')}</small></li>
-        <li><span class="hl">Today: two paths, same prompt, same data</span> — most of you: the papers and the data, no specification · path 2B: the specification itself<small>we compare what came back in Lesson 5</small></li>
+        <li><strong>A specification, not physics knowledge</strong><small>an orchestrator plans; disposable executor and reviewer subagents do the work; the agent designs the strategy from the literature</small></li>
+        <li><strong>Seven phases, each gated by an artifact + review</strong><small>strategy → exploration → selection → expected → 10 % validation<br>→ <b>human gate</b> → unblind → a 50–100-page note</small></li>
+        <li><strong>Published measurements reproduced end to end</strong> on archived ALEPH data<small>each with a written analysis note and a reproducible git repo</small></li>
+        <li><span class="hl">Today: two paths, same prompt, same data</span> — a live tutorial/test<small>we compare what came back in Lesson 5</small></li>
       </ul>
     </div>
     <div class="col" style="flex:1.05; align-self:stretch"><div class="fig zoomable" style="height:100%"><img src="assets/fig_pipeline.png" alt="JFC framework diagram"></div></div>
@@ -753,7 +753,7 @@ const SCENES = [
           <td><b>NRP-managed LLMs</b><small>today · no subscription</small></td>
           <td>anyone with an <b>NRP account</b><small>institutional login</small></td>
           <td>open weights on NRP GPUs<small><span class="mono">/v1</span> (OpenAI API) · <span class="mono">/anthropic</span> (Claude Code)</small></td>
-          <td><div>gpt-oss</div><div>glm-5</div><div>qwen3</div><div>minimax-m2</div><div>kimi</div><div>gemma</div><small>roster moves</small></td>
+          <td><div>gpt-oss</div><div>glm-5</div><div>qwen3</div><div>minimax-m2</div><div>kimi</div><div>gemma</div><small>moving roster</small></td>
           <td><b>free</b><small>fair use · per-model concurrency limits</small></td>
           <td><a href="https://nrp.ai/documentation/userdocs/ai/llm-managed/" target="_blank" rel="noopener">nrp.ai → NRP-Managed LLMs</a><small>token at <span class="mono">/llmtoken</span></small></td>
         </tr>
@@ -769,16 +769,16 @@ const SCENES = [
           <td><b>ChatGPT for Academic Researchers</b><small>OpenAI · since 29 Jul</small></td>
           <td><b>faculty and postdocs</b> apply themselves — plus <b>4 collaborators</b><small>an arXiv paper in the last 3 years</small></td>
           <td>ChatGPT + <b>Codex</b> + ChatGPT Work<small>higher limits — tier not specified</small></td>
-          <td><div>GPT-6 Astra</div><div>GPT-5.6 Sol</div><div>GPT-5.6 Luna</div><div>GPT-5.6 Terra</div><div>GPT-5.5</div><small>the page says “GPT-5.6 family”</small></td>
+          <td><div>GPT-6 Astra</div><div>GPT-5.6 Sol</div><div>GPT-5.6 Luna</div><div>GPT-5.6 Terra</div><div>GPT-5.5</div></td>
           <td><b>free</b><small>10,000 seats now → 100,000 through 2027 · waitlist</small></td>
           <td><a href="https://openai.com/index/chatgpt-for-academic-researchers/" target="_blank" rel="noopener">openai.com → ChatGPT for Academic Researchers</a></td>
         </tr>
       </tbody>
     </table>
-    <p class="lead" style="margin:0"><b>Students:</b> Claude seats come through your PI, ChatGPT seats through a faculty member or postdoc — <span class="hl">ask this week</span>. <b>Postdocs:</b> apply to ChatGPT yourselves. NRP needs no PI.</p>
+    <p class="lead" style="margin:0"><b>Students:</b> Claude seats come through a PI, ChatGPT seats through a faculty member or postdoc — <span class="hl">ask this week</span>. <b>Postdocs:</b> apply to ChatGPT yourselves. NRP needs no PI.</p>
   </div>`
 },
-{ id: 't-outline', act: 6, size: 'roomy', label: 'The morning', steps: 1, budget: 45, notes: 'Site durations (L1 20 · L1b 10 · L2 50 · L3 45 · L4 40 · L5 10) plus welcome 5 and JFC 12 — ~15 min over; trim lives in the lessons or in mine. Highlight: Setup — the next slide.', theme: 'paper', html: () => tutOutline('setup', 'The morning — <em>an analysis runs while we talk</em>') },
+{ id: 't-outline', act: 6, size: 'roomy', label: 'The morning', steps: 1, budget: 45, notes: 'Site durations (L1 20 · L1b 10 · L2 50 · L3 45 · L4 40 · L5 10) plus welcome 5 and JFC 12 — ~15 min over; trim lives in the lessons or in mine. Highlight: Setup — the next slide.', theme: 'paper', html: () => tutOutline('setup', 'This morning — <em>an analysis runs while we talk</em>') },
 { id: 't-setup', act: 6, size: 'roomy', label: 'Setup — start the downloads', steps: 1, budget: 90, notes: 'No token needed for any of this. Data 857 MiB from NRP S3 (or Phil\'s Dropbox) — start it first, 30 laptops on conference Wi-Fi. Repos are small: the script clones them. jfc_setup.sh reuses what is already in ~/jfc-exercise (data.tgz by size, claude/pixi if on PATH).', theme: 'paper', html: () => `
   <h2 class="kicker">Setup — <em>start the downloads now</em>, no token needed</h2>
   <div class="cols" style="align-items:stretch">
@@ -1290,13 +1290,18 @@ curl -fsSL <span class="hl2">…/</span>check.sh | bash -s 5
     const e = document.querySelector('.scene .envelope'); if (e) e.hidden = step >= 2;
     const t = document.querySelector('.scene .tg-top'); if (t) t.classList.toggle('off', step >= 3); }
 },
-{ id: 't-close', act: 6, size: 'roomy', label: 'Discussion', steps: 1, budget: 45, notes: 'Closer. Three take-homes, then the callback to the promise on t-goal (a token, an agent that ran, where it broke) and the hand-off to tomorrow (Indico: Analysis Agentic Workflows, Tue 15 Sep 10:30–12:00 and 13:00–14:00, Room 325/326). Every block is drag/resize/double-click editable in layout-edit mode (E on localhost or ?edit).', theme: 'dark', html: () => `
+{ id: 't-close', act: 6, size: 'roomy', label: 'Discussion', steps: 1, budget: 45, notes: 'Closer (content edited live 14 Sep, baked in). Two take-homes — the framework is just a spec; human gates — then what you leave with, and tomorrow: the Analysis Agentic Workflows parallel (Indico: Tue 15 Sep 10:30–12:00 and 13:00–14:00, Room 325/326) with two prompts. Every block is editable in layout-edit mode (E on localhost or ?edit).', theme: 'dark', html: () => `
   <h2 class="kicker">What to take <em>home</em></h2>
-  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2.6vmin; min-height:0">
-    <div class="mstate"><div class="big">The <em>framework</em> is the product</div><div class="sub">JFC ships almost no analysis code. Its value is the encoded process — what each phase must produce, who reviews it, what blocks advancement. Fork it for your channel; the physics comes from the literature, not from the template.</div></div>
-    <div class="mstate"><div class="big">Human gates are <em>load-bearing</em></div><div class="sub">the agent never decides when to look at the full dataset. This morning's Lesson-4 loop stopped at a turn limit; JFC stops at an unblinding gate that only a person can open.</div></div>
-    <div class="mstate"><div class="big">A stalled run is a <em>result</em></div><div class="sub">open weights standing in for Opus was the experiment. Where yours broke today — the first step it skipped, the error it looped on — is worth more to this room than a clean success.</div></div>
-    <p class="lead" style="margin:0">You leave with a token that works, an agent that ran, and a note on where it broke — that was the promise at nine o'clock. <b>Tomorrow, Tuesday 10:30 and again 13:00, Room 325/326 — the Analysis Agentic Workflows parallel. Bring what broke.</b></p>
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2.3vmin; min-height:0; padding-top:1vmin">
+    <div class="mstate"><div class="big">The <em>framework</em> is just a spec — this is how we do analysis</div><div class="sub">JFC ships almost no analysis code. It encodes the process — what each phase must produce, who reviews it, what blocks advancement. Fork it for your channel; the physics comes from the literature, not from the template.</div></div>
+    <div class="mstate"><div class="big">Human gates are <em>load-bearing</em></div><div class="sub">The agent should never look at the full dataset by itself. JFC stops at an unblinding gate that only a person can open.</div></div>
+    <div class="mstate"><div class="big" style="font-size:clamp(20px,3.3vmin,42px)">You leave with a token that works, an agent that <em>may</em> have run, and a sense of what is possible with today's free models</div></div>
+    <div class="mstate"><div class="big">Tomorrow — the <em>Analysis Agentic Workflows</em> parallel</div><div class="sub">Tuesday 10:30 and again 13:00 · Room 325/326</div>
+      <ul class="talk" style="margin:.8vmin 0 0">
+        <li style="margin-bottom:.6vmin"><strong>Bring what broke.</strong></li>
+        <li><strong>How will this change how HEP is done?</strong></li>
+      </ul>
+    </div>
     <p class="lead" style="margin:0; color:var(--ink40)">${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> · <a href="https://jfc-mit.github.io/jfc-tutorial-nrp-clariphy/" target="_blank" rel="noopener">these slides</a> · <a href="https://training.nrp-nautilus.io/clariphy/" target="_blank" rel="noopener">training.nrp-nautilus.io/clariphy</a> — thank you, Daniel, and thank you all.</p>
   </div>`
 },
@@ -1510,7 +1515,7 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
 /* Press E: annotation panels become draggable; overrides persist per-browser (C dumps JSON, X resets).
    Authoring-only: file:// / localhost / ?edit. Ported from the hcc-kappac talk. */
 const Layout = (() => {
-  const KEY = 'jfc-layout1';
+  const KEY = 'jfc-layout2';   // bumped 14 Sep 2026: the live text edits made under jfc-layout1 were baked into the source
   const TXT = 'h1, h2, p, li, td, th, .lead, .callout, .figcap, .sub, .who, .tag, .kcard .nm, .kcard .ds, .an-card .nm, .an-card .pr, .promptcard, .mstate .big';
   const BARMSG = '<b>layout edit</b> — drag to move · ◢ corner to resize · scroll over text to scale · double-click text to rewrite · <b>C</b> copy overrides · <b>X</b> reset scene · <b>E</b> exit';
   const EDITABLE = location.protocol === 'file:' || ['localhost', '127.0.0.1'].includes(location.hostname)
