@@ -255,6 +255,7 @@ table.stack td.forb { font-family: var(--mono); color: #c1272d; text-decoration:
 .logos { display: flex; align-items: center; gap: 3.4vmin; opacity: .85; margin-top: 3.2vmin; }
 .logos img { height: 4.4vmin; width: auto; display: block; }
 .logos img.cern { height: 5.8vmin; }
+.logos img.ucsd { height: 3.3vmin; }
 .theme-swap img.on-dark { display: none; }
 :root[data-theme="dark"] .theme-swap img.on-dark { display: block; }
 :root[data-theme="dark"] .theme-swap img.on-light { display: none; }
@@ -673,7 +674,7 @@ const tutOutline = (hl, kicker, lead = '', sub = '') => `
     ${TUT_ROWS.map(([k, n, what, who, t]) => `<div class="ph${k === hl ? ' gate' : ''}"><span class="n">${n}</span><span class="what">${what}</span><span class="art">${who}</span><span class="rev">${t}</span>${k === hl && sub ? `<div class="sub">${sub}</div>` : ''}</div>`).join('\n    ')}
   </div>${lead ? `\n  <p class="lead" style="margin-top:1.4vmin">${lead}</p>` : ''}`;
 const SCENES = [
-{ id: 't-title', act: 6, label: 'Tutorial title', steps: 1, budget: 30, notes: 'Daniel first; chairs Elmer + Dasu; 11:00–14:00 Madison; lander = the JFC workflow chart', theme: 'paper', thumb: 'assets/fig_pipeline.png', html: () => `
+{ id: 't-title', act: 6, label: 'Tutorial title', steps: 1, budget: 30, notes: 'Daniel first; program co-chairs Bose, Elmer, Martinez Outschoorn (Indico); Mon 14 Sep 09:00–12:00, Room 325/326, Pyle Center; lander = the JFC workflow chart', theme: 'paper', thumb: 'assets/fig_pipeline.png', html: () => `
   <div class="title-wrap">
     <div class="title-left">
       <h1>AI agents and Large Language Models<br>for <em>Scientific Discovery</em></h1>
@@ -687,9 +688,10 @@ const SCENES = [
       <div class="who" style="margin-top:2.6vmin">
         <div><b>Daniel Diaz</b> · UC San Diego &nbsp;·&nbsp; <b>Andrzej Novak</b> · MIT</div>
         <div style="color:var(--ink60); white-space:nowrap">CLARIPHY AI Collaboration Meeting · Pyle Center, Madison · 14 September 2026</div>
-        <div style="color:var(--ink60)">chairs Peter Elmer &amp; Sridhara Dasu</div>
+        <div style="color:var(--ink60)">program co-chairs Tulika Bose · Peter Elmer · Verena Martinez Outschoorn</div>
       </div>
       <div class="logos theme-swap">
+        <img class="ucsd on-light" src="assets/logo_ucsd_light.svg" alt="UC San Diego"><img class="ucsd on-dark" src="assets/logo_ucsd_dark.svg" alt="UC San Diego">
         <img class="on-light" src="assets/logo_mit_light.svg" alt="MIT"><img class="on-dark" src="assets/logo_mit_dark.svg" alt="MIT">
         <img class="cern on-light" src="assets/logo_cern_light.svg" alt="CERN"><img class="cern on-dark" src="assets/logo_cern_dark.svg" alt="CERN">
       </div>
@@ -1244,8 +1246,8 @@ curl -fsSL <span class="hl2">…/workspace/</span>check.sh | bash -s 5</pre>
           <tr class="truth"><td><b>injected truth</b></td><td>the secret sample <small>nobody was told</small></td><td><b>129</b></td><td><b>1.8</b></td></tr>
           <tr><td>rogue</td><td>Sonnet 4.6 · Jun 2026</td><td>128.9 <small>+1.0/−1.5</small></td><td>1.29 <small>+0.61/−0.51</small></td></tr>
           <tr><td>rogue</td><td>Opus 4.8 · Jun 2026</td><td style="color:var(--live)">125 template <small>follow-up: ≈129, μ̂ ≈ 1.5, ~4σ local</small></td><td>0.31 <small>+0.52/−0.40</small></td></tr>
-          <tr><td>JFC lite</td><td>Opus 4.8 · Jun 2026</td><td>130.5 ± 1.1 <small>flagged</small></td><td>1.00 ± 0.59</td></tr>
-          <tr><td>JFC lite</td><td>Opus 4.8 low effort · Jun 2026</td><td>129.6 ± 1.2 <small>+2.4σ, stated</small></td><td>1.72 ± 0.66</td></tr>
+          <tr><td>JFC</td><td>Opus 4.8 · Jun 2026</td><td>130.5 ± 1.1 <small>flagged</small></td><td>1.00 ± 0.59</td></tr>
+          <tr><td>JFC</td><td>Opus 4.8 low effort · Jun 2026</td><td>129.6 ± 1.2 <small>+2.4σ, stated</small></td><td>1.72 ± 0.66</td></tr>
           <tr><td>JFC</td><td>Codex · May 2026</td><td>128.6 <small>+0.8/−0.7</small></td><td>1.65 <small>+0.64/−0.52</small></td></tr>
           <tr><td>rogue <small>our rehearsal</small></td><td>gpt-6-astra · <b>today 05:10</b> <small>25 min, Codex CLI</small></td><td>129.60 ± 0.49 <small>free, stated</small></td><td>1.92 <small>+0.67/−0.57</small></td></tr>
           <tr><td><b>the real world</b></td><td>CMS 2016 · 35.9 fb⁻¹ <small>JHEP 11 (2017) 047</small></td><td><b>125.26 ± 0.21</b></td><td><b>1.05</b> <small>+0.19/−0.17</small></td></tr>
@@ -1267,13 +1269,13 @@ curl -fsSL <span class="hl2">…/workspace/</span>check.sh | bash -s 5</pre>
     <p class="lead" style="margin:0">${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> · <a href="https://github.com/violatingcp/h4l_agent_test" target="_blank" rel="noopener">h4l_agent_test</a> · <a href="https://training.nrp-nautilus.io/clariphy/5_analysis.html" target="_blank" rel="noopener">Lesson 5</a></p>
   </div>`
 },
-{ id: 't-close', act: 6, size: 'roomy', label: 'Discussion', steps: 2, budget: 45, notes: 'framework is the product; portability; human gates load-bearing; honest reporting → Tuesday parallel', theme: 'dark', term: 'dock', html: () => `
+{ id: 't-close', act: 6, size: 'roomy', label: 'Discussion', steps: 2, budget: 45, notes: 'framework is the product; portability; human gates load-bearing; honest reporting → Tuesday parallel (Indico: Analysis Agentic Workflows, Tue 15 Sep 10:30–12:00 and 13:00–14:00, Room 325/326)', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">What to take <em>home</em></h2>
   <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:3vmin; min-height:0">
     <div class="mstate"><div class="big">The <em>framework</em> is the product</div><div class="sub">JFC ships almost no analysis code — its value is the encoded process: what a phase must produce, who reviews it, what blocks advancement</div></div>
     <div class="mstate"><div class="big">Human gates are <em>load-bearing</em></div><div class="sub">the agent does not decide when to look at the full dataset; today's Lesson-4 loop had a max_turns — this has an unblinding gate</div></div>
     <div class="mstate"><div class="big">A stalled run is a <em>result</em></div><div class="sub">open weights standing in for Opus is an experiment; where it broke today is worth more to this room than a clean success</div></div>
-    <p class="lead" data-step="2" style="margin:0"><b>Tuesday 12:30, Room 325/326 — Analysis Agentic Workflows parallel.</b> Bring what broke. <span style="color:var(--ink40)">· ${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> · <a href="https://training.nrp-nautilus.io/clariphy/" target="_blank" rel="noopener">training.nrp-nautilus.io/clariphy</a> — thank you</span></p>
+    <p class="lead" data-step="2" style="margin:0"><b>Tuesday 10:30 and again 13:00, Room 325/326 — the Analysis Agentic Workflows parallel.</b> Bring what broke. <span style="color:var(--ink40)">· ${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> · <a href="https://training.nrp-nautilus.io/clariphy/" target="_blank" rel="noopener">training.nrp-nautilus.io/clariphy</a> — thank you</span></p>
   </div>`
 },
 { id: 'wave', act: 4, label: 'Six months later', steps: 2, budget: 45, notes: '30 citations; funnel 5000→278→~40→≥10→1 (Phil, EIC award)', theme: 'dark', term: 'dock', html: () => `
