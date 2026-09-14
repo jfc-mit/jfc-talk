@@ -212,6 +212,16 @@ table.stack { border-collapse: collapse; width: 100%; font-size: clamp(11px, 1.6
 table.stack th, table.stack td { padding: .8vmin 1.3vmin; text-align: left; border-bottom: 1px solid var(--ink12); }
 table.stack thead th { background: var(--chip); font-weight: 650; }
 table.stack td.req { font-family: var(--mono); font-weight: 600; }
+table.stack.rsc { font-size: clamp(12px,1.75vmin,21px); }
+table.stack.rsc th, table.stack.rsc td { padding: 1.5vmin 1.6vmin; vertical-align: top; line-height: 1.35; }
+table.stack.rsc thead th { font-family: var(--mono); font-weight: 600; color: var(--ink60); font-size: .82em; letter-spacing: .04em; }
+table.stack.rsc td small { display: block; margin-top: .35vmin; font-size: .8em; color: var(--ink40); line-height: 1.35; }
+table.stack.rsc td:first-child { width: 22%; }
+table.stack.rsc td:first-child b { color: var(--accent); }
+table.stack.rsc tr.today td { background: color-mix(in srgb, var(--live) 9%, transparent); }
+table.stack.rsc tr.today td:first-child { box-shadow: inset 3px 0 0 var(--live); }
+table.stack.rsc tr.today td:first-child b { color: var(--live); }
+table.stack.rsc a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--ink40); text-underline-offset: .2em; }
 table.stack td.forb { font-family: var(--mono); color: #c1272d; text-decoration: line-through; text-decoration-thickness: 1px; opacity: .8; }
 /* title */
 .title-wrap { flex: 1; display: flex; align-items: center; gap: 4%; }
@@ -677,15 +687,36 @@ const SCENES = [
     <div class="col" style="flex:1.05; align-self:stretch"><div class="fig zoomable" style="height:100%"><img src="assets/fig_pipeline.png" alt="JFC framework diagram"></div></div>
   </div>`
 },
-{ id: 't-resources', act: 6, label: 'Resources', steps: 1, budget: 60,  notes: 'NRP: free with an NRP account, token at nrp.ai → /llmtoken, /v1 + /anthropic, fair-use concurrency limits. Claude Team Plan for Scientists (27 Aug): PI-or-equivalent at accredited universities / nonprofit institutes applies, up to 25 lab members, standard seats free, premium $15/mo (5× usage) for 12 months, no training on your data, verification 5–7 days, for-profit excluded. ChatGPT for Academic Researchers (29 Jul): faculty and postdocs at research-active degree-granting institutions, an arXiv/bioRxiv/ChemRxiv paper in the last 3 years, Pro-level ChatGPT + Codex + Work, +4 collaborators, 10k seats now → 100k through 2027, waitlist/lottery since 10 Aug. Punchline: students go through their PI.', theme: 'dark', html: () => `
-  <h2 class="kicker">Resources — <em>today runs on NRP</em>; most of this room is eligible for the rest</h2>
-  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2vmin; min-height:0">
-    <div class="cardgrid" style="grid-template-columns:1fr 1fr 1fr">
-      <div class="kcard" style="border-left-color:var(--live); box-shadow:0 0 0 2px color-mix(in srgb, var(--live) 45%, transparent), var(--shadow)"><div class="nm" style="color:var(--live)">NRP-managed LLMs <span class="tag mono" style="font-size:.7em; margin-left:.6em">today</span></div><div class="ds"><b>Who:</b> anyone with an NRP account (institutional login) · free<br><b>What:</b> open weights on NRP GPUs — <span class="mono">gpt-oss · glm-5 · kimi · qwen3 · minimax-m2</span> — via <span class="mono">/v1</span> (OpenAI) and <span class="mono">/anthropic</span> (Claude Code)<br><b>Conditions:</b> fair-use policy, per-model concurrency limits<br><a href="https://nrp.ai/documentation/userdocs/ai/llm-managed/" target="_blank" rel="noopener">nrp.ai/documentation → NRP-Managed LLMs</a>, token at <span class="mono">/llmtoken</span></div></div>
-      <div class="kcard"><div class="nm">Claude Team Plan for Scientists</div><div class="ds"><b>Who:</b> a PI or equivalent at an accredited university or nonprofit institute applies — natural sciences, maths, CS, engineering — and adds <b>up to 25 lab members</b><br><b>What:</b> Team plan incl. Claude Code — standard seats <b>free</b>, premium <b>$15/mo</b> (5× usage) for 12 months<br><b>Conditions:</b> verification, 5–7 days · no training on your data · no for-profit labs · 10,000 seats, opened 27 Aug<br><a href="https://claude.com/programs/team-plan-for-scientists" target="_blank" rel="noopener">claude.com/programs → team-plan-for-scientists</a></div></div>
-      <div class="kcard"><div class="nm">ChatGPT for Academic Researchers</div><div class="ds"><b>Who:</b> research faculty and postdocs at research-active degree-granting institutions, with an arXiv paper in the last 3 years — plus <b>4 invited collaborators</b><br><b>What:</b> Pro-level ChatGPT + <b>Codex</b> + ChatGPT Work, free<br><b>Conditions:</b> 10,000 seats now, 100,000 through 2027 — waitlist since 10 Aug · no training on your data by default<br><a href="https://openai.com/index/chatgpt-for-academic-researchers/" target="_blank" rel="noopener">openai.com/index → chatgpt-for-academic-researchers</a></div></div>
-    </div>
-    <p class="lead" style="margin:0"><b>Students and postdocs:</b> the seats come through your PI — 25 on Claude, 4 on ChatGPT — <span class="hl">ask this week</span>. NRP needs no PI. <span style="color:var(--ink40)">Everything today: NRP only — one token, no subscription, no billing.</span></p>
+{ id: 't-resources', act: 6, label: 'Resources', steps: 1, budget: 60, notes: 'NRP: free with an NRP account, token at nrp.ai → /llmtoken, /v1 + /anthropic, fair-use concurrency limits. Claude Team Plan for Scientists (27 Aug): PI-or-equivalent at accredited universities / nonprofit institutes applies at claude.ai/labs-verification/attestation, up to 25 lab members, standard seats free, premium $15/mo (5× usage) for 12 months, no training on your data, verification 5–7 days, for-profit excluded. ChatGPT for Academic Researchers (29 Jul): faculty and postdocs at research-active degree-granting institutions, an arXiv/bioRxiv/ChemRxiv paper in the last 3 years, Pro-level ChatGPT + Codex + Work, +4 collaborators, 10k seats now → 100k through 2027, waitlist/lottery since 10 Aug. Punchline: students go through their PI.', theme: 'dark', html: () => `
+  <h2 class="kicker">Resources — <em>free for most of this room</em></h2>
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2.2vmin; min-height:0">
+    <table class="stack rsc">
+      <thead><tr><th></th><th>who</th><th>what you get</th><th>cost · terms</th><th>where</th></tr></thead>
+      <tbody>
+        <tr class="today">
+          <td><b>NRP-managed LLMs</b><small>today · no subscription</small></td>
+          <td>anyone with an <b>NRP account</b><small>institutional login</small></td>
+          <td>open weights on NRP GPUs<small>gpt-oss · glm-5 · qwen3 · minimax-m2 — <span class="mono">/v1</span> and <span class="mono">/anthropic</span></small></td>
+          <td><b>free</b><small>fair use · per-model concurrency limits</small></td>
+          <td><a href="https://nrp.ai/documentation/userdocs/ai/llm-managed/" target="_blank" rel="noopener">nrp.ai → NRP-Managed LLMs</a><small>token at <span class="mono">/llmtoken</span></small></td>
+        </tr>
+        <tr>
+          <td><b>Claude Team Plan for Scientists</b><small>Anthropic · since 27 Aug</small></td>
+          <td>a <b>PI</b> applies — adds up to <b>25 lab members</b><small>accredited universities &amp; nonprofit institutes</small></td>
+          <td>Claude Team, incl. <b>Claude Code</b><small>premium seats: 5× usage</small></td>
+          <td><b>free</b> · premium $15/mo<small>12 months · no training on your data</small></td>
+          <td><a href="https://claude.com/programs/team-plan-for-scientists" target="_blank" rel="noopener">claude.com → Team Plan for Scientists</a><small>verification 5–7 days</small></td>
+        </tr>
+        <tr>
+          <td><b>ChatGPT for Academic Researchers</b><small>OpenAI · since 29 Jul</small></td>
+          <td><b>faculty &amp; postdocs</b> — plus <b>4 collaborators</b><small>an arXiv paper in the last 3 years</small></td>
+          <td>Pro-level ChatGPT + <b>Codex</b><small>GPT-5.6 family · ChatGPT Work</small></td>
+          <td><b>free</b><small>10,000 seats now → 100,000 through 2027 · waitlist</small></td>
+          <td><a href="https://openai.com/index/chatgpt-for-academic-researchers/" target="_blank" rel="noopener">openai.com → ChatGPT for Academic Researchers</a></td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="lead" style="margin:0"><b>Students and postdocs:</b> the Claude and ChatGPT seats come through your PI — <span class="hl">ask this week</span>. NRP needs no PI.</p>
   </div>`
 },
 { id: 't-outline', act: 6, label: 'The morning', steps: 2, budget: 60, notes: 'no timestamps (user). Site durations (L1 20 · L1b 15 → 10 since downloads are pre-started · L2 50 · L3 45 · L4 40 · L5 10) plus our welcome (8) and JFC block (12, deck budget 9.4). Honest end 12:15 — 15 min over; trim lives in the lessons or in mine.', theme: 'paper', html: () => `
