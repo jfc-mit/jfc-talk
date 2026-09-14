@@ -303,6 +303,15 @@ table.stack td.forb { font-family: var(--mono); color: #c1272d; text-decoration:
 .rf-art { align-self: center; font-family: var(--mono); font-size: clamp(12px,1.65vmin,20px); color: var(--ink60);
   background: var(--chip); border: 1px solid var(--ink12); border-radius: 999px; padding: .5vmin 1.8vmin; }
 .rf-art b { color: var(--ink); }
+.kcard pre.cmd { font-family: var(--mono); font-size: clamp(11px,1.55vmin,19px); line-height: 1.5; background: var(--chip); border: 1px solid var(--ink12); border-radius: 6px; padding: .8vmin 1.2vmin; margin: .9vmin 0 .3vmin; white-space: pre-wrap; color: var(--ink); }
+.kcard pre.cmd .hl2 { color: var(--accent); font-weight: 600; }
+.reveal[data-step]:not(.shown) { display: none; }
+.ph .what.wrap { display: block; -webkit-line-clamp: unset; white-space: normal; overflow: visible; text-overflow: clip; }
+.ph.chk { padding: 1.1vmin 1.6vmin; }
+.ph.chk .n { flex-basis: 8.6em; }
+.scene.roomy .kcard { padding: 2.2vmin 2.4vmin; }
+.scene.roomy .kcard ul.mini li { font-size: clamp(14px,1.95vmin,23px); margin: .8vmin 0; line-height: 1.4; }
+.scene.roomy .kcard pre.cmd { font-size: clamp(12px,1.75vmin,21px); padding: 1vmin 1.4vmin; }
 table.stack.nowrap td, table.stack.nowrap th { white-space: nowrap; padding: .55vmin .9vmin; }
 table.stack.nowrap td small { display: block; white-space: normal; font-size: .8em; opacity: .75; line-height: 1.25; }
 table.stack tr.truth td { background: color-mix(in srgb, var(--live) 14%, transparent); }
@@ -1174,30 +1183,41 @@ closures: 0.01 called "good", −287σ a "known limitation".</span></pre>
     </div>
   </div>`
 },
-{ id: 't-watch', act: 6, size: 'roomy', label: 'Check on it — over to Daniel', steps: 1, budget: 45, notes: 'agents have been running since Lesson 1b (~25 min); a quick look now: answer it if it asked; did it plan, read the branches, check itself, is it stuck; then Lessons 2–4; back at 02:50 for Lesson 5', theme: 'dark', html: () => `
-  <h2 class="kicker">Running since Lesson 1b — <em>a quick look, then over to Daniel</em></h2>
-  <div class="cols" style="align-items:stretch">
-    <div class="col grow" style="align-self:center">
-      <ul class="talk">
-        <li><strong>Look at its terminal now</strong><small>if it has stopped to ask a question, answer it — then leave it alone; glance again between lessons</small></li>
-        <li><strong>Did it plan first, or dive in?</strong><small>the specification forces plan mode; rogue with an open-weight model usually starts coding immediately</small></li>
-        <li><strong>Did it read the ntuple branches</strong> before writing selection code?<small>the first thing a good agent does — and the first thing a weak one skips</small></li>
-        <li><strong>Has it checked itself yet?</strong><small>a cutflow, a data/MC comparison, a sanity plot — or none of those</small></li>
-        <li><strong>Is it stuck?</strong><small>long silences, repeated failed edits, looping on one error — the honest signal about open weights on long tasks</small></li>
-      </ul>
-    </div>
-    <div class="col" style="flex:.9; align-self:center; min-width:0">
-      <div class="codeblock">
-        <div class="src"><b>second terminal</b> — what has it written so far?</div>
-        <pre><span class="hl2"># watch · Ctrl-b d detaches, it keeps going</span>
-tmux attach -t agent
-<span class="hl2"># newest files first · or jfc/analyses/h4l</span>
-ls -lt ~/jfc-exercise/rogue | head
-<span class="hl2"># took the Lesson 1b script route?</span>
-curl -fsSL <span class="hl2">…/workspace/</span>check.sh | bash -s 5</pre>
+{ id: 't-watch', act: 6, size: 'roomy', label: 'Check on it — over to Daniel', steps: 1, budget: 60, notes: 'agents have run since Lesson 1b (~25 min). Sixty seconds: attach, answer it if it asks, relaunch on glm-5 if it died, leave it if it already finished. The four tells of a good run. Between lessons: glance, do not steer; ls -lt; check.sh for the script route; write a prediction. Then Lessons 2–4 with Daniel; back for Lesson 5.', theme: 'dark', html: () => `
+  <h2 class="kicker">Running since Lesson 1b — <em>sixty seconds with your agent</em>, then over to Daniel</h2>
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2.2vmin; min-height:0">
+    <div class="cardgrid" style="grid-template-columns:1.05fr 1fr 1.05fr; align-items:stretch">
+      <div class="kcard" style="border-left-color:var(--live)">
+        <div class="nm" style="color:var(--live)">now — attach, look, detach</div>
+        <pre class="cmd">tmux attach -t agent
+<span class="hl2"># Ctrl-b d detaches · it keeps going</span></pre>
+        <ul class="mini">
+          <li><b>Asking you something?</b> Answer it, detach.</li>
+          <li><b>Died — “Content block is not a text block”?</b> <span class="mono">export ANTHROPIC_MODEL=glm-5</span>, launch again.</li>
+          <li><b>Finished already?</b> Leave it. That is your sample.</li>
+        </ul>
       </div>
-      <div class="figcap" style="text-align:left">Lessons 2–4 with Daniel: chat &amp; RAG · agentic workflows · build your own agent. <b>Back here for Lesson 5</b> — what it produced, what good looks like.</div>
+      <div class="kcard">
+        <div class="nm">the tells — what a good run does</div>
+        <ul class="mini">
+          <li><b>Plans before it codes</b> — the specification forces it; rogue runs tend to dive in</li>
+          <li><b>Reads the ntuple branches</b> before writing selection code</li>
+          <li><b>Checks itself</b> — a cutflow, a data/MC plot, a sanity check</li>
+          <li><b>Gets stuck visibly</b> — long silence, repeated failed edits, one error in a loop: note where</li>
+        </ul>
+      </div>
+      <div class="kcard dim">
+        <div class="nm">between lessons — glance, do not steer</div>
+        <pre class="cmd">ls -lt ~/jfc-exercise/rogue | head
+<span class="hl2"># newest first · or jfc/analyses/h4l</span>
+curl -fsSL <span class="hl2">…/</span>check.sh | bash -s 5
+<span class="hl2"># Lesson 1b script route · link on that page</span></pre>
+        <ul class="mini">
+          <li><b>Write down a prediction</b> — peak mass · μ · does it finish? Lesson 5 compares.</li>
+        </ul>
+      </div>
     </div>
+    <p class="lead" style="margin:0">Lessons 2–4 with Daniel: chat &amp; RAG · agentic workflows · build your own agent. <b>Back here for Lesson 5</b> — what it produced, and the answer key.</p>
   </div>`
 },
 { id: 't-nrp', act: 6, label: 'How it ran on NRP', steps: 1, budget: 45, notes: 'Lesson 5 "Running it on NRP" + "How the setup worked": settings.json under CLAUDE_CONFIG_DIR=~/jfc-exercise/claude-config; /v1 vs /anthropic; WebSearch denied; spec says Opus — substituted; rm -rf ~/jfc-exercise', theme: 'dark', term: 'dock', html: () => `
@@ -1227,36 +1247,44 @@ curl -fsSL <span class="hl2">…/workspace/</span>check.sh | bash -s 5</pre>
     </div>
   </div>`
 },
-{ id: 't-good', act: 6, size: 'roomy', label: 'What good looks like — the answer key', steps: 2, budget: 90, notes: 'step 1: what good looks like. step 2 REVEAL: the secret sample was built with mH = 129 GeV and mu = 1.8 injected — nobody was told. Table: Phil Harris runs (h4l_agent_test/analysis_notes, committed 4 Jun 2026; Codex note dated 30 May) + our rehearsal 14 Sep 05:10, rogue gpt-6-astra, 25 min. Every run finds 129; the difference is whether it SAYS so. Models moved a lot since June — expect today to do better. Judge the process, not the number.', theme: 'dark', html: () => `
-  <h2 class="kicker">What <em>good</em> looks like — then <em>the answer key</em></h2>
+{ id: 't-good', act: 6, size: 'roomy', label: 'Score your run — the answer key', steps: 3, budget: 120, notes: 'step 1: five-point scorecard, hands up at three. step 2 REVEAL: the secret sample was built with mH = 129 GeV and mu = 1.8 injected — nobody was told. step 3: the table — Phil Harris runs (h4l_agent_test/analysis_notes, committed 4 Jun 2026; Codex note dated 30 May) + our rogue rehearsal 14 Sep 05:10, gpt-6-astra, 25 min. Every run finds 129; the difference is whether it SAYS so. Models moved a lot since June. Judge the process, not the number.', theme: 'dark', html: () => `
+  <h2 class="kicker">Score your run — <em>then the answer key</em></h2>
   <div class="cols" style="align-items:stretch">
-    <div class="col" style="flex:.55; align-self:center">
-      <ul class="talk">
-        <li><strong>A mass plot at all</strong><small>the most common failure is never getting past data loading</small></li>
-        <li><strong>A peak on the ZZ continuum</strong><small>you expect it at 125 GeV — look where it actually is</small></li>
-        <li><strong>Backgrounds scaled to 10 fb⁻¹</strong><small>cross sections are in the prompt</small></li>
-        <li><strong>μ credible</strong>: an uncertainty you believe<small>μ = 40, or χ² ≡ 0, is not — the spec calls χ² = 0 “an alarm, not a result”</small></li>
-        <li><strong>Someone else can rerun it</strong></li>
-      </ul>
+    <div class="col" style="flex:.72; display:flex; flex-direction:column; justify-content:center; min-width:0">
+      <div class="phases" style="flex:0 0 auto; gap:1.1vmin">
+        <div class="ph chk"><span class="n">1 · a mass plot</span><span class="what wrap">at all — most runs fail before the data even loads</span></div>
+        <div class="ph chk"><span class="n">2 · the peak</span><span class="what wrap">on the ZZ continuum — expected at 125 GeV; look where it actually is</span></div>
+        <div class="ph chk"><span class="n">3 · backgrounds</span><span class="what wrap">scaled to 10 fb⁻¹ — the cross sections are in the prompt</span></div>
+        <div class="ph chk"><span class="n">4 · μ ± error</span><span class="what wrap">an uncertainty you believe — μ = 40, or χ² ≡ 0, is “an alarm, not a result”</span></div>
+        <div class="ph chk"><span class="n">5 · rerunnable</span><span class="what wrap">someone else could run it from your folder</span></div>
+      </div>
+      <p class="lead" style="margin-top:1.8vmin">Count yours. <b>Hands up at three or more.</b></p>
     </div>
-    <div class="col grow" data-step="2" style="align-self:center; min-width:0">
-      <table class="stack nowrap" style="font-size:clamp(10px,1.28vmin,14px); width:100%">
-        <thead><tr><th>setup</th><th>model · when</th><th>m<sub>H</sub> [GeV]</th><th>μ</th></tr></thead>
-        <tbody>
-          <tr class="truth"><td><b>injected truth</b></td><td>the secret sample <small>nobody was told</small></td><td><b>129</b></td><td><b>1.8</b></td></tr>
-          <tr><td>rogue</td><td>Sonnet 4.6 · Jun 2026</td><td>128.9 <small>+1.0/−1.5</small></td><td>1.29 <small>+0.61/−0.51</small></td></tr>
-          <tr><td>rogue</td><td>Opus 4.8 · Jun 2026</td><td style="color:var(--live)">125 template <small>follow-up: ≈129, μ̂ ≈ 1.5, ~4σ local</small></td><td>0.31 <small>+0.52/−0.40</small></td></tr>
-          <tr><td>JFC</td><td>Opus 4.8 · Jun 2026</td><td>130.5 ± 1.1 <small>flagged</small></td><td>1.00 ± 0.59</td></tr>
-          <tr><td>JFC</td><td>Opus 4.8 low effort · Jun 2026</td><td>129.6 ± 1.2 <small>+2.4σ, stated</small></td><td>1.72 ± 0.66</td></tr>
-          <tr><td>JFC</td><td>Codex · May 2026</td><td>128.6 <small>+0.8/−0.7</small></td><td>1.65 <small>+0.64/−0.52</small></td></tr>
-          <tr><td>rogue <small>our rehearsal</small></td><td>gpt-6-astra · <b>today 05:10</b> <small>25 min, Codex CLI</small></td><td>129.60 ± 0.49 <small>free, stated</small></td><td>1.92 <small>+0.67/−0.57</small></td></tr>
-          <tr><td><b>the real world</b></td><td>CMS 2016 · 35.9 fb⁻¹ <small>JHEP 11 (2017) 047</small></td><td><b>125.26 ± 0.21</b></td><td><b>1.05</b> <small>+0.19/−0.17</small></td></tr>
-        </tbody>
-      </table>
-      <p class="lead" style="margin-top:1.2vmin; font-size:clamp(12px,1.6vmin,19px)">The “data” is a <b>synthetic sample: m<sub>H</sub> = 129 GeV, μ = 1.8 injected</b> — nobody was told. Every run finds the peak; the question is whether it <span class="hl">says so</span>. The spec'd runs measure the mass and flag the tension; the rogue Opus run fits a 125 template first and reports μ = 0.31 — the 129 structure only surfaces in a follow-up. <b>Judge the process, not the number.</b></p>
-      <div class="figcap" style="text-align:left">Rows 2–6: the abstracts of Phil Harris’ notes, h4l_agent_test/analysis_notes, committed 4 Jun 2026 — models have moved a lot since; expect today's runs to do better. Row 7: our rogue rehearsal this morning — Codex CLI, gpt-6-astra, medium reasoning.</div>
+    <div class="col grow" style="display:flex; flex-direction:column; justify-content:center; min-width:0; gap:1.8vmin">
+      <div class="kcard dim envelope" style="border-left-color:var(--live); border-style:dashed; text-align:center; padding:3vmin">
+        <div class="nm" style="color:var(--live)">the answer key</div><div class="ds">sealed until you have scored yours</div>
+      </div>
+      <div class="mstate reveal" data-step="2"><div class="big">m<sub>H</sub> = 129 GeV · μ = 1.8 — <em>injected</em></div><div class="sub">The “data” is a synthetic sample Phil built. Nobody was told. Every run finds the peak — the question is whether it <b>says so</b>.</div></div>
+      <div class="reveal" data-step="3">
+        <table class="stack nowrap" style="font-size:clamp(11px,1.5vmin,17px); width:100%">
+          <thead><tr><th>setup</th><th>model · when</th><th>m<sub>H</sub> [GeV]</th><th>μ</th></tr></thead>
+          <tbody>
+            <tr class="truth"><td><b>injected truth</b></td><td>the secret sample <small>nobody was told</small></td><td><b>129</b></td><td><b>1.8</b></td></tr>
+            <tr><td>rogue</td><td>Sonnet 4.6 · Jun 2026</td><td>128.9 <small>+1.0/−1.5</small></td><td>1.29 <small>+0.61/−0.51</small></td></tr>
+            <tr><td>rogue</td><td>Opus 4.8 · Jun 2026</td><td style="color:var(--live)">125 template <small>follow-up: ≈129, μ̂ ≈ 1.5, ~4σ local</small></td><td>0.31 <small>+0.52/−0.40</small></td></tr>
+            <tr><td>JFC</td><td>Opus 4.8 · Jun 2026</td><td>130.5 ± 1.1 <small>flagged</small></td><td>1.00 ± 0.59</td></tr>
+            <tr><td>JFC</td><td>Opus 4.8 low effort · Jun 2026</td><td>129.6 ± 1.2 <small>+2.4σ, stated</small></td><td>1.72 ± 0.66</td></tr>
+            <tr><td>JFC</td><td>Codex · May 2026</td><td>128.6 <small>+0.8/−0.7</small></td><td>1.65 <small>+0.64/−0.52</small></td></tr>
+            <tr><td>rogue <small>our rehearsal</small></td><td>gpt-6-astra · <b>today 05:10</b> <small>25 min, Codex CLI</small></td><td>129.60 ± 0.49 <small>free, stated</small></td><td>1.92 <small>+0.67/−0.57</small></td></tr>
+            <tr><td><b>the real world</b></td><td>CMS 2016 · 35.9 fb⁻¹ <small>JHEP 11 (2017) 047</small></td><td><b>125.26 ± 0.21</b></td><td><b>1.05</b> <small>+0.19/−0.17</small></td></tr>
+          </tbody>
+        </table>
+        <p class="lead" style="margin-top:1.2vmin">The spec'd runs measure the mass and flag the tension; the rogue Opus run fits a 125 template and reports μ = 0.31 — the 129 only surfaces in a follow-up. <b>Judge the process, not the number.</b></p>
+        <div class="figcap" style="text-align:left">Rows 2–6: Phil Harris’ note abstracts, h4l_agent_test/analysis_notes, 4 Jun 2026 — models have moved a lot since. Row 7: our rogue rehearsal this morning, Codex CLI, gpt-6-astra, medium reasoning.</div>
+      </div>
     </div>
-  </div>`
+  </div>`,
+  onenter(step) { const e = document.querySelector('.scene .envelope'); if (e) e.hidden = step >= 2; }   // the sealed card gives way to the reveal
 },
 { id: 't-takehome', act: 6, size: 'roomy', label: 'Take it further', steps: 1, budget: 60, notes: 'full spec take-home; jfc_demo (pre-seeded H→4l, 50 min, three planted bugs); the three transferable ideas', theme: 'dark', html: () => `
   <h2 class="kicker">Take it further — <em>put the framework back</em></h2>
@@ -1642,7 +1670,7 @@ const SKIP_PROFILES = {
   results: ['context', 'repo', 'phases', 'review', 'gate'],        // skip framework internals — results-first crowd
   fermilab: [],                                                    // 11 Sep 2026 cut: full deck + wave + demo (~18:10)
   fermilab15: ['repo', 'models', 'meaning'],                       // the same, 15-min core with wave + demo (~16:00)
-  tutorial: ['title', 'repo', 'gate', 't-nrp', 'menu', 'htautau', 'models', 'ladder', 'wave', 'forward', 'demo', 'meaning', 'finale'],   // CLARIPHY 14 Sep: title → goal → JFC → resources → outline → setup ·· launch → talk ·· Lesson 5 closers
+  tutorial: ['title', 'repo', 'gate', 't-nrp', 't-takehome', 'menu', 'htautau', 'models', 'ladder', 'wave', 'forward', 'demo', 'meaning', 'finale'],   // CLARIPHY 14 Sep: title → goal → JFC → resources → outline → setup ·· launch → talk ·· Lesson 5 closers
 };
 const PROFILE_THEME = { tutorial: 'light' };   // CLARIPHY 14 Sep: the whole cut on the paper theme
 const Skips = (() => {
