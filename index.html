@@ -688,7 +688,7 @@ const SCENES = [
       <div class="who" style="margin-top:2.6vmin">
         <div><b>Daniel Diaz</b> · UC San Diego &nbsp;·&nbsp; <b>Andrzej Novak</b> · MIT</div>
         <div style="color:var(--ink60); white-space:nowrap">CLARIPHY AI Collaboration Meeting · Pyle Center, Madison · 14 September 2026</div>
-        <div style="color:var(--ink60)">program co-chairs Tulika Bose · Peter Elmer · Verena Martinez Outschoorn</div>
+        <div style="color:var(--ink60)">program co-chairs Tulika Bose · Peter Elmer · Verena Martinez Outschoorn · local host Sridhara Dasu</div>
       </div>
       <div class="logos theme-swap">
         <img class="ucsd on-light" src="assets/logo_ucsd_light.svg" alt="UC San Diego"><img class="ucsd on-dark" src="assets/logo_ucsd_dark.svg" alt="UC San Diego">
@@ -1174,7 +1174,7 @@ closures: 0.01 called "good", −287σ a "known limitation".</span></pre>
     </div>
   </div>`
 },
-{ id: 't-watch', act: 6, size: 'roomy', label: 'Check on it — over to Daniel', steps: 1, budget: 45, notes: 'agents have been running since Lesson 1b (~25 min); a quick look now: answer it if it asked; did it plan, read the branches, check itself, is it stuck; then Lessons 2–4; back at 02:50 for Lesson 5', theme: 'dark', term: 'dock', html: () => `
+{ id: 't-watch', act: 6, size: 'roomy', label: 'Check on it — over to Daniel', steps: 1, budget: 45, notes: 'agents have been running since Lesson 1b (~25 min); a quick look now: answer it if it asked; did it plan, read the branches, check itself, is it stuck; then Lessons 2–4; back at 02:50 for Lesson 5', theme: 'dark', html: () => `
   <h2 class="kicker">Running since Lesson 1b — <em>a quick look, then over to Daniel</em></h2>
   <div class="cols" style="align-items:stretch">
     <div class="col grow" style="align-self:center">
@@ -1227,7 +1227,7 @@ curl -fsSL <span class="hl2">…/workspace/</span>check.sh | bash -s 5</pre>
     </div>
   </div>`
 },
-{ id: 't-good', act: 6, label: 'What good looks like — the answer key', steps: 2, budget: 90, notes: 'step 1: what good looks like. step 2 REVEAL: the secret sample was built with mH = 129 GeV and mu = 1.8 injected — nobody was told. Table: Phil Harris runs (h4l_agent_test/analysis_notes, committed 4 Jun 2026; Codex note dated 30 May) + our rehearsal 14 Sep 05:10, rogue gpt-6-astra, 25 min. Every run finds 129; the difference is whether it SAYS so. Models moved a lot since June — expect today to do better. Judge the process, not the number.', theme: 'dark', term: 'dock', html: () => `
+{ id: 't-good', act: 6, size: 'roomy', label: 'What good looks like — the answer key', steps: 2, budget: 90, notes: 'step 1: what good looks like. step 2 REVEAL: the secret sample was built with mH = 129 GeV and mu = 1.8 injected — nobody was told. Table: Phil Harris runs (h4l_agent_test/analysis_notes, committed 4 Jun 2026; Codex note dated 30 May) + our rehearsal 14 Sep 05:10, rogue gpt-6-astra, 25 min. Every run finds 129; the difference is whether it SAYS so. Models moved a lot since June — expect today to do better. Judge the process, not the number.', theme: 'dark', html: () => `
   <h2 class="kicker">What <em>good</em> looks like — then <em>the answer key</em></h2>
   <div class="cols" style="align-items:stretch">
     <div class="col" style="flex:.55; align-self:center">
@@ -1258,18 +1258,18 @@ curl -fsSL <span class="hl2">…/workspace/</span>check.sh | bash -s 5</pre>
     </div>
   </div>`
 },
-{ id: 't-takehome', act: 6, size: 'roomy', label: 'Take it further', steps: 1, budget: 60, notes: 'full spec take-home; jfc_demo (pre-seeded H→4l, 50 min, three planted bugs); the three transferable ideas', theme: 'dark', term: 'dock', html: () => `
+{ id: 't-takehome', act: 6, size: 'roomy', label: 'Take it further', steps: 1, budget: 60, notes: 'full spec take-home; jfc_demo (pre-seeded H→4l, 50 min, three planted bugs); the three transferable ideas', theme: 'dark', html: () => `
   <h2 class="kicker">Take it further — <em>put the framework back</em></h2>
   <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2vmin; min-height:0">
     <div class="cardgrid" style="grid-template-columns:1fr 1fr 1fr">
-      <div class="kcard"><div class="nm">the full spec ${gh('jfc', 'jfc-mit/jfc')}</div><div class="ds"><span class="mono">pixi run scaffold analyses/h4l --type measurement</span> · stage the same context · <span class="mono">cat prompt.md | claude</span><br>Runs for hours; ships a 50–100-page note and a turnkey repo.</div></div>
+      <div class="kcard"><div class="nm">the full spec ${gh('jfc', 'jfc-mit/jfc')}</div><div class="ds">Took <b>path 2B</b> this morning? You already have it — leave it running for hours; it ships a 50–100-page note and a turnkey repo.<br>Took 2A? Path 2B from the launch slide, then the same lines on <b>your own</b> data.</div></div>
       <div class="kcard"><div class="nm">jfc_demo ${ghx('https://github.com/andrzejnovak/jfc_demo', 'jfc_demo on GitHub')}</div><div class="ds">Pre-seeded H→4ℓ on CMS Open Data: phases 1–2 baked, <b>3–5 live in ~50 min</b>. Three planted bugs — a fit-uncertainty bug, an un-normalised background, a citation slip — <b>the agents catch all three</b>.</div></div>
       <div class="kcard" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">read three files</div><div class="ds"><span class="mono">methodology/06-review.md</span> · <span class="mono">agents/executor.md</span> · the analysis <span class="mono">CLAUDE.md</span><br><b>Typed findings · bounded iteration · prompts as versioned artifacts</b> — what separates this from the Lesson-4 loop, and transfers to any agentic system you build.</div></div>
     </div>
     <p class="lead" style="margin:0">${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> · <a href="https://github.com/violatingcp/h4l_agent_test" target="_blank" rel="noopener">h4l_agent_test</a> · <a href="https://training.nrp-nautilus.io/clariphy/5_analysis.html" target="_blank" rel="noopener">Lesson 5</a></p>
   </div>`
 },
-{ id: 't-close', act: 6, size: 'roomy', label: 'Discussion', steps: 2, budget: 45, notes: 'framework is the product; portability; human gates load-bearing; honest reporting → Tuesday parallel (Indico: Analysis Agentic Workflows, Tue 15 Sep 10:30–12:00 and 13:00–14:00, Room 325/326)', theme: 'dark', term: 'dock', html: () => `
+{ id: 't-close', act: 6, size: 'roomy', label: 'Discussion', steps: 2, budget: 45, notes: 'framework is the product; portability; human gates load-bearing; honest reporting → Tuesday parallel (Indico: Analysis Agentic Workflows, Tue 15 Sep 10:30–12:00 and 13:00–14:00, Room 325/326)', theme: 'dark', html: () => `
   <h2 class="kicker">What to take <em>home</em></h2>
   <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:3vmin; min-height:0">
     <div class="mstate"><div class="big">The <em>framework</em> is the product</div><div class="sub">JFC ships almost no analysis code — its value is the encoded process: what a phase must produce, who reviews it, what blocks advancement</div></div>
