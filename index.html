@@ -727,9 +727,10 @@ const SCENES = [
 <span class="hl2"># the CMS Open Data samples, 857 MiB — the slow one, start it first</span>
 curl -fL -C - --retry 5 -o data.tgz \\
      https://s3-west.nrp-nautilus.io/transfer-bucket/h4l-data.tgz
+<span class="hl2"># same file on Phil's Dropbox if NRP's bucket is swamped — link on the right</span>
 
-<span class="hl2"># the framework (jfc_lite branch) and the H→4ℓ context</span>
-git clone --depth 1 -b jfc_lite https://github.com/violatingcp/jfc.git
+<span class="hl2"># the framework, and the H→4ℓ context (prompt · two papers · ntuplizer)</span>
+git clone --depth 1 https://github.com/jfc-mit/jfc.git
 git clone --depth 1 https://github.com/violatingcp/h4l_agent_test.git
 
 <span class="hl2"># Claude Code and pixi — user-local, no shell rc files touched</span>
@@ -740,8 +741,8 @@ curl -fsSL https://pixi.sh/install.sh | PIXI_NO_PATH_UPDATE=1 sh</pre>
     <div class="col grow" style="align-self:center; min-width:0">
       <div class="cardgrid" style="grid-template-columns:1fr">
         <div class="kcard" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">the lesson page — everything below, and Windows</div><div class="ds"><a href="https://training.nrp-nautilus.io/clariphy/1b_jfc_launch.html" target="_blank" rel="noopener">training.nrp-nautilus.io/clariphy → Launch the Agent</a><br>PowerShell: <span class="mono">curl.exe</span> for the data, <span class="mono">jfc_setup.ps1</span> does the rest · JupyterHub backup notebook if your laptop won't play</div></div>
-        <div class="kcard"><div class="nm">the data</div><div class="ds"><a href="https://s3-west.nrp-nautilus.io/transfer-bucket/h4l-data.tgz" target="_blank" rel="noopener">s3-west.nrp-nautilus.io/transfer-bucket/h4l-data.tgz</a><br>12 CMS Open Data 2017 samples, 10 fb⁻¹ · <span class="mono">tar xzf</span> gives <span class="mono">data/</span></div></div>
-        <div class="kcard"><div class="nm">the code</div><div class="ds">${ghx('https://github.com/violatingcp/jfc/tree/jfc_lite', 'violatingcp/jfc — jfc_lite')} <span class="mono">violatingcp/jfc</span> @ <span class="mono">jfc_lite</span> — the framework<br>${ghx('https://github.com/violatingcp/h4l_agent_test', 'violatingcp/h4l_agent_test')} <span class="mono">violatingcp/h4l_agent_test</span> — the prompt, the papers, the ntuplizer, <span class="mono">.claude/</span></div></div>
+        <div class="kcard"><div class="nm">the data — two copies of the same 857 MiB</div><div class="ds"><a href="https://s3-west.nrp-nautilus.io/transfer-bucket/h4l-data.tgz" target="_blank" rel="noopener">s3-west.nrp-nautilus.io/transfer-bucket/h4l-data.tgz</a> · <a href="https://www.dropbox.com/scl/fi/tj2j72ub3smel2wg8arei/data.tgz?rlkey=rx0ol2uvz36dhegqcgyi4cvzc&amp;dl=1" target="_blank" rel="noopener">Phil's Dropbox copy</a><br>12 CMS Open Data 2017 samples, 10 fb⁻¹ · <span class="mono">tar xzf</span> gives <span class="mono">data/</span></div></div>
+        <div class="kcard"><div class="nm">the code</div><div class="ds">${gh('jfc', 'jfc-mit/jfc')} <span class="mono">jfc-mit/jfc</span> — the framework, the full specification<br>${ghx('https://github.com/violatingcp/h4l_agent_test', 'violatingcp/h4l_agent_test')} <span class="mono">violatingcp/h4l_agent_test</span> — the prompt, the two reference papers, the ntuplizer, <span class="mono">.claude/</span></div></div>
       </div>
       <p class="lead" style="margin:1.6vmin 0 0; font-size:clamp(12px,1.55vmin,18px)"><b>Your NRP token comes next</b>, in Lesson 1 with Daniel. Then <span class="mono" style="white-space:nowrap">bash jfc_setup.sh</span> finishes in a minute, reusing all of this.</p>
     </div>
@@ -761,7 +762,7 @@ export CLAUDE_CONFIG_DIR="$WORK/claude-config"  <span class="hl2"># not ~/.claud
 export PATH="$HOME/.local/bin:$HOME/.pixi/bin:$PATH"</pre>
     </div>
     <div class="codeblock" style="margin:0">
-      <div class="src"><b>$CLAUDE_CONFIG_DIR/settings.json</b> — Claude Code → NRP's Anthropic-compatible endpoint</div>
+      <div class="src"><b>$CLAUDE_CONFIG_DIR/settings.json</b> — Claude Code → NRP's Anthropic-compatible endpoint <span style="color:var(--ink40)">(abridged: the script writes 16 keys)</span></div>
       <pre>{ "env": {
     "ANTHROPIC_BASE_URL":   "https://ellm.nrp-nautilus.io/anthropic",
     "ANTHROPIC_AUTH_TOKEN": "&lt;your NRP token&gt;",
@@ -771,7 +772,7 @@ export PATH="$HOME/.local/bin:$HOME/.pixi/bin:$PATH"</pre>
     </div>
     <div class="codeblock" style="margin:0; grid-column:1 / -1">
       <div class="src"><b>stage the fast path, then launch</b> — from <span class="mono">~/jfc-exercise</span>, after <span class="mono">source nrp-env.sh</span></div>
-      <pre>tar xzf data.tgz &amp;&amp; rm data.tgz                                   <span class="hl2"># → data/</span>
+      <pre>tar xzf data.tgz &amp;&amp; rm -f data.tgz                                <span class="hl2"># → data/</span>
 mkdir -p "$ROGUE" &amp;&amp; cd "$ROGUE" &amp;&amp; ln -sfn "$WORK/data" data          <span class="hl2"># symlink, don't copy 857 MiB</span>
 cp -r "$WORK"/h4l_agent_test/{prompt.md,h4l_ntuplize.py,docs,.claude} .
 cat prompt.md | claude --permission-mode auto</pre>
@@ -801,7 +802,7 @@ cat prompt.md | claude --permission-mode auto</pre>
       <div class="promptcard" style="font-size:clamp(10px,1.3vmin,15px)"><span class="ps">prompt&gt;</span> You are performing a Higgs boson measurement in the 4 lepton channel using CMS Open Data from 2017 at √s = 13 TeV … produce the 4 lepton mass distribution … perform a fit of the mass and compute the mu value … this should be a quick analysis. <span style="color:var(--ink40)">(Phil's h4l prompt · 10 fb⁻¹ · 12 samples)</span></div>
       <div class="cardgrid" style="grid-template-columns:1fr 1fr; margin-top:1.4vmin">
         <div class="kcard" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">A · fast path — everyone</div><div class="ds">The prompt, the two papers, the ntuplizer, the data. <b>No specification</b>: no phases, no reviewers, no gate — the agent improvises. Claude Code on NRP open weights.</div></div>
-        <div class="kcard"><div class="nm">B · the specification — my run</div><div class="ds">Same prompt, same data, on the <span class="mono">jfc_lite</span> scaffold: phases, per-phase briefs, review roles, the unblinding gate. <b>Same command.</b></div></div>
+        <div class="kcard"><div class="nm">B · the specification — my run</div><div class="ds">Same prompt, same data, on the full <span class="mono">jfc-mit/jfc</span> scaffold: phases, per-phase briefs, review roles, the unblinding gate. <b>Same command.</b></div></div>
       </div>
       <p class="lead" data-step="2" style="margin:1.4vmin 0 0; font-size:clamp(12px,1.55vmin,18px)">Dies with <em>“Content block is not a text block”</em>? <span class="mono" style="white-space:nowrap">NRP_MODEL=glm-5 bash jfc_setup.sh</span>, then Step 2 again. Still stuck: the JupyterHub backup notebook, or an instructor. <b>We compare at 02:50.</b> <span class="hl">Predictions?</span></p>
     </div>
