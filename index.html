@@ -702,19 +702,19 @@ const SCENES = [
       So rather than only telling you — let's <span class="hl">test</span> it, together.<span class="cursor">▌</span></div>
   </div>`
 },
-{ id: 't-outline', act: 6, label: 'The morning', steps: 2, budget: 60, notes: 'site schedule, cumulative: L1 00:00 (20) · L1b 00:20 (15: Step 1 script → my JFC intro while it downloads → Step 2 launch) · L2 00:35 (50) · L3 01:25 (45) · L4 02:10 (40) · L5 02:50 (10). Token already? start Step 1 now.', theme: 'paper', html: () => `
+{ id: 't-outline', act: 6, label: 'The morning', steps: 2, budget: 60, notes: 'wall clock from 09:00 with the site durations (L1 20 · L1b 15 → 10 since downloads are pre-started · L2 50 · L3 45 · L4 40 · L5 10) plus our welcome (8) and JFC block (12, deck budget 9.4). Honest end 12:15 — 15 min over; trim lives in the lessons or in mine.', theme: 'paper', html: () => `
   <h2 class="kicker">The morning — <em>an analysis runs while we talk</em></h2>
   <div class="phases">
-    <div class="ph"><span class="n">00:00</span><span class="what">Welcome · why agents · the claim · <b>start your downloads</b></span><span class="art">Andrzej</span><span class="rev">8 min</span></div>
-    <div class="ph"><span class="n">Lesson 1</span><span class="what">Introduction — LLMs on NRP: your account, the <span class="mono">clariphy</span> namespace, your token, the endpoint</span><span class="art">Daniel</span><span class="rev">20 min</span></div>
-    <div class="ph gate"><span class="n">Lesson 1b</span><span class="what"><b>Launch the agent</b> — Step 1: <span class="mono">jfc_setup.sh</span> with your token · Step 2: <span class="mono">cat prompt.md | claude</span> when it says <i>All set</i></span><span class="art">▶ everyone</span><span class="rev">15 min</span></div>
-    <div class="ph"><span class="n">↳</span><span class="what"><b>Just Furnish Context</b> — the framework, what it delivered, what it cost — while the download runs</span><span class="art">Andrzej</span><span class="rev">15 min</span></div>
-    <div class="ph"><span class="n">Lesson 2</span><span class="what">Chat with LLMs — Python, multimodal, embeddings &amp; RAG over CMS documentation</span><span class="art">Daniel</span><span class="rev">50 min</span></div>
-    <div class="ph"><span class="n">Lesson 3</span><span class="what">Agentic workflows — opencode &amp; IDE integration; a CMS analysis helper on NanoAOD</span><span class="art">Daniel</span><span class="rev">45 min</span></div>
-    <div class="ph"><span class="n">Lesson 4</span><span class="what">Build a simple agent — tool calling &amp; the agent loop, in ~30 lines of Python</span><span class="art">Daniel</span><span class="rev">40 min</span></div>
-    <div class="ph"><span class="n">02:50</span><span class="what"><b>Lesson 5 — check in on the agent:</b> what it produced, what good looks like, how it ran on NRP, the take-home</span><span class="art">both</span><span class="rev">10 min</span></div>
+    <div class="ph"><span class="n">09:00</span><span class="what"><b>Welcome</b> — why agents · the claim · the downloads you start right now, no token needed</span><span class="art">Andrzej</span><span class="rev">8 min</span></div>
+    <div class="ph"><span class="n">09:08</span><span class="what"><b>Lesson 1 · Introduction — LLMs on NRP</b> — your account · the <span class="mono">clariphy</span> namespace · your token · the endpoint</span><span class="art">Daniel</span><span class="rev">20 min</span></div>
+    <div class="ph gate"><span class="n">09:28</span><span class="what"><b>Lesson 1b · Launch the agent</b> — Step 1: <span class="mono">jfc_setup.sh</span> with your token · Step 2: <span class="mono">cat prompt.md | claude</span> at <i>All set</i></span><span class="art">▶ everyone</span><span class="rev">10 min</span></div>
+    <div class="ph"><span class="n">09:38</span><span class="what"><b>Just Furnish Context</b> — the framework, what it delivered, what it cost — <b>while your agent works</b></span><span class="art">Andrzej</span><span class="rev">12 min</span></div>
+    <div class="ph"><span class="n">09:50</span><span class="what"><b>Lesson 2 · Chat with LLMs</b> — Python, multimodal, embeddings &amp; RAG over CMS documentation</span><span class="art">Daniel</span><span class="rev">50 min</span></div>
+    <div class="ph"><span class="n">10:40</span><span class="what"><b>Lesson 3 · Agentic workflows</b> — opencode &amp; IDE integration; a CMS analysis helper on NanoAOD</span><span class="art">Daniel</span><span class="rev">45 min</span></div>
+    <div class="ph"><span class="n">11:25</span><span class="what"><b>Lesson 4 · Build a simple agent</b> — tool calling &amp; the agent loop, in ~30 lines of Python</span><span class="art">Daniel</span><span class="rev">40 min</span></div>
+    <div class="ph"><span class="n">12:05</span><span class="what"><b>Lesson 5 · Check in on the agent</b> — what it produced · what good looks like · how it ran on NRP · take-home &amp; resources</span><span class="art">both</span><span class="rev">10 min</span></div>
   </div>
-  <p class="lead" data-step="2" style="margin-top:1.4vmin"><b>Already have your NRP token?</b> Start Lesson 1b, Step 1 now — <span class="mono" style="white-space:nowrap">bash jfc_setup.sh</span> — so the ~860 MiB download runs while we talk. Everything today runs on NRP GPUs: no subscriptions, no per-user billing.</p>`
+  <p class="lead" data-step="2" style="margin-top:1.4vmin"><b>Right now:</b> the downloads on the next slide — no token needed. Your token comes in Lesson 1, the launch in Lesson 1b, the results in Lesson 5. Everything runs on NRP GPUs: no subscriptions, no per-user billing.</p>`
 },
 { id: 't-setup', act: 6, label: 'Setup — start the downloads', steps: 1, budget: 90, notes: 'No token needed for any of this. Data 857 MiB from NRP S3 — start it first, 30 laptops on conference Wi-Fi. jfc_setup.sh later skips whatever is already in ~/jfc-exercise (data.tgz by size, repos by presence, claude/pixi if on PATH). Windows: curl.exe in PowerShell for the data, jfc_setup.ps1 later; WSL is the better path.', theme: 'paper', html: () => `
   <h2 class="kicker">Setup — <em>start the downloads now</em>, no token needed</h2>
@@ -804,7 +804,7 @@ cat prompt.md | claude --permission-mode auto</pre>
         <div class="kcard" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">A · fast path — everyone</div><div class="ds">The prompt, the two papers, the ntuplizer, the data. <b>No specification</b>: no phases, no reviewers, no gate — the agent improvises. Claude Code on NRP open weights.</div></div>
         <div class="kcard"><div class="nm">B · the specification — my run</div><div class="ds">Same prompt, same data, on the full <span class="mono">jfc-mit/jfc</span> scaffold: phases, per-phase briefs, review roles, the unblinding gate. <b>Same command.</b></div></div>
       </div>
-      <p class="lead" data-step="2" style="margin:1.4vmin 0 0; font-size:clamp(12px,1.55vmin,18px)">Dies with <em>“Content block is not a text block”</em>? <span class="mono" style="white-space:nowrap">NRP_MODEL=glm-5 bash jfc_setup.sh</span>, then Step 2 again. Still stuck: the JupyterHub backup notebook, or an instructor. <b>We compare at 02:50.</b> <span class="hl">Predictions?</span></p>
+      <p class="lead" data-step="2" style="margin:1.4vmin 0 0; font-size:clamp(12px,1.55vmin,18px)">Dies with <em>“Content block is not a text block”</em>? <span class="mono" style="white-space:nowrap">NRP_MODEL=glm-5 bash jfc_setup.sh</span>, then Step 2 again. Still stuck: the JupyterHub backup notebook, or an instructor. <b>We compare in Lesson 5, at the end.</b> <span class="hl">Predictions?</span></p>
     </div>
   </div>`
 },
@@ -1113,7 +1113,7 @@ closures: 0.01 called "good", −287σ a "known limitation".</span></pre>
         <pre>source ~/jfc-exercise/nrp-env.sh
 curl -fsSL <span class="hl2">…/workspace/</span>check.sh | bash -s 5</pre>
       </div>
-      <div class="figcap" style="text-align:left">Lessons 2–4 with Daniel: chat &amp; RAG · agentic workflows · build your own agent. <b>Back here at 02:50</b> — Lesson 5, check in on the agent.</div>
+      <div class="figcap" style="text-align:left">Lessons 2–4 with Daniel: chat &amp; RAG · agentic workflows · build your own agent. <b>Back here for Lesson 5</b> — check in on the agent.</div>
     </div>
   </div>`
 },
