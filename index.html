@@ -654,65 +654,51 @@ const SCENES = [
     </div>
   </div>`
 },
-{ id: 'title', act: 1, label: 'Title', steps: 1, budget: 35, notes: 'cast loads behind title — chip goes ready; 42.9 h run', theme: 'paper', thumb: 'assets/fig_lund.png', html: () => `
-  <div class="title-wrap">
-    <div class="title-left">
-      <h1>AI Agents Can Already <em>Autonomously</em> Perform Experimental High Energy Physics</h1>
-      <div class="rule"></div>
-      <span class="arxiv-chip">${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a></span>
-      <div class="authors">
-        <img src="assets/author_eric.jpg" alt="Eric Moreno"><img src="assets/author_sam.jpg" alt="Sam Bright-Thonney"><img src="assets/author_andrzej.jpg" alt="Andrzej Novak"><img src="assets/author_dolores.jpg" alt="Dolores Garcia"><img src="assets/author_yiyang.jpg" alt="Yiyang Zhao"><img src="assets/author_philip.jpg" alt="Phil Harris">
-        <span class="nm">Eric Moreno* · Sam Bright-Thonney* · <b style="color:var(--ink)">Andrzej Novak*</b> · Dolores Garcia · Yiyang Zhao · Philip Harris<br><small>* equal contribution · MIT / IAIFI / CERN</small></span>
-      </div>
-      <div class="who" style="margin-top:2.6vmin"><b>Andrzej Novak</b> · MIT — <em>Agentic AI for BSM Event Generation &amp; Analysis</em> · LPC, Fermilab<br>11 September 2026</div>
-      <div class="logos theme-swap">
-        <img class="on-light" src="assets/logo_mit_light.svg" alt="MIT"><img class="on-dark" src="assets/logo_mit_dark.svg" alt="MIT">
-        <img class="cern on-light" src="assets/logo_cern_light.svg" alt="CERN"><img class="cern on-dark" src="assets/logo_cern_dark.svg" alt="CERN">
-      </div>
-    </div>
-    <div class="title-art">
-      <div class="polaroid" style="transform:rotate(1.7deg)">
-        <img src="assets/fig_lund.png" alt="ALEPH primary Lund jet plane density — unfolded, charged-particle level">
-        <div class="tag">nobody had measured this before. hold that thought.</div>
-      </div>
-    </div>
+{ id: 't-goal', act: 6, label: 'What today is for', steps: 1, budget: 45, notes: 'site: "introduces AI for scientific research — LLMs, multimodal, RAG, agents — using NRP resources; culminates in JFC, end-to-end HEP analysis". Three beats: an agent runs a real analysis for you; you build the pieces; all on NRP.', theme: 'paper', html: () => `
+  <h2 class="kicker">What today is <em>for</em></h2>
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2.6vmin; min-height:0">
+    <div class="mstate"><div class="big">An agent runs a <em>real</em> HEP analysis — for you</div><div class="sub">H→4ℓ on CMS Open Data, launched from your own laptop in Lesson 1b, judged against a known answer at the end — the session “culminates in JFC”</div></div>
+    <div class="mstate"><div class="big">You build the pieces <em>yourself</em></div><div class="sub">LLMs on NRP → multimodal &amp; RAG → agentic workflows in opencode → a 30-line agent loop — Lessons 1–4 with Daniel</div></div>
+    <div class="mstate"><div class="big">Everything on <em>NRP</em> — no subscription</div><div class="sub">open-weight models on NRP GPUs, one token; the mechanical middle is delegated, the judgment stays with you</div></div>
+    <p class="lead" style="margin:0"><b>Leave with:</b> a token that works, an agent that ran, and a clear sense of where it broke.</p>
   </div>`
 },
-{ id: 'anatomy', act: 1, label: 'The anatomy of an analysis', steps: 1, budget: 60, notes: 'arc: channel→lit→selection→syst→unblind; delegate the middle', theme: 'paper', thumb: 'assets/dario_world.png', html: () => `
-  <h2 class="kicker">A typical HEP analysis — <em>years</em> of a life, mostly algorithmic</h2>
+{ id: 't-jfc', act: 6, label: 'JFC in one slide', steps: 1, budget: 60, notes: 'one-slide JFC: specification not template; seven gated phases + human gate; published ALEPH measurements reproduced end to end (arXiv:2603.20179); today = fast path, then the spec goes back. Details in the talk block after the launch.', theme: 'dark', html: () => `
+  <h2 class="kicker"><em>Just Furnish Context</em> — in one slide</h2>
   <div class="cols">
-    <div class="col" style="flex:1">
+    <div class="col grow">
       <ul class="talk">
-        <li>Channel → literature → selection → systematics → <strong>unblind &amp; infer</strong><small>the same arc, every analysis, every collaboration</small></li>
-        <li>Thousands of lines of code, echoing dozens of prior analyses<small>little physics insight — slow, tedious, error-prone</small></li>
-        <li><span class="hl">Most of it can be delegated to agents</span><small>code, docs, debugging, self-critique — judgment is the part that does not delegate</small></li>
+        <li><strong>A specification, not a template</strong><small>an orchestrator plans; disposable executor and reviewer subagents do the work; the agent designs the strategy from the literature</small></li>
+        <li><strong>Seven phases, each gated by an artifact + review</strong><small>strategy → exploration → selection → expected → 10 % validation → <b>human gate</b> → unblind → a 50–100-page note</small></li>
+        <li><strong>Published measurements reproduced end to end</strong> on archived ALEPH data<small>each a written analysis note with the fit, the systematics and the comparison to the paper · ${arxiv('2603.20179')}</small></li>
+        <li><span class="hl">Today: the fast path</span> — prompt, papers, data, none of the specification<small>then we put the specification back and compare, at the end</small></li>
       </ul>
     </div>
-    <div class="col" style="flex:1.35; align-self:center">
-      <div class="fig zoomable auto"><img src="assets/dario_world.png" alt="one year around the analysis loop vs three hours"></div>
-      <div class="figcap">a year around the loop — or an afternoon · artist's impression, liberties taken</div>
-    </div>
+    <div class="col" style="flex:1.05; align-self:stretch"><div class="fig zoomable" style="height:100%"><img src="assets/fig_pipeline.png" alt="JFC framework diagram"></div></div>
   </div>`
 },
-{ id: 'claim', act: 1, label: 'The claim', steps: 1, budget: 30, notes: 'not speculative — the room tests it: everyone launches one', thumb: 'assets/ovthumb_claim.jpg', theme: 'dark', html: () => `
-  <div class="statement">
-    <h1>This is <em>not</em> a speculative claim.</h1>
-    <div class="lead">Given a dataset, a framework and the prior literature, Claude Code completes the chain:<br>selection → backgrounds → systematics → inference → <b>a written analysis note</b>.</div>
-    <div class="lead" style="font-family:var(--serif); font-style:italic; font-size:clamp(19px,2.9vmin,36px); color:var(--ink)">
-      So rather than only telling you — let's <span class="hl">test</span> it, together.<span class="cursor">▌</span></div>
+{ id: 't-resources', act: 6, label: 'Resources', steps: 1, budget: 60,  notes: 'NRP: free with an NRP account, token at nrp.ai → /llmtoken, /v1 + /anthropic, fair-use concurrency limits. Claude Team Plan for Scientists (27 Aug): PI-or-equivalent at accredited universities / nonprofit institutes applies, up to 25 lab members, standard seats free, premium $15/mo (5× usage) for 12 months, no training on your data, verification 5–7 days, for-profit excluded. ChatGPT for Academic Researchers (29 Jul): faculty and postdocs at research-active degree-granting institutions, an arXiv/bioRxiv/ChemRxiv paper in the last 3 years, Pro-level ChatGPT + Codex + Work, +4 collaborators, 10k seats now → 100k through 2027, waitlist/lottery since 10 Aug. Punchline: students go through their PI.', theme: 'dark', html: () => `
+  <h2 class="kicker">Resources — <em>today runs on NRP</em>; most of this room is eligible for the rest</h2>
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2vmin; min-height:0">
+    <div class="cardgrid" style="grid-template-columns:1fr 1fr 1fr">
+      <div class="kcard" style="border-left-color:var(--live); box-shadow:0 0 0 2px color-mix(in srgb, var(--live) 45%, transparent), var(--shadow)"><div class="nm" style="color:var(--live)">NRP-managed LLMs <span class="tag mono" style="font-size:.7em; margin-left:.6em">today</span></div><div class="ds"><b>Who:</b> anyone with an NRP account (institutional login) · free<br><b>What:</b> open weights on NRP GPUs — <span class="mono">gpt-oss · glm-5 · kimi · qwen3 · minimax-m2</span> — via <span class="mono">/v1</span> (OpenAI) and <span class="mono">/anthropic</span> (Claude Code)<br><b>Conditions:</b> fair-use policy, per-model concurrency limits<br><a href="https://nrp.ai/documentation/userdocs/ai/llm-managed/" target="_blank" rel="noopener">nrp.ai/documentation → NRP-Managed LLMs</a>, token at <span class="mono">/llmtoken</span></div></div>
+      <div class="kcard"><div class="nm">Claude Team Plan for Scientists</div><div class="ds"><b>Who:</b> a PI or equivalent at an accredited university or nonprofit institute applies — natural sciences, maths, CS, engineering — and adds <b>up to 25 lab members</b><br><b>What:</b> Team plan incl. Claude Code — standard seats <b>free</b>, premium <b>$15/mo</b> (5× usage) for 12 months<br><b>Conditions:</b> verification, 5–7 days · no training on your data · no for-profit labs · 10,000 seats, opened 27 Aug<br><a href="https://claude.com/programs/team-plan-for-scientists" target="_blank" rel="noopener">claude.com/programs → team-plan-for-scientists</a></div></div>
+      <div class="kcard"><div class="nm">ChatGPT for Academic Researchers</div><div class="ds"><b>Who:</b> research faculty and postdocs at research-active degree-granting institutions, with an arXiv paper in the last 3 years — plus <b>4 invited collaborators</b><br><b>What:</b> Pro-level ChatGPT + <b>Codex</b> + ChatGPT Work, free<br><b>Conditions:</b> 10,000 seats now, 100,000 through 2027 — waitlist since 10 Aug · no training on your data by default<br><a href="https://openai.com/index/chatgpt-for-academic-researchers/" target="_blank" rel="noopener">openai.com/index → chatgpt-for-academic-researchers</a></div></div>
+    </div>
+    <p class="lead" style="margin:0"><b>Students and postdocs:</b> the seats come through your PI — 25 on Claude, 4 on ChatGPT — <span class="hl">ask this week</span>. NRP needs no PI. <span style="color:var(--ink40)">Everything today: NRP only — one token, no subscription, no billing.</span></p>
   </div>`
 },
 { id: 't-outline', act: 6, label: 'The morning', steps: 2, budget: 60, notes: 'no timestamps (user). Site durations (L1 20 · L1b 15 → 10 since downloads are pre-started · L2 50 · L3 45 · L4 40 · L5 10) plus our welcome (8) and JFC block (12, deck budget 9.4). Honest end 12:15 — 15 min over; trim lives in the lessons or in mine.', theme: 'paper', html: () => `
   <h2 class="kicker">The morning — <em>an analysis runs while we talk</em></h2>
   <div class="phases">
-    <div class="ph"><span class="n">Welcome</span><span class="what"><b>Welcome</b> — why agents · the claim · the downloads you start right now, no token needed</span><span class="art">Andrzej</span><span class="rev">8 min</span></div>
+    <div class="ph"><span class="n">Welcome</span><span class="what"><b>Welcome</b> — what today is for · JFC in one slide · resources · the downloads you start right now</span><span class="art">Andrzej</span><span class="rev">8 min</span></div>
     <div class="ph"><span class="n">Lesson 1</span><span class="what"><b>Introduction — LLMs on NRP</b> — your account · the <span class="mono">clariphy</span> namespace · your token · the endpoint</span><span class="art">Daniel</span><span class="rev">20 min</span></div>
     <div class="ph gate"><span class="n">Lesson 1b</span><span class="what"><b>Launch the agent</b> — Step 1: <span class="mono">jfc_setup.sh</span> with your token · Step 2: <span class="mono">cat prompt.md | claude</span> at <i>All set</i></span><span class="art">▶ everyone</span><span class="rev">10 min</span></div>
     <div class="ph"><span class="n">JFC</span><span class="what"><b>Just Furnish Context</b> — the framework, what it delivered, what it cost — <b>while your agent works</b></span><span class="art">Andrzej</span><span class="rev">12 min</span></div>
     <div class="ph"><span class="n">Lesson 2</span><span class="what"><b>Chat with LLMs</b> — Python, multimodal, embeddings &amp; RAG over CMS documentation</span><span class="art">Daniel</span><span class="rev">50 min</span></div>
     <div class="ph"><span class="n">Lesson 3</span><span class="what"><b>Agentic workflows</b> — opencode &amp; IDE integration; a CMS analysis helper on NanoAOD</span><span class="art">Daniel</span><span class="rev">45 min</span></div>
     <div class="ph"><span class="n">Lesson 4</span><span class="what"><b>Build a simple agent</b> — tool calling &amp; the agent loop, in ~30 lines of Python</span><span class="art">Daniel</span><span class="rev">40 min</span></div>
-    <div class="ph"><span class="n">Lesson 5</span><span class="what"><b>Check in on the agent</b> — what it produced · what good looks like · how it ran on NRP · take-home &amp; resources</span><span class="art">both</span><span class="rev">10 min</span></div>
+    <div class="ph"><span class="n">Lesson 5</span><span class="what"><b>Check in on the agent</b> — what it produced · what good looks like · how it ran on NRP · the take-home</span><span class="art">both</span><span class="rev">10 min</span></div>
   </div>
   <p class="lead" data-step="2" style="margin-top:1.4vmin"><b>Right now:</b> the downloads on the next slide — no token needed. Your token comes in Lesson 1, the launch in Lesson 1b, the results in Lesson 5. Everything runs on NRP GPUs: no subscriptions, no per-user billing.</p>`
 },
@@ -781,6 +767,30 @@ cat prompt.md | claude --permission-mode auto</pre>
   <p class="lead" style="margin:1.6vmin 0 0"><b>Now — Lesson 1 with Daniel:</b> your NRP account · the <span class="mono">clariphy</span> namespace · your token from <span class="mono">nrp.ai/llmtoken</span>. <span style="color:var(--ink40)">Full listing with the why of every line: Lesson 5, “How the setup worked”. Back here in 20 minutes for the launch.</span></p>
   </div>`
 },
+{ id: 'title', act: 1, label: 'Title', steps: 1, budget: 35, notes: 'cast loads behind title — chip goes ready; 42.9 h run', theme: 'paper', thumb: 'assets/fig_lund.png', html: () => `
+  <div class="title-wrap">
+    <div class="title-left">
+      <h1>AI Agents Can Already <em>Autonomously</em> Perform Experimental High Energy Physics</h1>
+      <div class="rule"></div>
+      <span class="arxiv-chip">${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a></span>
+      <div class="authors">
+        <img src="assets/author_eric.jpg" alt="Eric Moreno"><img src="assets/author_sam.jpg" alt="Sam Bright-Thonney"><img src="assets/author_andrzej.jpg" alt="Andrzej Novak"><img src="assets/author_dolores.jpg" alt="Dolores Garcia"><img src="assets/author_yiyang.jpg" alt="Yiyang Zhao"><img src="assets/author_philip.jpg" alt="Phil Harris">
+        <span class="nm">Eric Moreno* · Sam Bright-Thonney* · <b style="color:var(--ink)">Andrzej Novak*</b> · Dolores Garcia · Yiyang Zhao · Philip Harris<br><small>* equal contribution · MIT / IAIFI / CERN</small></span>
+      </div>
+      <div class="who" style="margin-top:2.6vmin"><b>Andrzej Novak</b> · MIT — <em>Agentic AI for BSM Event Generation &amp; Analysis</em> · LPC, Fermilab<br>11 September 2026</div>
+      <div class="logos theme-swap">
+        <img class="on-light" src="assets/logo_mit_light.svg" alt="MIT"><img class="on-dark" src="assets/logo_mit_dark.svg" alt="MIT">
+        <img class="cern on-light" src="assets/logo_cern_light.svg" alt="CERN"><img class="cern on-dark" src="assets/logo_cern_dark.svg" alt="CERN">
+      </div>
+    </div>
+    <div class="title-art">
+      <div class="polaroid" style="transform:rotate(1.7deg)">
+        <img src="assets/fig_lund.png" alt="ALEPH primary Lund jet plane density — unfolded, charged-particle level">
+        <div class="tag">nobody had measured this before. hold that thought.</div>
+      </div>
+    </div>
+  </div>`
+},
 { id: 't-launch', act: 6, label: 'Lesson 1b — launch the agent', steps: 2, budget: 120, notes: 'Lesson 1b as on the site: Step 1 setup script on your own laptop (installs claude + pixi, points Claude Code at NRP under CLAUDE_CONFIG_DIR, ~860 MiB data, ends All set); Step 2 launch when All set. Everyone runs the fast path (rogue); I also launch the spec\'d run. Fix: NRP_MODEL=glm-5 bash jfc_setup.sh; backup: JupyterHub notebook. Compare at 02:50.', theme: 'dark', html: () => `
   <h2 class="kicker">Lesson 1b — <em>launch the agent</em>, on your laptop, now</h2>
   <div class="cols" style="align-items:stretch">
@@ -806,6 +816,30 @@ cat prompt.md | claude --permission-mode auto</pre>
       </div>
       <p class="lead" data-step="2" style="margin:1.4vmin 0 0; font-size:clamp(12px,1.55vmin,18px)">Dies with <em>“Content block is not a text block”</em>? <span class="mono" style="white-space:nowrap">NRP_MODEL=glm-5 bash jfc_setup.sh</span>, then Step 2 again. Still stuck: the JupyterHub backup notebook, or an instructor. <b>We compare in Lesson 5, at the end.</b> <span class="hl">Predictions?</span></p>
     </div>
+  </div>`
+},
+{ id: 'anatomy', act: 1, label: 'The anatomy of an analysis', steps: 1, budget: 60, notes: 'arc: channel→lit→selection→syst→unblind; delegate the middle', theme: 'paper', thumb: 'assets/dario_world.png', html: () => `
+  <h2 class="kicker">A typical HEP analysis — <em>years</em> of a life, mostly algorithmic</h2>
+  <div class="cols">
+    <div class="col" style="flex:1">
+      <ul class="talk">
+        <li>Channel → literature → selection → systematics → <strong>unblind &amp; infer</strong><small>the same arc, every analysis, every collaboration</small></li>
+        <li>Thousands of lines of code, echoing dozens of prior analyses<small>little physics insight — slow, tedious, error-prone</small></li>
+        <li><span class="hl">Most of it can be delegated to agents</span><small>code, docs, debugging, self-critique — judgment is the part that does not delegate</small></li>
+      </ul>
+    </div>
+    <div class="col" style="flex:1.35; align-self:center">
+      <div class="fig zoomable auto"><img src="assets/dario_world.png" alt="one year around the analysis loop vs three hours"></div>
+      <div class="figcap">a year around the loop — or an afternoon · artist's impression, liberties taken</div>
+    </div>
+  </div>`
+},
+{ id: 'claim', act: 1, label: 'The claim', steps: 1, budget: 30, notes: 'not speculative — the room tests it: everyone launches one', thumb: 'assets/ovthumb_claim.jpg', theme: 'dark', html: () => `
+  <div class="statement">
+    <h1>This is <em>not</em> a speculative claim.</h1>
+    <div class="lead">Given a dataset, a framework and the prior literature, Claude Code completes the chain:<br>selection → backgrounds → systematics → inference → <b>a written analysis note</b>.</div>
+    <div class="lead" style="font-family:var(--serif); font-style:italic; font-size:clamp(19px,2.9vmin,36px); color:var(--ink)">
+      So rather than only telling you — let's <span class="hl">test</span> it, together.<span class="cursor">▌</span></div>
   </div>`
 },
 { id: 'launch', act: 1, label: 'Ignition', steps: 2, budget: 60, notes: 'prompt + 1 approval = all human input; ×235 replay', thumb: 'assets/ovthumb_launch.jpg', theme: 'dark', term: 'dock', html: () => `
@@ -1183,17 +1217,6 @@ curl -fsSL <span class="hl2">…/workspace/</span>check.sh | bash -s 5</pre>
     <p class="lead" style="margin:0">${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> · <a href="https://github.com/violatingcp/h4l_agent_test" target="_blank" rel="noopener">h4l_agent_test</a> · <a href="https://training.nrp-nautilus.io/clariphy/5_analysis.html" target="_blank" rel="noopener">Lesson 5</a></p>
   </div>`
 },
-{ id: 't-resources', act: 6, label: 'Resources', steps: 1, budget: 60, notes: 'NRP: free with an NRP account, token at nrp.ai → /llmtoken, /v1 + /anthropic, fair-use concurrency limits. Claude Team Plan for Scientists (27 Aug): PI-or-equivalent at accredited universities / nonprofit institutes applies, up to 25 lab members, standard seats free, premium $15/mo (5× usage) for 12 months, no training on your data, verification 5–7 days, for-profit excluded. ChatGPT for Academic Researchers (29 Jul): faculty and postdocs at research-active degree-granting institutions, an arXiv/bioRxiv/ChemRxiv paper in the last 3 years, Pro-level ChatGPT + Codex + Work, +4 collaborators, 10k seats now → 100k through 2027, waitlist/lottery since 10 Aug. Punchline: students go through their PI.', theme: 'dark', term: 'dock', html: () => `
-  <h2 class="kicker">Resources — <em>most of this room is eligible</em></h2>
-  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:2vmin; min-height:0">
-    <div class="cardgrid" style="grid-template-columns:1fr 1fr 1fr">
-      <div class="kcard" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">NRP-managed LLMs</div><div class="ds"><b>Who:</b> anyone with an NRP account (institutional login) · free<br><b>What:</b> open weights on NRP GPUs — <span class="mono">gpt-oss · glm-5 · kimi · qwen3 · minimax-m2</span> — via <span class="mono">/v1</span> (OpenAI) and <span class="mono">/anthropic</span> (Claude Code)<br><b>Conditions:</b> fair-use policy, per-model concurrency limits<br><a href="https://nrp.ai/documentation/userdocs/ai/llm-managed/" target="_blank" rel="noopener">nrp.ai/documentation → NRP-Managed LLMs</a>, token at <span class="mono">/llmtoken</span></div></div>
-      <div class="kcard"><div class="nm">Claude Team Plan for Scientists</div><div class="ds"><b>Who:</b> a PI or equivalent at an accredited university or nonprofit institute applies — natural sciences, maths, CS, engineering — and adds <b>up to 25 lab members</b><br><b>What:</b> Team plan incl. Claude Code — standard seats <b>free</b>, premium <b>$15/mo</b> (5× usage) for 12 months<br><b>Conditions:</b> verification, 5–7 days · no training on your data · no for-profit labs · 10,000 seats, opened 27 Aug<br><a href="https://claude.com/programs/team-plan-for-scientists" target="_blank" rel="noopener">claude.com/programs → team-plan-for-scientists</a></div></div>
-      <div class="kcard"><div class="nm">ChatGPT for Academic Researchers</div><div class="ds"><b>Who:</b> research faculty and postdocs at research-active degree-granting institutions, with an arXiv paper in the last 3 years — plus <b>4 invited collaborators</b><br><b>What:</b> Pro-level ChatGPT + <b>Codex</b> + ChatGPT Work, free<br><b>Conditions:</b> 10,000 seats now, 100,000 through 2027 — waitlist since 10 Aug · no training on your data by default<br><a href="https://openai.com/index/chatgpt-for-academic-researchers/" target="_blank" rel="noopener">openai.com/index → chatgpt-for-academic-researchers</a></div></div>
-    </div>
-    <p class="lead" style="margin:0"><b>Students and postdocs:</b> the seats come through your PI — 25 on Claude, 4 on ChatGPT — <span class="hl">ask this week</span>. NRP needs no PI. <span style="color:var(--ink40)">Every run in the earlier table fits inside one of these.</span></p>
-  </div>`
-},
 { id: 't-close', act: 6, label: 'Discussion', steps: 2, budget: 45, notes: 'framework is the product; portability; human gates load-bearing; honest reporting → Tuesday parallel', theme: 'dark', term: 'dock', html: () => `
   <h2 class="kicker">What to take <em>home</em></h2>
   <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:3vmin; min-height:0">
@@ -1567,7 +1590,7 @@ const SKIP_PROFILES = {
   results: ['context', 'repo', 'phases', 'review', 'gate'],        // skip framework internals — results-first crowd
   fermilab: [],                                                    // 11 Sep 2026 cut: full deck + wave + demo (~18:10)
   fermilab15: ['repo', 'models', 'meaning'],                       // the same, 15-min core with wave + demo (~16:00)
-  tutorial: ['title', 'repo', 'menu', 'htautau', 'models', 'ladder', 'wave', 'forward', 'demo', 'meaning', 'finale'],   // CLARIPHY 14 Sep: open → intro → launch · closer (~17:30)
+  tutorial: ['title', 'repo', 'menu', 'htautau', 'models', 'ladder', 'wave', 'forward', 'demo', 'meaning', 'finale'],   // CLARIPHY 14 Sep: title → goal → JFC → resources → outline → setup ·· launch → talk ·· Lesson 5 closers
 };
 const Skips = (() => {
   const KEY = 'jfc-skips';
