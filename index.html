@@ -216,8 +216,10 @@ table.stack.rsc { font-size: clamp(12px,1.75vmin,21px); }
 table.stack.rsc th, table.stack.rsc td { padding: 1.5vmin 1.6vmin; vertical-align: top; line-height: 1.35; }
 table.stack.rsc thead th { font-family: var(--mono); font-weight: 600; color: var(--ink60); font-size: .82em; letter-spacing: .04em; }
 table.stack.rsc td small { display: block; margin-top: .35vmin; font-size: .8em; color: var(--ink40); line-height: 1.35; }
-table.stack.rsc td:first-child { width: 19%; }
+table.stack.rsc td:first-child { width: 18%; }
 table.stack.rsc th:nth-child(2), table.stack.rsc td:nth-child(2) { width: 19%; }
+table.stack.rsc th:nth-child(4), table.stack.rsc td:nth-child(4) { white-space: nowrap; width: 1%; }
+table.stack.rsc td:nth-child(4) small { white-space: normal; max-width: 14ch; }
 table.stack.rsc th:nth-child(6), table.stack.rsc td:nth-child(6) { width: 15%; }
 table.stack.rsc td:first-child b { color: var(--accent); }
 table.stack.rsc tr.today td { background: color-mix(in srgb, var(--live) 9%, transparent); }
@@ -661,10 +663,10 @@ const TUT_ROWS = [
   ['l4',      'Lesson 4',  '<b>Build a simple agent</b> — tool calling &amp; the agent loop, in ~30 lines of Python', 'Daniel', '40 min'],
   ['l5',      'Lesson 5',  '<b>Check in on the agent</b> — what it produced · what good looks like · how it ran on NRP · the take-home', 'both', '10 min'],
 ];
-const tutOutline = (hl, kicker, lead = '') => `
+const tutOutline = (hl, kicker, lead = '', sub = '') => `
   <h2 class="kicker">${kicker}</h2>
   <div class="phases">
-    ${TUT_ROWS.map(([k, n, what, who, t]) => `<div class="ph${k === hl ? ' gate' : ''}"><span class="n">${n}</span><span class="what">${what}</span><span class="art">${who}</span><span class="rev">${t}</span></div>`).join('\n    ')}
+    ${TUT_ROWS.map(([k, n, what, who, t]) => `<div class="ph${k === hl ? ' gate' : ''}"><span class="n">${n}</span><span class="what">${what}</span><span class="art">${who}</span><span class="rev">${t}</span>${k === hl && sub ? `<div class="sub">${sub}</div>` : ''}</div>`).join('\n    ')}
   </div>${lead ? `\n  <p class="lead" style="margin-top:1.4vmin">${lead}</p>` : ''}`;
 const SCENES = [
 { id: 't-title', act: 6, label: 'Tutorial title', steps: 1, budget: 30, notes: 'Daniel first; chairs Elmer + Dasu; 11:00–14:00 Madison; lander = the JFC workflow chart', theme: 'paper', thumb: 'assets/fig_pipeline.png', html: () => `
@@ -729,7 +731,7 @@ const SCENES = [
           <td><b>NRP-managed LLMs</b><small>today · no subscription</small></td>
           <td>anyone with an <b>NRP account</b><small>institutional login</small></td>
           <td>open weights on NRP GPUs<small><span class="mono">/v1</span> (OpenAI API) · <span class="mono">/anthropic</span> (Claude Code)</small></td>
-          <td><div>gpt-oss</div><div>glm-5</div><div>qwen3</div><div>minimax-m2</div><div>kimi</div><div>gemma</div><small>open weights; roster moves</small></td>
+          <td><div>gpt-oss</div><div>glm-5</div><div>qwen3</div><div>minimax-m2</div><div>kimi</div><div>gemma</div><small>roster moves</small></td>
           <td><b>free</b><small>fair use · per-model concurrency limits</small></td>
           <td><a href="https://nrp.ai/documentation/userdocs/ai/llm-managed/" target="_blank" rel="noopener">nrp.ai → NRP-Managed LLMs</a><small>token at <span class="mono">/llmtoken</span></small></td>
         </tr>
@@ -745,7 +747,7 @@ const SCENES = [
           <td><b>ChatGPT for Academic Researchers</b><small>OpenAI · since 29 Jul</small></td>
           <td><b>faculty and postdocs</b> apply themselves — plus <b>4 collaborators</b><small>an arXiv paper in the last 3 years</small></td>
           <td>ChatGPT + <b>Codex</b> + ChatGPT Work<small>higher limits — tier not specified</small></td>
-          <td><div>GPT-6 Astra</div><div>GPT-5.6 Sol</div><div>GPT-5.6 Luna</div><div>GPT-5.6 Terra</div><div>GPT-5.5</div><small>“GPT-5.6 family” on the program page</small></td>
+          <td><div>GPT-6 Astra</div><div>GPT-5.6 Sol</div><div>GPT-5.6 Luna</div><div>GPT-5.6 Terra</div><div>GPT-5.5</div><small>the page says “GPT-5.6 family”</small></td>
           <td><b>free</b><small>10,000 seats now → 100,000 through 2027 · waitlist</small></td>
           <td><a href="https://openai.com/index/chatgpt-for-academic-researchers/" target="_blank" rel="noopener">openai.com → ChatGPT for Academic Researchers</a></td>
         </tr>
@@ -783,7 +785,7 @@ curl -fsSL https://pixi.sh/install.sh | PIXI_NO_PATH_UPDATE=1 sh</pre>
     </div>
   </div>`
 },
-{ id: 't-setup2', act: 6, size: 'roomy', label: 'Lesson 1 — over to Daniel', steps: 1, budget: 20, notes: 'Hand-off: Lesson 1 on the site (20 min, Daniel) — NRP account, clariphy namespace (ask Daniel), token at nrp.ai/llmtoken, verify, training hub. Downloads keep running.', theme: 'paper', html: () => tutOutline('l1', 'Lesson 1 — <em>over to Daniel</em>', '<b>Downloads still running?</b> Leave them. Back here in 20 minutes with your token — <a href="https://training.nrp-nautilus.io/clariphy/1_intro.html" target="_blank" rel="noopener">training.nrp-nautilus.io/clariphy → Introduction — LLMs on NRP</a>') },
+{ id: 't-setup2', act: 6, size: 'roomy', label: 'Lesson 1 — over to Daniel', steps: 1, budget: 20, notes: 'Hand-off: Lesson 1 on the site (20 min, Daniel) — NRP account, clariphy namespace (ask Daniel), token at nrp.ai/llmtoken, verify, training hub. Downloads keep running.', theme: 'paper', html: () => tutOutline('l1', 'Lesson 1 — <em>over to Daniel</em>', '<b>Downloads still running?</b> Leave them. Back here in 20 minutes with your token.', '<ul><li><a href="https://training.nrp-nautilus.io/clariphy/1_intro.html" target="_blank" rel="noopener">training.nrp-nautilus.io/clariphy → Introduction — LLMs on NRP</a> — the account, the <b>clariphy</b> namespace, <b>nrp.ai/llmtoken</b>, a first call to the endpoint, the training hub</li></ul>') },
 { id: 'title', act: 1, label: 'Title', steps: 1, budget: 35, notes: 'cast loads behind title — chip goes ready; 42.9 h run', theme: 'paper', thumb: 'assets/fig_lund.png', html: () => `
   <div class="title-wrap">
     <div class="title-left">
