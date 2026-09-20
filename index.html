@@ -256,6 +256,7 @@ table.stack td.forb { font-family: var(--mono); color: #c1272d; text-decoration:
 .logos img { height: 4.4vmin; width: auto; display: block; }
 .logos img.cern { height: 5.8vmin; }
 .logos img.ucsd { height: 3.3vmin; }
+.logos img.cms { height: 5.2vmin; }
 .theme-swap img.on-dark { display: none; }
 :root[data-theme="dark"] .theme-swap img.on-dark { display: block; }
 :root[data-theme="dark"] .theme-swap img.on-light { display: none; }
@@ -333,6 +334,13 @@ table.stack tr.truth td:first-child { box-shadow: inset 3px 0 var(--live); }
   border-radius: 10px; padding: 1vmin 1.3vmin; font-family: var(--mono); color: var(--live);
   font-size: clamp(11px,1.6vmin,19px); font-weight: 700; text-align: center; }
 .gf-gate small { font-weight: 400; font-size: .72em; color: var(--ink60); line-height: 1.5; }
+/* gate scenes that hand off to a standalone interlude page (the wall, the two curves) */
+.gate { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2.2vmin; text-align: center; }
+.gate .lead { max-width: 62ch; }
+.gate a.go { display: inline-block; padding: .55em 1.3em; border: 1.5px solid var(--accent); border-radius: 999px;
+  color: var(--accent); text-decoration: none; font-family: var(--mono); font-size: clamp(14px, 2vmin, 24px); }
+.gate a.go:hover { background: var(--chip); }
+.gate .ret { font-family: var(--mono); font-size: clamp(10px, 1.3vmin, 14px); color: var(--ink40); }
 /* scrollable page mosaic */
 .fig.scrolly { overflow-y: auto; cursor: ns-resize; }
 .fig.scrolly img { height: auto; }
@@ -564,7 +572,7 @@ body.editing .scene [contenteditable="true"] { user-select: text; -webkit-user-s
    ================================================================================================ */
 const $ = (s, el) => (el || document).querySelector(s);
 const $$ = (s, el) => Array.from((el || document).querySelectorAll(s));
-const AX = { 1: 'Act I · The claim', 2: 'Act II · Just furnish context', 3: 'Act III · The receipts', 4: 'Act IV · The way forward', 5: 'Backup', 6: 'CLARIPHY tutorial' };
+const AX = { 1: 'Act I · The claim', 2: 'Act II · Just furnish context', 3: 'Act III · The receipts', 4: 'Act IV · The way forward', 5: 'Backup', 6: 'CLARIPHY tutorial', 7: 'CMS masterclass' };
 const arxiv = r => `<a href="https://arxiv.org/abs/${r}" target="_blank" rel="noopener">arXiv:${r}</a>`;
 /* GitHub-icon link: the icon is the ONLY click target — plain text never hyperlinks,
    so clicking anywhere else still advances the deck */
@@ -1511,6 +1519,218 @@ anchor. <b>Both are stated plainly throughout.</b></pre>
 },
 ];
 
+/* ============================================= CMS masterclass (22 Sep 2026) ============================================= */
+/* One-hour internal masterclass cut. New scenes live here, spliced into the flow; shared scenes are
+   reused as-is or cloned with a text patch (cloneScene) so the source stays single. Profile: ?profile=masterclass */
+const cloneScene = (id, patch, fix) => { const o = SCENES.find(s => s.id === id);
+  return { ...o, ...patch, html: () => fix ? fix(o.html()) : o.html() }; };
+const insertAfter = (afterId, ...scs) => { const i = SCENES.findIndex(s => s.id === afterId); SCENES.splice(i + 1, 0, ...scs); };
+const insertBefore = (beforeId, ...scs) => { const i = SCENES.findIndex(s => s.id === beforeId); SCENES.splice(i, 0, ...scs); };
+const WALL_RET = encodeURIComponent('../../index.html?profile=masterclass#m-title');
+const WALL_URL = `assets/wall/wall.html?ret=${encodeURIComponent('plane.html?ret=' + WALL_RET)}`;
+const H4L = [   // the five reference notes (Phil Harris, h4l_agent_test/analysis_notes, June 2026) — anonymised first, named on reveal
+  { f: 'jfc_opus48_low', anon: 'A', who: 'JFC · Opus 4.8 low effort', res: '129.6 ± 1.2 · μ = 1.72 · +2.4σ stated', jfc: true },
+  { f: 'rogue_opus48',   anon: 'B', who: 'rogue · Opus 4.8',           res: '125 template · μ = 0.31 · 129 only in a follow-up', jfc: false },
+  { f: 'jfc_codex',      anon: 'C', who: 'JFC · Codex',                res: '128.6 GeV · μ = 1.65', jfc: true },
+  { f: 'rogue_sonnet46', anon: 'D', who: 'rogue · Sonnet 4.6',         res: '128.9 GeV · μ = 1.29 · no tension noted', jfc: false },
+  { f: 'jfc_opus48',     anon: 'E', who: 'JFC · Opus 4.8',             res: '130.5 ± 1.1 · μ = 1.00 · flagged', jfc: true },
+];
+const ROT = [-1.2, 1.3, -.9, 1.6, -1.4];
+
+insertBefore('title',
+{ id: 'm-cold', act: 7, label: 'Cold open · the wall', steps: 1, budget: 240, theme: 'dark', notes: 'START HERE, on the wall page itself (F for fullscreen). Beats on space: fill by PAG → composition (592/753 model-specific) → Run 1 verdicts (191 re-run, 13 never, a decade by hand) → Run 2 stale (351/369) → the agent job. Hover a red tile if asked. Space past the last beat → the two-curves page (shelf climbs, human capacity flat, red debt, green agentic wedge from 2026, thesis) → space again lands on the deck title. Esc/0 bail out at any time.', html: () => `
+  <div class="gate">
+    <h1 style="font-size:clamp(28px,4.6vmin,60px)">Cold open — <em>the wall</em></h1>
+    <p class="lead">Every published CMS search since 2010, sorted by the data it analysed, and what happened to each one next. Then the two curves: searches climb, the people to re-run them do not. Runs as its own page, ≈4 min for both.</p>
+    <a class="go" href="${WALL_URL}">▶ open the wall</a>
+    <div class="ret">at the end of the two curves, <b>space</b> returns to the title · <b>Esc</b> or <b>0</b> bail out to the title at any time</div>
+  </div>`
+},
+{ id: 'm-title', act: 7, label: 'Title', steps: 1, budget: 30, theme: 'paper', thumb: 'assets/h4l_notes/jfc_opus48.png', notes: 'One hour: ~40 min talk, the rest questions. The cast loads behind this slide (chip goes ready). Say what the wall was: their publications, public pages, audited by agents.', html: () => `
+  <div class="title-wrap">
+    <div class="title-left">
+      <h1>Agents that do the <em>whole</em> analysis</h1>
+      <div class="rule"></div>
+      <p class="lead" style="max-width:34ch">What autonomous agents already did on CMS Open Data and LEP archives, where they break, and how to furnish context for a CMS analysis.</p>
+      <span class="arxiv-chip">${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a></span>
+      <div class="authors">
+        <img src="assets/author_eric.jpg" alt="Eric Moreno"><img src="assets/author_sam.jpg" alt="Sam Bright-Thonney"><img src="assets/author_andrzej.jpg" alt="Andrzej Novak"><img src="assets/author_dolores.jpg" alt="Dolores Garcia"><img src="assets/author_yiyang.jpg" alt="Yiyang Zhao"><img src="assets/author_philip.jpg" alt="Phil Harris">
+        <span class="nm">Eric Moreno* · Sam Bright-Thonney* · <b style="color:var(--ink)">Andrzej Novak*</b> · Dolores Garcia · Yiyang Zhao · Philip Harris<br><small>* equal contribution · MIT / IAIFI / CERN</small></span>
+      </div>
+      <div class="who" style="margin-top:2.6vmin"><b>Andrzej Novak</b> · MIT — <em>CMS internal masterclass</em><br>22 September 2026 · one hour, questions welcome throughout</div>
+      <div class="logos theme-swap">
+        <img class="on-light" src="assets/logo_mit_light.svg" alt="MIT"><img class="on-dark" src="assets/logo_mit_dark.svg" alt="MIT">
+        <img class="cern on-light" src="assets/logo_cern_light.svg" alt="CERN"><img class="cern on-dark" src="assets/logo_cern_dark.svg" alt="CERN">
+        <img class="cms on-light" src="assets/logo_cms_light.png" alt="CMS"><img class="cms on-dark" src="assets/logo_cms_dark.png" alt="CMS">
+      </div>
+    </div>
+    <div class="title-art">
+      <div class="polaroid" style="transform:rotate(1.7deg)">
+        <img src="assets/h4l_notes/jfc_opus48.png" alt="four-lepton mass, agent-written analysis note on a synthetic 10 fb⁻¹ H→4ℓ sample">
+        <div class="tag">an agent wrote this note. it also wrote the fine print. hold that thought.</div>
+      </div>
+    </div>
+  </div>`
+},
+{ id: 'm-poll', act: 7, label: 'Hands up', steps: 3, budget: 60, theme: 'dark', notes: 'Calibrate the room. Three hands-up questions, escalating. Keep hands up. If the third question gets more than a few hands, go faster through Act II and slower through the exercise and the CMS slide; if almost none, the reverse.', html: () => `
+  <h2 class="kicker">Before we start — <em>hands up</em></h2>
+  <div class="statement" style="gap:3.6vmin; align-items:flex-start; text-align:left; padding-left:6%">
+    <div class="mstate"><div class="big" style="font-size:clamp(26px,4.6vmin,62px)"><span style="color:var(--ink40); font-family:var(--mono); font-size:.55em; vertical-align:middle; margin-right:.6em">1</span>You used an LLM for physics <em>this month</em>.</div></div>
+    <div class="mstate" data-step="2"><div class="big" style="font-size:clamp(26px,4.6vmin,62px)"><span style="color:var(--ink40); font-family:var(--mono); font-size:.55em; vertical-align:middle; margin-right:.6em">2</span>You ran Claude Code or Codex <em>inside</em> your analysis code.</div></div>
+    <div class="mstate" data-step="3"><div class="big" style="font-size:clamp(26px,4.6vmin,62px)"><span style="color:var(--ink40); font-family:var(--mono); font-size:.55em; vertical-align:middle; margin-right:.6em">3</span>You left an agent working <em>unattended</em> for more than an hour.</div>
+      <div class="sub" style="margin-top:1.6vmin">Keep them up. The third hand decides how fast the next forty minutes go.</div></div>
+  </div>`
+},
+cloneScene('claim', { id: 'm-claim', act: 7, notes: 'the paper title IS the claim; the ALEPH recording is ours, it plays beside the slides from the next scene on' },
+  h => h.replace(`So rather than only telling you — let's <span class="hl">test</span> it, together.<br>Yours are running now. Here is ours — recorded, start to finish.`,
+                 `So rather than only telling you — here are the <span class="hl">receipts</span>.<br>One real run, recorded start to finish, plays beside the slides.`)),
+);
+
+insertAfter('cost',
+cloneScene('honest', { id: 'm-honest', act: 7, label: 'Where it breaks', budget: 80,
+  notes: 'Promoted from backup: a masterclass teaches the failure modes. Left = the loop catches; right = still yours. Signature failure: correct diagnosis, deferred treatment.' }),
+cloneScene('b-review-war', { id: 'm-warstories', act: 7, label: 'What review caught', budget: 60,
+  notes: 'Four concrete catches: the tt̄ prior (0.34 → 1.20), the GOF test that always passed, the over-claimed generator exclusion, the unfoldable unfolding systematic.' },
+  h => h.replace('Backup — what review actually caught', 'What review actually <em>caught</em>')),
+cloneScene('b-fabrication', { id: 'm-fabrication', act: 7, label: 'Anti-fabrication', budget: 50,
+  notes: 'The standing rule: never tune to match. Numbers never from memory. Verdicts bind. Everything in git — the diff is the deterrent.' },
+  h => h.replace('Backup — review findings are <em>closed-loop</em>, not advisory', 'Review findings are <em>closed-loop</em>, not advisory')),
+{ id: 'm-exercise', act: 7, size: 'roomy', label: 'Exercise · which would you sign?', steps: 3, budget: 300, theme: 'dark', thumb: 'assets/h4l_notes/jfc_codex.png',
+  notes: 'THE EXERCISE. Step 1: five anonymised money plots, same prompt, same synthetic 10 fb⁻¹ H→4ℓ sample, each from a full agent-written note. "You are the ARC — hands up for the one you would approve." Take 2–3 answers, ask why. Step 2 REVEAL: the sample was built with mH = 129 GeV, μ = 1.8 injected; nobody was told. Every run finds the bump. Step 3: names. Rogue = a folder with the prompt, the ntuplizer and the two cited papers, nothing else. JFC = the spec. The rogue Opus run fit a 125 template and reported μ = 0.31; the spec\'d runs measure the mass and say so. Judge the process, not the number. Source: Phil Harris, h4l_agent_test/analysis_notes, June 2026; click any plot to zoom.', html: () => `
+  <h2 class="kicker">Same prompt, same data, five notes — <em>which would you sign?</em></h2>
+  <div class="tg-wall" style="justify-content:flex-start; gap:1.6vmin">
+    <p class="lead" style="margin:0">You are the ARC. Each plot is the money plot of a complete, agent-written analysis note on the same 10 fb⁻¹ H→ZZ*→4ℓ sample, from the same three-line prompt. <b>Hands up for the one you would approve.</b></p>
+    <div class="snapwall">
+      ${H4L.map((n, i) => `<div class="polaroid" style="transform:rotate(${ROT[i]}deg)"><div class="fig zoomable auto"><img src="assets/h4l_notes/${n.f}.png" alt="${n.who} — four-lepton mass"></div>
+        <div class="tag"><span class="anon"><b>${n.anon}</b></span><span class="real" hidden><b style="color:${n.jfc ? 'var(--green)' : 'var(--live)'}">${n.who}</b><br>${n.res}</span></div></div>`).join('\n      ')}
+    </div>
+    <div class="mstate reveal" data-step="2"><div class="big" style="font-size:clamp(20px,3.4vmin,44px)">The sample was built with m<sub>H</sub> = 129 GeV, μ = 1.8 <em>injected</em> — nobody was told.</div>
+      <div class="sub">Every run finds the bump. The question was never the number; it is whether the note <b>says so</b>, and whether you could tell from the note alone.</div></div>
+    <p class="lead reveal" data-step="3" style="margin:0"><b style="color:var(--live)">rogue</b> = a folder with the prompt, the ntuplizer and the two cited papers, nothing else · <b style="color:var(--green)">JFC</b> = the same, plus the spec. The rogue Opus run fit a 125 GeV template and reported μ = 0.31; the spec'd runs measured the mass and flagged the tension. <b>Judge the process, not the number.</b></p>
+    <div class="figcap" style="text-align:left; margin:0">Money plots from Phil Harris' five reference notes, h4l_agent_test/analysis_notes, June 2026 — click to zoom. The real world, CMS 2016: 125.26 ± 0.21 GeV, μ = 1.05.</div>
+  </div>`,
+  onenter(step) { document.querySelectorAll('.scene .snapwall .anon').forEach(e => { e.hidden = step >= 3; });
+                  document.querySelectorAll('.scene .snapwall .real').forEach(e => { e.hidden = step < 3; }); }
+},
+{ id: 'm-combine', act: 7, label: 'Does it speak our tools?', steps: 1, budget: 60, theme: 'dark', thumb: 'assets/cdemo_postfit_m4l.png',
+  notes: 'The rogue Opus 4.8 follow-up run on the same synthetic sample (3 June 2026): RooFit DSCB mass fit, then a Combine datacard it wrote — shapes, lnN, a rateParam for qqZZ from the sideband, autoMCStats — FitDiagnostics and Significance. Tools are not the problem: Combine, RooFit, ROOT, mplhep are all in the training data. Group conventions are not.', html: () => `
+  <h2 class="kicker">Does it speak <em>our</em> tools? — a datacard it wrote</h2>
+  <div class="cols" style="align-items:stretch">
+    <div class="col" style="flex:1.05; display:flex; flex-direction:column; min-width:0; justify-content:center">
+      <div class="codeblock" style="flex:0 0 auto; overflow:hidden">
+        <div class="src"><b>outputs/datacard.txt</b> — rogue Opus 4.8, follow-up run, 3 June 2026 · written, filled and fitted by the agent</div>
+        <pre style="font-size:clamp(9px,1.32vmin,15px)"><span class="c"># H->ZZ->4l signal-strength datacard (10/fb, m4l in [105,365])</span>
+imax 1   jmax 3   kmax *
+shapes * ch1 datacard_shapes.root $PROCESS $PROCESS_$SYSTEMATIC
+bin          ch1
+observation  185
+bin          ch1        ch1        ch1        ch1
+process      signal     qqZZ       ggZZ       zjets
+process      0          1          2          3
+rate         7.0892   198.3542  38.2065   7.1278
+lumi_13TeV   lnN  1.023      -          1.023      1.023
+ggZZ_norm    lnN  -          -          1.30       -
+zjets_norm   lnN  -          -          -          1.40
+<span class="c"># qqZZ irreducible background normalization measured in-situ from the sideband</span>
+<span class="hl2">qqZZ_scale   rateParam ch1 qqZZ 1 [0.2,3.0]</span>
+* autoMCStats 0 1 1</pre>
+      </div>
+    </div>
+    <div class="col" style="flex:1; display:flex; flex-direction:column; gap:1.4vmin; min-width:0; justify-content:center">
+      <div class="fig zoomable" style="flex:0 0 auto; height:58%"><img src="assets/cdemo_postfit_m4l.png" alt="post-fit four-lepton mass, 70–170 GeV, agent-run Combine fit"></div>
+      <ul class="talk" style="font-size:clamp(12px,1.7vmin,20px)">
+        <li><span class="mono">m<sub>H</sub> = 129.2 ± 0.5 GeV</span> — RooFit double-sided Crystal Ball, resolution from MC<small>μ = 1.55 <sup>+0.63</sup><sub>−0.53</sub> · 3.8σ · qqZZ floated to 0.64 from the m<sub>4ℓ</sub> &gt; 140 GeV sideband</small></li>
+        <li><strong>The tools were never the problem.</strong> Combine, RooFit, ROOT, mplhep, pixi: all in the training data<small>what is <em>not</em> in the training data is your group's conventions — that is what you furnish</small></li>
+      </ul>
+    </div>
+  </div>`
+},
+{ id: 'm-cms', act: 7, label: 'Furnishing context for a CMS analysis', steps: 2, budget: 300, theme: 'dark',
+  notes: 'THE MASTERCLASS SLIDE. JFC asks for three folders; a CMS group already owns all three, just not written down in one place. methodology = the AN skeleton + CADI workflow + your PAG pre-approval checklist + the unblinding policy. conventions = pub-comm guidelines, POG object recommendations and SFs, NanoAOD field names, your plot style, Combine datacard habits. agents = the ARC questions you always get, written down as reviewers; the gate = pre-approval/unblinding, never opened by the agent. Right: a conventions file that fits on a slide — this is the homework. Step 2: what stays yours.', html: () => `
+  <h2 class="kicker">Furnishing context for a <em>CMS</em> analysis — you already own most of it</h2>
+  <div class="cols" style="align-items:stretch; gap:2.4%">
+    <div class="col" style="flex:1.05; display:flex; flex-direction:column; gap:1.3vmin; min-width:0; justify-content:center">
+      <div class="kcard"><div class="nm">methodology/ <span style="color:var(--ink40); font-weight:400">— how an analysis proceeds</span></div><ul class="mini">
+        <li>the AN skeleton and the CADI workflow, phase by phase</li>
+        <li>your PAG's pre-approval checklist, verbatim</li>
+        <li>the blinding and unblinding policy — as a <b>gate</b>, not a paragraph</li></ul></div>
+      <div class="kcard"><div class="nm">conventions/ <span style="color:var(--ink40); font-weight:400">— what no model can guess</span></div><ul class="mini">
+        <li>POG object recommendations, scale factors, the golden JSON</li>
+        <li>NanoAOD field names, your group's plot style, Combine habits</li>
+        <li>pub-comm guidelines — labels, uncertainties, what "Preliminary" means</li></ul></div>
+      <div class="kcard"><div class="nm">agents/ <span style="color:var(--ink40); font-weight:400">— review tiers as reviewers</span></div><ul class="mini">
+        <li>the ARC questions you always get, written down once</li>
+        <li>the CWR comments from your last paper, as a checklist</li>
+        <li>the physics validator: cutflow monotonic, efficiencies ∈ [0,1], √N</li></ul></div>
+    </div>
+    <div class="col" style="flex:1; display:flex; flex-direction:column; min-width:0; justify-content:center; gap:1.3vmin">
+      <div class="codeblock">
+        <div class="src"><b>conventions/cms-h4l.md</b> — a conventions file that fits on a slide · the homework</div>
+        <pre style="font-size:clamp(9.5px,1.38vmin,16px)"><span class="c"># objects — cite the POG twiki revision you follow</span>
+- NanoAODv12 · muons: mediumId, pfRelIso04_all &lt; 0.15
+- SFs via correctionlib from the POG JSONs; never hand-typed
+<span class="c"># blinding — enforced, not requested</span>
+- <span class="hl2">no data in m4l ∈ [115, 135] GeV before the gate</span>
+- expected results first; observed only after the gate
+<span class="c"># plots — mplhep CMS style</span>
+- "Work in progress" label; lumi from the golden JSON total
+- every figure re-made from results/*.json, never edited
+<span class="c"># fits — Combine</span>
+- every nuisance justified in the AN before it enters a datacard
+- report the impacts; a pull &gt; 1σ needs a sentence</pre>
+      </div>
+      <p class="lead" style="margin:0; font-size:clamp(12px,1.65vmin,19px)">Twelve lines. Written the way you would brief a new student — because that is exactly what it is.</p>
+    </div>
+  </div>
+  <div class="cardgrid" data-step="2" style="grid-template-columns:repeat(4,1fr); margin-top:1.4vmin">
+    <div class="kcard dim" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">still yours</div><div class="ds">choosing the measurement worth doing</div></div>
+    <div class="kcard dim" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">still yours</div><div class="ds">the technique — the tagger, the trigger, the method</div></div>
+    <div class="kcard dim" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">still yours</div><div class="ds">the collaboration — approval, committees, authorship</div></div>
+    <div class="kcard dim" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">still yours</div><div class="ds">reading the note as if you were going to sign it</div></div>
+  </div>`
+},
+);
+
+insertAfter('wave',
+cloneScene('t-resources', { id: 'm-resources', act: 7, notes: 'Two of the three are free for most of this room. NRP is US-institution access — the row is here for completeness. Claude Team Plan for Scientists: a PI applies, 25 lab members, free standard seats, 12 months. ChatGPT for Academic Researchers: faculty and postdocs apply themselves, +4 collaborators. CERN/CMS-provided options: check with IT before quoting anything.' },
+  h => h.replace('<tr class="today">', '<tr>')
+        .replace('<small>today · no subscription</small>', '<small>US institutions · no subscription</small>')
+        .replace('NRP needs no PI.', 'NRP: through a US institution.')),
+);
+insertAfter('forward',
+cloneScene('forward', { id: 'm-forward', act: 7, notes: 'sealed-truth H→4ℓ benchmark in review: the answer to "could it have just recalled the published number". Variance: one run is one sample. The four practices that held up.' },
+  h => h.replace(' (G. Fleming, Wed.)', '')),
+);
+insertAfter('finale',
+{ id: 'm-close', act: 7, label: 'One line', steps: 1, budget: 45, theme: 'dark', notes: 'The callback to the wall. Then questions — G summons the terminal on any scene if someone asks about the run.', html: () => `
+  <div class="statement" style="gap:3vmin">
+    <h1 style="font-size:clamp(38px,6.4vmin,90px)">The tedium is real — <em>and so is the physics.</em></h1>
+    <p class="lead" style="max-width:60%">Agents re-run the wall every time the dataset doubles. People build what comes next. The framework is a spec, not a codebase — fork it for your channel.</p>
+    <p class="lead mono" style="font-size:clamp(11px,1.5vmin,17px); color:var(--ink40)">${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> · <a href="https://github.com/jfc-mit/jfc" target="_blank" rel="noopener">github.com/jfc-mit/jfc</a> · these slides: <a href="https://jfc-mit.github.io/jfc-talk/" target="_blank" rel="noopener">jfc-mit.github.io/jfc-talk</a></p>
+    <p class="lead" style="font-family:var(--serif); font-style:italic; color:var(--ink)">Thank you — questions.</p>
+  </div>`
+},
+);
+SCENES.push(
+{ id: 'm-policy', act: 5, label: 'Backup · policy — what I know, what I don\'t', steps: 1, budget: 0, theme: 'dark',
+  notes: 'FOR THE QUESTION THAT WILL COME. Left column is fact (the paper). Right column is the checklist, not policy: I have not verified CMS or CERN rules on external LLM APIs for internal data — say "check the twiki / ask the Publications Committee", do not improvise a rule in a CMS room.', html: () => `
+  <h2 class="kicker">Backup — policy: what I <em>know</em>, what I don't</h2>
+  <div class="cols" style="align-items:stretch">
+    <div class="col grow"><div class="kcard" style="height:100%; border-left-color:var(--green)"><div class="nm" style="color:var(--green)">what the paper did — facts</div><ul class="mini">
+      <li><b>public inputs only</b> — CMS Run-1 Open Data; ALEPH archived data via MIT. No CMS-internal data or documents went through any agent.</li>
+      <li><b>AI involvement disclosed</b> in the paper; headline results re-implemented independently by humans</li>
+      <li><b>audit trail</b> — append-only logs, artifacts in git, fresh reviewer per iteration; the notes are public on github.com/jfc-mit</li>
+      <li><b>human gate</b> before any full-dataset result; the agent never opened the signal region on its own</li>
+      <li>cost: one Claude Max subscription; compute where the data lives</li></ul></div></div>
+    <div class="col grow"><div class="kcard" style="height:100%; border-left-color:var(--live)"><div class="nm" style="color:var(--live)">before an agent touches CMS-internal material — check, don't assume</div><ul class="mini">
+      <li>the CMS data and document policy on sending internal material to <b>external LLM APIs</b> — what may leave CERN, and to whom</li>
+      <li>the publication policy on <b>AI-assisted text</b> and authorship — what must be disclosed, where</li>
+      <li>what your <b>ARC</b> will expect — disclosure, an audit log, an independent re-implementation of the headline</li>
+      <li>where it runs — laptop, lxplus, a cluster — and which endpoint the tokens go to</li>
+      <li style="color:var(--ink40)">I have not verified any of these for this room. Ask the Publications Committee; do not take my word for a rule.</li></ul></div></div>
+  </div>`
+});
+
 /* ============================================= layout editor ============================================= */
 /* Press E: annotation panels become draggable; overrides persist per-browser (C dumps JSON, X resets).
    Authoring-only: file:// / localhost / ?edit. Ported from the hcc-kappac talk. */
@@ -1671,6 +1891,13 @@ const SKIP_PROFILES = {
   fermilab15: ['repo', 'models', 'meaning'],                       // the same, 15-min core with wave + demo (~16:00)
   tutorial: ['title', 'repo', 'gate', 't-nrp', 'menu', 'htautau', 'models', 'ladder', 'wave', 'forward', 'demo', 'meaning', 'finale'],   // CLARIPHY 14 Sep: title → goal → JFC → resources → outline → setup ·· launch → talk ·· Lesson 5 closers
 };
+/* CMS masterclass, 22 Sep 2026: an ordered keep-list; everything else (except backups) is skipped. Other profiles skip the m-* scenes. */
+const MASTERCLASS = ['m-cold', 'm-title', 'm-poll', 'm-claim', 'anatomy', 'launch', 'framework', 'context', 'repo', 'phases', 'review', 'gate',
+  'menu', 'deliverable', 'scoreboard', 'htautau', 'lund', 'models', 'ladder', 'cost', 'm-honest', 'm-warstories', 'm-fabrication',
+  'm-exercise', 'm-combine', 'm-cms', 'wave', 'm-resources', 'm-forward', 'finale', 'm-close'];
+SKIP_PROFILES.masterclass = SCENES.filter(s => s.act !== 5 && !MASTERCLASS.includes(s.id)).map(s => s.id);
+{ const m = SCENES.filter(s => s.act === 7).map(s => s.id);
+  for (const k of Object.keys(SKIP_PROFILES)) if (k !== 'masterclass') SKIP_PROFILES[k].push(...m); }
 const PROFILE_THEME = { tutorial: 'light' };   // CLARIPHY 14 Sep: the whole cut on the paper theme
 const Skips = (() => {
   const KEY = 'jfc-skips';
@@ -1736,6 +1963,7 @@ const Deck = (() => {
   }
   /* skip-aware neighbours: hidden scenes are flowed over (still reachable via hash/overview) */
   const nextIdx = i => { for (let j = i + 1; j < SCENES.length; j++) if (!Skips.has(SCENES[j].id)) return j; return -1; };
+  const firstIdx = () => Skips.has(SCENES[0].id) ? Math.max(0, nextIdx(0)) : 0;
   const prevIdx = i => { for (let j = i - 1; j >= 0; j--) if (!Skips.has(SCENES[j].id)) return j; return -1; };
   function next() {
     tick(true);
@@ -1817,12 +2045,12 @@ const Deck = (() => {
     if (e.key === 'Escape') { if (!overlaysOff()) { buildOverview(); $('#overview').classList.add('on'); } return; }
     if (['ArrowRight', 'ArrowDown', 'PageDown', 'Enter', ' '].includes(e.key)) { e.preventDefault(); overlaysOff(); next(); }
     else if (['ArrowLeft', 'ArrowUp', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); overlaysOff(); prev(); }
-    else if (e.key === 'Home') go(0, 1);
+    else if (e.key === 'Home') go(firstIdx(), 1);
     else if (e.key === 'End') go(SCENES.length - 1, 1);
     else if (e.key === 'o' || e.key === 'O') { const ov = $('#overview');
       if (ov.classList.contains('on')) ov.classList.remove('on'); else { buildOverview(); ov.classList.add('on'); } }
     else if (e.key === 'h' || e.key === 'H') { hudOn = !hudOn; $('#hud').classList.toggle('on', hudOn); hud(); }
-    else if (e.key === 'r' || e.key === 'R') { started = null; go(0, 1); }
+    else if (e.key === 'r' || e.key === 'R') { started = null; go(firstIdx(), 1); }
     else if (e.key === 'e' || e.key === 'E') Layout.toggle();
     else if (Layout.editing && (e.key === 'c' || e.key === 'C')) Layout.dump();
     else if (Layout.editing && (e.key === 'x' || e.key === 'X')) Layout.resetScene();
@@ -1874,7 +2102,7 @@ const Deck = (() => {
 
   function fromHash() {
     const h = location.hash.slice(1);
-    if (!h) return go(0, 1);
+    if (!h) return go(firstIdx(), 1);
     const [id, st] = h.split('/');
     const i = SCENES.findIndex(s => s.id === id);
     go(i >= 0 ? i : 0, +st || 1);

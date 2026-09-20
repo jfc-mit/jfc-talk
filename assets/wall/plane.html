@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="paper">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The two curves — searches vs. the people to re-run them</title>
+<style>
+@font-face { font-family: "EB Garamond"; font-style: italic; font-weight: 400; font-display: swap; src: url("../fonts/ebgaramond-400i-latin.woff2") format("woff2"); }
+@font-face { font-family: "EB Garamond"; font-style: normal; font-weight: 400; font-display: swap; src: url("../fonts/ebgaramond-400-latin.woff2") format("woff2"); }
+@font-face { font-family: "EB Garamond"; font-style: normal; font-weight: 500; font-display: swap; src: url("../fonts/ebgaramond-500-latin.woff2") format("woff2"); }
+@font-face { font-family: "EB Garamond"; font-style: normal; font-weight: 600; font-display: swap; src: url("../fonts/ebgaramond-600-latin.woff2") format("woff2"); }
+</style>
+<style>
+:root {
+  --serif: "EB Garamond", Georgia, "Times New Roman", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+:root[data-theme="paper"] {
+  --bg: #f6f1e7; --bg2: #efe8d9; --ink: #1c1712; --ink60: rgba(28,23,18,.60); --ink40: rgba(28,23,18,.40);
+  --ink12: rgba(28,23,18,.12); --card: #fffdf8; --accent: #8a1f1f; --bar: #3568b3; --cc: #b03030; --pass: #57843f;
+}
+:root[data-theme="dark"] {
+  --bg: #07080a; --bg2: #0c0e12; --ink: #ece8e0; --ink60: rgba(236,232,224,.62); --ink40: rgba(236,232,224,.42);
+  --ink12: rgba(236,232,224,.14); --card: #14161a; --accent: #e4a23c; --bar: #5b8ed6; --cc: #d05252; --pass: #7dbb63;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { background: var(--bg); }
+html, body { height: 100%; }
+body { background: radial-gradient(120% 100% at 50% 0%, var(--bg2), var(--bg) 60%);
+  color: var(--ink); font-family: var(--sans); overflow: hidden; user-select: none; cursor: pointer; }
+canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+#titleblock { position: fixed; left: 4.5vw; top: 5.5vh; max-width: 50vw; pointer-events: none; }
+#titleblock h1 { font-family: var(--serif); font-weight: 600; font-size: clamp(20px, 2.3vw, 36px); line-height: 1.12; }
+#titleblock .sub { margin-top: .4em; font-size: clamp(12px, 1vw, 15px); color: var(--ink60); }
+#thesis { position: fixed; right: 4.5vw; top: 6.5vh; width: 27vw; text-align: right;
+  font-family: var(--serif); font-size: clamp(15px, 1.3vw, 22px); line-height: 1.45; color: var(--ink60);
+  opacity: 0; transition: opacity 900ms ease; pointer-events: none; }
+#thesis.on { opacity: 1; }
+#thesis b.g { color: var(--pass); }
+#thesis b.r { color: var(--cc); }
+#foot { position: fixed; left: 4.5vw; bottom: 2.5vh; font-family: var(--mono); font-size: 10.5px;
+  color: var(--ink40); pointer-events: none; }
+#hint { position: fixed; right: 2.2vw; bottom: 2.5vh; font-size: 12px; color: var(--ink40);
+  font-family: var(--sans); letter-spacing: .03em; pointer-events: none; }
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+<div id="titleblock">
+  <h1>The data will keep coming.<br>The people won’t.</h1>
+  <div class="sub">searches pile up on the shelf while re-analysis capacity stays flat — the program needs both halves</div>
+</div>
+<div id="thesis"><b class="g">Agents pay the debt</b> — the shelf gets re-run with every new dataset.<br>
+<b class="r">People build the techniques</b> — the taggers, triggers and methods that make the next measurement possible.</div>
+<div id="foot">real counts, 9 CMS PAGs (code-year proxy): 753 title-classified searches, 592 model-specific · both capacity curves are SCHEMATIC</div>
+<div id="hint">space / click — next beat &nbsp;·&nbsp; r — restart &nbsp;·&nbsp; d — theme &nbsp;·&nbsp; Esc / 0 — back to the deck</div>
+
+<script>
+'use strict';
+/* real per-code-year counts (cms-results public pages, 2026-08-10, 9 PAGs parsed):
+   searches = EXO+B2G+SUS (533 total); ALL = every CMS PAG publication (1,441 total) */
+const PER_YEAR = { 2010: 28, 2011: 70, 2012: 67, 2013: 43, 2014: 49, 2015: 21, 2016: 82, 2017: 80,
+                   2018: 52, 2019: 49, 2020: 47, 2021: 49, 2022: 39, 2023: 32, 2024: 38, 2025: 7 };
+const PER_ALL = { 2010: 80, 2011: 127, 2012: 134, 2013: 83, 2014: 96, 2015: 60, 2016: 140, 2017: 125,
+                  2018: 98, 2019: 92, 2020: 78, 2021: 96, 2022: 67, 2023: 69, 2024: 76, 2025: 18 };
+const Y0 = 2010, Y1 = 2042, RATE = 40, RATE_ALL = 80;   // extrapolation beyond the data
+function allAt(y) {
+  let n = 0;
+  for (let yy = Y0; yy <= Math.min(y, 2025); yy++) n += PER_ALL[yy] || 0;
+  if (y > 2025) n += (y - 2025) * RATE_ALL;
+  return n;
+}
+function shelfAt(y) {                               // cumulative searches on the shelf
+  let n = 0;
+  for (let yy = Y0; yy <= Math.min(y, 2025); yy++) n += PER_YEAR[yy] || 0;
+  if (y > 2025) n += (y - 2025) * RATE;
+  return n;
+}
+// schematic curves: human full-dataset re-analyses ~ flat & tiny; agentic capacity ramps from 2026
+const humanAt = y => 4 + (y - Y0) * 0.55;
+const agentAt = y => y < 2026 ? 0 : Math.min(shelfAt(y), 40 * Math.pow(y - 2026, 1.6));
+const T_SHELF = 3.0, T_HUMAN = 4.2, T_GAP = 5.2, T_AGENT = 6.6, T_THESIS = 8.6;
+
+const THEMES = {
+  paper: { ink: '#1c1712', ink60: 'rgba(28,23,18,.60)', ink40: 'rgba(28,23,18,.40)',
+           ink12: 'rgba(28,23,18,.12)', card: '#fffdf8', accent: '#8a1f1f',
+           bar: '#3568b3', cc: '#b03030', pass: '#57843f' },
+  dark:  { ink: '#ece8e0', ink60: 'rgba(236,232,224,.62)', ink40: 'rgba(236,232,224,.42)',
+           ink12: 'rgba(236,232,224,.14)', card: '#14161a', accent: '#e4a23c',
+           bar: '#5b8ed6', cc: '#d05252', pass: '#7dbb63' },
+};
+let themeName = localStorage.getItem('introring-theme') || 'paper';
+function applyTheme() { document.documentElement.dataset.theme = themeName; }
+applyTheme();
+const C = () => THEMES[themeName];
+const SANS = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
+const MONO = 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
+
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+let W = 0, H = 0;
+function resize() {
+  const DPR = Math.min(window.devicePixelRatio || 1, 2);
+  W = window.innerWidth; H = window.innerHeight;
+  cv.width = W * DPR; cv.height = H * DPR;
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+}
+window.addEventListener('resize', resize);
+resize();
+
+let clock = 0, lastTs = 0;
+function frame(ts) {
+  clock = lastTs ? clock + Math.min((ts - lastTs) / 1000, 0.05) : clock;
+  lastTs = ts;
+  const c = C();
+  ctx.clearRect(0, 0, W, H);
+  const x0 = W * 0.10, x1 = W * 0.90, y0 = H * 0.28, y1 = H * 0.86;
+  const NMAX = 2100;
+  const xOf = y => x0 + (x1 - x0) * (y - Y0) / (Y1 - Y0);
+  const yOf = n => y1 - (y1 - y0) * Math.min(n / NMAX, 1);
+  // axes
+  ctx.strokeStyle = c.ink40; ctx.lineWidth = 1.2;
+  ctx.beginPath(); ctx.moveTo(x0, y1); ctx.lineTo(x1, y1); ctx.stroke();
+  ctx.fillStyle = c.ink40; ctx.font = `11px ${SANS}`; ctx.textAlign = 'center';
+  for (let y = 2010; y <= 2040; y += 5) {
+    ctx.strokeStyle = c.ink12;
+    ctx.beginPath(); ctx.moveTo(xOf(y), y1); ctx.lineTo(xOf(y), y0); ctx.stroke();
+    ctx.fillText(y, xOf(y), y1 + 20);
+  }
+  ctx.textAlign = 'right';
+  for (const n of [500, 1000, 1500, 2000]) {
+    ctx.strokeStyle = c.ink12;
+    ctx.beginPath(); ctx.moveTo(x0, yOf(n)); ctx.lineTo(x1, yOf(n)); ctx.stroke();
+    ctx.fillText(n, x0 - 8, yOf(n) + 4);
+  }
+  ctx.save();
+  ctx.translate(x0 - 44, (y0 + y1) / 2); ctx.rotate(-Math.PI / 2);
+  ctx.textAlign = 'center'; ctx.fillStyle = c.ink60; ctx.font = `12px ${SANS}`;
+  ctx.fillText('analyses (cumulative)', 0, 0);
+  ctx.restore();
+  // era shading: HL
+  ctx.fillStyle = c.ink12; ctx.globalAlpha = 0.35;
+  ctx.fillRect(xOf(2030), y0, xOf(Y1) - xOf(2030), y1 - y0);
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = c.ink40; ctx.font = `10.5px ${SANS}`; ctx.textAlign = 'left';
+  ctx.fillText('HL-LHC', xOf(2030) + 6, y0 + 14);
+
+  const yShelfEnd = Y0 + Math.min(clock / T_SHELF, 1) * (Y1 - Y0);
+  // gap shading between shelf and human capacity (the debt)
+  if (clock > T_GAP) {
+    const a = Math.min((clock - T_GAP) / 0.8, 1);
+    const yCatch = 2033.6;                          // where the agentic curve catches the shelf
+    const yGapEnd = clock > T_AGENT ? Math.min(yShelfEnd, yCatch) : yShelfEnd;
+    ctx.globalAlpha = 0.10 * a;
+    ctx.fillStyle = c.cc;
+    ctx.beginPath();
+    for (let y = Y0; y <= yGapEnd; y += 0.25) {
+      const px = xOf(y), py = yOf(shelfAt(y));
+      y === Y0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+    }
+    for (let y = yGapEnd; y >= Y0; y -= 0.25) ctx.lineTo(xOf(y), yOf(humanAt(y)));
+    ctx.closePath(); ctx.fill();
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = c.cc; ctx.font = `600 13px ${SANS}`; ctx.textAlign = 'center';
+    ctx.globalAlpha = a;
+    ctx.fillText('the tedium debt — done once, never refreshed', xOf(2027), yOf(shelfAt(2027) * 0.55));
+    ctx.globalAlpha = 1;
+  }
+  // agentic wedge
+  if (clock > T_AGENT) {
+    const a = Math.min((clock - T_AGENT) / 0.8, 1);
+    ctx.globalAlpha = 0.16 * a;
+    ctx.fillStyle = c.pass;
+    ctx.beginPath();
+    ctx.moveTo(xOf(2026), y1);
+    for (let y = 2026; y <= yShelfEnd; y += 0.25) ctx.lineTo(xOf(y), yOf(agentAt(y)));
+    ctx.lineTo(xOf(Math.min(yShelfEnd, Y1)), y1);
+    ctx.closePath(); ctx.fill();
+    ctx.globalAlpha = a;
+    ctx.strokeStyle = c.pass; ctx.lineWidth = 2.2;
+    ctx.beginPath();
+    for (let y = 2026; y <= yShelfEnd; y += 0.25) {
+      const px = xOf(y), py = yOf(agentAt(y));
+      y === 2026 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+    ctx.fillStyle = c.pass; ctx.font = `600 13px ${SANS}`; ctx.textAlign = 'left';
+    ctx.fillText('agentic re-analysis capacity (schematic)', xOf(2031.4), yOf(agentAt(2033)) + 26);
+    ctx.globalAlpha = 1;
+  }
+  // all-CMS context line (faint, above)
+  {
+    ctx.strokeStyle = c.ink40; ctx.lineWidth = 1.6;
+    ctx.beginPath();
+    for (let y = Y0; y <= Math.min(yShelfEnd, 2025); y += 0.25) {
+      const px = xOf(y), py = yOf(allAt(y));
+      y === Y0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+    if (yShelfEnd > 2025) {
+      ctx.setLineDash([6, 5]);
+      ctx.beginPath(); ctx.moveTo(xOf(2025), yOf(allAt(2025)));
+      for (let y = 2025; y <= yShelfEnd && allAt(y) <= NMAX; y += 0.25) ctx.lineTo(xOf(y), yOf(allAt(y)));
+      ctx.stroke(); ctx.setLineDash([]);
+    }
+    if (yShelfEnd >= 2018) {
+      ctx.fillStyle = c.ink40; ctx.font = `600 12px ${SANS}`; ctx.textAlign = 'left';
+      ctx.fillText('all CMS publications · 9 PAGs', xOf(2011.5), yOf(allAt(2016)) - 26);
+    }
+    if (yShelfEnd >= 2025.5) {
+      ctx.fillStyle = c.ink40; ctx.font = `600 12px ${MONO}`;
+      ctx.fillText('1,441', xOf(2025) + 6, yOf(allAt(2025)) - 8);
+    }
+  }
+  // shelf line (real data solid to 2025, dashed extrapolation after)
+  ctx.strokeStyle = c.bar; ctx.lineWidth = 2.4; ctx.lineJoin = 'round';
+  ctx.beginPath();
+  for (let y = Y0; y <= Math.min(yShelfEnd, 2025); y += 0.25) {
+    const px = xOf(y), py = yOf(shelfAt(y));
+    y === Y0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+  }
+  ctx.stroke();
+  if (yShelfEnd > 2025) {
+    ctx.setLineDash([6, 5]);
+    ctx.beginPath(); ctx.moveTo(xOf(2025), yOf(shelfAt(2025)));
+    for (let y = 2025; y <= yShelfEnd; y += 0.25) ctx.lineTo(xOf(y), yOf(shelfAt(y)));
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+  ctx.fillStyle = c.bar; ctx.font = `600 13px ${SANS}`; ctx.textAlign = 'left';
+  if (yShelfEnd >= 2017) ctx.fillText('published searches · all 9 PAGs, title-classified', xOf(2011.5), yOf(shelfAt(2014)) - 30);
+  if (yShelfEnd >= 2025.5) {
+    ctx.fillStyle = c.bar; ctx.font = `600 12px ${MONO}`;
+    ctx.fillText('753', xOf(2025) + 6, yOf(shelfAt(2025)) - 8);
+  }
+  // human capacity line
+  if (clock > T_HUMAN) {
+    const uH = Math.min((clock - T_HUMAN) / 0.8, 1);
+    const yEnd = Y0 + uH * (Math.min(yShelfEnd, Y1) - Y0);
+    ctx.strokeStyle = c.ink60; ctx.lineWidth = 1.8;
+    ctx.setLineDash([2, 4]);
+    ctx.beginPath();
+    for (let y = Y0; y <= yEnd; y += 0.5) {
+      const px = xOf(y), py = yOf(humanAt(y));
+      y === Y0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+    }
+    ctx.stroke(); ctx.setLineDash([]);
+    if (uH >= 1) {
+      ctx.fillStyle = c.ink60; ctx.font = `600 12px ${SANS}`; ctx.textAlign = 'left';
+      ctx.fillText('re-run by humans with the full dataset (schematic)', xOf(2012), yOf(humanAt(2019)) - 10);
+    }
+  }
+  document.getElementById('thesis').classList.toggle('on', clock > T_THESIS);
+  requestAnimationFrame(frame);
+}
+
+const RET = (() => { const q = new URLSearchParams(location.search); return q.get('ret') || '../../index.html'; })();
+const ret = () => { location.href = RET; };
+function advance() {
+  if (clock > T_THESIS) return ret();
+  clock = clock < T_SHELF ? T_HUMAN : clock < T_GAP ? T_GAP + 0.01 : clock < T_AGENT ? T_AGENT + 0.01 : T_THESIS + 0.1;
+}
+window.addEventListener('keydown', e => {
+  if (e.key === ' ' || e.key === 'ArrowRight') { e.preventDefault(); advance(); }
+  else if (e.key === 'r' || e.key === 'R') clock = 0;
+  else if (e.key === 'd' || e.key === 'D') {
+    themeName = themeName === 'paper' ? 'dark' : 'paper';
+    localStorage.setItem('introring-theme', themeName); applyTheme();
+  } else if (e.key === 'f' || e.key === 'F') {
+    document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+  } else if (e.key === '0' || e.key === 'End' || e.key === 'Escape') ret();
+});
+window.addEventListener('click', advance);
+{
+  const q = new URLSearchParams(location.search);
+  if (q.get('theme')) { themeName = q.get('theme'); applyTheme(); }
+  const t = parseFloat(q.get('t'));
+  if (t > 0) clock = t;
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

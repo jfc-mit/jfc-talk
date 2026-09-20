@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="paper">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The wall — every CMS search, and what happened to it next</title>
+<style>
+@font-face { font-family: "EB Garamond"; font-style: italic; font-weight: 400; font-display: swap; src: url("../fonts/ebgaramond-400i-latin.woff2") format("woff2"); }
+@font-face { font-family: "EB Garamond"; font-style: normal; font-weight: 400; font-display: swap; src: url("../fonts/ebgaramond-400-latin.woff2") format("woff2"); }
+@font-face { font-family: "EB Garamond"; font-style: normal; font-weight: 500; font-display: swap; src: url("../fonts/ebgaramond-500-latin.woff2") format("woff2"); }
+@font-face { font-family: "EB Garamond"; font-style: normal; font-weight: 600; font-display: swap; src: url("../fonts/ebgaramond-600-latin.woff2") format("woff2"); }
+</style>
+<style>
+:root {
+  --serif: "EB Garamond", Georgia, "Times New Roman", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+:root[data-theme="paper"] {
+  --bg: #f6f1e7; --bg2: #efe8d9; --ink: #1c1712; --ink60: rgba(28,23,18,.60); --ink40: rgba(28,23,18,.40);
+  --ink12: rgba(28,23,18,.12); --card: #fffdf8; --accent: #8a1f1f; --bar: #3568b3; --cc: #b03030; --pass: #57843f;
+  --tile: #e7dfd0; --tileb: #d8cfbc; --amber: #b8860b;
+  /* PAG outlines — dataviz-validated categorical order (adjacent CVD ≥8 both modes) */
+  --pag-exo: #2a78d6; --pag-sus: #eb6834; --pag-hig: #1baf7a;
+  --pag-b2g: #4a3aa7; --pag-top: #e87ba4; --pag-smp: #008300;
+}
+:root[data-theme="dark"] {
+  --bg: #07080a; --bg2: #0c0e12; --ink: #ece8e0; --ink60: rgba(236,232,224,.62); --ink40: rgba(236,232,224,.42);
+  --ink12: rgba(236,232,224,.14); --card: #14161a; --accent: #e4a23c; --bar: #5b8ed6; --cc: #d05252; --pass: #7dbb63;
+  --tile: #1b1f26; --tileb: #262c35; --amber: #caa14a;
+  --pag-exo: #3987e5; --pag-sus: #d95926; --pag-hig: #199e70;
+  --pag-b2g: #9085e9; --pag-top: #d55181; --pag-smp: #008300;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { background: var(--bg); }
+html, body { height: 100%; }
+body { background: radial-gradient(120% 100% at 50% 0%, var(--bg2), var(--bg) 60%);
+  color: var(--ink); font-family: var(--sans); overflow: hidden; user-select: none; cursor: pointer; }
+#titleblock { position: fixed; left: 4.5vw; top: 5vh; max-width: 52vw; pointer-events: none; z-index: 2; }
+#titleblock h1 em { font-style: italic; color: var(--accent); }
+#titleblock h1 { font-family: var(--serif); font-weight: 600; font-size: clamp(20px, 2.3vw, 36px); line-height: 1.12; }
+#titleblock .sub { margin-top: .4em; font-size: clamp(12px, 1vw, 15px); color: var(--ink60); }
+#counts { position: fixed; right: 4.5vw; top: 5vh; text-align: right; font-family: var(--mono); z-index: 2; }
+#counts .n { font-size: clamp(26px, 2.6vw, 44px); font-weight: 600; font-variant-numeric: tabular-nums; }
+#counts .k { font-size: clamp(10px, .8vw, 13px); color: var(--ink40); letter-spacing: .06em; }
+#counts .split { margin-top: 4px; font-size: clamp(10.5px, .85vw, 13.5px); color: var(--ink60); }
+#counts .split b.spec { color: var(--ink); }
+#legend { position: fixed; right: 4.5vw; top: 15.5vh; font-family: var(--mono);
+  font-size: clamp(10px, .78vw, 12px); color: var(--ink60); text-align: right;
+  opacity: 0; transition: opacity 700ms ease; z-index: 2; line-height: 1.9; }
+#legend.on { opacity: 1; }
+#legend i { display: inline-block; width: 11px; height: 11px; border-radius: 2px; margin: 0 5px -1px 12px;
+  border: 1px solid var(--tileb); background: var(--tile); }
+#legend .lno i { background: color-mix(in srgb, var(--cc) 72%, var(--card)); border-color: var(--cc); }
+#legend .lmb i { background: color-mix(in srgb, var(--amber) 55%, var(--card)); border-color: var(--amber); }
+#legend .lagn i { border: 1.5px dashed var(--ink60); background: var(--card); }
+#legend .lsm i { opacity: .38; }
+#legend .lsucc i { background-color: var(--tile);
+  background-image: linear-gradient(to top right, var(--ink) 48%, transparent 52%);
+  background-size: 45% 45%; background-position: left bottom; background-repeat: no-repeat; }
+#legend .pg i { background: transparent; border: 1.5px solid var(--pc, var(--tileb)); }
+#wallwrap { position: fixed; left: 4.5vw; right: 4.5vw; top: 25vh; bottom: 23vh; display: flex; gap: 2vw; }
+.era { display: flex; flex-direction: column; min-width: 0; }
+.era .ehead { font-family: var(--mono); font-size: clamp(10px, .82vw, 13px); color: var(--ink60);
+  margin-bottom: 8px; white-space: nowrap; }
+.era .ehead b { color: var(--ink); }
+.era .grid { flex: 1; display: flex; flex-wrap: wrap; gap: 3px; align-content: flex-start; }
+.era .efoot { flex: 1 0 100%; font-family: var(--mono); font-size: clamp(9px, .72vw, 11.5px);
+  color: var(--ink40); margin-top: 7px; opacity: 0; transition: opacity 700ms ease; }
+.era .efoot.on { opacity: 1; }
+.tile { width: var(--ts, 17px); height: var(--ts, 17px); background: var(--tile); border: 1.5px solid var(--tileb);
+  border-radius: 2px; opacity: 0; transition: background 400ms ease, border-color 400ms ease;
+  position: relative; cursor: default; }
+.tile.on { opacity: 1; }
+.tile.agn { border-style: dashed; background: var(--card); }
+.tile.sm { opacity: 0; }
+.tile.sm.on { opacity: .38; }
+.tile.no    { background: color-mix(in srgb, var(--cc) 72%, var(--card)); }
+.tile.maybe { background: color-mix(in srgb, var(--amber) 55%, var(--card)); }
+.tile.succ::after { content: ""; position: absolute; left: 0; bottom: 0; width: 42%; height: 42%;
+  background: linear-gradient(to top right, var(--ink) 48%, transparent 52%); opacity: .55; border-radius: 0 0 1px 0; }
+.tile.hl  { outline: 2.5px solid var(--ink); outline-offset: 1px; z-index: 5; transform: scale(1.3); }
+.tile.hlf { outline: 2.5px solid var(--pass); outline-offset: 1px; z-index: 5; transform: scale(1.3); }
+.tile.hlr { outline: 2px solid var(--bar); outline-offset: 1px; z-index: 4; transform: scale(1.15); }
+#tip { position: fixed; max-width: 500px; background: var(--card); border: 1px solid var(--ink12);
+  border-radius: 8px; padding: 10px 13px; font: 11.5px/1.5 var(--sans); color: var(--ink);
+  box-shadow: 0 8px 28px rgba(0,0,0,.20); pointer-events: none; opacity: 0;
+  transition: opacity 120ms ease; z-index: 10; cursor: auto; }
+#tip.open { pointer-events: auto; user-select: text; }
+#tip a { color: var(--bar); text-decoration: none; font-family: var(--mono); font-size: 10px; }
+#tip a:hover { text-decoration: underline; }
+#tip .lnks { display: inline-block; margin-left: 8px; }
+#tip .lnks a { border: 1px solid var(--ink12); border-radius: 4px; padding: 0 5px; margin-left: 4px; }
+#tip .code { font-family: var(--mono); font-weight: 600; }
+#tip .era { color: var(--ink40); font-family: var(--mono); font-size: 10px; margin-left: 6px; }
+#tip .ttl { color: var(--ink60); margin-top: 1px; }
+#tip .sec { margin-top: 8px; padding-top: 7px; border-top: 1px dashed var(--ink12); }
+#tip .lab { font-family: var(--mono); font-size: 9.5px; letter-spacing: .06em; color: var(--ink40); }
+#tip .pr { margin-top: 4px; }
+#tip .pr.f .code { color: var(--pass); }
+#tip .pr.r .code { color: var(--bar); }
+#tip .pr.m .code { color: var(--amber); }
+#tip .score { font-family: var(--mono); font-size: 10px; color: var(--ink40); margin-left: 6px; }
+#tip .warn { color: var(--accent); font-weight: 600; font-size: 10.5px; margin-left: 6px; }
+#tip .more { font-family: var(--mono); font-size: 10px; color: var(--ink40); margin-top: 4px; }
+#beats { position: fixed; left: 4.5vw; bottom: 6vh; width: 64vw; pointer-events: none; z-index: 2; }
+#beats .beat { font-family: var(--serif); font-size: clamp(14px, 1.25vw, 20px); line-height: 1.4;
+  opacity: 0; transition: opacity 800ms ease; position: absolute; bottom: 0; width: 100%; }
+#beats .beat.on { opacity: 1; }
+#beats .beat b { color: var(--accent); }
+#beats .beat.green b { color: var(--pass); }
+#src { position: fixed; right: 4.5vw; bottom: 2.2vh; font-family: var(--mono); font-size: 10px;
+  color: var(--ink40); text-align: right; line-height: 1.5; pointer-events: none; }
+#hint { position: fixed; right: 4.5vw; bottom: 10.5vh; font-size: 12px; color: var(--ink40);
+  font-family: var(--sans); letter-spacing: .03em; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="titleblock">
+  <h1>Every CMS search since 2010 — and what happened to it <em>next</em></h1>
+  <div class="sub">753 published searches, all nine physics groups, sorted by the data they analysed — hover any tile, click to pin; a search and its re-run light up together</div>
+</div>
+<div id="counts">
+  <div class="n" id="cnt">0</div>
+  <div class="k">PUBLISHED SEARCHES</div>
+  <div class="split" id="split"></div>
+</div>
+<div id="legend">
+  <span class="lno"><i></i>never re-run</span><span class="lmb"><i></i>no clear successor</span><span class="lok"><i></i>re-run</span><br>
+  <span class="lsucc"><i></i>continues a Run-1 search</span><span class="lagn"><i></i>model-agnostic</span><span class="lsm"><i></i>SM-process search</span><br>
+  <span class="pg" style="--pc:var(--pag-exo)"><i></i>EXO</span><span class="pg" style="--pc:var(--pag-sus)"><i></i>SUS</span><span class="pg" style="--pc:var(--pag-hig)"><i></i>HIG</span><span class="pg" style="--pc:var(--pag-b2g)"><i></i>B2G</span><span class="pg" style="--pc:var(--pag-top)"><i></i>TOP</span><span class="pg" style="--pc:var(--pag-smp)"><i></i>SMP</span><span class="pg"><i></i>BPH/HIN/FSQ</span>
+</div>
+<div id="wallwrap"></div>
+<div id="beats">
+  <div class="beat" id="beat0"><b>592 of 753</b> name a concrete signal model — <b>543</b> say so in the abstract. A model-specific search is a question that does not change; only the dataset does. The rest: <b>27</b> model-agnostic, <b>134</b> SM-process searches.</div>
+  <div class="beat" id="beat1">Run 1 <i>was</i> re-run: <b>191 of 219</b> model-specific searches have an audited Run-2 successor. By hand, that took the collaboration <b>a decade</b>. <b>13</b> never came back.</div>
+  <div class="beat" id="beat2">Run 2 is waiting: <b>351 of 369</b> model-specific searches have no Run-3 update yet. The decade starts over — unless the by-hand part stops being by hand.</div>
+  <div class="beat green" id="beat3">That is the job to hand to agents: <b>re-run the wall every time the dataset doubles</b> — and give the people back to the techniques that need building. The next forty minutes are the evidence that they can.</div>
+</div>
+<div id="src">codes, titles, eras: cms-results.web.cern.ch public publication pages, 9 PAGs · scraped 2026-08-10<br>
+class: titles + INSPIRE abstracts (543/592 name the model in-abstract)<br>successor: PER-PAIR AUDITED — LLM agents reading title+abstract; justification on hover</div>
+<div id="hint">space / click — next beat &nbsp;·&nbsp; click a tile — pin &nbsp;·&nbsp; r — restart &nbsp;·&nbsp; d — theme &nbsp;·&nbsp; Esc / 0 — back to the deck</div>
+<div id="tip"></div>
+
+<script src="pub_data.js"></script>
+<script>
+'use strict';
+/* beats: fill by era → composition → Run-1 verdicts → Run-2 staleness → agent sweep */
+const T_FILL = 6, T_COMP = 6.8, T_REDO = 11, T_STALE = 16, T_SWEEP = 21, SWEEP_S = 4;
+const KORD = { spec: 0, agn: 1, sm: 2 };
+const PORD = { EXO: 0, SUS: 1, HIG: 2, B2G: 3, TOP: 4, SMP: 5, BPH: 6, HIN: 7, FSQ: 8 };
+const PAGC = { EXO: 'var(--pag-exo)', SUS: 'var(--pag-sus)', HIG: 'var(--pag-hig)',
+               B2G: 'var(--pag-b2g)', TOP: 'var(--pag-top)', SMP: 'var(--pag-smp)' };
+const ERAS = [
+  { key: 'Run1', head: '<b>Run 1</b> · 7–8 TeV · 266',
+    foot: '+ 300 measurements & observations, not shown — SMP 83 · TOP 63 · HIN 51 · FSQ 42 · BPH 41 …' },
+  { key: 'Run2', head: '<b>Run 2</b> · 13 TeV · 480',
+    foot: '+ 365 measurements & observations, not shown — HIN 105 · SMP 89 · TOP 68 · HIG 51 …' },
+  { key: 'Run3', head: '<b>Run 3</b> · 7 so far',
+    foot: '+ 23 measurements' },
+];
+let themeName = localStorage.getItem('introring-theme') || 'paper';
+function applyTheme() { document.documentElement.dataset.theme = themeName; }
+applyTheme();
+
+const wrap = document.getElementById('wallwrap');
+const tiles = [], byCode = new Map();
+// codes that are the audited successor of a search from an earlier era → corner wedge
+const EIDX = { Run1: 0, Run2: 1, Run3: 2 };
+const pubBy = new Map(window.PUBS.map(p => [p.c, p]));
+const cont = new Set();
+for (const p of window.PUBS) if (p.m && p.r === 'yes') {
+  const q = pubBy.get(p.m);
+  if (q && EIDX[p.e] < EIDX[q.e]) cont.add(q.c);
+}
+for (const e of ERAS) {
+  const list = window.PUBS.filter(p => p.e === e.key)
+    .sort((a, b) => PORD[a.p] - PORD[b.p] || KORD[a.k] - KORD[b.k] ||
+      (cont.has(a.c) ? 0 : 1) - (cont.has(b.c) ? 0 : 1) || (a.c < b.c ? -1 : 1));
+  const div = document.createElement('div');
+  div.className = 'era';
+  div.style.flex = `${Math.max(list.length, 40)} 1 0`;
+  div.innerHTML = `<div class="ehead">${e.head}</div>`;
+  const grid = document.createElement('div');
+  grid.className = 'grid';
+  div.appendChild(grid);
+  wrap.appendChild(div);
+  for (const p of list) {
+    const t = document.createElement('div');
+    t.className = 'tile' + (p.k === 'agn' ? ' agn' : p.k === 'sm' ? ' sm' : '') +
+      (cont.has(p.c) ? ' succ' : '');
+    if (PAGC[p.p]) t.style.borderColor = PAGC[p.p];
+    t._p = p;
+    grid.appendChild(t);
+    tiles.push(t);
+    byCode.set(p.c, t);
+  }
+  const foot = document.createElement('div');
+  foot.className = 'efoot';
+  foot.textContent = e.foot;
+  grid.appendChild(foot);
+}
+const efoots = document.querySelectorAll('.efoot');
+// hover: styled tooltip with partner codes/titles/scores; highlights capped & ranked.
+// forward partner = green outline; searches that map here = blue (top 5 by score).
+const tip = document.getElementById('tip');
+const rev = new Map();
+for (const p of window.PUBS) if (p.m) {
+  if (!rev.has(p.m)) rev.set(p.m, []);
+  rev.get(p.m).push(p);
+}
+for (const l of rev.values()) l.sort((a, b) => (a.r === 'yes' ? 0 : 1) - (b.r === 'yes' ? 0 : 1));
+let hlActive = [], hideTimer = null, pinned = null;
+const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+const kname = k => k === 'agn' ? ' · model-agnostic' : k === 'sm' ? ' · SM-process' : '';
+const lnks = q => `<span class="lnks">` +
+  `<a href="https://cms-results.web.cern.ch/cms-results/public-results/publications/${q.c}/" target="_blank" rel="noopener">CMS</a>` +
+  (q.x ? `<a href="https://arxiv.org/abs/${q.x}" target="_blank" rel="noopener">arXiv</a>` : '') +
+  (q.i ? `<a href="https://inspirehep.net/literature/${q.i}" target="_blank" rel="noopener">INSPIRE</a>` : '') +
+  `</span>`;
+const prow = (q, cls, meta) =>
+  `<div class="pr ${cls}"><span class="code">${q.c}</span>${lnks(q)}<span class="score">${meta || ''}</span>` +
+  (q.p !== undefined && q.p !== curPag ? `<span class="warn">⚠ cross-PAG (${q.p})</span>` : '') +
+  `<div class="ttl">${esc(q.t)}</div></div>`;
+let curPag = '';
+function hideTip() {
+  pinned = null;
+  for (const el of hlActive) el.classList.remove('hl', 'hlf', 'hlr');
+  hlActive = [];
+  tip.style.opacity = 0;
+  tip.classList.remove('open');
+}
+function scheduleHide() {
+  if (pinned) return;
+  clearTimeout(hideTimer); hideTimer = setTimeout(hideTip, 260);
+}
+tip.addEventListener('mouseenter', () => clearTimeout(hideTimer));
+tip.addEventListener('mouseleave', scheduleHide);
+tip.addEventListener('click', e => e.stopPropagation());
+document.getElementById('wallwrap').addEventListener('click', e => e.stopPropagation());
+function showTip(t) {
+  clearTimeout(hideTimer);
+  for (const el of hlActive) el.classList.remove('hl', 'hlf', 'hlr');
+  hlActive = [t];
+  t.classList.add('hl');
+  const p = t._p;
+  curPag = p.p;
+  let html = `<span class="code">${p.c}</span>${lnks(p)}<span class="era">${p.p} · ${p.e}${kname(p.k)}</span>` +
+             `<div class="ttl">${esc(p.t)}</div>`;
+  if (p.m && byCode.has(p.m)) {
+    const q = byCode.get(p.m)._p;
+    html += `<div class="sec"><span class="lab">${p.r === 'maybe' ? 'POSSIBLE SUCCESSOR' : 'RE-RUN AS'} · AUDITED ✓</span>${prow(q, 'f', p.w ? esc(p.w) : '')}</div>`;
+    const el = byCode.get(p.m);
+    el.classList.add('hlf'); hlActive.push(el);
+  }
+  const rl = rev.get(p.c) || [];
+  if (rl.length) {
+    html += `<div class="sec"><span class="lab">BEST MATCH FOR ${rl.length} EARLIER SEARCH${rl.length > 1 ? 'ES' : ''}</span>`;
+    for (const q of rl.slice(0, 5)) {
+      html += prow(q, q.r === 'maybe' ? 'r m' : 'r',
+        (q.r === 'maybe' ? 'possible · ' : '') + (q.w ? esc(q.w) : ''));
+      const el = byCode.get(q.c);
+      if (el) { el.classList.add('hlr'); hlActive.push(el); }
+    }
+    if (rl.length > 5) html += `<div class="more">+ ${rl.length - 5} weaker — not highlighted</div>`;
+    html += '</div>';
+  }
+  tip.innerHTML = html;
+  tip.style.opacity = 1;
+  tip.classList.add('open');
+  // anchor beside the tile, clamped to the viewport
+  const r = t.getBoundingClientRect();
+  tip.style.left = '0px'; tip.style.top = '0px';           // reset so offsetWidth is natural
+  const tw = Math.min(tip.offsetWidth, 500), th = tip.offsetHeight;
+  let x = r.right + 12, y = r.top - 8;
+  if (x + tw > window.innerWidth - 10) x = r.left - tw - 12;
+  if (x < 10) x = Math.min(r.right + 12, window.innerWidth - tw - 10);
+  y = Math.max(10, Math.min(y, window.innerHeight - th - 12));
+  tip.style.left = x + 'px';
+  tip.style.top = y + 'px';
+}
+for (const t of tiles) {
+  t.addEventListener('mouseenter', () => { if (!pinned) showTip(t); });
+  t.addEventListener('mouseleave', scheduleHide);
+  // click pins the tooltip open (links stay clickable); click again to release
+  t.addEventListener('click', e => {
+    e.stopPropagation();
+    if (pinned === t) hideTip();
+    else { showTip(t); pinned = t; }
+  });
+}
+
+function fitTiles() {
+  const aw = window.innerWidth * 0.91, ah = window.innerHeight * 0.52;
+  const ts = Math.max(12, Math.min(40, Math.floor(Math.sqrt(aw * ah * 0.78 / window.PUBS.length)) - 3));
+  document.documentElement.style.setProperty('--ts', ts + 'px');
+}
+fitTiles();
+window.addEventListener('resize', fitTiles);
+
+let clock = 0, lastTs = 0;
+function frame(ts) {
+  clock = lastTs ? clock + Math.min((ts - lastTs) / 1000, 0.05) : clock;
+  lastTs = ts;
+  const nOn = Math.min(Math.floor(tiles.length * clock / T_FILL), tiles.length);
+  tiles.forEach((t, i) => {
+    const p = t._p;
+    if (i < nOn) t.classList.add('on');
+    const u = i / tiles.length;
+    const judged = p.k === 'spec' &&
+      (p.e === 'Run1' ? clock > T_REDO + u * 1.5 : p.e === 'Run2' ? clock > T_STALE + u * 1.5 : false);
+    t.classList.toggle('no', judged && p.r === 'no');
+    t.classList.toggle('maybe', judged && p.r === 'maybe');
+  });
+  document.getElementById('cnt').textContent = Math.min(nOn, tiles.length);
+  document.getElementById('split').innerHTML = clock > T_COMP
+    ? '<b class="spec">592 model-specific</b> · 27 agnostic · 134 SM'
+    : 'EXO · SUS · HIG · B2G · TOP · SMP · BPH · HIN · FSQ';
+  document.getElementById('legend').classList.toggle('on', clock > T_COMP);
+  for (const f of efoots) f.classList.toggle('on', clock > T_COMP);
+  document.getElementById('beat0').classList.toggle('on', clock > T_COMP + 0.5 && clock < T_REDO);
+  document.getElementById('beat1').classList.toggle('on', clock > T_REDO + 1 && clock < T_STALE);
+  document.getElementById('beat2').classList.toggle('on', clock > T_STALE + 1 && clock < T_SWEEP);
+  document.getElementById('beat3').classList.toggle('on', clock > T_SWEEP + 1);
+  requestAnimationFrame(frame);
+}
+
+const RET = (() => { const q = new URLSearchParams(location.search); return q.get('ret') || '../../index.html'; })();
+const ret = () => { location.href = RET; };
+function advance() {
+  clock = clock < T_FILL ? T_COMP + 0.1 : clock < T_REDO ? T_REDO + 0.1 : clock < T_STALE ? T_STALE + 0.1
+        : clock < T_SWEEP ? T_SWEEP + 0.1 : NaN;
+  if (Number.isNaN(clock)) ret();
+}
+window.addEventListener('keydown', e => {
+  if (e.key === ' ' || e.key === 'ArrowRight') { e.preventDefault(); advance(); }
+  else if (e.key === 'Escape') { if (pinned || tip.classList.contains('open')) hideTip(); else ret(); }
+  else if (e.key === 'r' || e.key === 'R') clock = 0;
+  else if (e.key === 'd' || e.key === 'D') {
+    themeName = themeName === 'paper' ? 'dark' : 'paper';
+    localStorage.setItem('introring-theme', themeName); applyTheme();
+  } else if (e.key === 'f' || e.key === 'F') {
+    document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+  } else if (e.key === '0' || e.key === 'End') ret();
+});
+window.addEventListener('click', () => { pinned ? hideTip() : advance(); });
+{
+  const q = new URLSearchParams(location.search);
+  if (q.get('theme')) { themeName = q.get('theme'); applyTheme(); }
+  const t = parseFloat(q.get('t'));
+  if (t > 0) clock = t;
+  // debug: ?hover=CODE simulates a mouseover for screenshots
+  const hc = q.get('hover');
+  if (hc && byCode.has(hc)) {
+    const el = byCode.get(hc);
+    el.dispatchEvent(new Event('mouseenter'));
+    const r = el.getBoundingClientRect();
+    el.dispatchEvent(new MouseEvent('mousemove', { clientX: r.x + 8, clientY: r.y + 8 }));
+  }
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

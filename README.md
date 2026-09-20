@@ -1,5 +1,16 @@
 # JFC talk — HSF DAAA · Agentic AI in HEP data analysis · 27 July 2026
 
+**Branch `cms-masterclass-2026-09-22`** — the CMS internal masterclass cut (Mon 22 Sep 2026, one hour). `?profile=masterclass`
+(31 scenes, ≈38 min of budget, the rest for questions) = cold open on **the wall** (`assets/wall/wall.html`: 753 published CMS
+searches by data era, audited re-run status; space past the last beat → `plane.html`, the two curves → back to the deck) → title →
+hands-up calibration → the claim → the HSF/Fermilab core (anatomy … cost, docked replay) → the honest backups promoted into the flow
+(`m-honest`, `m-warstories`, `m-fabrication`) → **the exercise** (`m-exercise`: five anonymised H→4ℓ money plots, "which would you
+sign?", the injected-truth reveal, then the names) → `m-combine` (a datacard the agent wrote and fitted) → **`m-cms`** (furnishing
+context for a CMS analysis: methodology / conventions / agents mapped onto AN, CADI, POG, pub-comm, ARC; a twelve-line conventions
+file as homework) → wave → resources → the way forward → finale → one line. Backup `m-policy` for the policy question. Masterclass
+scenes are act 7 (`AX[7]`) and live in one block after `SCENES`; shared scenes are reused or cloned with a text patch (`cloneScene`).
+`node tools/shot.mjs masterclass <outdir>` screenshots every scene/step (Playwright, needs `python3 -m http.server 8123`).
+
 **Branch `clariphy-tutorial-2026-09-14`** — the CLARIPHY tutorial cut (Mon 14 Sep 2026, *AI agents and LLMs for Scientific
 Discovery*, with Daniel Diaz; site: training.nrp-nautilus.io/clariphy). `?profile=tutorial` (~18 min of budget, 20 scenes) is
 three parts navigated with the overview (`O`): **open** (`t-title`, `t-outline` — both facilitators, the day's schedule), the
