@@ -1538,7 +1538,7 @@ const H4L = [   // the five reference notes (Phil Harris, h4l_agent_test/analysi
 const ROT = [-1.2, 1.3, -.9, 1.6, -1.4];
 
 insertBefore('title',
-{ id: 'm-cold', act: 7, label: 'Cold open · the wall', steps: 1, budget: 240, theme: 'dark', notes: 'START HERE, on the wall page itself (F for fullscreen). Beats on space: fill by PAG → composition (592/753 model-specific) → Run 1 verdicts (191 re-run, 13 never, a decade by hand) → Run 2 stale (351/369) → the agent job. Hover a red tile if asked. Space past the last beat → the two-curves page (shelf climbs, human capacity flat, red debt, green agentic wedge from 2026, thesis) → space again lands on the deck title. Esc/0 bail out at any time.', html: () => `
+{ id: 'm-cold', thumb: 'assets/ovthumb_m-cold.jpg', act: 7, label: 'Cold open · the wall', steps: 1, budget: 240, theme: 'dark', notes: 'START HERE, on the wall page itself (F for fullscreen). Beats on space: fill by PAG → composition (592/753 model-specific) → Run 1 verdicts (191 re-run, 13 never, a decade by hand) → Run 2 stale (351/369) → the agent job. Hover a red tile if asked. Space past the last beat → the two-curves page (shelf climbs, human capacity flat, red debt, green agentic wedge from 2026, thesis) → space again lands on the deck title. Esc/0 bail out at any time.', html: () => `
   <div class="gate">
     <h1 style="font-size:clamp(28px,4.6vmin,60px)">Cold open — <em>the wall</em></h1>
     <p class="lead">Every published CMS search since 2010, sorted by the data it analysed, and what happened to each one next. Then the two curves: searches climb, the people to re-run them do not. Runs as its own page, ≈4 min for both.</p>
@@ -1572,7 +1572,7 @@ insertBefore('title',
     </div>
   </div>`
 },
-{ id: 'm-poll', act: 7, label: 'Hands up', steps: 3, budget: 60, theme: 'dark', notes: 'Calibrate the room. Three hands-up questions, escalating. Keep hands up. If the third question gets more than a few hands, go faster through Act II and slower through the exercise and the CMS slide; if almost none, the reverse.', html: () => `
+{ id: 'm-poll', thumb: 'assets/ovthumb_m-poll.jpg', act: 7, label: 'Hands up', steps: 3, budget: 60, theme: 'dark', notes: 'Calibrate the room. Three hands-up questions, escalating. Keep hands up. If the third question gets more than a few hands, go faster through Act II and slower through the exercise and the CMS slide; if almost none, the reverse.', html: () => `
   <h2 class="kicker">Before we start — <em>hands up</em></h2>
   <div class="statement" style="gap:3.6vmin; align-items:flex-start; text-align:left; padding-left:6%">
     <div class="mstate"><div class="big" style="font-size:clamp(26px,4.6vmin,62px)"><span style="color:var(--ink40); font-family:var(--mono); font-size:.55em; vertical-align:middle; margin-right:.6em">1</span>You used an LLM for physics <em>this month</em>.</div></div>
@@ -1595,11 +1595,11 @@ cloneScene('b-review-war', { id: 'm-warstories', act: 7, label: 'What review cau
 cloneScene('b-fabrication', { id: 'm-fabrication', act: 7, label: 'Anti-fabrication', budget: 50,
   notes: 'The standing rule: never tune to match. Numbers never from memory. Verdicts bind. Everything in git — the diff is the deterrent.' },
   h => h.replace('Backup — review findings are <em>closed-loop</em>, not advisory', 'Review findings are <em>closed-loop</em>, not advisory')),
-{ id: 'm-exercise', act: 7, size: 'roomy', label: 'Exercise · which would you sign?', steps: 3, budget: 300, theme: 'dark', thumb: 'assets/h4l_notes/jfc_codex.png',
+{ id: 'm-exercise', thumb: 'assets/ovthumb_m-exercise.jpg', act: 7, size: 'roomy', label: 'Exercise · which would you sign?', steps: 3, budget: 300, theme: 'dark',
   notes: 'THE EXERCISE. Step 1: five anonymised money plots, same prompt, same synthetic 10 fb⁻¹ H→4ℓ sample, each from a full agent-written note. "You are the ARC — hands up for the one you would approve." Take 2–3 answers, ask why. Step 2 REVEAL: the sample was built with mH = 129 GeV, μ = 1.8 injected; nobody was told. Every run finds the bump. Step 3: names. Rogue = a folder with the prompt, the ntuplizer and the two cited papers, nothing else. JFC = the spec. The rogue Opus run fit a 125 template and reported μ = 0.31; the spec\'d runs measure the mass and say so. Judge the process, not the number. Source: Phil Harris, h4l_agent_test/analysis_notes, June 2026; click any plot to zoom.', html: () => `
   <h2 class="kicker">Same prompt, same data, five notes — <em>which would you sign?</em></h2>
   <div class="tg-wall" style="justify-content:flex-start; gap:1.6vmin">
-    <p class="lead" style="margin:0">You are the ARC. Each plot is the money plot of a complete, agent-written analysis note on the same 10 fb⁻¹ H→ZZ*→4ℓ sample, from the same three-line prompt. <b>Hands up for the one you would approve.</b></p>
+    <p class="lead" style="margin:0">You are the ARC. Each plot is the money plot of a complete, agent-written analysis note on the same 10 fb⁻¹ H→ZZ*→4ℓ sample, from the same one-page prompt. <b>Hands up for the one you would approve.</b></p>
     <div class="snapwall">
       ${H4L.map((n, i) => `<div class="polaroid" style="transform:rotate(${ROT[i]}deg)"><div class="fig zoomable auto"><img src="assets/h4l_notes/${n.f}.png" alt="${n.who} — four-lepton mass"></div>
         <div class="tag"><span class="anon"><b>${n.anon}</b></span><span class="real" hidden><b style="color:${n.jfc ? 'var(--green)' : 'var(--live)'}">${n.who}</b><br>${n.res}</span></div></div>`).join('\n      ')}
@@ -1612,7 +1612,7 @@ cloneScene('b-fabrication', { id: 'm-fabrication', act: 7, label: 'Anti-fabricat
   onenter(step) { document.querySelectorAll('.scene .snapwall .anon').forEach(e => { e.hidden = step >= 3; });
                   document.querySelectorAll('.scene .snapwall .real').forEach(e => { e.hidden = step < 3; }); }
 },
-{ id: 'm-combine', act: 7, label: 'Does it speak our tools?', steps: 1, budget: 60, theme: 'dark', thumb: 'assets/cdemo_postfit_m4l.png',
+{ id: 'm-combine', thumb: 'assets/ovthumb_m-combine.jpg', act: 7, label: 'Does it speak our tools?', steps: 1, budget: 60, theme: 'dark',
   notes: 'The rogue Opus 4.8 follow-up run on the same synthetic sample (3 June 2026): RooFit DSCB mass fit, then a Combine datacard it wrote — shapes, lnN, a rateParam for qqZZ from the sideband, autoMCStats — FitDiagnostics and Significance. Tools are not the problem: Combine, RooFit, ROOT, mplhep are all in the training data. Group conventions are not.', html: () => `
   <h2 class="kicker">Does it speak <em>our</em> tools? — a datacard it wrote</h2>
   <div class="cols" style="align-items:stretch">
@@ -1645,7 +1645,7 @@ zjets_norm   lnN  -          -          -          1.40
     </div>
   </div>`
 },
-{ id: 'm-cms', act: 7, label: 'Furnishing context for a CMS analysis', steps: 2, budget: 300, theme: 'dark',
+{ id: 'm-cms', thumb: 'assets/ovthumb_m-cms.jpg', act: 7, label: 'Furnishing context for a CMS analysis', steps: 2, budget: 300, theme: 'dark',
   notes: 'THE MASTERCLASS SLIDE. JFC asks for three folders; a CMS group already owns all three, just not written down in one place. methodology = the AN skeleton + CADI workflow + your PAG pre-approval checklist + the unblinding policy. conventions = pub-comm guidelines, POG object recommendations and SFs, NanoAOD field names, your plot style, Combine datacard habits. agents = the ARC questions you always get, written down as reviewers; the gate = pre-approval/unblinding, never opened by the agent. Right: a conventions file that fits on a slide — this is the homework. Step 2: what stays yours.', html: () => `
   <h2 class="kicker">Furnishing context for a <em>CMS</em> analysis — you already own most of it</h2>
   <div class="cols" style="align-items:stretch; gap:2.4%">
@@ -1704,7 +1704,7 @@ cloneScene('forward', { id: 'm-forward', act: 7, notes: 'sealed-truth H→4ℓ b
   h => h.replace(' (G. Fleming, Wed.)', '')),
 );
 insertAfter('finale',
-{ id: 'm-close', act: 7, label: 'One line', steps: 1, budget: 45, theme: 'dark', notes: 'The callback to the wall. Then questions — G summons the terminal on any scene if someone asks about the run.', html: () => `
+{ id: 'm-close', thumb: 'assets/ovthumb_m-close.jpg', act: 7, label: 'One line', steps: 1, budget: 45, theme: 'dark', notes: 'The callback to the wall. Then questions — G summons the terminal on any scene if someone asks about the run.', html: () => `
   <div class="statement" style="gap:3vmin">
     <h1 style="font-size:clamp(38px,6.4vmin,90px)">The tedium is real — <em>and so is the physics.</em></h1>
     <p class="lead" style="max-width:60%">Agents re-run the wall every time the dataset doubles. People build what comes next. The framework is a spec, not a codebase — fork it for your channel.</p>
@@ -1715,21 +1715,22 @@ insertAfter('finale',
 );
 SCENES.push(
 { id: 'm-policy', act: 5, label: 'Backup · policy — what I know, what I don\'t', steps: 1, budget: 0, theme: 'dark',
-  notes: 'FOR THE QUESTION THAT WILL COME. Left column is fact (the paper). Right column is the checklist, not policy: I have not verified CMS or CERN rules on external LLM APIs for internal data — say "check the twiki / ask the Publications Committee", do not improvise a rule in a CMS room.', html: () => `
+  notes: 'FOR THE QUESTION THAT WILL COME. Left column is fact (the paper). Right column is the checklist, not policy. VERIFIED and public: CERN General principles for the use of AI, home.cern/general-principles-use-ai-cern, published 13 Nov 2025 — nine principles (transparency and explainability, responsibility and accountability, lawfulness, fairness, security, sustainability, human oversight, data privacy, non-military); it says nothing specific about external AI services or confidential data. NOT verified: any CMS-specific rule on internal data through external LLM APIs, or the publication policy on AI-assisted text — say "check the twiki / ask the Publications Committee", do not improvise a rule in a CMS room.', html: () => `
   <h2 class="kicker">Backup — policy: what I <em>know</em>, what I don't</h2>
-  <div class="cols" style="align-items:stretch">
-    <div class="col grow"><div class="kcard" style="height:100%; border-left-color:var(--green)"><div class="nm" style="color:var(--green)">what the paper did — facts</div><ul class="mini">
+  <div class="cols" style="align-items:flex-start; padding-top:2vmin">
+    <div class="col grow"><div class="kcard" style="border-left-color:var(--green)"><div class="nm" style="color:var(--green)">what the paper did — facts</div><ul class="mini">
       <li><b>public inputs only</b> — CMS Run-1 Open Data; ALEPH archived data via MIT. No CMS-internal data or documents went through any agent.</li>
       <li><b>AI involvement disclosed</b> in the paper; headline results re-implemented independently by humans</li>
       <li><b>audit trail</b> — append-only logs, artifacts in git, fresh reviewer per iteration; the notes are public on github.com/jfc-mit</li>
       <li><b>human gate</b> before any full-dataset result; the agent never opened the signal region on its own</li>
       <li>cost: one Claude Max subscription; compute where the data lives</li></ul></div></div>
-    <div class="col grow"><div class="kcard" style="height:100%; border-left-color:var(--live)"><div class="nm" style="color:var(--live)">before an agent touches CMS-internal material — check, don't assume</div><ul class="mini">
+    <div class="col grow"><div class="kcard" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">before an agent touches CMS-internal material — check, don't assume</div><ul class="mini">
       <li>the CMS data and document policy on sending internal material to <b>external LLM APIs</b> — what may leave CERN, and to whom</li>
       <li>the publication policy on <b>AI-assisted text</b> and authorship — what must be disclosed, where</li>
       <li>what your <b>ARC</b> will expect — disclosure, an audit log, an independent re-implementation of the headline</li>
       <li>where it runs — laptop, lxplus, a cluster — and which endpoint the tokens go to</li>
-      <li style="color:var(--ink40)">I have not verified any of these for this room. Ask the Publications Committee; do not take my word for a rule.</li></ul></div></div>
+      <li><b>the floor that exists today:</b> CERN's <i>General principles for the use of AI</i> (13 Nov 2025) — document when and how AI is used; human oversight and accountability are not displaced; personal data protected</li>
+      <li style="color:var(--ink40)">the CMS-specific rules I have not verified for this room — ask the Publications Committee; do not take my word for a rule.</li></ul></div></div>
   </div>`
 });
 
