@@ -18,7 +18,7 @@ for (const { id, st } of list) {
   await p.pdf({ path: f, width: '1600px', height: '900px', printBackground: true, pageRanges: '1' }); pages.push(f);
 }
 // the wall and the plane, at their last beats
-for (const [u, w] of [['assets/wall/wall.html?t=6.9', 1500], ['assets/wall/wall.html?t=12.6', 1500], ['assets/wall/wall.html?t=17.6', 1500], ['assets/wall/wall.html?t=22.6', 1500], ['assets/wall/plane.html?t=9', 1200]]) {
+for (const [u, w] of [['assets/wall/wall.html?t=6.9', 1500], ['assets/wall/wall.html?t=12.6', 1500], ['assets/wall/wall.html?t=17.6', 1500], ['assets/wall/wall.html?t=22.6', 1500]]) {
   await p.goto(`http://127.0.0.1:8123/${u}&theme=${theme === 'light' ? 'paper' : 'dark'}`, { waitUntil: 'load' }); await p.waitForTimeout(w);
   await p.addStyleTag({ content: '#hint{display:none!important}' });
   const f = `${tmp}/${String(pages.length + 1).padStart(3, '0')}.pdf`;

@@ -103,7 +103,7 @@ body { background: radial-gradient(120% 100% at 50% 0%, var(--bg2), var(--bg) 60
 #tip .score { font-family: var(--mono); font-size: 10px; color: var(--ink40); margin-left: 6px; }
 #tip .warn { color: var(--accent); font-weight: 600; font-size: 10.5px; margin-left: 6px; }
 #tip .more { font-family: var(--mono); font-size: 10px; color: var(--ink40); margin-top: 4px; }
-#beats { position: fixed; left: 4.5vw; bottom: 6vh; width: 64vw; pointer-events: none; z-index: 2; }
+#beats { position: fixed; left: 4.5vw; bottom: 6vh; width: 56vw; pointer-events: none; z-index: 2; }
 #beats .beat { font-family: var(--serif); font-size: clamp(14px, 1.25vw, 20px); line-height: 1.4;
   opacity: 0; transition: opacity 800ms ease; position: absolute; bottom: 0; width: 100%; }
 #beats .beat.on { opacity: 1; }
@@ -136,7 +136,7 @@ body { background: radial-gradient(120% 100% at 50% 0%, var(--bg2), var(--bg) 60
   <div class="beat" id="beat0"><b>592 of 753</b> name a concrete signal model — <b>543</b> say so in the abstract. A model-specific search is a question that does not change; only the dataset does. The rest: <b>27</b> model-agnostic, <b>134</b> SM-process searches.</div>
   <div class="beat" id="beat1">Run 1 <i>was</i> re-run: <b>191 of 219</b> model-specific searches have an audited Run-2 successor. By hand, that took the collaboration <b>a decade</b>. <b>13</b> never came back.</div>
   <div class="beat" id="beat2">Run 2 is waiting: <b>351 of 369</b> model-specific searches have no Run-3 update yet. The decade starts over — unless the by-hand part stops being by hand.</div>
-  <div class="beat green" id="beat3">That is the job to hand to agents: <b>re-run the wall every time the dataset doubles</b> — and give the people back to the techniques that need building. The next forty minutes are the evidence that they can.</div>
+  <div class="beat green" id="beat3">Most of these tiles are somebody's PhD. Each one has a mechanical half — selection, backgrounds, systematics, the note — and that half is what this hour is about: <b>what agents already do with it, where they break, and what that leaves for you.</b></div>
 </div>
 <div id="src">codes, titles, eras: cms-results.web.cern.ch public publication pages, 9 PAGs · scraped 2026-08-10<br>
 class: titles + INSPIRE abstracts (543/592 name the model in-abstract)<br>successor: PER-PAIR AUDITED — LLM agents reading title+abstract; justification on hover</div>
@@ -329,7 +329,7 @@ function frame(ts) {
 
 const Q0 = new URLSearchParams(location.search);
 const T0 = Q0.get('t0') || String(Date.now());                                   // when the cold open started (deck HUD clock)
-const RET = Q0.get('ret') || ('plane.html?ret=' + encodeURIComponent('../../index.html?profile=masterclass#m-title'));   // default: the two curves, then the deck
+const RET = Q0.get('ret') || '../../index.html?profile=masterclass#m-title';   // default: straight back to the deck (plane.html is not in the student cut; pass ?ret=plane.html to chain it)
 const withT0 = u => { const i = u.indexOf('#'); const base = i < 0 ? u : u.slice(0, i), hash = i < 0 ? '' : u.slice(i);
   return base + (base.includes('?') ? '&' : '?') + 't0=' + T0 + hash; };
 const ret = () => { location.href = withT0(RET); };

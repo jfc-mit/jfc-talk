@@ -9,10 +9,7 @@ await p.click('.handoff a.go'); await p.waitForLoadState('load'); await p.waitFo
 console.log('wall:', p.url().replace(/^.*\/assets/, 'assets'));
 for (let i = 0; i < 5; i++) { await p.keyboard.press('PageDown'); await p.waitForTimeout(250); }
 await p.waitForLoadState('load'); await p.waitForTimeout(500);
-console.log('after wall beats:', p.url().replace(/^.*\/assets/, 'assets').slice(0, 100));
-for (let i = 0; i < 5; i++) { await p.keyboard.press('PageDown'); await p.waitForTimeout(250); }
-await p.waitForLoadState('load'); await p.waitForTimeout(800);
-console.log('after plane beats:', p.url().replace('http://127.0.0.1:8123/', ''));
+console.log('after wall beats:', p.url().replace('http://127.0.0.1:8123/', ''));
 console.log('scene label:', await p.evaluate(() => document.querySelector('#crumb .lab').textContent));
 await p.keyboard.press('h'); await p.waitForTimeout(1200);
 console.log('HUD clock:', await p.evaluate(() => document.querySelector('#hud-clock').textContent), '(chain took', Math.round((Date.now() - t0) / 1000), 's)');

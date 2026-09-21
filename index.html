@@ -1537,12 +1537,12 @@ const H4L = [   // the five reference notes (Phil Harris, h4l_agent_test/analysi
 const ROT = [-1.2, 1.3, -.9, 1.6, -1.4];
 
 insertBefore('title',
-{ id: 'm-cold', thumb: 'assets/ovthumb_m-cold.jpg', act: 7, label: 'Cold open · the wall', steps: 1, budget: 240, theme: 'dark', notes: 'START HERE, on the wall page itself (F for fullscreen). Beats on space: fill by PAG → composition (592/753 model-specific) → Run 1 verdicts (191 re-run, 13 never, a decade by hand) → Run 2 stale (351/369) → the agent job. Hover a red tile if asked. Space past the last beat → the two-curves page (shelf climbs, human capacity flat, red debt, green agentic wedge from 2026, thesis) → space again lands on the deck title. Esc/0 bail out at any time.', html: () => `
+{ id: 'm-cold', thumb: 'assets/ovthumb_m-cold.jpg', act: 7, label: 'Cold open · the wall', steps: 1, budget: 150, theme: 'dark', notes: 'START HERE, on the wall page itself (F for fullscreen). Beats on space: fill by PAG → composition (592/753 model-specific) → Run 1 verdicts (191 re-run, 13 never, a decade by hand) → Run 2 stale (351/369) → the student framing: most tiles are somebody\'s PhD; the mechanical half of each is what this hour is about. Hover a red tile if asked. Space past the last beat lands on the deck title. Esc/0 bail out at any time. (The two-curves page, plane.html, is NOT in this cut — programme pitch; reachable by hand if a convener asks.)', html: () => `
   <div class="handoff">
     <h1 style="font-size:clamp(28px,4.6vmin,60px)">Cold open — <em>the wall</em></h1>
-    <p class="lead">Every published CMS search since 2010, sorted by the data it analysed, and what happened to each one next. Then the two curves: searches climb, the people to re-run them do not. Runs as its own page, ≈4 min for both.</p>
+    <p class="lead">Every published CMS search since 2010, sorted by the data it analysed, and what happened to each one next. Most of them are somebody's PhD. Runs as its own page, ≈2½ min.</p>
     <a class="go" href="${WALL_URL}theme=${document.documentElement.dataset.theme === 'paper' ? 'paper' : 'dark'}">▶ open the wall</a>
-    <div class="ret">at the end of the two curves, <b>space</b> returns to the title · <b>Esc</b> or <b>0</b> bail out to the title at any time</div>
+    <div class="ret">past the last beat, <b>space</b> returns to the title · <b>Esc</b> or <b>0</b> bail out to the title at any time</div>
   </div>`
 },
 { id: 'm-title', act: 7, label: 'Title', steps: 1, budget: 30, theme: 'paper', thumb: 'assets/h4l_notes/jfc_opus48.png', notes: 'One hour: ~40 min talk, the rest questions. The cast loads behind this slide (chip goes ready). Say what the wall was: their publications, public pages, audited by agents.', html: () => `
@@ -1594,7 +1594,7 @@ cloneScene('b-review-war', { id: 'm-warstories', act: 7, label: 'What review cau
 cloneScene('b-fabrication', { id: 'm-fabrication', act: 7, label: 'Anti-fabrication', budget: 50,
   notes: 'The standing rule: never tune to match. Numbers never from memory. Verdicts bind. Everything in git — the diff is the deterrent.' },
   h => h.replace('Backup — review findings are <em>closed-loop</em>, not advisory', 'Review findings are <em>closed-loop</em>, not advisory')),
-{ id: 'm-exercise', thumb: 'assets/ovthumb_m-exercise.jpg', act: 7, size: 'roomy', label: 'Exercise · which would you sign?', steps: 4, budget: 300, theme: 'dark',
+{ id: 'm-exercise', thumb: 'assets/ovthumb_m-exercise.jpg', act: 7, size: 'roomy', label: 'Exercise · which would you sign?', steps: 4, budget: 360, theme: 'dark',
   notes: 'THE EXERCISE, 4 steps. 1: five anonymised money plots — same one-page prompt, same synthetic 10 fb⁻¹ H→4ℓ sample, each the money plot of a full agent-written note. "You are the ARC — hands up for the one you would approve." Take 2–3 answers, ask why. 2 REVEAL: mH = 129 GeV, μ = 1.8 injected; nobody was told; every run finds the bump. 3 NAMES: rogue = a folder with the prompt, the ntuplizer and the two cited papers, nothing else; JFC = the same plus the spec. The rogue Opus run fit a 125 template and reported μ = 0.31; the spec\'d runs measured the mass and flagged the tension. Judge the process, not the number. 4 THE TELLS: what a reader could have used from the notes alone — they are the ARC questions, i.e. the reviewer specs. Source: Phil Harris, h4l_agent_test/analysis_notes, June 2026; click any plot to zoom.', html: () => `
   <h2 class="kicker">Same prompt, same data, five notes — <em>which would you sign?</em></h2>
   <div class="tg-wall" style="justify-content:flex-start; gap:1.6vmin">
@@ -1721,14 +1721,15 @@ cloneScene('t-resources', { id: 'm-resources', thumb: 'assets/ovthumb_m-resource
 );
 insertAfter('forward',
 cloneScene('forward', { id: 'm-forward', act: 7, notes: 'sealed-truth H→4ℓ benchmark in review: the answer to "could it have just recalled the published number". Variance: one run is one sample. The four practices that held up.' },
-  h => h.replace(' (G. Fleming, Wed.)', '')),
+  h => h.replace(' (G. Fleming, Wed.)', '').replace(' — or the same harness on the AmSC i2 / Genesis MAG gateway', '')),
 );
 insertAfter('finale',
-{ id: 'm-close', thumb: 'assets/ovthumb_m-close.jpg', act: 7, label: 'One line', steps: 1, budget: 45, theme: 'dark', notes: 'The callback to the wall. Then questions — G summons the terminal on any scene if someone asks about the run.', html: () => `
+{ id: 'm-close', thumb: 'assets/ovthumb_m-close.jpg', act: 7, label: 'Three things', steps: 1, budget: 45, theme: 'dark', notes: 'The three takeaways, then the homework: the twelve lines for your own analysis, the demo on Open Data, bring what broke. Then questions — G summons the terminal on any scene if someone asks about the run.', html: () => `
   <div class="statement" style="gap:3vmin">
-    <h1 style="font-size:clamp(38px,6.4vmin,90px)">The tedium is real — <em>and so is the physics.</em></h1>
-    <p class="lead" style="max-width:60%">Agents re-run the wall every time the dataset doubles. People build what comes next. The framework is a spec, not a codebase — fork it for your channel.</p>
-    <p class="lead mono" style="font-size:clamp(11px,1.5vmin,17px); color:var(--ink40)">${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> · <a href="https://github.com/jfc-mit/jfc" target="_blank" rel="noopener">github.com/jfc-mit/jfc</a> · these slides: <a href="https://jfc-mit.github.io/jfc-talk/" target="_blank" rel="noopener">jfc-mit.github.io/jfc-talk</a></p>
+    <h1 style="font-size:clamp(34px,5.8vmin,82px)">Furnish context. <em>Keep the gate.</em> Read the note.</h1>
+    <p class="lead" style="max-width:64%">The code, the plots and the fifty pages are the part agents already do. What they cannot do is decide what is worth measuring, invent the technique, or sign the note — that stays with you.</p>
+    <p class="lead" style="max-width:64%"><b>This week:</b> write the twelve lines for your own analysis · run the demo on Open Data · <span class="hl">bring what broke</span>.</p>
+    <p class="lead mono" style="font-size:clamp(11px,1.5vmin,17px); color:var(--ink40)">${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> · <a href="https://github.com/jfc-mit/jfc" target="_blank" rel="noopener">github.com/jfc-mit/jfc</a> · <a href="https://github.com/andrzejnovak/jfc_demo" target="_blank" rel="noopener">github.com/andrzejnovak/jfc_demo</a></p>
     <p class="lead" style="font-family:var(--serif); font-style:italic; color:var(--ink)">Thank you — questions.</p>
   </div>`
 },
@@ -1916,8 +1917,8 @@ const SKIP_PROFILES = {
 };
 /* CMS masterclass, 22 Sep 2026: an ordered keep-list; everything else (except backups) is skipped. Other profiles skip the m-* scenes. */
 const MASTERCLASS = ['m-cold', 'm-title', 'm-poll', 'm-claim', 'anatomy', 'launch', 'framework', 'context', 'repo', 'phases', 'review', 'gate',
-  'menu', 'deliverable', 'scoreboard', 'htautau', 'lund', 'models', 'ladder', 'cost', 'm-honest', 'm-warstories', 'm-fabrication',
-  'm-exercise', 'm-combine', 'm-cms', 'm-demo', 'm-wave', 'm-resources', 'm-forward', 'finale', 'm-close'];
+  'menu', 'deliverable', 'scoreboard', 'htautau', 'lund', 'models', 'cost', 'm-honest', 'm-warstories', 'm-fabrication',
+  'm-exercise', 'm-combine', 'm-cms', 'm-demo', 'm-resources', 'm-forward', 'finale', 'm-close'];   // no ladder (rates people), no wave (funding), no two-curves page (programme pitch): this room is students and postdocs
 SKIP_PROFILES.masterclass = SCENES.filter(s => s.act !== 5 && !MASTERCLASS.includes(s.id)).map(s => s.id);
 { const m = SCENES.filter(s => s.act === 7).map(s => s.id);
   for (const k of Object.keys(SKIP_PROFILES)) if (k !== 'masterclass') SKIP_PROFILES[k].push(...m); }

@@ -1,13 +1,13 @@
 # JFC talk — HSF DAAA · Agentic AI in HEP data analysis · 27 July 2026
 
 **Branch `cms-masterclass-2026-09-22`** — the CMS internal masterclass cut (Tue 22 Sep 2026, one hour). `?profile=masterclass`
-(31 scenes, ≈38 min of budget, the rest for questions) = cold open on **the wall** (`assets/wall/wall.html`: 753 published CMS
-searches by data era, audited re-run status; space past the last beat → `plane.html`, the two curves → back to the deck) → title →
+(30 scenes, ≈37 min of budget, the rest for questions; the room is students and postdocs, so no student ladder, no funding slide, no two-curves programme page) = cold open on **the wall** (`assets/wall/wall.html`: 753 published CMS
+searches by data era, audited re-run status; space past the last beat → back to the deck; `plane.html`, the two curves, stays reachable via `?ret=`) → title →
 hands-up calibration → the claim → the HSF/Fermilab core (anatomy … cost, docked replay) → the honest backups promoted into the flow
 (`m-honest`, `m-warstories`, `m-fabrication`) → **the exercise** (`m-exercise`: five anonymised H→4ℓ money plots, "which would you
 sign?", the injected-truth reveal, the names, then the tells) → `m-combine` (a datacard the agent wrote and fitted) → **`m-cms`** (furnishing
 context for a CMS analysis: methodology / conventions / agents mapped onto AN, CADI, POG, pub-comm, ARC; a twelve-line conventions
-file as homework) → `m-demo` (run it yourself) → wave → resources → the way forward → finale → one line. Backup `m-policy` for the policy question. Masterclass
+file as homework) → `m-demo` (run it yourself) → resources → the way forward → finale → three things to take home. Backup `m-policy` for the policy question. Masterclass
 scenes are act 7 (`AX[7]`) and live in one block after `SCENES`; shared scenes are reused or cloned with a text patch (`cloneScene`).
 `node tools/shot.mjs masterclass <outdir>` screenshots every scene/step (Playwright, needs `python3 -m http.server 8123`).
 
