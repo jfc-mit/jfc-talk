@@ -26,5 +26,8 @@ for (const [u, w] of [['assets/wall/wall.html?t=6.9', 1500], ['assets/wall/wall.
 }
 await b.close();
 fs.mkdirSync('export', { recursive: true });
-execFileSync('pdfunite', [...pages, out]);
+execFileSync('pdfunite', [...pages, out + '.raw.pdf']);
+// Ghostscript halves the size (image re-encoding, font dedup) without rasterising anything
+try { execFileSync('gs', ['-q', '-dNOPAUSE', '-dBATCH', '-sDEVICE=pdfwrite', '-dPDFSETTINGS=/printer', '-dCompatibilityLevel=1.6', '-sOutputFile=' + out, out + '.raw.pdf']); fs.unlinkSync(out + '.raw.pdf'); }
+catch { fs.renameSync(out + '.raw.pdf', out); }
 console.log(out, pages.length, 'pages', (fs.statSync(out).size / 1e6).toFixed(1), 'MB');

@@ -334,8 +334,13 @@ function advance() {
         : clock < T_SWEEP ? T_SWEEP + 0.1 : NaN;
   if (Number.isNaN(clock)) ret();
 }
+function back() {   // previous beat (clicker PageUp / ArrowLeft)
+  clock = clock > T_SWEEP ? T_STALE + 1.6 : clock > T_STALE ? T_REDO + 1.6 : clock > T_REDO ? T_COMP + 0.6 : 0;
+  for (const t of tiles) t.classList.remove('no', 'maybe');
+}
 window.addEventListener('keydown', e => {
-  if (e.key === ' ' || e.key === 'ArrowRight') { e.preventDefault(); advance(); }
+  if (e.key === ' ' || e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === 'Enter') { e.preventDefault(); advance(); }
+  else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp' || e.key === 'Backspace') { e.preventDefault(); back(); }
   else if (e.key === 'Escape') { if (pinned || tip.classList.contains('open')) hideTip(); else ret(); }
   else if (e.key === 'r' || e.key === 'R') clock = 0;
   else if (e.key === 'd' || e.key === 'D') {
@@ -348,7 +353,7 @@ window.addEventListener('keydown', e => {
 window.addEventListener('click', () => { pinned ? hideTip() : advance(); });
 {
   const q = new URLSearchParams(location.search);
-  if (q.get('theme')) { themeName = q.get('theme'); applyTheme(); }
+  if (q.get('theme')) { themeName = q.get('theme'); localStorage.setItem('introring-theme', themeName); applyTheme(); }   // the deck's choice carries to the plane
   const t = parseFloat(q.get('t'));
   if (t > 0) clock = t;
   // debug: ?hover=CODE simulates a mouseover for screenshots

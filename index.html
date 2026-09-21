@@ -1542,7 +1542,7 @@ insertBefore('title',
   <div class="handoff">
     <h1 style="font-size:clamp(28px,4.6vmin,60px)">Cold open — <em>the wall</em></h1>
     <p class="lead">Every published CMS search since 2010, sorted by the data it analysed, and what happened to each one next. Then the two curves: searches climb, the people to re-run them do not. Runs as its own page, ≈4 min for both.</p>
-    <a class="go" href="${WALL_URL}">▶ open the wall</a>
+    <a class="go" href="${WALL_URL}&theme=${document.documentElement.dataset.theme === 'paper' ? 'paper' : 'dark'}">▶ open the wall</a>
     <div class="ret">at the end of the two curves, <b>space</b> returns to the title · <b>Esc</b> or <b>0</b> bail out to the title at any time</div>
   </div>`
 },
@@ -1596,7 +1596,7 @@ cloneScene('b-fabrication', { id: 'm-fabrication', act: 7, label: 'Anti-fabricat
   notes: 'The standing rule: never tune to match. Numbers never from memory. Verdicts bind. Everything in git — the diff is the deterrent.' },
   h => h.replace('Backup — review findings are <em>closed-loop</em>, not advisory', 'Review findings are <em>closed-loop</em>, not advisory')),
 { id: 'm-exercise', thumb: 'assets/ovthumb_m-exercise.jpg', act: 7, size: 'roomy', label: 'Exercise · which would you sign?', steps: 4, budget: 300, theme: 'dark',
-  notes: 'THE EXERCISE (4 steps). Step 4: the tells — what a reader could have used from the note alone; they are the ARC questions, i.e. the reviewer specs. Step 1: five anonymised money plots, same prompt, same synthetic 10 fb⁻¹ H→4ℓ sample, each from a full agent-written note. "You are the ARC — hands up for the one you would approve." Take 2–3 answers, ask why. Step 2 REVEAL: the sample was built with mH = 129 GeV, μ = 1.8 injected; nobody was told. Every run finds the bump. Step 3: names. Rogue = a folder with the prompt, the ntuplizer and the two cited papers, nothing else. JFC = the spec. The rogue Opus run fit a 125 template and reported μ = 0.31; the spec\'d runs measure the mass and say so. Judge the process, not the number. Source: Phil Harris, h4l_agent_test/analysis_notes, June 2026; click any plot to zoom.', html: () => `
+  notes: 'THE EXERCISE, 4 steps. 1: five anonymised money plots — same one-page prompt, same synthetic 10 fb⁻¹ H→4ℓ sample, each the money plot of a full agent-written note. "You are the ARC — hands up for the one you would approve." Take 2–3 answers, ask why. 2 REVEAL: mH = 129 GeV, μ = 1.8 injected; nobody was told; every run finds the bump. 3 NAMES: rogue = a folder with the prompt, the ntuplizer and the two cited papers, nothing else; JFC = the same plus the spec. The rogue Opus run fit a 125 template and reported μ = 0.31; the spec\'d runs measured the mass and flagged the tension. Judge the process, not the number. 4 THE TELLS: what a reader could have used from the notes alone — they are the ARC questions, i.e. the reviewer specs. Source: Phil Harris, h4l_agent_test/analysis_notes, June 2026; click any plot to zoom.', html: () => `
   <h2 class="kicker">Same prompt, same data, five notes — <em>which would you sign?</em></h2>
   <div class="tg-wall" style="justify-content:flex-start; gap:1.6vmin">
     <p class="lead" style="margin:0">You are the ARC. Each plot is the money plot of a complete, agent-written analysis note on the same 10 fb⁻¹ H→ZZ*→4ℓ sample, from the same one-page prompt. <b>Hands up for the one you would approve.</b></p>
@@ -1706,14 +1706,14 @@ zjets_norm   lnN  -          -          -          1.40
 );
 
 insertAfter('m-cms',
-cloneScene('demo', { id: 'm-demo', act: 7, label: 'Run it yourself', notes: 'How to start this week: the pre-seeded H→4ℓ demo on CMS Open Data, phases 3–5 live in ~50 min, three planted bugs the agents catch. A search is the same scaffold with --type search — the wall is made of exactly that shape.' },
+cloneScene('demo', { id: 'm-demo', thumb: 'assets/ovthumb_m-demo.jpg', act: 7, label: 'Run it yourself', notes: 'How to start this week: the pre-seeded H→4ℓ demo on CMS Open Data, phases 3–5 live in ~50 min, three planted bugs the agents catch. A search is the same scaffold with --type search — the wall is made of exactly that shape.' },
   h => h.replace(`<small>B. Dobrescu's “analyzer” wish (Thu.): backgrounds per final state, the search set up for CMS</small>`,
                  `<small>the wall's model-specific searches are exactly this shape — a re-run is a scaffold plus the new dataset</small>`)),
 );
 insertAfter('wave',
-cloneScene('wave', { id: 'm-wave', act: 7, notes: '31 citations on INSPIRE as of 21 Sep 2026 (was 30 on 11 Sep, 23 on 10 Aug); funnel 5000→278→~40→≥10→1 (Phil, EIC award). The point for this room: results from inside running experiments (ATLAS Z+jets) and a harness debate — people argue how, not whether.' },
+cloneScene('wave', { id: 'm-wave', thumb: 'assets/ovthumb_m-wave.jpg', act: 7, notes: '31 citations on INSPIRE as of 21 Sep 2026 (was 30 on 11 Sep, 23 on 10 Aug); funnel 5000→278→~40→≥10→1 (Phil, EIC award). The point for this room: results from inside running experiments (ATLAS Z+jets) and a harness debate — people argue how, not whether.' },
   h => h.replace('line-height:1">30</div>', 'line-height:1">31</div>')),
-cloneScene('t-resources', { id: 'm-resources', act: 7, notes: 'Two of the three are free for most of this room. NRP is US-institution access — the row is here for completeness. Claude Team Plan for Scientists: a PI applies, 25 lab members, free standard seats, 12 months. ChatGPT for Academic Researchers: faculty and postdocs apply themselves, +4 collaborators. CERN/CMS-provided options: check with IT before quoting anything.' },
+cloneScene('t-resources', { id: 'm-resources', thumb: 'assets/ovthumb_m-resources.jpg', act: 7, notes: 'Two of the three are free for most of this room. NRP is US-institution access — the row is here for completeness. Claude Team Plan for Scientists: a PI applies, 25 lab members, free standard seats, 12 months. ChatGPT for Academic Researchers: faculty and postdocs apply themselves, +4 collaborators. CERN/CMS-provided options: check with IT before quoting anything.' },
   h => h.replace('<tr class="today">', '<tr>')
         .replace('<small>today · no subscription</small>', '<small>US institutions · no subscription</small>')
         .replace('NRP needs no PI.', 'NRP: through a US institution.')),

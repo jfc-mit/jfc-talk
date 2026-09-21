@@ -262,7 +262,9 @@ function advance() {
   clock = clock < T_SHELF ? T_HUMAN : clock < T_GAP ? T_GAP + 0.01 : clock < T_AGENT ? T_AGENT + 0.01 : T_THESIS + 0.1;
 }
 window.addEventListener('keydown', e => {
-  if (e.key === ' ' || e.key === 'ArrowRight') { e.preventDefault(); advance(); }
+  if (e.key === ' ' || e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === 'Enter') { e.preventDefault(); advance(); }
+  else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp' || e.key === 'Backspace') { e.preventDefault();
+    clock = clock > T_THESIS ? T_AGENT + 0.9 : clock > T_AGENT ? T_GAP + 0.9 : clock > T_GAP ? T_HUMAN + 0.9 : 0; }
   else if (e.key === 'r' || e.key === 'R') clock = 0;
   else if (e.key === 'd' || e.key === 'D') {
     themeName = themeName === 'paper' ? 'dark' : 'paper';
@@ -274,7 +276,7 @@ window.addEventListener('keydown', e => {
 window.addEventListener('click', advance);
 {
   const q = new URLSearchParams(location.search);
-  if (q.get('theme')) { themeName = q.get('theme'); applyTheme(); }
+  if (q.get('theme')) { themeName = q.get('theme'); localStorage.setItem('introring-theme', themeName); applyTheme(); }
   const t = parseFloat(q.get('t'));
   if (t > 0) clock = t;
 }
