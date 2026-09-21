@@ -1,7 +1,7 @@
 # JFC talk — HSF DAAA · Agentic AI in HEP data analysis · 27 July 2026
 
 **Branch `cms-masterclass-2026-09-22`** — the CMS internal masterclass cut (Tue 22 Sep 2026, one hour on Zoom, students and
-postdocs). `?profile=masterclass` (27 scenes, 26:35 of budget, the rest for questions; light theme by default; no polls; the flow
+postdocs). `?profile=masterclass` (26 scenes, 24:35 of budget, the rest for questions; light theme by default; no polls; the flow
 follows the keep-list order, not the array) = title (the paper title as subtitle, the Lund plane) → **the outline** (`m-outline`,
 pinged back to at the head of every part with that part lit) → **Part I** the regular JFC slides with the ALEPH replay docked
 beside every one (anatomy → claim → ignition → framework → context → phases → review → gate; hovering a reviewer card on `review`
@@ -9,8 +9,8 @@ pops up its prompt) → **Part II** results (menu with "why LEP" → deliverable
 → **Part III** resources, lifted from the CLARIPHY tutorial (`m-resources`) → **Part IV** demos & tutorials (`m-tutorials`: the
 LPC HATS, the CLARIPHY lessons, jfc_demo, the jfc-mit.github.io pointers; `m-demo`; `m-lite`: Phil Harris' `jfc_lite` branch,
 rogue vs spec from one folder, one line to launch; `m-exercise`: the five anonymised H→4ℓ notes, narrated live — the injected
-truth, the names, the tells; `m-cms`: furnishing context for a CMS analysis, illustrative twelve lines) → the run finished →
-thank you. Backups (act 5, in the overview): `m-runs`, `m-honest`, `m-policy`, `m-spec`, `m-warstories`, `m-moments`,
+truth, the names, the tells) → the run finished →
+thank you. Backups (act 5, in the overview): `m-cms` (furnishing context for a CMS analysis), `m-runs`, `m-honest`, `m-policy`, `m-spec`, `m-warstories`, `m-moments`,
 `m-ladder`, `m-cold` → the wall (`assets/wall/wall.html`, returns to `m-future`), `m-future`. Masterclass scenes are act 7
 (`AX[7]`) in one block after `SCENES`; shared scenes are cloned with text patches (`cloneScene`). `node tools/shot.mjs
 masterclass <outdir>` screenshots every scene/step; `node tools/pdf.mjs masterclass <out.pdf> light` prints the cut (Playwright +
