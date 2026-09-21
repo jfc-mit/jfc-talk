@@ -59,6 +59,8 @@ body {
   overflow: hidden; cursor: pointer; user-select: none;
 }
 a { color: inherit; cursor: pointer; }
+/* code is selectable and copyable: a click inside it does not advance the deck */
+pre, .codeblock, .promptcard, .rf-pop, table.stack { user-select: text; -webkit-user-select: text; cursor: text; }
 
 /* ============================================= stage ============================================= */
 #stage-wrap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
@@ -1584,7 +1586,6 @@ const MC_ROWS = [   // [key, label, what] — text is editable in layout-edit mo
   ['res',     'Part III', '<b>Resources</b> — where a student or a postdoc gets a frontier model this week'],
   ['tut',     'Part IV',  '<b>Demos &amp; tutorials</b> — the CLARIPHY lessons, the LPC HATS, the 50-minute H→4ℓ demo'],
   ['start',   'Part V',   '<b>How to actually get started</b> — JFC lite: the premise, the runs, five notes dissected'],
-  ['qa',    'Q&amp;A',  '<b>Questions</b> — in the chat, any time'],
 ];
 const mcOutline = (hl, kicker, lead = '') => `
   <h2 class="kicker">${kicker}</h2>
@@ -1608,7 +1609,7 @@ SCENES.push(
         <img src="assets/author_eric.jpg" alt="Eric Moreno"><img src="assets/author_sam.jpg" alt="Sam Bright-Thonney"><img src="assets/author_andrzej.jpg" alt="Andrzej Novak"><img src="assets/author_dolores.jpg" alt="Dolores Garcia"><img src="assets/author_yiyang.jpg" alt="Yiyang Zhao"><img src="assets/author_philip.jpg" alt="Phil Harris">
         <span class="nm">Eric Moreno* · Sam Bright-Thonney* · <b style="color:var(--ink)">Andrzej Novak*</b> · Dolores Garcia · Yiyang Zhao · Philip Harris<br><small>* equal contribution · MIT / IAIFI / CERN</small></span>
       </div>
-      <div class="who" style="margin-top:2.6vmin"><b>Andrzej Novak</b> · MIT — <em>CMS internal masterclass</em><br>22 September 2026 · one hour on Zoom · questions in the chat, any time</div>
+      <div class="who" style="margin-top:2.6vmin"><b>Andrzej Novak</b> · MIT — <em>CMS internal masterclass</em><br>22 September 2026</div>
       <div class="logos theme-swap">
         <img class="on-light" src="assets/logo_mit_light.svg" alt="MIT"><img class="on-dark" src="assets/logo_mit_dark.svg" alt="MIT">
         <img class="cern on-light" src="assets/logo_cern_light.svg" alt="CERN"><img class="cern on-dark" src="assets/logo_cern_dark.svg" alt="CERN">
@@ -1625,23 +1626,19 @@ SCENES.push(
 },
 mcOutlineScene('m-outline', 'jfc', 'The hour — <em>five parts</em>', '',
   'The map. Four parts, each opened by this slide with the part lit. Say the shape once: what it is (I), how you get a model (II), how you learn it (III), how you start (IV). Then straight into the anatomy.'),
-mcOutlineScene('m-outline-r', 'results', 'Part II — <em>results</em>',
-  'Six analyses from one prompt each, and what came back.',
+mcOutlineScene('m-outline-r', 'results', 'Part II — <em>results</em>', '',
   'Ping back to the map. The run is still docked beside Part II.'),
-mcOutlineScene('m-outline-2', 'res', 'Part III — <em>resources</em>',
-  'Where a student or a postdoc gets a frontier model this week.',
+mcOutlineScene('m-outline-2', 'res', 'Part III — <em>resources</em>', '',
   'Ping back to the map. Pause here for chat questions on Part I before moving on.'),
-mcOutlineScene('m-outline-3', 'tut', 'Part IV — <em>demos &amp; tutorials</em>',
-  'Self-study, in order of commitment: an afternoon of lessons, a 50-minute demo, then your own analysis.',
+mcOutlineScene('m-outline-3', 'tut', 'Part IV — <em>demos &amp; tutorials</em>', '',
   'Ping back to the map.'),
-mcOutlineScene('m-outline-4', 'start', 'Part V — <em>how to actually get started</em>',
-  'One prompt, one sample, two paths — then you judge what came back.',
+mcOutlineScene('m-outline-4', 'start', 'Part V — <em>how to actually get started</em>', '',
   'Ping back to the map. Pause for chat questions. Part IV is the masterclass proper: the premise, the prompt, the runs, the five notes, the datacard, the homework.'),
 
 cloneScene('claim', { id: 'm-claim', act: 7, budget: 40, notes: 'the paper title IS the claim; the ALEPH recording is ours, it plays beside the slides from the next scene on, through Part I. The policy line pre-empts the question that otherwise comes at minute 3: everything ran on public data; the internal-data answer is "check" (m-policy backup).' },
   h => h.replace(`So rather than only telling you — let's <span class="hl">test</span> it, together.<br>Yours are running now. Here is ours — recorded, start to finish.`,
-                 `So rather than only telling you — here are the <span class="hl">receipts</span>.<br>One real run, recorded start to finish: you will see it start, and you will see it finish.`)
-        .replace('<span class="cursor">▌</span></div>', '<span class="cursor">▌</span></div>\n    <div class="lead" style="font-size:clamp(12px,1.6vmin,19px); color:var(--ink40); max-width:72%">Everything you will see ran on public data. The internal-data question is real; today\'s answer is “check”.</div>')),
+                 `One real run, <span class="hl">recorded</span> start to finish.`)
+        .replace('<span class="cursor">▌</span></div>', '<span class="cursor">▌</span></div>\n    <div class="lead" style="font-size:clamp(12px,1.6vmin,19px); color:var(--ink40); max-width:72%">Everything shown ran on public data.</div>')),
 cloneScene('launch', { id: 'm-launch', act: 7, notes: 'prompt + one approval = all human input. The 43 h is wall clock of a July re-run, mostly idle waits; the paper analyses take ~10 h of autonomous work — the cost slide says so. Replay ×235; it stays docked beside every slide of Part I.' },
   h => h.replace('<h2 class="kicker">One prompt. <em>43 hours.</em> No hands.</h2>', '<h2 class="kicker">One prompt, one approval — <em>a 43-hour run</em> on ALEPH data, replayed</h2>')
         .replace('all of it is agents talking to agents</small>', 'no human in between</small>')),
@@ -1665,7 +1662,8 @@ cloneScene('t-resources', { id: 'm-resources', thumb: 'assets/ovthumb_m-resource
         .replace('<tr class="today">', '<tr>')
         .replace('<small>today · no subscription</small>', '<small>US institutions · no subscription</small>')
         .replace('<b>Postdocs:</b> apply to ChatGPT yourselves. NRP needs no PI.</p>',
-                 '<b>Postdocs:</b> apply to ChatGPT yourselves. <b>NRP:</b> through a US institution.</p>\n    <p class="lead" style="margin:0; font-size:clamp(12px,1.65vmin,19px); color:var(--ink60)">CERN- or CMS-provided options: check with IT before you rely on one — not verified for this room.</p>')),
+                 '<b>Postdocs:</b> apply to ChatGPT yourselves. <b>NRP:</b> through a US institution.</p>\n    <p class="lead" style="margin:0; font-size:clamp(12px,1.65vmin,19px); color:var(--ink60)">CERN- or CMS-provided options: not verified — check with IT.</p>')
+        .replace('through a faculty member or postdoc — <span class="hl">ask this week</span>.', 'through a faculty member or postdoc.')),
 
 /* ---- Part III · demos & tutorials ---- */
 { id: 'm-tutorials', thumb: 'assets/ovthumb_m-tutorials.jpg', act: 7, label: 'Demos & tutorials', steps: 1, budget: 60, theme: 'dark',
@@ -1680,7 +1678,7 @@ cloneScene('t-resources', { id: 'm-resources', thumb: 'assets/ovthumb_m-resource
       <div class="kcard"><div class="nm">LPC HATS · NRP as a Resource for LLMs <span style="color:var(--ink40); font-weight:400">— the CMS edition</span></div><ul class="mini">
         <li><a href="https://training.nrp-nautilus.io/cms-hats-llm/" target="_blank" rel="noopener">training.nrp-nautilus.io/cms-hats-llm</a> — the same lessons on CMS material</li>
         <li>Lesson 5 stages and launches <b>JFC lite on NRP's open-weight models</b> — 45 min, Claude Code through NRP's Anthropic-compatible endpoint</li>
-        <li>research-grade on open weights: where it degrades is the result — keep notes</li></ul></div>
+        <li>open weights: research-grade, not a guaranteed demo</li></ul></div>
       <div class="kcard" style="border-left-color:var(--green)"><div class="nm" style="color:var(--green)">jfc_demo <span style="color:var(--ink40); font-weight:400">— fifty minutes</span></div><ul class="mini">
         <li><a href="https://github.com/andrzejnovak/jfc_demo" target="_blank" rel="noopener">github.com/andrzejnovak/jfc_demo</a> — H→4ℓ on CMS Open Data, phases 1–2 pre-baked, <b>3–5 live</b></li>
         <li>three planted bugs the agents catch; needs a Claude subscription and pixi</li></ul></div>
@@ -1688,7 +1686,6 @@ cloneScene('t-resources', { id: 'm-resources', thumb: 'assets/ovthumb_m-resource
         <li><a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> — the six agent-written notes and every review transcript</li>
         <li><a href="https://github.com/jfc-mit/jfc" target="_blank" rel="noopener">github.com/jfc-mit/jfc</a> — the spec itself · <a href="https://github.com/violatingcp/h4l_agent_test" target="_blank" rel="noopener">violatingcp/h4l_agent_test</a> — the H→4ℓ prompt and the five reference notes</li></ul></div>
     </div>
-    <p class="lead" style="margin:0">An afternoon of lessons, then a fifty-minute demo, then your own analysis.</p>
   </div>`
 },
 cloneScene('demo', { id: 'm-demo', thumb: 'assets/ovthumb_m-demo.jpg', act: 7, label: 'Run it yourself', notes: 'The 50-minute demo: pre-seeded H→4ℓ on CMS Open Data, phases 3–5 live, three planted bugs the agents catch. A search is the same scaffold with --type search.' },
@@ -1782,14 +1779,14 @@ Loosely follows JHEP 11 (2017) 047, arXiv:1706.09936.
         <tr><td><b style="color:var(--live)">rogue</b>, open weights</td><td>gpt-oss · glm-5 on NRP</td><td>14 Sep 2026 · the CLARIPHY room</td><td>research-grade: where it degrades is the result</td></tr>
       </tbody>
     </table>
-    <p class="lead" style="margin:0"><b>Five of these are complete notes.</b> Their money plots are next — shuffled and unlabelled. You judge them before you know which is which.</p>
+    <p class="lead" style="margin:0"><b>Five of these are complete notes</b> — their money plots follow, shuffled and unlabelled.</p>
   </div>`
 },
 { id: 'm-exercise', thumb: 'assets/ovthumb_m-exercise.jpg', act: 7, size: 'roomy', label: 'Exercise · which would you sign?', steps: 4, budget: 240, theme: 'dark',
   notes: 'THE EXERCISE, 4 steps, no poll (Zoom): 1: the five plots — pick one you would sign, or none; twenty seconds, say nothing. 2 REVEAL: mH = 129 GeV, μ = 1.8 injected; nobody was told; every run finds the bump. 3 NAMES: rogue = the prompt, the ntuplizer and the two cited papers, nothing else; spec = the same, scaffolded in. The rogue Opus run fit a 125 template and reported μ = 0.31; the spec\'d runs measured the mass and flagged the tension. Same model, prompt, data; only the spec differs. 4 THE TELLS: you could not tell from the plot — that is the point; the tells are in the notes and, written down, they are a reviewer spec (m-spec in the backups). Source: Phil Harris, h4l_agent_test/analysis_notes, June 2026.', html: () => `
   <h2 class="kicker">Same prompt, same sample, five notes — <em>which would you sign?</em></h2>
   <div class="tg-wall" style="justify-content:flex-start; gap:1.6vmin">
-    <p class="lead" style="margin:0">You are the ARC. Each plot is the money plot of a complete, agent-written note from the runs you just saw — same prompt, same 10 fb⁻¹ sample, shuffled. <b>Pick one you would sign, or none. Twenty seconds.</b></p>
+    <p class="lead" style="margin:0">You are the ARC. Each plot is the money plot of a complete, agent-written note — same prompt, same 10 fb⁻¹ sample, shuffled. <b>Which would you sign?</b></p>
     <div class="snapwall">
       ${H4L.map((n, i) => `<div class="polaroid" style="transform:rotate(${ROT[i]}deg)"><div class="fig zoomable auto"><img src="assets/h4l_notes/${n.f}.png" alt="${n.who} — four-lepton mass"></div>
         <div class="tag"><span class="anon"><b>${n.anon}</b></span><span class="real" hidden><b style="color:${n.jfc ? 'var(--green)' : 'var(--live)'}">${n.who}</b><br>${n.res}</span></div></div>`).join('\n      ')}
@@ -1804,9 +1801,9 @@ Loosely follows JHEP 11 (2017) 047, arXiv:1706.09936.
         <span style="color:var(--green); border-color:var(--green)">backgrounds scaled to the luminosity in the prompt</span>
         <span style="color:var(--green); border-color:var(--green)">the tension stated, not discovered by you</span>
         <span style="color:var(--green); border-color:var(--green)">rerunnable from the folder</span></div>
-      <p class="lead" style="margin:0"><b>You could not tell from the plot — that is the point.</b> Every tell is in the note, none needs the answer key, and they are the questions an ARC asks anyway. Written down once, they are a reviewer spec.</p>
+      <p class="lead" style="margin:0"><b>None of it is visible in the plot; all of it is in the note.</b> These are the questions an ARC asks — written down once, they are a reviewer spec.</p>
     </div>
-    <div class="figcap" style="text-align:left; margin:0">Money plots from Phil Harris' five reference notes, h4l_agent_test/analysis_notes, June 2026 — click to zoom. The real world, CMS 2016: 125.26 ± 0.21 GeV, μ = 1.05.</div>
+    <div class="figcap" style="text-align:left; margin:0">Money plots from Phil Harris' five reference notes, h4l_agent_test/analysis_notes, June 2026. The real world, CMS 2016: 125.26 ± 0.21 GeV, μ = 1.05.</div>
   </div>`,
   onenter(step) { document.querySelectorAll('.scene .snapwall .anon').forEach(e => { e.hidden = step >= 3; });
                   document.querySelectorAll('.scene .snapwall .real').forEach(e => { e.hidden = step < 3; });
@@ -1896,7 +1893,7 @@ zjets_norm   lnN  -          -          -          1.40
 },
 cloneScene('finale', { id: 'm-finale', act: 7, label: 'While we talked', budget: 45, notes: 'The replay has ended (step 2 seeks to the end). Step 3: this was the mechanical half of an analysis — selection, backgrounds, systematics, the note — done in 43 hours with one prompt and one approval. Then the close.' },
   h => h.replace(/<div style="flex:1" data-step="3">[\s\S]*?<\/div>\n  <\/div>/,
-    '<div style="flex:1" data-step="3"><p class="lead" style="font-family:var(--serif); font-style:italic; color:var(--ink); font-size:clamp(17px,2.4vmin,29px)">One prompt, one approval, 43 hours: selection, backgrounds, systematics, a 53-page note — finished while we talked.</p></div>\n  </div>')),
+    '<div style="flex:1" data-step="3"><p class="lead mono" style="margin-top:.8vmin; font-size:clamp(11px,1.5vmin,17px)">' + arxiv('2603.20179') + ' · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> · <a href="https://github.com/jfc-mit" target="_blank" rel="noopener">github.com/jfc-mit</a></p></div>\n  </div>')),
 { id: 'm-close', thumb: 'assets/ovthumb_m-close.jpg', act: 7, label: 'Three things', steps: 1, budget: 45, theme: 'dark', notes: 'The homework list, then questions. Then questions — G summons the terminal on any scene if someone asks about the run; O is the jump list with the backups.', html: () => `
   <div class="statement" style="gap:3vmin">
     <h1 style="font-size:clamp(34px,5.8vmin,82px)">This week — <em>three things</em></h1>
@@ -1997,7 +1994,7 @@ SCENES.push(
    Authoring-only: file:// / localhost / ?edit. Ported from the hcc-kappac talk. */
 const Layout = (() => {
   const KEY = 'jfc-layout2';   // bumped 14 Sep 2026: the live text edits made under jfc-layout1 were baked into the source
-  const TXT = 'h1, h2, p, li, td, th, .lead, .callout, .figcap, .sub, .who, .tag, .kcard .nm, .kcard .ds, .an-card .nm, .an-card .pr, .promptcard, .mstate .big, .ph .n, .ph .what';
+  const TXT = 'h1, h2, p, li, td, th, pre, .codeblock .src, .lead, .callout, .figcap, .sub, .who, .tag, .kcard .nm, .kcard .ds, .an-card .nm, .an-card .pr, .promptcard, .mstate .big, .ph .n, .ph .what, .verdicts span, .rf-verdicts .v, .rf-art, .rf-looplab, .funhdr';
   const BARMSG = '<b>layout edit</b> — drag to move · ◢ corner to resize · scroll over text to scale · double-click text to rewrite · <b>C</b> copy overrides · <b>X</b> reset scene · <b>E</b> exit';
   const EDITABLE = location.protocol === 'file:' || ['localhost', '127.0.0.1'].includes(location.hostname)
     || new URLSearchParams(location.search).has('edit');
@@ -2315,7 +2312,8 @@ const Deck = (() => {
     for (const id of ['#lightbox', '#overview', '#help']) if ($(id).classList.contains('on')) { $(id).classList.remove('on'); any = true; }
     return any; };
   document.body.addEventListener('click', e => {
-    if (e.target.closest('#chrome-br, #hud, a, #term')) return;
+    if (e.target.closest('#chrome-br, #hud, a, #term, pre, .codeblock, .promptcard, .rf-pop, table.stack')) return;
+    if (String(getSelection ? getSelection() : '').length) return;   // a text selection is not a click
     if ($('#lightbox').classList.contains('on')) { $('#lightbox').classList.remove('on'); return; }
     if ($('#overview').classList.contains('on') || $('#help').classList.contains('on')) { overlaysOff(); return; }
     next();
