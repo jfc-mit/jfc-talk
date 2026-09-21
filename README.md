@@ -1,6 +1,6 @@
 # JFC talk — HSF DAAA · Agentic AI in HEP data analysis · 27 July 2026
 
-**Branch `cms-masterclass-2026-09-22`** — the CMS internal masterclass cut (Mon 22 Sep 2026, one hour). `?profile=masterclass`
+**Branch `cms-masterclass-2026-09-22`** — the CMS internal masterclass cut (Tue 22 Sep 2026, one hour). `?profile=masterclass`
 (31 scenes, ≈38 min of budget, the rest for questions) = cold open on **the wall** (`assets/wall/wall.html`: 753 published CMS
 searches by data era, audited re-run status; space past the last beat → `plane.html`, the two curves → back to the deck) → title →
 hands-up calibration → the claim → the HSF/Fermilab core (anatomy … cost, docked replay) → the honest backups promoted into the flow

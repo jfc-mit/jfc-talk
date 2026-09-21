@@ -1930,8 +1930,9 @@ const Skips = (() => {
   else if (qs.has('skip')) set = new Set(qs.get('skip').split(',').filter(Boolean));
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify([...set])); } catch { /* ignore */ } };
   if (prof || qs.has('skip')) save();
-  return { has: id => set.has(id),
-    toggle(id) { set.has(id) ? set.delete(id) : set.add(id); save(); },
+  let manual = false;
+  return { has: id => set.has(id), get manual() { return manual; },
+    toggle(id) { set.has(id) ? set.delete(id) : set.add(id); manual = true; save(); },
     get size() { return set.size; }, list: () => [...set] };
 })();
 
@@ -1966,7 +1967,7 @@ const Deck = (() => {
   }
   function chrome(sc) {
     const vis = countable(), vi = vis.indexOf(sc);
-    const extra = Skips.size ? ` · ${Skips.size} hidden` : '';
+    const extra = Skips.size && (Skips.manual || !new URLSearchParams(location.search).get('profile')) ? ` · ${Skips.size} hidden` : '';   // a named cut is not "hidden scenes" to the audience
     $('#counter').textContent = (isBackup(sc) ? 'backup' : vi >= 0 ? `${vi + 1} / ${vis.length}` : `off-cut · ${vis.length} live`) + extra;
     if (vi >= 0) $('#progress').style.width = (100 * (stepsBefore(si) + step) / totalSteps()) + '%';
   }
