@@ -10,7 +10,7 @@ pops up its prompt) → **Part II** results (menu with "why LEP" → deliverable
 LPC HATS, the CLARIPHY lessons, jfc_demo, the jfc-mit.github.io pointers; `m-demo`; `m-lite`: Phil Harris' `jfc_lite` branch,
 rogue vs spec from one folder, one line to launch; `m-exercise`: the five anonymised H→4ℓ notes, narrated live — the injected
 truth, the names, the tells; `m-cms`: furnishing context for a CMS analysis, illustrative twelve lines) → the run finished →
-the homework. Backups (act 5, in the overview): `m-runs`, `m-honest`, `m-policy`, `m-spec`, `m-warstories`, `m-moments`,
+thank you. Backups (act 5, in the overview): `m-runs`, `m-honest`, `m-policy`, `m-spec`, `m-warstories`, `m-moments`,
 `m-ladder`, `m-cold` → the wall (`assets/wall/wall.html`, returns to `m-future`), `m-future`. Masterclass scenes are act 7
 (`AX[7]`) in one block after `SCENES`; shared scenes are cloned with text patches (`cloneScene`). `node tools/shot.mjs
 masterclass <outdir>` screenshots every scene/step; `node tools/pdf.mjs masterclass <out.pdf> light` prints the cut (Playwright +

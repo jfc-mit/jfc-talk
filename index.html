@@ -1752,17 +1752,17 @@ pixi install</pre>
     <p class="lead" style="margin:0"><b>Five of these are complete notes</b> — their money plots follow, shuffled and unlabelled.</p>
   </div>`
 },
-{ id: 'm-exercise', thumb: 'assets/ovthumb_m-exercise.jpg', act: 7, size: 'roomy', label: 'Five notes · which would you sign?', steps: 4, budget: 240, theme: 'dark',
-  notes: 'Narrated live. Step 1: five anonymised money plots, same prompt, same 10 fb⁻¹ sample. Step 2 REVEAL: mH = 129 GeV, μ = 1.8 injected — nobody was told. Step 3 NAMES on the tags: rogue = the prompt, the ntuplizer and the two cited papers, nothing else; JFC = the same, scaffolded into the spec. The rogue Opus run fit a 125 template and reported μ = 0.31; the spec\'d runs measured the mass and flagged the tension. Step 4 THE TELLS: none of it is visible in the plot; all of it is in the note — the questions an ARC asks. Source: Phil Harris, h4l_agent_test/analysis_notes, June 2026. CMS 2016: 125.26 ± 0.21 GeV, μ = 1.05.', html: () => `
+{ id: 'm-exercise', thumb: 'assets/ovthumb_m-exercise.jpg', act: 7, size: 'roomy', label: 'Five notes · which would you sign?', steps: 1, budget: 240, theme: 'dark',
+  notes: 'Narrated live, one build. Five money plots, same prompt, same 10 fb⁻¹ sample; mH = 129 GeV, μ = 1.8 injected — nobody was told. Names on the tags: rogue = the prompt, the ntuplizer and the two cited papers, nothing else; JFC = the same, scaffolded into the spec. The rogue Opus run fit a 125 template and reported μ = 0.31; the spec\'d runs measured the mass and flagged the tension. The tells: none of it is visible in the plot; all of it is in the note — the questions an ARC asks. Source: Phil Harris, h4l_agent_test/analysis_notes, June 2026. CMS 2016: 125.26 ± 0.21 GeV, μ = 1.05.', html: () => `
   <h2 class="kicker">Five notes, one prompt, one sample — <em>which would you sign?</em></h2>
   <div class="tg-wall" style="justify-content:flex-start; gap:1.6vmin">
     <div class="snapwall">
       ${H4L.map((n, i) => `<div class="polaroid" style="transform:rotate(${ROT[i]}deg)"><div class="fig zoomable auto"><img src="assets/h4l_notes/${n.f}.png" alt="${n.who} — four-lepton mass"></div>
-        <div class="tag"><span class="anon"><b>${n.anon}</b></span><span class="real" hidden><b style="color:${n.jfc ? 'var(--green)' : 'var(--live)'}">${n.who}</b><br>${n.res}</span></div></div>`).join('\n      ')}
+        <div class="tag"><span class="real"><b style="color:${n.jfc ? 'var(--green)' : 'var(--live)'}">${n.who}</b><br>${n.res}</span></div></div>`).join('\n      ')}
     </div>
-    <div class="mstate reveal" data-step="2"><div class="big" style="font-size:clamp(20px,3.4vmin,44px)">m<sub>H</sub> = 129 GeV, μ = 1.8 — <em>injected</em>.</div></div>
-    <p class="lead reveal tg-names" data-step="3" style="margin:0"><b style="color:var(--live)">rogue</b> — the prompt and the papers, nothing else · <b style="color:var(--green)">JFC</b> — the same, plus the spec.</p>
-    <div class="reveal" data-step="4">
+    <div class="mstate"><div class="big" style="font-size:clamp(20px,3.4vmin,44px)">m<sub>H</sub> = 129 GeV, μ = 1.8 — <em>injected</em>.</div></div>
+    <p class="lead" style="margin:0"><b style="color:var(--live)">rogue</b> — the prompt and the papers, nothing else · <b style="color:var(--green)">JFC</b> — the same, plus the spec.</p>
+    <div>
       <div class="verdicts" style="margin:0; flex-wrap:wrap; font-size:clamp(11px,1.6vmin,19px)">
         <span style="color:var(--green); border-color:var(--green)">peak where the fit says</span>
         <span style="color:var(--green); border-color:var(--green)">an uncertainty you believe</span>
@@ -1771,9 +1771,7 @@ pixi install</pre>
         <span style="color:var(--green); border-color:var(--green)">rerunnable from the folder</span></div>
     </div>
     <div class="figcap" style="text-align:left; margin:0">Phil Harris, h4l_agent_test/analysis_notes, June 2026 · CMS 2016: 125.26 ± 0.21 GeV, μ = 1.05.</div>
-  </div>`,
-  onenter(step) { document.querySelectorAll('.scene .snapwall .anon').forEach(e => { e.hidden = step >= 3; });
-                  document.querySelectorAll('.scene .snapwall .real').forEach(e => { e.hidden = step < 3; }); }
+  </div>`
 },
 { id: 'm-cms', thumb: 'assets/ovthumb_m-cms.jpg', act: 7, label: 'Furnishing context for a CMS analysis', steps: 1, budget: 120, theme: 'dark',
   notes: 'THE HOMEWORK. JFC asks for three folders; a CMS group already owns all three, just not written down in one place. methodology = the AN skeleton + CADI workflow + your PAG pre-approval checklist + the unblinding policy. conventions = pub-comm guidelines, POG object recommendations and SFs, NanoAOD field names, your plot style, Combine datacard habits. agents = the ARC questions you always get, written down as reviewers; the gate = pre-approval/unblinding, never opened by the agent. Right: a conventions file that fits on a slide — illustrative, say so. Step 2: what stays yours.', html: () => `
@@ -1816,12 +1814,10 @@ pixi install</pre>
 cloneScene('finale', { id: 'm-finale', act: 7, label: 'While we talked', budget: 45, notes: 'The replay has ended (step 2 seeks to the end). Step 3: this was the mechanical half of an analysis — selection, backgrounds, systematics, the note — done in 43 hours with one prompt and one approval. Then the close.' },
   h => h.replace(/<div style="flex:1" data-step="3">[\s\S]*?<\/div>\n  <\/div>/,
     '<div style="flex:1" data-step="3"><p class="lead mono" style="margin-top:.8vmin; font-size:clamp(11px,1.5vmin,17px)">' + arxiv('2603.20179') + ' · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> · <a href="https://github.com/jfc-mit" target="_blank" rel="noopener">github.com/jfc-mit</a></p></div>\n  </div>')),
-{ id: 'm-close', thumb: 'assets/ovthumb_m-close.jpg', act: 7, label: 'Three things', steps: 1, budget: 45, theme: 'dark', notes: 'The homework list, then questions. Then questions — G summons the terminal on any scene if someone asks about the run; O is the jump list with the backups.', html: () => `
+{ id: 'm-close', thumb: 'assets/ovthumb_m-close.jpg', act: 7, label: 'Thank you', steps: 1, budget: 30, theme: 'dark', notes: 'Questions. G summons the terminal on any scene if someone asks about the run; O is the jump list with the backups.', html: () => `
   <div class="statement" style="gap:3vmin">
-    <h1 style="font-size:clamp(34px,5.8vmin,82px)">This week — <em>three things</em></h1>
-    <p class="lead" style="max-width:64%">Launch JFC lite on the H→4ℓ prompt · write the twelve conventions lines for your own analysis · <span class="hl">bring what broke</span>.</p>
+    <h1 style="font-size:clamp(40px,6.6vmin,92px)">Thank you</h1>
     <p class="lead mono" style="font-size:clamp(11px,1.5vmin,17px); color:var(--ink40)">${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> · <a href="https://github.com/jfc-mit/jfc" target="_blank" rel="noopener">github.com/jfc-mit/jfc</a> · <a href="https://github.com/violatingcp/jfc/tree/jfc_lite" target="_blank" rel="noopener">violatingcp/jfc@jfc_lite</a> · <a href="https://github.com/andrzejnovak/jfc_demo" target="_blank" rel="noopener">andrzejnovak/jfc_demo</a></p>
-    <p class="lead" style="font-family:var(--serif); font-style:italic; color:var(--ink)">Thank you — questions.</p>
   </div>`
 },
 
