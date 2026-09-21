@@ -1,17 +1,16 @@
 # JFC talk — HSF DAAA · Agentic AI in HEP data analysis · 27 July 2026
 
 **Branch `cms-masterclass-2026-09-22`** — the CMS internal masterclass cut (Tue 22 Sep 2026, one hour on Zoom, students and
-postdocs). `?profile=masterclass&nolayout` (31 scenes, 31:00 of budget, the rest for questions; no polls; the flow follows the
+postdocs). `?profile=masterclass&nolayout` (30 scenes, 29:50 of budget, the rest for questions; light theme by default; no polls; the flow follows the
 keep-list order, not the array; `nolayout` ignores layout-editor overrides stored in the browser) = title carrying the thesis
 ("Furnish the context. Keep the gate. Read the note.") → **the outline** (`m-outline`, pinged back to at the head of every part
 with that part lit) → **Part I** the regular JFC slides with the ALEPH replay docked beside every one (anatomy → claim → ignition →
-framework → context → phases → review → gate → menu with "why LEP" → deliverable → scoreboard → H→ττ → Lund → cost → where it
-breaks + the standing rule) → **Part II** resources, lifted from the CLARIPHY tutorial (`m-resources`) → **Part III** demos &
+framework → context → phases → review → gate → menu with "why LEP" → deliverable → scoreboard → H→ττ → Lund → cost; hovering a reviewer card on `review` pops up its prompt) → **Part II** resources, lifted from the CLARIPHY tutorial (`m-resources`) → **Part III** demos &
 tutorials (`m-tutorials`: the CLARIPHY lessons, the LPC HATS, jfc_demo, the receipts; `m-demo`) → **Part IV** how to actually get
 started (`m-lite`: Phil Harris' `jfc_lite` branch, rogue vs spec from one folder, one line to launch; `m-prompt`; `m-runs`: the
 run matrix without results; `m-exercise`: the five anonymised H→4ℓ notes, the injected truth, the names, the tells; `m-combine`:
 the datacard; `m-cms`: furnishing context for a CMS analysis, illustrative twelve lines) → the run finished → the thesis again.
-Backups (act 5, in the overview): `m-policy`, `m-spec`, `m-warstories`, `m-moments`, `m-ladder`, `m-cold` → the wall
+Backups (act 5, in the overview): `m-honest`, `m-policy`, `m-spec`, `m-warstories`, `m-moments`, `m-ladder`, `m-cold` → the wall
 (`assets/wall/wall.html`, returns to `m-future`), `m-future`. Masterclass scenes are act 7 (`AX[7]`) in one block after
 `SCENES`; shared scenes are cloned with text patches (`cloneScene`). `node tools/shot.mjs masterclass <outdir>` screenshots every
 scene/step; `node tools/pdf.mjs masterclass <out.pdf>` prints the cut (Playwright + pdfunite + gs; needs `python3 -m http.server 8123`).

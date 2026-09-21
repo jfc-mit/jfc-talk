@@ -199,6 +199,17 @@ strong { font-weight: 650; }
   gap: .9vmin; min-height: 0; padding-left: 6.5vmin; }
 .rf-fan { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.1vmin; }
 .rf-fan .kcard { padding: 1.1vmin 1.3vmin; }
+.rf-fan .kcard, .rf-arb { position: relative; }
+.rf-fan .kcard:hover, .rf-arb:hover { z-index: 40; }
+.rf-pop { display: none; position: absolute; left: 0; top: calc(100% + .8vmin); width: min(66vmin, 760px); z-index: 60; text-align: left; cursor: default;
+  background: var(--card); border: 1px solid var(--ink12); border-top: 3px solid var(--accent); border-radius: 10px; box-shadow: 0 14px 40px rgba(0,0,0,.28); padding: 1.1vmin 1.5vmin 1.2vmin; }
+.rf-fan .kcard:nth-child(n+4) .rf-pop { left: auto; right: 0; }
+.rf-arb .rf-pop { top: auto; bottom: calc(100% + .8vmin); left: 50%; transform: translateX(-50%); }
+.kcard:hover > .rf-pop { display: block; }
+.rf-pop .src { font-family: var(--mono); font-size: clamp(9px,1.25vmin,14px); color: var(--ink60); }
+.rf-pop .src b { color: var(--ink); }
+.rf-pop pre { margin: .7vmin 0 0; font-size: clamp(9px,1.22vmin,14px); line-height: 1.38; white-space: pre-wrap; color: var(--ink); }
+.rf-pop pre .c { color: var(--ink40); }
 .rf-fan .kcard .nm { font-size: clamp(12px,1.7vmin,20px); }
 .rf-fan .kcard .ds { font-size: clamp(11px,1.5vmin,18px); margin-top: .35vmin; line-height: 1.38; }
 .rf-join { text-align: center; font-family: var(--mono); color: var(--ink40); font-size: clamp(9px,1.3vmin,15px); }
@@ -701,6 +712,37 @@ const tutOutline = (hl, kicker, lead = '', sub = '') => `
   <div class="phases">
     ${TUT_ROWS.map(([k, n, what, who, t]) => `<div class="ph${k === hl ? ' gate' : ''}"><span class="n">${n}</span><span class="what">${what}</span><span class="art">${who}</span><span class="rev">${t}</span>${k === hl && sub ? `<div class="sub">${sub}</div>` : ''}</div>`).join('\n    ')}
   </div>${lead ? `\n  <p class="lead" style="margin-top:1.4vmin">${lead}</p>` : ''}`;
+/* the reviewer prompts, verbatim heads of src/agents/*.md (jfc-mit/jfc main, fetched 21 Sep 2026) — shown on hover on the review slide */
+const REVIEWER_PROMPTS = {
+"physics": {
+"file": "physics_reviewer.md",
+"body": "You are a senior collaboration member reviewing this analysis for physics\napproval. You have NOT read the methodology spec or conventions — you are\nreviewing the physics on its merits.\n\nRead the artifact. If a compiled PDF exists, read it — you are\nreviewing the document as a referee would see it.\n\nFIGURE INSPECTION (mandatory): Read every figure image in the artifact\nor PDF. For each data/MC comparison, check: does the MC normalization\nmatch the data? Is the ratio panel centered on 1.0? Are there regions\nwhere MC is obviously 2x the data or vice versa? A data/MC plot where\nMC visibly overshoots data by &gt;20% across the bulk is a physics\nproblem (wrong normalization, missing background, broken fit), not a\ncosmetic issue — flag it as Category A. Do not accept &quot;the systematic\nuncertainty covers the disagreement&quot; if the disagreement is visible\nby eye in the main panel.\n\nEvaluate:\n- Is the physics motivation sound and complete?\n- Are the backgrounds correctly identified and estimated?\n- Is the systematic treatment appropriate for this measurement?\n- Are the cross-checks adequate?\n- Would you approve this analysis for publication?",
+"total": 111
+},
+"critical": {
+"file": "critical_reviewer.md",
+"body": "You are a critical reviewer for a physics analysis that will be submitted\nfor journal publication. Your job is to find flaws — both in what is present\n(correctness) and in what is absent (completeness).\n\nRead the artifact and the experiment log (to understand what was tried).\nRead methodology/06-review.md §6.3 (reviewer framing) and §6.4 (review\nfocus for this phase) — these define what you must check.\nRead the applicable conventions/ file and verify coverage row-by-row.\nRead methodology/appendix-plotting.md for the figure checklist —\napply it to every figure. If a compiled PDF exists, read it.\n\nFIGURE PHYSICS CHECK (mandatory): For every data/MC comparison figure,\nvisually verify that the MC normalization matches the data. If MC is\nvisibly above or below data by &gt;20% across the bulk of the distribution,\nthis is Category A — it indicates a normalization bug, wrong\ncross-section, or missing background, not an acceptable systematic\neffect. Check: are postfit plots better than prefit? Is the ratio\npanel centered on 1.0? Are there empty bins where events are expected?\nDo not skip this check — it catches problems that code reviews miss.\n\nFor EVERY validation test (closure, stress, flat-prior, alternative method):\n- Was it actually run? (Not just planned — show the result.)\n- Did it pass or fail? State the verdict explicitly.\n- If it failed, were remediation attempts made? (At least 3 are required",
+"total": 172
+},
+"constructive": {
+"file": "constructive_reviewer.md",
+"body": "You are a constructive reviewer for a physics analysis targeting journal\npublication. Your job is to strengthen the analysis — but you must also\nflag genuine errors as Category A. &quot;Constructive&quot; does not mean &quot;lenient.&quot;\n\nRead the artifact, experiment log, and applicable conventions.\n\nIdentify where the argument could be clearer, where additional validation\nwould build confidence, and where the presentation could be improved.\n\nSpecifically evaluate:\n- Does the measurement have resolving power? Can it discriminate between\n  physics models, or does it merely reproduce the MC input?\n- Are the dominant uncertainties understood and properly motivated, or\n  are they symptoms of a method problem (e.g., prior dependence\n  dominating because the unfolding is ill-conditioned)?\n- Are there opportunities to recover information that was lost (coarser\n  binning, data-driven priors, alternative methods)?\n- Would a journal referee accept this, or would they send it back for\n  fundamental methodological improvements?\n\nHONEST FRAMING CHECK: &quot;Constructive&quot; means helping the analysis be\ncorrect and honest, not helping it look good. If the result is wrong,\nthe most constructive thing is to say so clearly — not to help frame\nthe wrong answer more palatably. Ask: &quot;Is this analysis telling the",
+"total": 39
+},
+"plot": {
+"file": "plot_validator.md",
+"body": "You are a plot validator with two jobs: (1) lint the plotting code for\nmechanical violations, and (2) visually inspect every rendered figure.\n\nRead every plotting script in ../src/. Read the figure standards in\nmethodology/appendix-plotting.md. Then read every PNG file in\noutputs/figures/ — you MUST look at the actual images.\n\n=== PART 1: CODE LINTER ===\n\nGrep the scripts for these violations:\n\nPROGRAMMATIC FIGURE CHECKS:\n- [ ] mplhep style applied (`mh.style.use(&quot;CMS&quot;)` or equivalent)\n- [ ] Figure size is `figsize=(10, 10)` for single-panel and ratio plots\n- [ ] No `ax.set_title()` calls (titles go in AN captions, not on figures)\n- [ ] All axes have labels with units where applicable\n- [ ] No hardcoded font sizes (use stylesheet or relative sizes like &#x27;x-small&#x27;)\n- [ ] `bbox_inches=&quot;tight&quot;` used at save time\n- [ ] Both PDF and PNG formats saved\n- [ ] `plt.close()` called after saving (prevents memory leaks)\n- [ ] `mh.label.exp_label(...)` called on every figure (experiment label mandatory)\n- [ ] No `plt.colorbar()` or `fig.colorbar(im, ax=...)` — must use\n      `fig.colorbar(im, cax=cax)` with `make_square_add_cbar` or `append_axes`,\n      or `mh.hist2dplot(H, cbarextend=True)`",
+"total": 121
+},
+"arbiter": {
+"file": "arbiter.md",
+"body": "You are the arbiter. Read the artifact, all reviews (including plot\nvalidation results), and the applicable conventions file.\n\nADJUDICATION FRAMEWORK — for each finding, apply the matching case:\n\n1. REVIEWERS AGREE on severity → accept at the higher severity level.\n\n2. REVIEWERS DISAGREE on severity → evaluate the arguments from each\n   reviewer independently. Assign the final category with documented\n   reasoning explaining why you sided with one assessment.\n\n3. ONLY ONE REVIEWER raised the finding → assess its validity\n   independently. A finding is not less important because only one\n   reviewer caught it. Verify against the artifact and conventions.\n\n4. REVIEWERS CONTRADICT each other (one says X is correct, another says\n   X is wrong) → examine the artifact directly to resolve the\n   contradiction. State what the artifact actually shows.\n\n5. ALL REVIEWERS MISSED something → raise it yourself. You are the last\n   line of defense. Check conventions coverage, regression triggers, and\n   the &quot;competing group&quot; question independently.\n\nPLOT VALIDATOR RED FLAGS: Findings marked as RED FLAG by the plot",
+"total": 116
+},
+"render": {"file": "rendering_reviewer.md · bibtex_validator.md", "body": "You are a rendering reviewer for a physics analysis note. Your job is to\ncompile the document and inspect the PDF for rendering quality. You do\nNOT evaluate physics content — only document quality.\n<span class=\"c\">— bibtex_validator.md —</span>\nYou are a BibTeX validator. Your job is to verify that every citation\nin the analysis note points to a real, accurately described bibliographic\nrecord. This is critical because LLM-generated BibTeX entries often\ncontain fabricated DOIs, wrong arXiv numbers, or mismatched metadata.\n\nRead outputs/references.bib and the analysis note markdown. Find every\n[@key] citation in the AN and match it to a BibTeX entry.\n\nFor EVERY BibTeX entry, perform these checks:\n\nFORMATTING CHECKS:\n- [ ] Entry has a valid BibTeX type (@article, @inproceedings, etc.)\n- [ ] Required fields present: author, title, year, and at least one of\n      {journal, booktitle, eprint, doi, url}", "total": 74}
+};
+const rfPop = k => `<div class="rf-pop"><div class="src"><b>src/agents/${REVIEWER_PROMPTS[k].file}</b> — the prompt, verbatim; first lines of ${REVIEWER_PROMPTS[k].total}</div><pre>${REVIEWER_PROMPTS[k].body}
+…</pre></div>`;
 const SCENES = [
 { id: 't-title', act: 6, label: 'Tutorial title', steps: 1, budget: 30, notes: 'Daniel first; session chairs Elmer + Dasu (Indico timetable entry for the tutorial); Mon 14 Sep 09:00–12:00, Room 325/326, Pyle Center; lander = the JFC workflow chart', theme: 'paper', thumb: 'assets/fig_pipeline.png', html: () => `
   <div class="title-wrap">
@@ -1043,13 +1085,13 @@ closures: 0.01 called "good", −287σ a "known limitation".</span></pre>
     </svg>
     <div class="rf-art">the phase artifact — <b>STRATEGY.md → … → ANALYSIS_NOTE.pdf</b> — into five independent contexts</div>
     <div class="rf-fan">
-      <div class="kcard"><div class="nm">physics ${gh('jfc/blob/main/src/agents/physics_reviewer.md')}</div><div class="ds"><b>Denied the spec on purpose</b> — judges like an external ARC referee.</div></div>
-      <div class="kcard"><div class="nm">critical ${gh('jfc/blob/main/src/agents/critical_reviewer.md')}</div><div class="ds">Reads everything; 8-step protocol, 14-point figure checklist.</div></div>
-      <div class="kcard"><div class="nm">constructive ${gh('jfc/blob/main/src/agents/constructive_reviewer.md')}</div><div class="ds">Alternatives &amp; improvements, effort-tagged.</div></div>
-      <div class="kcard"><div class="nm">plot-validator ${gh('jfc/blob/main/src/agents/plot_validator.md')}</div><div class="ds"><b>Programmatic</b>: 35 checks — red flags are auto-Category-A.</div></div>
-      <div class="kcard"><div class="nm">render + bibtex ${gh('jfc/tree/main/src/agents')}</div><div class="ds">Compiled-PDF inspection; citations vs INSPIRE.</div></div>
+      <div class="kcard"><div class="nm">physics ${gh('jfc/blob/main/src/agents/physics_reviewer.md')}</div><div class="ds"><b>Denied the spec on purpose</b> — judges like an external ARC referee.</div>${rfPop('physics')}</div>
+      <div class="kcard"><div class="nm">critical ${gh('jfc/blob/main/src/agents/critical_reviewer.md')}</div><div class="ds">Reads everything; 8-step protocol, 14-point figure checklist.</div>${rfPop('critical')}</div>
+      <div class="kcard"><div class="nm">constructive ${gh('jfc/blob/main/src/agents/constructive_reviewer.md')}</div><div class="ds">Alternatives &amp; improvements, effort-tagged.</div>${rfPop('constructive')}</div>
+      <div class="kcard"><div class="nm">plot-validator ${gh('jfc/blob/main/src/agents/plot_validator.md')}</div><div class="ds"><b>Programmatic</b>: 35 checks — red flags are auto-Category-A.</div>${rfPop('plot')}</div>
+      <div class="kcard"><div class="nm">render + bibtex ${gh('jfc/tree/main/src/agents')}</div><div class="ds">Compiled-PDF inspection; citations vs INSPIRE.</div>${rfPop('render')}</div>
     </div>
-    <div class="kcard rf-arb" data-step="2" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">arbiter ${gh('jfc/blob/main/src/agents/arbiter.md')}</div><div class="ds">Synthesizes every finding into one verdict — and may not downgrade the plot-validator's red flags.</div></div>
+    <div class="kcard rf-arb" data-step="2" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">arbiter ${gh('jfc/blob/main/src/agents/arbiter.md')}</div><div class="ds">Synthesizes every finding into one verdict — and may not downgrade the plot-validator's red flags.</div>${rfPop('arbiter')}</div>
     <div class="rf-verdicts" data-step="2">
       <span class="v v-pass">PASS<small>advance to the next phase ▸</small></span>
       <span class="v v-iter">ITERATE<small>↺ closed-loop fix, then re-review</small></span>
@@ -1541,18 +1583,18 @@ const H4L = [   // the five reference notes (Phil Harris, h4l_agent_test/analysi
 ];
 const ROT = [-1.2, 1.3, -.9, 1.6, -1.4];
 /* the outline: shown after the title and again at the head of every part, with that part lit */
-const MC_ROWS = [
-  ['jfc',   'Part I',   '<b>Just Furnish Context</b> — what an autonomous analysis is, how it is built, what it delivered — <b>the ALEPH run replays beside it</b>', '≈15 min'],
-  ['res',   'Part II',  '<b>Resources</b> — where a student or a postdoc gets a frontier model this week: NRP, Claude for Scientists, ChatGPT for Researchers', '≈2 min'],
-  ['tut',   'Part III', '<b>Demos &amp; tutorials</b> — the CLARIPHY lessons, the LPC HATS, the 50-minute H→4ℓ demo', '≈3 min'],
-  ['start', 'Part IV',  '<b>How to actually get started</b> — JFC lite: the premise, the runs we performed, five notes dissected', '≈13 min'],
-  ['qa',    'Q&amp;A',  '<b>Questions</b> — in the chat, any time; I stop for them at every part break', 'the rest'],
+const MC_ROWS = [   // [key, label, what] — text is editable in layout-edit mode (E, double-click)
+  ['jfc',   'Part I',   '<b>Just Furnish Context</b> — what an autonomous analysis is, how it is built, what it delivered'],
+  ['res',   'Part II',  '<b>Resources</b> — where a student or a postdoc gets a frontier model this week'],
+  ['tut',   'Part III', '<b>Demos &amp; tutorials</b> — the CLARIPHY lessons, the LPC HATS, the 50-minute H→4ℓ demo'],
+  ['start', 'Part IV',  '<b>How to actually get started</b> — JFC lite: the premise, the runs, five notes dissected'],
+  ['qa',    'Q&amp;A',  '<b>Questions</b> — in the chat, any time'],
 ];
 const mcOutline = (hl, kicker, lead = '') => `
   <h2 class="kicker">${kicker}</h2>
   <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:3vmin; min-height:0">
     <div class="phases mc-outline" style="flex:0 0 auto; gap:1.5vmin">
-      ${MC_ROWS.map(([k, n, what, t]) => `<div class="ph${k === hl ? ' now' : ''}"><span class="n">${n}</span><span class="what">${what}</span><span class="rev">${t}</span></div>`).join('\n      ')}
+      ${MC_ROWS.map(([k, n, what]) => `<div class="ph${k === hl ? ' now' : ''}"><span class="n">${n}</span><span class="what">${what}</span></div>`).join('\n      ')}
     </div>${lead ? `\n    <p class="lead" style="margin:0">${lead}</p>` : ''}
   </div>`;
 const mcOutlineScene = (id, hl, kicker, lead, notes) => ({ id, act: 7, size: 'roomy', label: `Outline · ${hl === 'jfc' ? 'the hour' : MC_ROWS.find(r => r[0] === hl)[1]}`, steps: 1, budget: hl === 'jfc' ? 45 : 20, theme: 'paper', thumb: 'assets/ovthumb_m-outline.jpg', notes, html: () => mcOutline(hl, kicker, lead) });
@@ -1580,13 +1622,12 @@ SCENES.push(
     <div class="title-art">
       <div class="polaroid" style="transform:rotate(1.7deg)">
         <img src="assets/h4l_notes/jfc_opus48.png" alt="four-lepton mass, agent-written analysis note on a synthetic 10 fb⁻¹ H→4ℓ sample">
-        <div class="tag">one of five agent-written notes you will judge in Part IV — fine print included.</div>
+        <div class="tag">an agent wrote this note — fine print included. You will judge it, with four others.</div>
       </div>
     </div>
   </div>`
 },
-mcOutlineScene('m-outline', 'jfc', 'The hour — <em>four parts</em>',
-  'An ALEPH analysis replays beside Part I, start to finish. This slide comes back at the head of every part.',
+mcOutlineScene('m-outline', 'jfc', 'The hour — <em>four parts</em>', '',
   'The map. Four parts, each opened by this slide with the part lit. Say the shape once: what it is (I), how you get a model (II), how you learn it (III), how you start (IV). Then straight into the anatomy.'),
 mcOutlineScene('m-outline-2', 'res', 'Part II — <em>resources</em>',
   'Where a student or a postdoc gets a frontier model this week.',
@@ -1603,14 +1644,14 @@ cloneScene('claim', { id: 'm-claim', act: 7, budget: 40, notes: 'the paper title
                  `So rather than only telling you — here are the <span class="hl">receipts</span>.<br>One real run, recorded start to finish: you will see it start, and you will see it finish.`)
         .replace('<span class="cursor">▌</span></div>', '<span class="cursor">▌</span></div>\n    <div class="lead" style="font-size:clamp(12px,1.6vmin,19px); color:var(--ink40); max-width:72%">Everything you will see ran on public data. The internal-data question is real; today\'s answer is “check”.</div>')),
 cloneScene('launch', { id: 'm-launch', act: 7, notes: 'prompt + one approval = all human input. The 43 h is wall clock of a July re-run, mostly idle waits; the paper analyses take ~10 h of autonomous work — the cost slide says so. Replay ×235; it stays docked beside every slide of Part I.' },
-  h => h.replace('<h2 class="kicker">One prompt. <em>43 hours.</em> No hands.</h2>', '<h2 class="kicker">One prompt, one approval — <em>a 43-hour run</em> on ALEPH data, replayed beside Part I</h2>')
+  h => h.replace('<h2 class="kicker">One prompt. <em>43 hours.</em> No hands.</h2>', '<h2 class="kicker">One prompt, one approval — <em>a 43-hour run</em> on ALEPH data, replayed</h2>')
         .replace('all of it is agents talking to agents</small>', 'no human in between</small>')),
 cloneScene('menu', { id: 'm-menu', act: 7, budget: 45, notes: 'Six analyses, one prompt each. Why LEP for five of six: public, archived, complete, and the answers are known — a known-answer test you cannot run on Run 3. The CMS one is Run-1 Open Data.' },
   h => h.replace('capability evidence, <i>not</i> vetted measurements.', 'capability evidence, <i>not</i> vetted measurements. <b>Why LEP:</b> public, archived, complete — and the answers are known. A known-answer test you cannot run on Run 3.')),
 cloneScene('scoreboard', { id: 'm-scoreboard', act: 7, notes: 'Nine numbers with a published answer, from the six analyses. 8 of 9 within 2σ; Γ_Z the honest outlier, traced by the agent itself; wide σ makes small pulls cheap — H→ττ carries ~3× the published σ.' }),
 cloneScene('cost', { id: 'm-cost', act: 7, notes: '$200/month. ~10 h of autonomous work per paper analysis; the docked run is a July re-run at 43 h wall clock, mostly idle usage-limit waits — say it once, plainly, or the room hears 10 vs 43 as a contradiction.' },
   h => h.replace('≈10 h wall-clock per analysis; review usually passes in 1–2 iterations', '≈10 h of autonomous work per paper analysis; review passes in 1–2 iterations · the run beside you is a July re-run: 43 h of wall clock, mostly idle waits')),
-cloneScene('honest', { id: 'm-honest', act: 7, label: 'Where it breaks', budget: 70,
+cloneScene('honest', { id: 'm-honest', act: 5, label: 'Backup · where it breaks', budget: 0,
   notes: 'Part I closes on the failure modes. Left = the loop catches; right = still yours. Signature failure: correct diagnosis, deferred treatment. Then the standing rule, verbatim from the spec: never adjust parameters to match — the #1 failure mode is the human one, and it is written into the methodology. Backups if asked: m-warstories (what review caught), m-moments (the run verbatim), m-ladder.' },
   h => h.replace(/<p class="lead" style="font-style:italic; font-size:clamp\(16px,2\.3vmin,28px\); text-align:center">The signature failure:[\s\S]*?<\/p>/,
     `<p class="lead" style="font-style:italic; font-size:clamp(15px,2.1vmin,26px); text-align:center; margin:0">The signature failure: <b>correct diagnosis, deferred treatment</b> — an excellent limitations section about the fix it didn't implement.</p>
@@ -1625,7 +1666,7 @@ cloneScene('t-resources', { id: 'm-resources', thumb: 'assets/ovthumb_m-resource
         .replace('<tr class="today">', '<tr>')
         .replace('<small>today · no subscription</small>', '<small>US institutions · no subscription</small>')
         .replace('<b>Postdocs:</b> apply to ChatGPT yourselves. NRP needs no PI.</p>',
-                 '<b>Postdocs:</b> apply to ChatGPT yourselves. <b>NRP:</b> through a US institution — it is what Part III runs on.</p>\n    <p class="lead" style="margin:0; font-size:clamp(12px,1.65vmin,19px); color:var(--ink60)">CERN- or CMS-provided options: check with IT before you rely on one — not verified for this room.</p>')),
+                 '<b>Postdocs:</b> apply to ChatGPT yourselves. <b>NRP:</b> through a US institution.</p>\n    <p class="lead" style="margin:0; font-size:clamp(12px,1.65vmin,19px); color:var(--ink60)">CERN- or CMS-provided options: check with IT before you rely on one — not verified for this room.</p>')),
 
 /* ---- Part III · demos & tutorials ---- */
 { id: 'm-tutorials', thumb: 'assets/ovthumb_m-tutorials.jpg', act: 7, label: 'Demos & tutorials', steps: 1, budget: 60, theme: 'dark',
@@ -1641,14 +1682,14 @@ cloneScene('t-resources', { id: 'm-resources', thumb: 'assets/ovthumb_m-resource
         <li><a href="https://training.nrp-nautilus.io/cms-hats-llm/" target="_blank" rel="noopener">training.nrp-nautilus.io/cms-hats-llm</a> — the same lessons on CMS material</li>
         <li>Lesson 5 stages and launches <b>JFC lite on NRP's open-weight models</b> — 45 min, Claude Code through NRP's Anthropic-compatible endpoint</li>
         <li>research-grade on open weights: where it degrades is the result — keep notes</li></ul></div>
-      <div class="kcard" style="border-left-color:var(--green)"><div class="nm" style="color:var(--green)">jfc_demo <span style="color:var(--ink40); font-weight:400">— fifty minutes, next slide</span></div><ul class="mini">
+      <div class="kcard" style="border-left-color:var(--green)"><div class="nm" style="color:var(--green)">jfc_demo <span style="color:var(--ink40); font-weight:400">— fifty minutes</span></div><ul class="mini">
         <li><a href="https://github.com/andrzejnovak/jfc_demo" target="_blank" rel="noopener">github.com/andrzejnovak/jfc_demo</a> — H→4ℓ on CMS Open Data, phases 1–2 pre-baked, <b>3–5 live</b></li>
         <li>three planted bugs the agents catch; needs a Claude subscription and pixi</li></ul></div>
       <div class="kcard dim"><div class="nm">read the receipts <span style="color:var(--ink40); font-weight:400">— no account needed</span></div><ul class="mini">
         <li><a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> — the six agent-written notes and every review transcript</li>
-        <li><a href="https://github.com/jfc-mit/jfc" target="_blank" rel="noopener">github.com/jfc-mit/jfc</a> — the spec itself · <a href="https://github.com/violatingcp/h4l_agent_test" target="_blank" rel="noopener">violatingcp/h4l_agent_test</a> — the H→4ℓ prompt and the five reference notes of Part IV</li></ul></div>
+        <li><a href="https://github.com/jfc-mit/jfc" target="_blank" rel="noopener">github.com/jfc-mit/jfc</a> — the spec itself · <a href="https://github.com/violatingcp/h4l_agent_test" target="_blank" rel="noopener">violatingcp/h4l_agent_test</a> — the H→4ℓ prompt and the five reference notes</li></ul></div>
     </div>
-    <p class="lead" style="margin:0">An afternoon of lessons, then a fifty-minute demo, then your own analysis — Part IV is the last step.</p>
+    <p class="lead" style="margin:0">An afternoon of lessons, then a fifty-minute demo, then your own analysis.</p>
   </div>`
 },
 cloneScene('demo', { id: 'm-demo', thumb: 'assets/ovthumb_m-demo.jpg', act: 7, label: 'Run it yourself', notes: 'The 50-minute demo: pre-seeded H→4ℓ on CMS Open Data, phases 3–5 live, three planted bugs the agents catch. A search is the same scaffold with --type search.' },
@@ -1700,7 +1741,7 @@ pixi install</pre>
   <div class="cols" style="align-items:stretch; gap:2.4%">
     <div class="col" style="flex:1.25; min-width:0; display:flex; flex-direction:column; justify-content:center">
       <div class="codeblock">
-        <div class="src"><b>h4l_agent_test/prompt.md</b> — the whole input to every run in Part IV, abridged</div>
+        <div class="src"><b>h4l_agent_test/prompt.md</b> — the whole input to every run, abridged</div>
         <pre style="font-size:clamp(9px,1.3vmin,15px)"><span class="c"># H→4ℓ mass measurement with CMS Open Data</span>
 <span class="hl2">Physics goal:</span> H → ZZ* → 4ℓ (4e, 4μ, 2e2μ) in 2017 Open Data, √s = 13 TeV.
 <span class="hl2">Deliverables:</span> (1) the 4ℓ mass distribution on top of SM backgrounds,
@@ -1737,19 +1778,19 @@ Loosely follows JHEP 11 (2017) 047, arXiv:1706.09936.
         <tr><td><b style="color:var(--green)">spec</b></td><td>Opus 4.8</td><td>June 2026 · Phil Harris</td><td>a complete note, a money plot</td></tr>
         <tr><td><b style="color:var(--green)">spec</b></td><td>Opus 4.8, low effort</td><td>June 2026 · Phil Harris</td><td>a complete note, a money plot</td></tr>
         <tr><td><b style="color:var(--green)">spec</b></td><td>Codex</td><td>30 May 2026 · Phil Harris</td><td>a complete note, a money plot</td></tr>
-        <tr><td><b style="color:var(--live)">rogue</b>, second attempt</td><td>Opus 4.8</td><td>3 June 2026 · us</td><td>a RooFit mass fit and a <b>Combine datacard</b> — two slides on</td></tr>
+        <tr><td><b style="color:var(--live)">rogue</b>, second attempt</td><td>Opus 4.8</td><td>3 June 2026 · us</td><td>a RooFit mass fit and a <b>Combine datacard</b></td></tr>
         <tr><td><b style="color:var(--live)">rogue</b></td><td>GPT-6 Astra</td><td>14 Sep 2026, 25 min · our rehearsal</td><td>a stated mass and μ, no plot kept</td></tr>
         <tr><td><b style="color:var(--live)">rogue</b>, open weights</td><td>gpt-oss · glm-5 on NRP</td><td>14 Sep 2026 · the CLARIPHY room</td><td>research-grade: where it degrades is the result</td></tr>
       </tbody>
     </table>
-    <p class="lead" style="margin:0"><b>Five of these are complete notes.</b> Their money plots are on the next slide — shuffled and unlabelled. You judge them before you know which is which.</p>
+    <p class="lead" style="margin:0"><b>Five of these are complete notes.</b> Their money plots are next — shuffled and unlabelled. You judge them before you know which is which.</p>
   </div>`
 },
 { id: 'm-exercise', thumb: 'assets/ovthumb_m-exercise.jpg', act: 7, size: 'roomy', label: 'Exercise · which would you sign?', steps: 4, budget: 240, theme: 'dark',
   notes: 'THE EXERCISE, 4 steps, no poll (Zoom): 1: the five plots — pick one you would sign, or none; twenty seconds, say nothing. 2 REVEAL: mH = 129 GeV, μ = 1.8 injected; nobody was told; every run finds the bump. 3 NAMES: rogue = the prompt, the ntuplizer and the two cited papers, nothing else; spec = the same, scaffolded in. The rogue Opus run fit a 125 template and reported μ = 0.31; the spec\'d runs measured the mass and flagged the tension. Same model, prompt, data; only the spec differs. 4 THE TELLS: you could not tell from the plot — that is the point; the tells are in the notes and, written down, they are a reviewer spec (m-spec in the backups). Source: Phil Harris, h4l_agent_test/analysis_notes, June 2026.', html: () => `
   <h2 class="kicker">Same prompt, same sample, five notes — <em>which would you sign?</em></h2>
   <div class="tg-wall" style="justify-content:flex-start; gap:1.6vmin">
-    <p class="lead" style="margin:0">You are the ARC. Each plot is the money plot of a complete, agent-written note from the runs on the last slide — same prompt, same 10 fb⁻¹ sample, shuffled. <b>Pick one you would sign, or none. Twenty seconds.</b></p>
+    <p class="lead" style="margin:0">You are the ARC. Each plot is the money plot of a complete, agent-written note from the runs you just saw — same prompt, same 10 fb⁻¹ sample, shuffled. <b>Pick one you would sign, or none. Twenty seconds.</b></p>
     <div class="snapwall">
       ${H4L.map((n, i) => `<div class="polaroid" style="transform:rotate(${ROT[i]}deg)"><div class="fig zoomable auto"><img src="assets/h4l_notes/${n.f}.png" alt="${n.who} — four-lepton mass"></div>
         <div class="tag"><span class="anon"><b>${n.anon}</b></span><span class="real" hidden><b style="color:${n.jfc ? 'var(--green)' : 'var(--live)'}">${n.who}</b><br>${n.res}</span></div></div>`).join('\n      ')}
@@ -1779,7 +1820,7 @@ Loosely follows JHEP 11 (2017) 047, arXiv:1706.09936.
   <div class="cols" style="align-items:stretch">
     <div class="col" style="flex:1.05; display:flex; flex-direction:column; min-width:0; justify-content:center">
       <div class="codeblock" style="flex:0 0 auto; overflow:hidden">
-        <div class="src"><b>outputs/datacard.txt</b> — the rogue Opus run's second attempt (B on the last slide, 3 June 2026) · written, filled and fitted by the agent</div>
+        <div class="src"><b>outputs/datacard.txt</b> — the rogue Opus run's second attempt (B, 3 June 2026) · written, filled and fitted by the agent</div>
         <pre style="font-size:clamp(9px,1.32vmin,15px)"><span class="c"># H->ZZ->4l signal-strength datacard (10/fb, m4l in [105,365])</span>
 imax 1   jmax 3   kmax *
 shapes * ch1 datacard_shapes.root $PROCESS $PROCESS_$SYSTEMATIC
@@ -1802,7 +1843,7 @@ zjets_norm   lnN  -          -          -          1.40
       <div class="figcap" style="margin:-.6vmin 0 0">post-fit m<sub>4ℓ</sub>, 70–170 GeV window for the plot · the μ fit runs on 105–365 GeV, as the datacard says</div>
       <ul class="talk" style="font-size:clamp(12px,1.7vmin,20px)">
         <li><span class="mono">m<sub>H</sub> = 129.2 ± 0.5 GeV</span> — RooFit double-sided Crystal Ball, resolution from MC<small>μ = 1.55 <sup>+0.63</sup><sub>−0.53</sub> · 3.8σ · qqZZ floated to 0.64 from the m<sub>4ℓ</sub> &gt; 140 GeV sideband</small></li>
-        <li><strong>Tools are in the training data; conventions and process are not.</strong> Even the run with no spec speaks Combine, RooFit, ROOT, mplhep, pixi<small>the difference between B and E on the last slide was the spec, not the toolchain</small></li>
+        <li><strong>Tools are in the training data; conventions and process are not.</strong> Even the run with no spec speaks Combine, RooFit, ROOT, mplhep, pixi<small>the difference between B and E was the spec, not the toolchain</small></li>
       </ul>
     </div>
   </div>`
@@ -1958,7 +1999,7 @@ SCENES.push(
    Authoring-only: file:// / localhost / ?edit. Ported from the hcc-kappac talk. */
 const Layout = (() => {
   const KEY = 'jfc-layout2';   // bumped 14 Sep 2026: the live text edits made under jfc-layout1 were baked into the source
-  const TXT = 'h1, h2, p, li, td, th, .lead, .callout, .figcap, .sub, .who, .tag, .kcard .nm, .kcard .ds, .an-card .nm, .an-card .pr, .promptcard, .mstate .big';
+  const TXT = 'h1, h2, p, li, td, th, .lead, .callout, .figcap, .sub, .who, .tag, .kcard .nm, .kcard .ds, .an-card .nm, .an-card .pr, .promptcard, .mstate .big, .ph .n, .ph .what';
   const BARMSG = '<b>layout edit</b> — drag to move · ◢ corner to resize · scroll over text to scale · double-click text to rewrite · <b>C</b> copy overrides · <b>X</b> reset scene · <b>E</b> exit';
   const EDITABLE = location.protocol === 'file:' || ['localhost', '127.0.0.1'].includes(location.hostname)
     || new URLSearchParams(location.search).has('edit');
@@ -2117,7 +2158,7 @@ const SKIP_PROFILES = {
 /* CMS masterclass, 22 Sep 2026: an ordered keep-list; everything else (except backups) is skipped. Other profiles skip the m-* scenes.
    title → outline → I. JFC (the ALEPH replay docked throughout) → II. resources → III. demos & tutorials → IV. JFC lite: premise, prompt, runs, the five notes, the datacard, the homework → finale, close. ~33 min. */
 const MASTERCLASS = ['m-title', 'm-outline',
-  'anatomy', 'm-claim', 'm-launch', 'framework', 'context', 'phases', 'review', 'gate', 'm-menu', 'deliverable', 'm-scoreboard', 'htautau', 'lund', 'm-cost', 'm-honest',
+  'anatomy', 'm-claim', 'm-launch', 'framework', 'context', 'phases', 'review', 'gate', 'm-menu', 'deliverable', 'm-scoreboard', 'htautau', 'lund', 'm-cost',
   'm-outline-2', 'm-resources',
   'm-outline-3', 'm-tutorials', 'm-demo',
   'm-outline-4', 'm-lite', 'm-prompt', 'm-runs', 'm-exercise', 'm-combine', 'm-cms',
@@ -2132,7 +2173,7 @@ if (new URLSearchParams(location.search).get('profile') === 'masterclass') {   /
 }
 { const m = SCENES.filter(s => s.id.startsWith('m-')).map(s => s.id);   // this cut's scenes and backups stay out of every other profile
   for (const k of Object.keys(SKIP_PROFILES)) if (k !== 'masterclass') SKIP_PROFILES[k].push(...m); }
-const PROFILE_THEME = { tutorial: 'light' };   // CLARIPHY 14 Sep: the whole cut on the paper theme
+const PROFILE_THEME = { tutorial: 'light', masterclass: 'light' };   // CLARIPHY 14 Sep and the CMS masterclass: the whole cut on the paper theme
 const Skips = (() => {
   const KEY = 'jfc-skips';
   let set = new Set();
