@@ -1666,24 +1666,29 @@ cloneScene('t-resources', { id: 'm-resources', thumb: 'assets/ovthumb_m-resource
 
 /* ---- Part III · demos & tutorials ---- */
 { id: 'm-tutorials', thumb: 'assets/ovthumb_m-tutorials.jpg', act: 7, label: 'Demos & tutorials', steps: 1, budget: 60, theme: 'dark',
-  notes: 'Self-study, in order of commitment. CLARIPHY (14 Sep, Madison, with Daniel Diaz): five lessons, L5 is JFC on H→4ℓ. LPC HATS "NRP as a Resource for LLMs": the CMS edition, L5 stages and launches JFC lite on NRP open-weight models. jfc_demo: the 50-minute demo, next slide. The receipts: the six notes and every review transcript, the spec, and Phil\'s five H→4ℓ reference notes — Part IV lives on those.', html: () => `
-  <h2 class="kicker">Demos &amp; tutorials — <em>self-study, in order of commitment</em></h2>
-  <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:1.8vmin; min-height:0">
-    <div class="cardgrid" style="grid-template-columns:1fr 1fr">
-      <div class="kcard"><div class="nm">the CLARIPHY lessons <span style="color:var(--ink40); font-weight:400">— an afternoon, self-paced</span></div><ul class="mini">
-        <li><a href="https://training.nrp-nautilus.io/clariphy/" target="_blank" rel="noopener">training.nrp-nautilus.io/clariphy</a> — with Daniel Diaz (UCSD), 14 Sep 2026</li>
-        <li>LLMs on NRP → chat, multimodal &amp; RAG over CMS docs → agentic workflows in opencode → <b>a 30-line agent</b> → <b>JFC on H→4ℓ</b></li>
-        <li>needs an NRP token — or any OpenAI-compatible endpoint you already have</li></ul></div>
-      <div class="kcard"><div class="nm">LPC HATS · NRP as a Resource for LLMs <span style="color:var(--ink40); font-weight:400">— the CMS edition</span></div><ul class="mini">
-        <li><a href="https://training.nrp-nautilus.io/cms-hats-llm/" target="_blank" rel="noopener">training.nrp-nautilus.io/cms-hats-llm</a> — the same lessons on CMS material</li>
-        <li>Lesson 5 stages and launches <b>JFC lite on NRP's open-weight models</b> — 45 min, Claude Code through NRP's Anthropic-compatible endpoint</li>
-        <li>open weights: research-grade, not a guaranteed demo</li></ul></div>
-      <div class="kcard" style="border-left-color:var(--green)"><div class="nm" style="color:var(--green)">jfc_demo <span style="color:var(--ink40); font-weight:400">— fifty minutes</span></div><ul class="mini">
-        <li><a href="https://github.com/andrzejnovak/jfc_demo" target="_blank" rel="noopener">github.com/andrzejnovak/jfc_demo</a> — H→4ℓ on CMS Open Data, phases 1–2 pre-baked, <b>3–5 live</b></li>
-        <li>three planted bugs the agents catch; needs a Claude subscription and pixi</li></ul></div>
-      <div class="kcard dim"><div class="nm">read the receipts <span style="color:var(--ink40); font-weight:400">— no account needed</span></div><ul class="mini">
-        <li><a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> — the six agent-written notes and every review transcript</li>
-        <li><a href="https://github.com/jfc-mit/jfc" target="_blank" rel="noopener">github.com/jfc-mit/jfc</a> — the spec itself · <a href="https://github.com/violatingcp/h4l_agent_test" target="_blank" rel="noopener">violatingcp/h4l_agent_test</a> — the H→4ℓ prompt and the five reference notes</li></ul></div>
+  notes: 'Left, top to bottom: the LPC HATS (the CMS edition, JFC lite on NRP open weights), the CLARIPHY lessons (14 Sep, Madison, with Daniel Diaz), jfc_demo (the 50-minute demo). Right: the pointers — jfc-mit.github.io first (the six notes and every review transcript), then the spec, the lite branch, the H→4ℓ context, the demo, the paper.', html: () => `
+  <h2 class="kicker">Demos &amp; tutorials</h2>
+  <div class="cols" style="align-items:stretch; gap:2.4%">
+    <div class="col" style="flex:1.15; display:flex; flex-direction:column; gap:1.4vmin; min-width:0; justify-content:center">
+      <div class="kcard"><div class="nm">LPC HATS · NRP as a Resource for LLMs</div><ul class="mini">
+        <li><a href="https://training.nrp-nautilus.io/cms-hats-llm/" target="_blank" rel="noopener">training.nrp-nautilus.io/cms-hats-llm</a> — LLMs on NRP → chat &amp; RAG → agentic workflows → build an agent → <b>JFC lite on NRP's open-weight models</b>, 45 min</li>
+        <li>Claude Code through NRP's Anthropic-compatible endpoint — needs an NRP token</li></ul></div>
+      <div class="kcard"><div class="nm">CLARIPHY · AI agents and LLMs for Scientific Discovery</div><ul class="mini">
+        <li><a href="https://training.nrp-nautilus.io/clariphy/" target="_blank" rel="noopener">training.nrp-nautilus.io/clariphy</a> — the same lessons, with Daniel Diaz (UCSD), 14 Sep 2026; an afternoon, self-paced</li>
+        <li>an NRP token, or any OpenAI-compatible endpoint you already have</li></ul></div>
+      <div class="kcard" style="border-left-color:var(--green)"><div class="nm" style="color:var(--green)">jfc_demo · fifty minutes</div><ul class="mini">
+        <li><a href="https://github.com/andrzejnovak/jfc_demo" target="_blank" rel="noopener">github.com/andrzejnovak/jfc_demo</a> — H→4ℓ on CMS Open Data, phases 1–2 pre-baked, <b>3–5 live</b>; three planted bugs the agents catch</li>
+        <li>a Claude subscription and pixi</li></ul></div>
+    </div>
+    <div class="col" style="flex:1; display:flex; flex-direction:column; min-width:0; justify-content:center">
+      <div class="kcard" style="border-left-color:var(--accent)"><div class="nm"><a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a></div>
+        <div class="ds">the six agent-written analysis notes, every review transcript, the paper</div>
+        <ul class="mini" style="margin-top:1.2vmin">
+          <li><a href="https://github.com/jfc-mit/jfc" target="_blank" rel="noopener">github.com/jfc-mit/jfc</a> — the specification: methodology, conventions, agents</li>
+          <li><a href="https://github.com/violatingcp/jfc/tree/jfc_lite" target="_blank" rel="noopener">github.com/violatingcp/jfc</a>, branch <span class="mono">jfc_lite</span> — the thinned spec</li>
+          <li><a href="https://github.com/violatingcp/h4l_agent_test" target="_blank" rel="noopener">github.com/violatingcp/h4l_agent_test</a> — the H→4ℓ prompt, ntuplizer, papers, and the five reference notes</li>
+          <li><a href="https://github.com/andrzejnovak/jfc_demo" target="_blank" rel="noopener">github.com/andrzejnovak/jfc_demo</a> — the demo</li>
+          <li>${arxiv('2603.20179')} — the paper</li></ul></div>
     </div>
   </div>`
 },
