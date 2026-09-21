@@ -1579,10 +1579,11 @@ const H4L = [   // the five reference notes (Phil Harris, h4l_agent_test/analysi
 const ROT = [-1.2, 1.3, -.9, 1.6, -1.4];
 /* the outline: shown after the title and again at the head of every part, with that part lit */
 const MC_ROWS = [   // [key, label, what] — text is editable in layout-edit mode (E, double-click)
-  ['jfc',   'Part I',   '<b>Just Furnish Context</b> — what an autonomous analysis is, how it is built, what it delivered'],
-  ['res',   'Part II',  '<b>Resources</b> — where a student or a postdoc gets a frontier model this week'],
-  ['tut',   'Part III', '<b>Demos &amp; tutorials</b> — the CLARIPHY lessons, the LPC HATS, the 50-minute H→4ℓ demo'],
-  ['start', 'Part IV',  '<b>How to actually get started</b> — JFC lite: the premise, the runs, five notes dissected'],
+  ['jfc',     'Part I',   '<b>Just Furnish Context</b> — what an autonomous analysis is and how it is built'],
+  ['results', 'Part II',  '<b>Results</b> — six analyses, the note, the scoreboard, H→ττ and the Lund plane, the cost'],
+  ['res',     'Part III', '<b>Resources</b> — where a student or a postdoc gets a frontier model this week'],
+  ['tut',     'Part IV',  '<b>Demos &amp; tutorials</b> — the CLARIPHY lessons, the LPC HATS, the 50-minute H→4ℓ demo'],
+  ['start',   'Part V',   '<b>How to actually get started</b> — JFC lite: the premise, the runs, five notes dissected'],
   ['qa',    'Q&amp;A',  '<b>Questions</b> — in the chat, any time'],
 ];
 const mcOutline = (hl, kicker, lead = '') => `
@@ -1622,15 +1623,18 @@ SCENES.push(
     </div>
   </div>`
 },
-mcOutlineScene('m-outline', 'jfc', 'The hour — <em>four parts</em>', '',
+mcOutlineScene('m-outline', 'jfc', 'The hour — <em>five parts</em>', '',
   'The map. Four parts, each opened by this slide with the part lit. Say the shape once: what it is (I), how you get a model (II), how you learn it (III), how you start (IV). Then straight into the anatomy.'),
-mcOutlineScene('m-outline-2', 'res', 'Part II — <em>resources</em>',
+mcOutlineScene('m-outline-r', 'results', 'Part II — <em>results</em>',
+  'Six analyses from one prompt each, and what came back.',
+  'Ping back to the map. The run is still docked beside Part II.'),
+mcOutlineScene('m-outline-2', 'res', 'Part III — <em>resources</em>',
   'Where a student or a postdoc gets a frontier model this week.',
   'Ping back to the map. Pause here for chat questions on Part I before moving on.'),
-mcOutlineScene('m-outline-3', 'tut', 'Part III — <em>demos &amp; tutorials</em>',
+mcOutlineScene('m-outline-3', 'tut', 'Part IV — <em>demos &amp; tutorials</em>',
   'Self-study, in order of commitment: an afternoon of lessons, a 50-minute demo, then your own analysis.',
   'Ping back to the map.'),
-mcOutlineScene('m-outline-4', 'start', 'Part IV — <em>how to actually get started</em>',
+mcOutlineScene('m-outline-4', 'start', 'Part V — <em>how to actually get started</em>',
   'One prompt, one sample, two paths — then you judge what came back.',
   'Ping back to the map. Pause for chat questions. Part IV is the masterclass proper: the premise, the prompt, the runs, the five notes, the datacard, the homework.'),
 
@@ -2152,7 +2156,8 @@ const SKIP_PROFILES = {
 /* CMS masterclass, 22 Sep 2026: an ordered keep-list; everything else (except backups) is skipped. Other profiles skip the m-* scenes.
    title → outline → I. JFC (the ALEPH replay docked throughout) → II. resources → III. demos & tutorials → IV. JFC lite: premise, prompt, runs, the five notes, the datacard, the homework → finale, close. ~33 min. */
 const MASTERCLASS = ['m-title', 'm-outline',
-  'anatomy', 'm-claim', 'm-launch', 'framework', 'context', 'phases', 'review', 'gate', 'm-menu', 'deliverable', 'm-scoreboard', 'htautau', 'lund', 'm-cost',
+  'anatomy', 'm-claim', 'm-launch', 'framework', 'context', 'phases', 'review', 'gate',
+  'm-outline-r', 'm-menu', 'deliverable', 'm-scoreboard', 'htautau', 'lund', 'm-cost',
   'm-outline-2', 'm-resources',
   'm-outline-3', 'm-tutorials', 'm-demo',
   'm-outline-4', 'm-lite', 'm-prompt', 'm-runs', 'm-exercise', 'm-combine', 'm-cms',

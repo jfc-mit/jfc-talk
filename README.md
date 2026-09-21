@@ -1,11 +1,12 @@
 # JFC talk — HSF DAAA · Agentic AI in HEP data analysis · 27 July 2026
 
 **Branch `cms-masterclass-2026-09-22`** — the CMS internal masterclass cut (Tue 22 Sep 2026, one hour on Zoom, students and
-postdocs). `?profile=masterclass&nolayout` (30 scenes, 29:50 of budget, the rest for questions; light theme by default; no polls; the flow follows the
+postdocs). `?profile=masterclass&nolayout` (31 scenes, 30:10 of budget, the rest for questions; light theme by default; no polls; the flow follows the
 keep-list order, not the array; `nolayout` ignores layout-editor overrides stored in the browser) = title (the paper title as subtitle, the Lund plane) → **the outline** (`m-outline`, pinged back to at the head of every part
 with that part lit) → **Part I** the regular JFC slides with the ALEPH replay docked beside every one (anatomy → claim → ignition →
-framework → context → phases → review → gate → menu with "why LEP" → deliverable → scoreboard → H→ττ → Lund → cost; hovering a reviewer card on `review` pops up its prompt) → **Part II** resources, lifted from the CLARIPHY tutorial (`m-resources`) → **Part III** demos &
-tutorials (`m-tutorials`: the CLARIPHY lessons, the LPC HATS, jfc_demo, the receipts; `m-demo`) → **Part IV** how to actually get
+framework → context → phases → review → gate; hovering a reviewer card on `review` pops up its prompt) → **Part II** results
+(menu with "why LEP" → deliverable → scoreboard → H→ττ → Lund → cost, still docked) → **Part III** resources, lifted from the CLARIPHY tutorial (`m-resources`) → **Part IV** demos &
+tutorials (`m-tutorials`: the CLARIPHY lessons, the LPC HATS, jfc_demo, the receipts; `m-demo`) → **Part V** how to actually get
 started (`m-lite`: Phil Harris' `jfc_lite` branch, rogue vs spec from one folder, one line to launch; `m-prompt`; `m-runs`: the
 run matrix without results; `m-exercise`: the five anonymised H→4ℓ notes, the injected truth, the names, the tells; `m-combine`:
 the datacard; `m-cms`: furnishing context for a CMS analysis, illustrative twelve lines) → the run finished → the homework.
