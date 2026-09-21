@@ -1692,6 +1692,8 @@ zjets_norm   lnN  -          -          -          1.40
 );
 
 insertAfter('wave',
+cloneScene('wave', { id: 'm-wave', act: 7, notes: '31 citations on INSPIRE as of 21 Sep 2026 (was 30 on 11 Sep, 23 on 10 Aug); funnel 5000→278→~40→≥10→1 (Phil, EIC award). The point for this room: results from inside running experiments (ATLAS Z+jets) and a harness debate — people argue how, not whether.' },
+  h => h.replace('line-height:1">30</div>', 'line-height:1">31</div>')),
 cloneScene('t-resources', { id: 'm-resources', act: 7, notes: 'Two of the three are free for most of this room. NRP is US-institution access — the row is here for completeness. Claude Team Plan for Scientists: a PI applies, 25 lab members, free standard seats, 12 months. ChatGPT for Academic Researchers: faculty and postdocs apply themselves, +4 collaborators. CERN/CMS-provided options: check with IT before quoting anything.' },
   h => h.replace('<tr class="today">', '<tr>')
         .replace('<small>today · no subscription</small>', '<small>US institutions · no subscription</small>')
@@ -1894,7 +1896,7 @@ const SKIP_PROFILES = {
 /* CMS masterclass, 22 Sep 2026: an ordered keep-list; everything else (except backups) is skipped. Other profiles skip the m-* scenes. */
 const MASTERCLASS = ['m-cold', 'm-title', 'm-poll', 'm-claim', 'anatomy', 'launch', 'framework', 'context', 'repo', 'phases', 'review', 'gate',
   'menu', 'deliverable', 'scoreboard', 'htautau', 'lund', 'models', 'ladder', 'cost', 'm-honest', 'm-warstories', 'm-fabrication',
-  'm-exercise', 'm-combine', 'm-cms', 'wave', 'm-resources', 'm-forward', 'finale', 'm-close'];
+  'm-exercise', 'm-combine', 'm-cms', 'm-wave', 'm-resources', 'm-forward', 'finale', 'm-close'];
 SKIP_PROFILES.masterclass = SCENES.filter(s => s.act !== 5 && !MASTERCLASS.includes(s.id)).map(s => s.id);
 { const m = SCENES.filter(s => s.act === 7).map(s => s.id);
   for (const k of Object.keys(SKIP_PROFILES)) if (k !== 'masterclass') SKIP_PROFILES[k].push(...m); }
