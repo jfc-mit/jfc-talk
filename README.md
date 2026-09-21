@@ -1,11 +1,11 @@
 # JFC talk — HSF DAAA · Agentic AI in HEP data analysis · 27 July 2026
 
 **Branch `cms-masterclass-2026-09-22`** — the CMS internal masterclass cut (Tue 22 Sep 2026, one hour on Zoom, students and
-postdocs). `?profile=masterclass` (29 scenes, ≈32½ min of budget, the rest for questions; no polls) = **cold open on the five
+postdocs). `?profile=masterclass` (28 scenes, ≈32 min of budget, the rest for questions; no polls; the flow follows the keep-list order, not the array) = **cold open on the five
 anonymised H→4ℓ notes** ("you are the ARC — which would you sign?", `m-open`) → title carrying the thesis ("Furnish the context.
 Keep the gate. Read the note.") → anatomy → the claim (+ one line pre-empting the internal-data question) → ignition (docked replay) →
 **the scoreboard first**, then the mechanism (context → phases → review → gate) → receipts (menu with "why LEP", H→ττ, Lund, cost with
-the 43 h vs 10 h stated once, the ladder as calibration of the agent) → where it breaks → war stories as read-then-reveal → anti-fabrication
+the 43 h vs 10 h stated once, the ladder as calibration of the agent) → where it breaks (+ the standing rule) → war stories as read-then-reveal
 → the run verbatim → **two teaching scenes** (`m-prompt`: the one-page prompt and what makes it good; `m-spec`: a reviewer spec, twenty
 lines) → **the exercise** (the pick from minute one, the injected truth, the names, "you could not tell from the plot — that is the point")
 → the datacard → furnishing context for a CMS analysis (illustrative twelve lines) → resources (+ run it yourself, + self-study) →
