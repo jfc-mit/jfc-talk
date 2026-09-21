@@ -1,13 +1,13 @@
 # JFC talk — HSF DAAA · Agentic AI in HEP data analysis · 27 July 2026
 
 **Branch `cms-masterclass-2026-09-22`** — the CMS internal masterclass cut (Tue 22 Sep 2026, one hour). `?profile=masterclass`
-(32 scenes, ≈39 min of budget, the rest for questions; the room is students and postdocs, so no student ladder, no funding slide, no two-curves programme page) = cold open on **the wall** (`assets/wall/wall.html`: 753 published CMS
+(31 scenes, ≈38½ min of budget, the rest for questions; the room is students and postdocs, so no student ladder, no funding slide, no two-curves programme page) = cold open on **the wall** (`assets/wall/wall.html`: 753 published CMS
 searches by data era, audited re-run status; space past the last beat → back to the deck; `plane.html`, the two curves, stays reachable via `?ret=`) → title →
-hands-up calibration → the claim → the HSF/Fermilab core (anatomy … cost, docked replay) → the honest backups promoted into the flow
+hands-up calibration → anatomy (the problem) → the claim → the HSF/Fermilab core (launch … cost, docked replay) → the honest backups promoted into the flow
 (`m-honest`, `m-warstories`, `m-fabrication`) → `m-moments` (three moments of the run, verbatim) → **the exercise** (`m-exercise`: five anonymised H→4ℓ money plots, "which would you
 sign?", the injected-truth reveal, the names, then the tells) → `m-combine` (a datacard the agent wrote and fitted) → **`m-cms`** (furnishing
 context for a CMS analysis: methodology / conventions / agents mapped onto AN, CADI, POG, pub-comm, ARC; a twelve-line conventions
-file as homework) → `m-demo` (run it yourself) → resources (+ self-study links) → the way forward → `m-future` (what CMS use could look like: one proposal per item, and what a student can do this year) → finale → three things to take home. Backup `m-policy` for the policy question. Masterclass
+file as homework) → `m-demo` (run it yourself) → resources (+ self-study links) → `m-future` (what CMS use could look like: one proposal per item, and what a student can do this year) → `m-finale` (the run finished; the mechanical half of a PhD, done while we talked) → three things to take home. Backup `m-policy` for the policy question. Masterclass
 scenes are act 7 (`AX[7]`) and live in one block after `SCENES`; shared scenes are reused or cloned with a text patch (`cloneScene`).
 `node tools/shot.mjs masterclass <outdir>` screenshots every scene/step (Playwright, needs `python3 -m http.server 8123`).
 

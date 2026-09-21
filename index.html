@@ -1592,9 +1592,10 @@ cloneScene('b-review-war', { id: 'm-warstories', act: 7, label: 'What review cau
   notes: 'Four concrete catches: the tt̄ prior (0.34 → 1.20), the GOF test that always passed, the over-claimed generator exclusion, the unfoldable unfolding systematic.' },
   h => h.replace('Backup — what review actually caught', 'What review actually <em>caught</em>')),
 cloneScene('b-fabrication', { id: 'm-fabrication', act: 7, label: 'Anti-fabrication', budget: 50,
-  notes: 'The standing rule: never tune to match. Numbers never from memory. Verdicts bind. Everything in git — the diff is the deterrent.' },
-  h => h.replace('Backup — review findings are <em>closed-loop</em>, not advisory', 'Review findings are <em>closed-loop</em>, not advisory')),
-cloneScene('moments', { id: 'm-moments', thumb: 'assets/ovthumb_m-moments.jpg', act: 7, label: 'The run, verbatim', budget: 60,
+  notes: 'The standing rule: never tune to match. Verdicts bind. Everything in git — the diff is the deterrent. (The executor contract was on the spec slide already; not repeated here.)' },
+  h => h.replace('Backup — review findings are <em>closed-loop</em>, not advisory', 'Review findings are <em>closed-loop</em>, not advisory')
+        .replace(/<div class="codeblock">\s*<div class="src"><b>agents\/executor\.md<\/b>[\s\S]*?<\/pre>\s*<\/div>/, '')),
+cloneScene('moments', { id: 'm-moments', thumb: 'assets/ovthumb_m-moments.jpg', act: 7, label: 'The run, verbatim', budget: 60, term: 'dock',
   notes: 'Three moments from the docked run, verbatim. T+1:12: the Phase-1 truth-flavour decision, flagged for a human. T+39:41: adversarial verification refuted 5 of 9 reviewer findings — reviewers get reviewed. T+42:53: the agent\'s own honest close. Then: now you judge.' }),
 { id: 'm-exercise', thumb: 'assets/ovthumb_m-exercise.jpg', act: 7, size: 'roomy', label: 'Exercise · which would you sign?', steps: 4, budget: 360, theme: 'dark',
   notes: 'THE EXERCISE, 4 steps. 1: five anonymised money plots — same one-page prompt, same synthetic 10 fb⁻¹ H→4ℓ sample, each the money plot of a full agent-written note. "You are the ARC — hands up for the one you would approve." Take 2–3 answers, ask why. 2 REVEAL: mH = 129 GeV, μ = 1.8 injected; nobody was told; every run finds the bump. 3 NAMES: rogue = a folder with the prompt, the ntuplizer and the two cited papers, nothing else; JFC = the same plus the spec. The rogue Opus run fit a 125 template and reported μ = 0.31; the spec\'d runs measured the mass and flagged the tension. Judge the process, not the number. 4 THE TELLS: what a reader could have used from the notes alone — they are the ARC questions, i.e. the reviewer specs. Source: Phil Harris, h4l_agent_test/analysis_notes, June 2026; click any plot to zoom.', html: () => `
@@ -1607,7 +1608,7 @@ cloneScene('moments', { id: 'm-moments', thumb: 'assets/ovthumb_m-moments.jpg', 
     </div>
     <div class="mstate reveal" data-step="2"><div class="big" style="font-size:clamp(20px,3.4vmin,44px)">The sample was built with m<sub>H</sub> = 129 GeV, μ = 1.8 <em>injected</em> — nobody was told.</div>
       <div class="sub">Every run finds the bump. The question was never the number; it is whether the note <b>says so</b>, and whether you could tell from the note alone.</div></div>
-    <p class="lead reveal tg-names" data-step="3" style="margin:0"><b style="color:var(--live)">rogue</b> = a folder with the prompt, the ntuplizer and the two cited papers, nothing else · <b style="color:var(--green)">JFC</b> = the same, plus the spec. The rogue Opus run fit a 125 GeV template and reported μ = 0.31; the spec'd runs measured the mass and flagged the tension. <b>Judge the process, not the number.</b></p>
+    <p class="lead reveal tg-names" data-step="3" style="margin:0"><b style="color:var(--live)">rogue</b> = a folder with the prompt, the ntuplizer and the two cited papers, nothing else · <b style="color:var(--green)">JFC</b> = the same, plus the spec. The rogue Opus run fit a 125 GeV template and reported μ = 0.31; the spec'd runs measured the mass and flagged the tension. <b>Same model, same prompt, same data — the only difference is the spec. That is the whole talk in one sample.</b> Judge the process, not the number.</p>
     <div class="reveal" data-step="4">
       <div class="verdicts" style="margin:0 0 1vmin; flex-wrap:wrap; font-size:clamp(11px,1.6vmin,19px)">
         <span style="color:var(--green); border-color:var(--green)">peak where the fit says, not where the template says</span>
@@ -1630,7 +1631,7 @@ cloneScene('moments', { id: 'm-moments', thumb: 'assets/ovthumb_m-moments.jpg', 
   <div class="cols" style="align-items:stretch">
     <div class="col" style="flex:1.05; display:flex; flex-direction:column; min-width:0; justify-content:center">
       <div class="codeblock" style="flex:0 0 auto; overflow:hidden">
-        <div class="src"><b>outputs/datacard.txt</b> — rogue Opus 4.8, follow-up run, 3 June 2026 · written, filled and fitted by the agent</div>
+        <div class="src"><b>outputs/datacard.txt</b> — the rogue Opus run's follow-up (B on the last slide, second attempt, 3 June 2026) · written, filled and fitted by the agent</div>
         <pre style="font-size:clamp(9px,1.32vmin,15px)"><span class="c"># H->ZZ->4l signal-strength datacard (10/fb, m4l in [105,365])</span>
 imax 1   jmax 3   kmax *
 shapes * ch1 datacard_shapes.root $PROCESS $PROCESS_$SYSTEMATIC
@@ -1653,7 +1654,7 @@ zjets_norm   lnN  -          -          -          1.40
       <div class="figcap" style="margin:-.6vmin 0 0">post-fit m<sub>4ℓ</sub>, 70–170 GeV window for the plot · the μ fit runs on 105–365 GeV, as the datacard says</div>
       <ul class="talk" style="font-size:clamp(12px,1.7vmin,20px)">
         <li><span class="mono">m<sub>H</sub> = 129.2 ± 0.5 GeV</span> — RooFit double-sided Crystal Ball, resolution from MC<small>μ = 1.55 <sup>+0.63</sup><sub>−0.53</sub> · 3.8σ · qqZZ floated to 0.64 from the m<sub>4ℓ</sub> &gt; 140 GeV sideband</small></li>
-        <li><strong>The tools were never the problem.</strong> Combine, RooFit, ROOT, mplhep, pixi: all in the training data<small>what is <em>not</em> in the training data is your group's conventions — that is what you furnish</small></li>
+        <li><strong>The tools were never the problem.</strong> Even the run with no spec speaks Combine, RooFit, ROOT, mplhep, pixi: all in the training data<small>what is <em>not</em> in the training data is your group's conventions and process — the difference between B and E on the last slide</small></li>
       </ul>
     </div>
   </div>`
@@ -1754,6 +1755,9 @@ insertAfter('m-forward',
 },
 );
 insertAfter('finale',
+cloneScene('finale', { id: 'm-finale', act: 7, label: 'While we talked', notes: 'The replay has ended (step 2 seeks to the end). Step 3 closes the loop from the wall: this was the mechanical half of a PhD — selection, backgrounds, systematics, the note — done in 43 hours with one prompt and one approval. Then the three things.' },
+  h => h.replace(/<div style="flex:1" data-step="3">[\s\S]*?<\/div>\n  <\/div>/,
+    '<div style="flex:1" data-step="3"><p class="lead" style="font-family:var(--serif); font-style:italic; color:var(--ink); font-size:clamp(17px,2.4vmin,29px)">One prompt, one approval, 43 hours — the mechanical half of a PhD, done while we talked. The other half is still yours.</p></div>\n  </div>')),
 { id: 'm-close', thumb: 'assets/ovthumb_m-close.jpg', act: 7, label: 'Three things', steps: 1, budget: 45, theme: 'dark', notes: 'The three takeaways, then the homework: the twelve lines for your own analysis, the demo on Open Data, bring what broke. Then questions — G summons the terminal on any scene if someone asks about the run.', html: () => `
   <div class="statement" style="gap:3vmin">
     <h1 style="font-size:clamp(34px,5.8vmin,82px)">Furnish context. <em>Keep the gate.</em> Read the note.</h1>
@@ -1946,9 +1950,9 @@ const SKIP_PROFILES = {
   tutorial: ['title', 'repo', 'gate', 't-nrp', 'menu', 'htautau', 'models', 'ladder', 'wave', 'forward', 'demo', 'meaning', 'finale'],   // CLARIPHY 14 Sep: title → goal → JFC → resources → outline → setup ·· launch → talk ·· Lesson 5 closers
 };
 /* CMS masterclass, 22 Sep 2026: an ordered keep-list; everything else (except backups) is skipped. Other profiles skip the m-* scenes. */
-const MASTERCLASS = ['m-cold', 'm-title', 'm-poll', 'm-claim', 'anatomy', 'launch', 'framework', 'context', 'repo', 'phases', 'review', 'gate',
+const MASTERCLASS = ['m-cold', 'm-title', 'm-poll', 'anatomy', 'm-claim', 'launch', 'framework', 'context', 'repo', 'phases', 'review', 'gate',
   'menu', 'deliverable', 'scoreboard', 'htautau', 'lund', 'models', 'cost', 'm-honest', 'm-warstories', 'm-fabrication',
-  'm-moments', 'm-exercise', 'm-combine', 'm-cms', 'm-demo', 'm-resources', 'm-forward', 'm-future', 'finale', 'm-close'];   // no ladder (rates people), no wave (funding), no two-curves page (programme pitch): this room is students and postdocs
+  'm-moments', 'm-exercise', 'm-combine', 'm-cms', 'm-demo', 'm-resources', 'm-future', 'm-finale', 'm-close'];   // anatomy (the problem) before the claim; no 'forward' (the exercise already IS the sealed-truth benchmark, lived)   // no ladder (rates people), no wave (funding), no two-curves page (programme pitch): this room is students and postdocs
 SKIP_PROFILES.masterclass = SCENES.filter(s => s.act !== 5 && !MASTERCLASS.includes(s.id)).map(s => s.id);
 { const m = SCENES.filter(s => s.act === 7).map(s => s.id);
   for (const k of Object.keys(SKIP_PROFILES)) if (k !== 'masterclass') SKIP_PROFILES[k].push(...m); }
