@@ -1569,7 +1569,6 @@ const cloneScene = (id, patch, fix) => { const o = SCENES.find(s => s.id === id)
 const insertAfter = (afterId, ...scs) => { const i = SCENES.findIndex(s => s.id === afterId); SCENES.splice(i + 1, 0, ...scs); };
 const insertBefore = (beforeId, ...scs) => { const i = SCENES.findIndex(s => s.id === beforeId); SCENES.splice(i, 0, ...scs); };
 const WALL_URL = `assets/wall/wall.html?ret=${encodeURIComponent('../../index.html?profile=masterclass#m-future')}&`;   // backup pair: the wall returns to the proposals
-const THESIS = 'Furnish the context. <em>Keep the gate.</em> Read the note.';
 const H4L = [   // the five reference notes (Phil Harris, h4l_agent_test/analysis_notes, June 2026) — anonymised first, named on reveal
   { f: 'jfc_opus48_low', anon: 'A', who: 'JFC · Opus 4.8 low effort', res: '129.6 ± 1.2 · μ = 1.72 · +2.4σ stated', jfc: true },
   { f: 'rogue_opus48',   anon: 'B', who: 'rogue · Opus 4.8',           res: '125 template · μ = 0.31 · 129 only in a follow-up', jfc: false },
@@ -1596,13 +1595,13 @@ const mcOutline = (hl, kicker, lead = '') => `
 const mcOutlineScene = (id, hl, kicker, lead, notes) => ({ id, act: 7, size: 'roomy', label: `Outline · ${hl === 'jfc' ? 'the hour' : MC_ROWS.find(r => r[0] === hl)[1]}`, steps: 1, budget: hl === 'jfc' ? 45 : 20, theme: 'paper', thumb: 'assets/ovthumb_m-outline.jpg', notes, html: () => mcOutline(hl, kicker, lead) });
 
 SCENES.push(
-{ id: 'm-title', act: 7, label: 'Title', steps: 1, budget: 30, theme: 'paper', thumb: 'assets/h4l_notes/jfc_opus48.png', notes: 'One hour on Zoom: ~33 min of slides in four parts, the rest questions. The cast loads behind this slide (chip goes ready). Read the thesis once, here; it comes back on the last slide.', html: () => `
+{ id: 'm-title', act: 7, label: 'Title', steps: 1, budget: 30, theme: 'paper', thumb: 'assets/fig_lund.png', notes: 'One hour on Zoom: ~30 min of slides in four parts, the rest questions. The cast loads behind this slide (chip goes ready). The polaroid is the Lund plane from the paper: a measurement nobody had made, by an agent.', html: () => `
   <div class="title-wrap">
     <div class="title-left">
       <h1>Masterclass: <em>HEP AI Agents</em></h1>
       <div class="rule"></div>
-      <p class="lead" style="max-width:46ch; font-family:var(--serif); font-size:clamp(17px,2.5vmin,30px); color:var(--ink)">Agents do the mechanical half of an analysis. ${THESIS}</p>
-      <p class="lead" style="max-width:38ch">What that looked like on CMS Open Data and LEP archives, where it breaks, and how you start this week.</p>
+      <p class="lead" style="max-width:46ch; font-family:var(--serif); font-size:clamp(17px,2.5vmin,30px); color:var(--ink)">AI agents can already autonomously perform experimental high energy physics</p>
+      <p class="lead" style="max-width:40ch">What that looked like on CMS Open Data and LEP archives, and how to start this week.</p>
       <span class="arxiv-chip">${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a></span>
       <div class="authors">
         <img src="assets/author_eric.jpg" alt="Eric Moreno"><img src="assets/author_sam.jpg" alt="Sam Bright-Thonney"><img src="assets/author_andrzej.jpg" alt="Andrzej Novak"><img src="assets/author_dolores.jpg" alt="Dolores Garcia"><img src="assets/author_yiyang.jpg" alt="Yiyang Zhao"><img src="assets/author_philip.jpg" alt="Phil Harris">
@@ -1617,8 +1616,8 @@ SCENES.push(
     </div>
     <div class="title-art">
       <div class="polaroid" style="transform:rotate(1.7deg)">
-        <img src="assets/h4l_notes/jfc_opus48.png" alt="four-lepton mass, agent-written analysis note on a synthetic 10 fb⁻¹ H→4ℓ sample">
-        <div class="tag">an agent wrote this note — fine print included. You will judge it, with four others.</div>
+        <img src="assets/fig_lund.png" alt="ALEPH primary Lund jet plane density — unfolded, charged-particle level">
+        <div class="tag">the primary Lund jet plane in e⁺e⁻ — nobody had measured this before.</div>
       </div>
     </div>
   </div>`
@@ -1893,12 +1892,11 @@ zjets_norm   lnN  -          -          -          1.40
 },
 cloneScene('finale', { id: 'm-finale', act: 7, label: 'While we talked', budget: 45, notes: 'The replay has ended (step 2 seeks to the end). Step 3: this was the mechanical half of an analysis — selection, backgrounds, systematics, the note — done in 43 hours with one prompt and one approval. Then the close.' },
   h => h.replace(/<div style="flex:1" data-step="3">[\s\S]*?<\/div>\n  <\/div>/,
-    '<div style="flex:1" data-step="3"><p class="lead" style="font-family:var(--serif); font-style:italic; color:var(--ink); font-size:clamp(17px,2.4vmin,29px)">One prompt, one approval, 43 hours — the mechanical half of an analysis, done while we talked. The other half is still yours.</p></div>\n  </div>')),
-{ id: 'm-close', thumb: 'assets/ovthumb_m-close.jpg', act: 7, label: 'Three things', steps: 1, budget: 45, theme: 'dark', notes: 'The thesis, word for word from the title. Then the one homework list. Then questions — G summons the terminal on any scene if someone asks about the run; O is the jump list with the backups.', html: () => `
+    '<div style="flex:1" data-step="3"><p class="lead" style="font-family:var(--serif); font-style:italic; color:var(--ink); font-size:clamp(17px,2.4vmin,29px)">One prompt, one approval, 43 hours: selection, backgrounds, systematics, a 53-page note — finished while we talked.</p></div>\n  </div>')),
+{ id: 'm-close', thumb: 'assets/ovthumb_m-close.jpg', act: 7, label: 'Three things', steps: 1, budget: 45, theme: 'dark', notes: 'The homework list, then questions. Then questions — G summons the terminal on any scene if someone asks about the run; O is the jump list with the backups.', html: () => `
   <div class="statement" style="gap:3vmin">
-    <h1 style="font-size:clamp(34px,5.8vmin,82px)">${THESIS}</h1>
-    <p class="lead" style="max-width:64%">Agents already do the mechanical half of an analysis. Deciding what is worth measuring, inventing the technique and signing the note are the other half — and they are yours.</p>
-    <p class="lead" style="max-width:64%"><b>This week:</b> launch JFC lite on the H→4ℓ prompt · write the twelve lines for your own analysis · <span class="hl">bring what broke</span>.</p>
+    <h1 style="font-size:clamp(34px,5.8vmin,82px)">This week — <em>three things</em></h1>
+    <p class="lead" style="max-width:64%">Launch JFC lite on the H→4ℓ prompt · write the twelve conventions lines for your own analysis · <span class="hl">bring what broke</span>.</p>
     <p class="lead mono" style="font-size:clamp(11px,1.5vmin,17px); color:var(--ink40)">${arxiv('2603.20179')} · <a href="https://jfc-mit.github.io" target="_blank" rel="noopener">jfc-mit.github.io</a> · <a href="https://github.com/jfc-mit/jfc" target="_blank" rel="noopener">github.com/jfc-mit/jfc</a> · <a href="https://github.com/violatingcp/jfc/tree/jfc_lite" target="_blank" rel="noopener">violatingcp/jfc@jfc_lite</a> · <a href="https://github.com/andrzejnovak/jfc_demo" target="_blank" rel="noopener">andrzejnovak/jfc_demo</a></p>
     <p class="lead" style="font-family:var(--serif); font-style:italic; color:var(--ink)">Thank you — questions.</p>
   </div>`
@@ -1963,7 +1961,7 @@ escalate to the human only if stuck after a few tries.</pre>
       <div class="ph"><span class="n">a policy</span><span class="what wrap">an approved endpoint, a rule for what may leave CERN, AI use reported in the AN — PYTHIA 8.318's five-point policy is a public template: report use · human review before commit · explain every line · LLM review only after a human one</span></div>
       <div class="ph"><span class="n">shared specs</span><span class="what wrap"><span class="mono">conventions/cms/</span> and reviewer specs per PAG, maintained like a POG recommendation — objects, SFs, golden JSON, pub-comm rules, the ARC questions — versioned per data-taking year</span></div>
       <div class="ph"><span class="n">a benchmark</span><span class="what wrap">sealed-truth samples on CMS MC, scored before any agent touches data — the one you were judged on today, held in common</span></div>
-      <div class="ph gate"><span class="n">the project</span><span class="what wrap">the wall: model-specific searches re-run on each new dataset by agents, people on the technique — the mechanical half, at collaboration scale</span></div>
+      <div class="ph gate"><span class="n">the project</span><span class="what wrap">the wall: model-specific searches re-run on each new dataset by agents, people on the technique, at collaboration scale</span></div>
     </div>
     <p class="lead" style="margin-top:2vmin">None of this exists yet. Until it does: public data, your own conventions file, your own reviewer spec, and the audit log in the repo from day one.</p>
   </div>`
