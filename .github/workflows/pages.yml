@@ -2,7 +2,7 @@ name: Deploy Pages
 
 on:
   push:
-    branches: [main, fermilab-2026-09-11]
+    branches: [main, fermilab-2026-09-11, cms-masterclass-2026-09-22]
   workflow_dispatch:
 
 permissions:
@@ -31,8 +31,13 @@ jobs:
         with:
           ref: fermilab-2026-09-11
           path: site/fermilab
+      - name: Checkout CMS masterclass cut (/masterclass)
+        uses: actions/checkout@v4
+        with:
+          ref: cms-masterclass-2026-09-22
+          path: site/masterclass
       - name: Drop git metadata
-        run: rm -rf site/.git site/fermilab/.git
+        run: rm -rf site/.git site/fermilab/.git site/masterclass/.git
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
