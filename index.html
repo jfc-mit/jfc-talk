@@ -1997,7 +1997,7 @@ SCENES.push(
 /* Press E: annotation panels become draggable; overrides persist per-browser (C dumps JSON, X resets).
    Authoring-only: file:// / localhost / ?edit. Ported from the hcc-kappac talk. */
 const Layout = (() => {
-  const KEY = 'jfc-layout2';   // bumped 14 Sep 2026: the live text edits made under jfc-layout1 were baked into the source
+  const KEY = 'jfc-layout3';   // bumped 21 Sep 2026: stale overrides under jfc-layout2 (a scaled title polaroid) kept resurfacing
   const TXT = 'h1, h2, p, li, td, th, pre, .codeblock .src, .lead, .callout, .figcap, .sub, .who, .tag, .kcard .nm, .kcard .ds, .an-card .nm, .an-card .pr, .promptcard, .mstate .big, .ph .n, .ph .what, .verdicts span, .rf-verdicts .v, .rf-art, .rf-looplab, .funhdr';
   const BARMSG = '<b>layout edit</b> — drag to move · ◢ corner to resize · scroll over text to scale · double-click text to rewrite · <b>C</b> copy overrides · <b>X</b> reset scene · <b>E</b> exit';
   const EDITABLE = location.protocol === 'file:' || ['localhost', '127.0.0.1'].includes(location.hostname)
