@@ -334,13 +334,13 @@ table.stack tr.truth td:first-child { box-shadow: inset 3px 0 var(--live); }
   border-radius: 10px; padding: 1vmin 1.3vmin; font-family: var(--mono); color: var(--live);
   font-size: clamp(11px,1.6vmin,19px); font-weight: 700; text-align: center; }
 .gf-gate small { font-weight: 400; font-size: .72em; color: var(--ink60); line-height: 1.5; }
-/* gate scenes that hand off to a standalone interlude page (the wall, the two curves) */
-.gate { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2.2vmin; text-align: center; }
-.gate .lead { max-width: 62ch; }
-.gate a.go { display: inline-block; padding: .55em 1.3em; border: 1.5px solid var(--accent); border-radius: 999px;
+/* hand-off scenes that open a standalone interlude page (the wall, the two curves) */
+.handoff { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2.2vmin; text-align: center; }
+.handoff .lead { max-width: 62ch; }
+.handoff a.go { display: inline-block; padding: .55em 1.3em; border: 1.5px solid var(--accent); border-radius: 999px;
   color: var(--accent); text-decoration: none; font-family: var(--mono); font-size: clamp(14px, 2vmin, 24px); }
-.gate a.go:hover { background: var(--chip); }
-.gate .ret { font-family: var(--mono); font-size: clamp(10px, 1.3vmin, 14px); color: var(--ink40); }
+.handoff a.go:hover { background: var(--chip); }
+.handoff .ret { font-family: var(--mono); font-size: clamp(10px, 1.3vmin, 14px); color: var(--ink40); }
 /* scrollable page mosaic */
 .fig.scrolly { overflow-y: auto; cursor: ns-resize; }
 .fig.scrolly img { height: auto; }
@@ -1539,7 +1539,7 @@ const ROT = [-1.2, 1.3, -.9, 1.6, -1.4];
 
 insertBefore('title',
 { id: 'm-cold', thumb: 'assets/ovthumb_m-cold.jpg', act: 7, label: 'Cold open · the wall', steps: 1, budget: 240, theme: 'dark', notes: 'START HERE, on the wall page itself (F for fullscreen). Beats on space: fill by PAG → composition (592/753 model-specific) → Run 1 verdicts (191 re-run, 13 never, a decade by hand) → Run 2 stale (351/369) → the agent job. Hover a red tile if asked. Space past the last beat → the two-curves page (shelf climbs, human capacity flat, red debt, green agentic wedge from 2026, thesis) → space again lands on the deck title. Esc/0 bail out at any time.', html: () => `
-  <div class="gate">
+  <div class="handoff">
     <h1 style="font-size:clamp(28px,4.6vmin,60px)">Cold open — <em>the wall</em></h1>
     <p class="lead">Every published CMS search since 2010, sorted by the data it analysed, and what happened to each one next. Then the two curves: searches climb, the people to re-run them do not. Runs as its own page, ≈4 min for both.</p>
     <a class="go" href="${WALL_URL}">▶ open the wall</a>
@@ -1595,8 +1595,8 @@ cloneScene('b-review-war', { id: 'm-warstories', act: 7, label: 'What review cau
 cloneScene('b-fabrication', { id: 'm-fabrication', act: 7, label: 'Anti-fabrication', budget: 50,
   notes: 'The standing rule: never tune to match. Numbers never from memory. Verdicts bind. Everything in git — the diff is the deterrent.' },
   h => h.replace('Backup — review findings are <em>closed-loop</em>, not advisory', 'Review findings are <em>closed-loop</em>, not advisory')),
-{ id: 'm-exercise', thumb: 'assets/ovthumb_m-exercise.jpg', act: 7, size: 'roomy', label: 'Exercise · which would you sign?', steps: 3, budget: 300, theme: 'dark',
-  notes: 'THE EXERCISE. Step 1: five anonymised money plots, same prompt, same synthetic 10 fb⁻¹ H→4ℓ sample, each from a full agent-written note. "You are the ARC — hands up for the one you would approve." Take 2–3 answers, ask why. Step 2 REVEAL: the sample was built with mH = 129 GeV, μ = 1.8 injected; nobody was told. Every run finds the bump. Step 3: names. Rogue = a folder with the prompt, the ntuplizer and the two cited papers, nothing else. JFC = the spec. The rogue Opus run fit a 125 template and reported μ = 0.31; the spec\'d runs measure the mass and say so. Judge the process, not the number. Source: Phil Harris, h4l_agent_test/analysis_notes, June 2026; click any plot to zoom.', html: () => `
+{ id: 'm-exercise', thumb: 'assets/ovthumb_m-exercise.jpg', act: 7, size: 'roomy', label: 'Exercise · which would you sign?', steps: 4, budget: 300, theme: 'dark',
+  notes: 'THE EXERCISE (4 steps). Step 4: the tells — what a reader could have used from the note alone; they are the ARC questions, i.e. the reviewer specs. Step 1: five anonymised money plots, same prompt, same synthetic 10 fb⁻¹ H→4ℓ sample, each from a full agent-written note. "You are the ARC — hands up for the one you would approve." Take 2–3 answers, ask why. Step 2 REVEAL: the sample was built with mH = 129 GeV, μ = 1.8 injected; nobody was told. Every run finds the bump. Step 3: names. Rogue = a folder with the prompt, the ntuplizer and the two cited papers, nothing else. JFC = the spec. The rogue Opus run fit a 125 template and reported μ = 0.31; the spec\'d runs measure the mass and say so. Judge the process, not the number. Source: Phil Harris, h4l_agent_test/analysis_notes, June 2026; click any plot to zoom.', html: () => `
   <h2 class="kicker">Same prompt, same data, five notes — <em>which would you sign?</em></h2>
   <div class="tg-wall" style="justify-content:flex-start; gap:1.6vmin">
     <p class="lead" style="margin:0">You are the ARC. Each plot is the money plot of a complete, agent-written analysis note on the same 10 fb⁻¹ H→ZZ*→4ℓ sample, from the same one-page prompt. <b>Hands up for the one you would approve.</b></p>
@@ -1606,11 +1606,22 @@ cloneScene('b-fabrication', { id: 'm-fabrication', act: 7, label: 'Anti-fabricat
     </div>
     <div class="mstate reveal" data-step="2"><div class="big" style="font-size:clamp(20px,3.4vmin,44px)">The sample was built with m<sub>H</sub> = 129 GeV, μ = 1.8 <em>injected</em> — nobody was told.</div>
       <div class="sub">Every run finds the bump. The question was never the number; it is whether the note <b>says so</b>, and whether you could tell from the note alone.</div></div>
-    <p class="lead reveal" data-step="3" style="margin:0"><b style="color:var(--live)">rogue</b> = a folder with the prompt, the ntuplizer and the two cited papers, nothing else · <b style="color:var(--green)">JFC</b> = the same, plus the spec. The rogue Opus run fit a 125 GeV template and reported μ = 0.31; the spec'd runs measured the mass and flagged the tension. <b>Judge the process, not the number.</b></p>
+    <p class="lead reveal tg-names" data-step="3" style="margin:0"><b style="color:var(--live)">rogue</b> = a folder with the prompt, the ntuplizer and the two cited papers, nothing else · <b style="color:var(--green)">JFC</b> = the same, plus the spec. The rogue Opus run fit a 125 GeV template and reported μ = 0.31; the spec'd runs measured the mass and flagged the tension. <b>Judge the process, not the number.</b></p>
+    <div class="reveal" data-step="4">
+      <div class="verdicts" style="margin:0 0 1vmin; flex-wrap:wrap; font-size:clamp(11px,1.6vmin,19px)">
+        <span style="color:var(--green); border-color:var(--green)">peak where the fit says, not where the template says</span>
+        <span style="color:var(--green); border-color:var(--green)">an uncertainty you believe — μ = 40 or χ² ≡ 0 is an alarm</span>
+        <span style="color:var(--green); border-color:var(--green)">backgrounds scaled to the luminosity in the prompt</span>
+        <span style="color:var(--green); border-color:var(--green)">the tension stated, not discovered by you</span>
+        <span style="color:var(--green); border-color:var(--green)">rerunnable from the folder</span></div>
+      <p class="lead" style="margin:0"><b>The tells were all in the notes.</b> None of them needs the answer key — they are the questions an ARC asks anyway, and exactly what goes into the reviewer specs.</p>
+    </div>
     <div class="figcap" style="text-align:left; margin:0">Money plots from Phil Harris' five reference notes, h4l_agent_test/analysis_notes, June 2026 — click to zoom. The real world, CMS 2016: 125.26 ± 0.21 GeV, μ = 1.05.</div>
   </div>`,
   onenter(step) { document.querySelectorAll('.scene .snapwall .anon').forEach(e => { e.hidden = step >= 3; });
-                  document.querySelectorAll('.scene .snapwall .real').forEach(e => { e.hidden = step < 3; }); }
+                  document.querySelectorAll('.scene .snapwall .real').forEach(e => { e.hidden = step < 3; });
+                  const n = document.querySelector('.scene .tg-names'); if (n) n.hidden = step >= 4;   // the names give way to the tells
+                  const r = document.querySelector('.scene .mstate.reveal'); if (r) r.hidden = step >= 4; }
 },
 { id: 'm-combine', thumb: 'assets/ovthumb_m-combine.jpg', act: 7, label: 'Does it speak our tools?', steps: 1, budget: 60, theme: 'dark',
   notes: 'The rogue Opus 4.8 follow-up run on the same synthetic sample (3 June 2026): RooFit DSCB mass fit, then a Combine datacard it wrote — shapes, lnN, a rateParam for qqZZ from the sideband, autoMCStats — FitDiagnostics and Significance. Tools are not the problem: Combine, RooFit, ROOT, mplhep are all in the training data. Group conventions are not.', html: () => `
@@ -1682,15 +1693,23 @@ zjets_norm   lnN  -          -          -          1.40
       <p class="lead" style="margin:0; font-size:clamp(12px,1.65vmin,19px)">Twelve lines. Written the way you would brief a new student — because that is exactly what it is.</p>
     </div>
   </div>
-  <div class="cardgrid" data-step="2" style="grid-template-columns:repeat(4,1fr); margin-top:1.4vmin">
-    <div class="kcard dim" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">still yours</div><div class="ds">choosing the measurement worth doing</div></div>
-    <div class="kcard dim" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">still yours</div><div class="ds">the technique — the tagger, the trigger, the method</div></div>
-    <div class="kcard dim" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">still yours</div><div class="ds">the collaboration — approval, committees, authorship</div></div>
-    <div class="kcard dim" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">still yours</div><div class="ds">reading the note as if you were going to sign it</div></div>
+  <div data-step="2" style="margin-top:1.4vmin">
+    <div class="funhdr" style="margin-bottom:.8vmin"><b style="color:var(--live)">still yours</b> — the job description, not a bug list</div>
+    <div class="cardgrid" style="grid-template-columns:repeat(4,1fr)">
+      <div class="kcard dim" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">the question</div><div class="ds">choosing the measurement worth doing</div></div>
+      <div class="kcard dim" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">the technique</div><div class="ds">the tagger, the trigger, the method nobody has yet</div></div>
+      <div class="kcard dim" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">the collaboration</div><div class="ds">approval, committees, authorship — the process is people</div></div>
+      <div class="kcard dim" style="border-left-color:var(--live)"><div class="nm" style="color:var(--live)">the signature</div><div class="ds">reading the note as if you were going to sign it — because you are</div></div>
+    </div>
   </div>`
 },
 );
 
+insertAfter('m-cms',
+cloneScene('demo', { id: 'm-demo', act: 7, label: 'Run it yourself', notes: 'How to start this week: the pre-seeded H→4ℓ demo on CMS Open Data, phases 3–5 live in ~50 min, three planted bugs the agents catch. A search is the same scaffold with --type search — the wall is made of exactly that shape.' },
+  h => h.replace(`<small>B. Dobrescu's “analyzer” wish (Thu.): backgrounds per final state, the search set up for CMS</small>`,
+                 `<small>the wall's model-specific searches are exactly this shape — a re-run is a scaffold plus the new dataset</small>`)),
+);
 insertAfter('wave',
 cloneScene('wave', { id: 'm-wave', act: 7, notes: '31 citations on INSPIRE as of 21 Sep 2026 (was 30 on 11 Sep, 23 on 10 Aug); funnel 5000→278→~40→≥10→1 (Phil, EIC award). The point for this room: results from inside running experiments (ATLAS Z+jets) and a harness debate — people argue how, not whether.' },
   h => h.replace('line-height:1">30</div>', 'line-height:1">31</div>')),
@@ -1897,7 +1916,7 @@ const SKIP_PROFILES = {
 /* CMS masterclass, 22 Sep 2026: an ordered keep-list; everything else (except backups) is skipped. Other profiles skip the m-* scenes. */
 const MASTERCLASS = ['m-cold', 'm-title', 'm-poll', 'm-claim', 'anatomy', 'launch', 'framework', 'context', 'repo', 'phases', 'review', 'gate',
   'menu', 'deliverable', 'scoreboard', 'htautau', 'lund', 'models', 'ladder', 'cost', 'm-honest', 'm-warstories', 'm-fabrication',
-  'm-exercise', 'm-combine', 'm-cms', 'm-wave', 'm-resources', 'm-forward', 'finale', 'm-close'];
+  'm-exercise', 'm-combine', 'm-cms', 'm-demo', 'm-wave', 'm-resources', 'm-forward', 'finale', 'm-close'];
 SKIP_PROFILES.masterclass = SCENES.filter(s => s.act !== 5 && !MASTERCLASS.includes(s.id)).map(s => s.id);
 { const m = SCENES.filter(s => s.act === 7).map(s => s.id);
   for (const k of Object.keys(SKIP_PROFILES)) if (k !== 'masterclass') SKIP_PROFILES[k].push(...m); }

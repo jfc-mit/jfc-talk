@@ -5,9 +5,9 @@
 searches by data era, audited re-run status; space past the last beat → `plane.html`, the two curves → back to the deck) → title →
 hands-up calibration → the claim → the HSF/Fermilab core (anatomy … cost, docked replay) → the honest backups promoted into the flow
 (`m-honest`, `m-warstories`, `m-fabrication`) → **the exercise** (`m-exercise`: five anonymised H→4ℓ money plots, "which would you
-sign?", the injected-truth reveal, then the names) → `m-combine` (a datacard the agent wrote and fitted) → **`m-cms`** (furnishing
+sign?", the injected-truth reveal, the names, then the tells) → `m-combine` (a datacard the agent wrote and fitted) → **`m-cms`** (furnishing
 context for a CMS analysis: methodology / conventions / agents mapped onto AN, CADI, POG, pub-comm, ARC; a twelve-line conventions
-file as homework) → wave → resources → the way forward → finale → one line. Backup `m-policy` for the policy question. Masterclass
+file as homework) → `m-demo` (run it yourself) → wave → resources → the way forward → finale → one line. Backup `m-policy` for the policy question. Masterclass
 scenes are act 7 (`AX[7]`) and live in one block after `SCENES`; shared scenes are reused or cloned with a text patch (`cloneScene`).
 `node tools/shot.mjs masterclass <outdir>` screenshots every scene/step (Playwright, needs `python3 -m http.server 8123`).
 
