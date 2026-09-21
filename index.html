@@ -1526,8 +1526,7 @@ const cloneScene = (id, patch, fix) => { const o = SCENES.find(s => s.id === id)
   return { ...o, ...patch, html: () => fix ? fix(o.html()) : o.html() }; };
 const insertAfter = (afterId, ...scs) => { const i = SCENES.findIndex(s => s.id === afterId); SCENES.splice(i + 1, 0, ...scs); };
 const insertBefore = (beforeId, ...scs) => { const i = SCENES.findIndex(s => s.id === beforeId); SCENES.splice(i, 0, ...scs); };
-const WALL_RET = encodeURIComponent('../../index.html?profile=masterclass#m-title');
-const WALL_URL = `assets/wall/wall.html?ret=${encodeURIComponent('plane.html?ret=' + WALL_RET)}`;
+const WALL_URL = 'assets/wall/wall.html?';   // the wall's default chain: two curves → deck title; it carries t0 back so the HUD clock includes the cold open
 const H4L = [   // the five reference notes (Phil Harris, h4l_agent_test/analysis_notes, June 2026) — anonymised first, named on reveal
   { f: 'jfc_opus48_low', anon: 'A', who: 'JFC · Opus 4.8 low effort', res: '129.6 ± 1.2 · μ = 1.72 · +2.4σ stated', jfc: true },
   { f: 'rogue_opus48',   anon: 'B', who: 'rogue · Opus 4.8',           res: '125 template · μ = 0.31 · 129 only in a follow-up', jfc: false },
@@ -1542,7 +1541,7 @@ insertBefore('title',
   <div class="handoff">
     <h1 style="font-size:clamp(28px,4.6vmin,60px)">Cold open — <em>the wall</em></h1>
     <p class="lead">Every published CMS search since 2010, sorted by the data it analysed, and what happened to each one next. Then the two curves: searches climb, the people to re-run them do not. Runs as its own page, ≈4 min for both.</p>
-    <a class="go" href="${WALL_URL}&theme=${document.documentElement.dataset.theme === 'paper' ? 'paper' : 'dark'}">▶ open the wall</a>
+    <a class="go" href="${WALL_URL}theme=${document.documentElement.dataset.theme === 'paper' ? 'paper' : 'dark'}">▶ open the wall</a>
     <div class="ret">at the end of the two curves, <b>space</b> returns to the title · <b>Esc</b> or <b>0</b> bail out to the title at any time</div>
   </div>`
 },
@@ -1939,6 +1938,7 @@ const Skips = (() => {
 /* ============================================= engine ============================================= */
 const Deck = (() => {
   let si = 0, step = 1, started = null, hudOn = false;
+  { const t0 = +new URLSearchParams(location.search).get('t0'); if (t0 > 0) started = t0; }   // returned from a hand-off page: the clock includes it
   const stage = $('#scenehost');
   const isBackup = sc => sc.act === 5;
   /* scenes that count toward the counter / progress / budgets: not backup, not hidden */

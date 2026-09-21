@@ -327,8 +327,13 @@ function frame(ts) {
   requestAnimationFrame(frame);
 }
 
-const RET = (() => { const q = new URLSearchParams(location.search); return q.get('ret') || '../../index.html'; })();
-const ret = () => { location.href = RET; };
+const Q0 = new URLSearchParams(location.search);
+const T0 = Q0.get('t0') || String(Date.now());                                   // when the cold open started (deck HUD clock)
+const RET = Q0.get('ret') || ('plane.html?ret=' + encodeURIComponent('../../index.html?profile=masterclass#m-title'));   // default: the two curves, then the deck
+const withT0 = u => { const i = u.indexOf('#'); const base = i < 0 ? u : u.slice(0, i), hash = i < 0 ? '' : u.slice(i);
+  return base + (base.includes('?') ? '&' : '?') + 't0=' + T0 + hash; };
+const ret = () => { location.href = withT0(RET); };
+const bail = () => { location.href = withT0(Q0.get('bail') || '../../index.html?profile=masterclass#m-title'); };   // Esc / 0: straight to the deck, skipping the two curves
 function advance() {
   clock = clock < T_FILL ? T_COMP + 0.1 : clock < T_REDO ? T_REDO + 0.1 : clock < T_STALE ? T_STALE + 0.1
         : clock < T_SWEEP ? T_SWEEP + 0.1 : NaN;
@@ -341,14 +346,14 @@ function back() {   // previous beat (clicker PageUp / ArrowLeft)
 window.addEventListener('keydown', e => {
   if (e.key === ' ' || e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === 'Enter') { e.preventDefault(); advance(); }
   else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp' || e.key === 'Backspace') { e.preventDefault(); back(); }
-  else if (e.key === 'Escape') { if (pinned || tip.classList.contains('open')) hideTip(); else ret(); }
+  else if (e.key === 'Escape') { if (pinned || tip.classList.contains('open')) hideTip(); else bail(); }
   else if (e.key === 'r' || e.key === 'R') clock = 0;
   else if (e.key === 'd' || e.key === 'D') {
     themeName = themeName === 'paper' ? 'dark' : 'paper';
     localStorage.setItem('introring-theme', themeName); applyTheme();
   } else if (e.key === 'f' || e.key === 'F') {
     document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
-  } else if (e.key === '0' || e.key === 'End') ret();
+  } else if (e.key === '0' || e.key === 'End') bail();
 });
 window.addEventListener('click', () => { pinned ? hideTip() : advance(); });
 {

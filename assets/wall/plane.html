@@ -255,8 +255,12 @@ function frame(ts) {
   requestAnimationFrame(frame);
 }
 
-const RET = (() => { const q = new URLSearchParams(location.search); return q.get('ret') || '../../index.html'; })();
-const ret = () => { location.href = RET; };
+const Q0 = new URLSearchParams(location.search);
+const T0 = Q0.get('t0') || String(Date.now());
+const RET = Q0.get('ret') || '../../index.html?profile=masterclass#m-title';
+const withT0 = u => { const i = u.indexOf('#'); const base = i < 0 ? u : u.slice(0, i), hash = i < 0 ? '' : u.slice(i);
+  return base + (base.includes('?') ? '&' : '?') + 't0=' + T0 + hash; };
+const ret = () => { location.href = withT0(RET); };
 function advance() {
   if (clock > T_THESIS) return ret();
   clock = clock < T_SHELF ? T_HUMAN : clock < T_GAP ? T_GAP + 0.01 : clock < T_AGENT ? T_AGENT + 0.01 : T_THESIS + 0.1;
