@@ -5,7 +5,7 @@ const errs = []; p.on('pageerror', e => errs.push(e.message));
 await p.goto('http://127.0.0.1:8123/index.html?profile=masterclass', { waitUntil: 'load' });
 console.log('landed on', await p.evaluate(() => location.hash));
 const t0 = Date.now();
-await p.click('.handoff a.go'); await p.waitForLoadState('load'); await p.waitForTimeout(500);
+await p.evaluate(() => { location.hash = '#m-cold'; }); await p.waitForTimeout(400); await p.click('.handoff a.go'); await p.waitForLoadState('load'); await p.waitForTimeout(500);
 console.log('wall:', p.url().replace(/^.*\/assets/, 'assets'));
 for (let i = 0; i < 5; i++) { await p.keyboard.press('PageDown'); await p.waitForTimeout(250); }
 await p.waitForLoadState('load'); await p.waitForTimeout(500);

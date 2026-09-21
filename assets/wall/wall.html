@@ -136,7 +136,7 @@ body { background: radial-gradient(120% 100% at 50% 0%, var(--bg2), var(--bg) 60
   <div class="beat" id="beat0"><b>592 of 753</b> name a concrete signal model — <b>543</b> say so in the abstract. A model-specific search is a question that does not change; only the dataset does. The rest: <b>27</b> model-agnostic, <b>134</b> SM-process searches.</div>
   <div class="beat" id="beat1">Run 1 <i>was</i> re-run: <b>191 of 219</b> model-specific searches have an audited Run-2 successor. By hand, that took the collaboration <b>a decade</b>. <b>13</b> never came back.</div>
   <div class="beat" id="beat2">Run 2 is waiting: <b>351 of 369</b> model-specific searches have no Run-3 update yet. The decade starts over — unless the by-hand part stops being by hand.</div>
-  <div class="beat green" id="beat3">Most of these tiles are somebody's PhD, and a re-run is the mechanical half of one — selection, backgrounds, systematics, the note — with the physics already decided. That half is what this hour is about: <b>what agents already do with it, where they break, and what that leaves for you.</b></div>
+  <div class="beat green" id="beat3">Most of these tiles are somebody's PhD, and a re-run is the mechanical half of one — selection, backgrounds, systematics, the note — with the physics already decided. That is the agent-shaped project this collaboration already has — <b>and the next slide is what it would take.</b></div>
 </div>
 <div id="src">codes, titles, eras: cms-results.web.cern.ch public publication pages, 9 PAGs · scraped 2026-08-10<br>
 class: titles + INSPIRE abstracts (543/592 name the model in-abstract)<br>successor: PER-PAIR AUDITED — LLM agents reading title+abstract; justification on hover</div>
@@ -333,7 +333,7 @@ const RET = Q0.get('ret') || '../../index.html?profile=masterclass#m-title';   /
 const withT0 = u => { const i = u.indexOf('#'); const base = i < 0 ? u : u.slice(0, i), hash = i < 0 ? '' : u.slice(i);
   return base + (base.includes('?') ? '&' : '?') + 't0=' + T0 + hash; };
 const ret = () => { location.href = withT0(RET); };
-const bail = () => { location.href = withT0(Q0.get('bail') || '../../index.html?profile=masterclass#m-title'); };   // Esc / 0: straight to the deck, skipping the two curves
+const bail = () => { location.href = withT0(Q0.get('bail') || (Q0.get('ret') ? RET : '../../index.html?profile=masterclass#m-title')); };   // Esc / 0: straight to the deck, skipping the two curves
 function advance() {
   clock = clock < T_FILL ? T_COMP + 0.1 : clock < T_REDO ? T_REDO + 0.1 : clock < T_STALE ? T_STALE + 0.1
         : clock < T_SWEEP ? T_SWEEP + 0.1 : NaN;

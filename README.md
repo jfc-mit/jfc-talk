@@ -1,15 +1,19 @@
 # JFC talk — HSF DAAA · Agentic AI in HEP data analysis · 27 July 2026
 
-**Branch `cms-masterclass-2026-09-22`** — the CMS internal masterclass cut (Tue 22 Sep 2026, one hour). `?profile=masterclass`
-(31 scenes, ≈38½ min of budget, the rest for questions; the room is students and postdocs, so no student ladder, no funding slide, no two-curves programme page) = cold open on **the wall** (`assets/wall/wall.html`: 753 published CMS
-searches by data era, audited re-run status; space past the last beat → back to the deck; `plane.html`, the two curves, stays reachable via `?ret=`) → title →
-hands-up calibration → anatomy (the problem) → the claim → the HSF/Fermilab core (launch … cost, docked replay) → the honest backups promoted into the flow
-(`m-honest`, `m-warstories`, `m-fabrication`) → `m-moments` (three moments of the run, verbatim) → **the exercise** (`m-exercise`: five anonymised H→4ℓ money plots, "which would you
-sign?", the injected-truth reveal, the names, then the tells) → `m-combine` (a datacard the agent wrote and fitted) → **`m-cms`** (furnishing
-context for a CMS analysis: methodology / conventions / agents mapped onto AN, CADI, POG, pub-comm, ARC; a twelve-line conventions
-file as homework) → `m-demo` (run it yourself) → resources (+ self-study links) → `m-future` (what CMS use could look like: one proposal per item, and what a student can do this year) → `m-finale` (the run finished; the mechanical half of a PhD, done while we talked) → three things to take home. Backup `m-policy` for the policy question. Masterclass
-scenes are act 7 (`AX[7]`) and live in one block after `SCENES`; shared scenes are reused or cloned with a text patch (`cloneScene`).
-`node tools/shot.mjs masterclass <outdir>` screenshots every scene/step (Playwright, needs `python3 -m http.server 8123`).
+**Branch `cms-masterclass-2026-09-22`** — the CMS internal masterclass cut (Tue 22 Sep 2026, one hour on Zoom, students and
+postdocs). `?profile=masterclass` (29 scenes, ≈32½ min of budget, the rest for questions; no polls) = **cold open on the five
+anonymised H→4ℓ notes** ("you are the ARC — which would you sign?", `m-open`) → title carrying the thesis ("Furnish the context.
+Keep the gate. Read the note.") → anatomy → the claim (+ one line pre-empting the internal-data question) → ignition (docked replay) →
+**the scoreboard first**, then the mechanism (context → phases → review → gate) → receipts (menu with "why LEP", H→ττ, Lund, cost with
+the 43 h vs 10 h stated once, the ladder as calibration of the agent) → where it breaks → war stories as read-then-reveal → anti-fabrication
+→ the run verbatim → **two teaching scenes** (`m-prompt`: the one-page prompt and what makes it good; `m-spec`: a reviewer spec, twenty
+lines) → **the exercise** (the pick from minute one, the injected truth, the names, "you could not tell from the plot — that is the point")
+→ the datacard → furnishing context for a CMS analysis (illustrative twelve lines) → resources (+ run it yourself, + self-study) →
+**the wall** (`assets/wall/wall.html`, returns to the next slide) → what would have to exist → the run finished → the thesis again.
+The replay is docked only where it is the subject (`TERM_OVERRIDE`); the talk clock survives the wall round-trip (sessionStorage).
+Backup `m-policy`. Masterclass scenes are act 7 (`AX[7]`) in one block after `SCENES`; shared scenes are cloned with text patches
+(`cloneScene`). `node tools/shot.mjs masterclass <outdir>` screenshots every scene/step; `node tools/pdf.mjs masterclass <out.pdf>`
+prints the cut with the wall's four beats in place (Playwright + pdfunite + gs; needs `python3 -m http.server 8123`).
 
 **Branch `clariphy-tutorial-2026-09-14`** — the CLARIPHY tutorial cut (Mon 14 Sep 2026, *AI agents and LLMs for Scientific
 Discovery*, with Daniel Diaz; site: training.nrp-nautilus.io/clariphy). `?profile=tutorial` (~18 min of budget, 20 scenes) is
